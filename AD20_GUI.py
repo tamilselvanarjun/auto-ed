@@ -2,7 +2,7 @@ import numpy as np
 import AD20
 from AD20.ADnum import ADnum
 from AD20 import ADmath as ADmath
-from AD20 import ADgraph
+import ADgraph
 
 
 import math
