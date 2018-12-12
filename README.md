@@ -1,5 +1,5 @@
 # AD20_GUI
-This repository contains the final project extension for CS 207.  The GUI uses the automatic differentiation package AD20 
+This repository contains the final project extension of Group 20 (Lindsey Brown, Xinyue Wang, Kevin Yoon) for CS 207.  The GUI uses the automatic differentiation package AD20 
 to create a pedagogical tool for teaching about the graph structure of computations.
 
 Note that the GUI is stored separately from the rest of the package to avoid polluting the test suite of the main package.
