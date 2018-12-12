@@ -90,6 +90,7 @@ def graph_window(master):
         toolbar = NavigationToolbar2Tk(canvas, plot_graph)
         toolbar.update()
         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+    
     def draw_table():
         plot_graph2 = tk.Toplevel(graph_window)
         plot_graph2.title("Computational Table")
