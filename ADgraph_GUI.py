@@ -6,7 +6,7 @@ import matplotlib.patches as mpatches
 import numpy as np
 import pandas as pd
 from AD20.ADnum import ADnum
-
+from mpl_toolkits.mplot3d import Axes3D
 
 def gen_graph(y):
     """ Function to create a directed graph from an ADnum.
@@ -198,7 +198,7 @@ def gen_table(y):
     resultorder = result2[['Trace', 'Operation', 'Value', 'Derivative']]  
     return resultorder
 
-def plot_ADnum(x, xmin = -10, xmax = 10):
+def plot_ADnum(f, ins=1, xmin = -10, xmax = 10):
     '''Function to plot f and its derivative for single variable input
 
     INPUTS
@@ -211,17 +211,25 @@ def plot_ADnum(x, xmin = -10, xmax = 10):
     =======
     A plot of x evaluated from xmin to xmax and its derivative
     '''
-    vals = np.linspace(xmin, xmax, 100)
-    evals = [x(ADnum(value, der=1)).val for value in vals]
-    ders = [x(ADnum(value, der=1)).der for value in vals]
-    fig = plt.figure()
-    plt.plot(vals, evals, label = 'f', linewidth = 2)
-    plt.plot(vals, ders, label = 'df/dx', linewidth = 2)
-    plt.legend(fontsize = 20)
-    plt.xlabel('x', fontsize = 20)
-    plt.ylabel('f', fontsize = 20)
-    plt.xticks(fontsize = 12)
-    plt.yticks(fontsize = 12)
-    return fig
+    if ins == 1:
+        vals = np.linspace(xmin, xmax, 100)
+        evals = [f(ADnum(value, der=1)).val for value in vals]
+        ders = [f(ADnum(value, der=1)).der for value in vals]
+        fig = plt.figure()
+        plt.plot(vals, evals, label = 'f', linewidth = 2)
+        plt.plot(vals, ders, label = 'df/dx', linewidth = 2)
+        plt.legend(fontsize = 20)
+        plt.xlabel('x', fontsize = 20)
+        plt.ylabel('f', fontsize = 20)
+        plt.xticks(fontsize = 12)
+        plt.yticks(fontsize = 12)
+        return fig
+    if ins == 2:
+        fig = plt.figure()
+        ax = fig.gca(projection = '3d')
+        vals = np.linspace(xmin, xmax, 100)
+        z = f(x, y)
+        ax.plot_trisurf(x, y, z, antialiased = True)
+        return fig
 
 
