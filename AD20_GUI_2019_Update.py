@@ -19,8 +19,6 @@ if __name__ == '__main__':
     master.title("AutoDiff Calculator")
     master.geometry("400x700")
 
-    %matplotlib inline
-
     def instruction():
         text = "This calculator performs basic calculations and generates functions of a single variable. \n \n" +\
         "Use the buttons below to define your function.  The magenta X is the input variable. \n \n" +\
