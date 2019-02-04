@@ -228,8 +228,11 @@ def plot_ADnum(f, ins=1, xmin = -10, xmax = 10):
         fig = plt.figure()
         ax = fig.gca(projection = '3d')
         vals = np.linspace(xmin, xmax, 100)
-        z = f(x, y)
-        ax.plot_trisurf(x, y, z, antialiased = True)
+        z = f(vals, vals)
+        ax.plot_trisurf(vals, vals, z, antialiased = True)
+        return fig
+    if ins > 2:
+        fig = plt.figure()
         return fig
 
 
