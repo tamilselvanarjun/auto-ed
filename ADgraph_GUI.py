@@ -80,6 +80,38 @@ def get_labels(y):
                     nodes.append(neighbor[0])
     return new_names
 
+def get_labels_rev(y):
+    """ Function to generate labels for plotting networkx graph.
+
+    INPUTS
+    ======
+    y : ADnum
+
+    OUTPUTS
+    =======
+    A dictionary of ADnum objects mapped to string labels
+    """
+    parents = reverse_graph(y)
+    #total = len(y.graph) - sum([entry.constant for entry in y.graph.keys()])
+    total = 0
+    new_names = {}
+    nodes = [y]
+    while len(nodes)>0:
+        
+        node = nodes.pop()
+        if node not in new_names:
+            if node.constant:
+                new_names[node] = str(np.round(node.val, decimals=1))
+            else:
+                new_names[node] = 'X' + str(total)
+                total = total + 1
+            if node in parents:
+                neighbors = parents[node]
+                for neighbor in neighbors:
+                    nodes.append(neighbor[0])
+    return new_names
+
+
 def get_colors(G, y):
     """ Function to assign colors to nodes in the graph.
 
@@ -152,6 +184,34 @@ def draw_graph(y):
     plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
     return fig
 
+def draw_graph_rev(y):
+    """ Function to draw the graph.
+
+    INPUTS
+    ======
+    y : ADnum
+
+    OUTPUTS
+    =======
+    A plot of the graph
+    """  
+    fig = plt.figure()
+    G = gen_graph(y)
+    G = G.reverse()
+    edge_labs = nx.get_edge_attributes(G, 'label')
+    pos = nx.spring_layout(G)
+    labs = get_labels_rev(y)
+    nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labs)
+    limits = plt.axis('off')
+    mag_patch = mpatches.Patch(color = 'magenta', label = 'input')
+    red_patch = mpatches.Patch(color = 'red', label = 'intermediate')
+    blue_patch = mpatches.Patch(color = 'blue', label = 'constant')
+    green_patch = mpatches.Patch(color = 'green', label = 'output')
+    plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
+    return fig
+
+
 def gen_table(y):
     """ Function to generate tables for the ADnum.
 
@@ -196,6 +256,54 @@ def gen_table(y):
     result = pd.DataFrame.from_dict(data)
     result2 = result.sort_values('Trace')
     resultorder = result2[['Trace', 'Operation', 'Value', 'Derivative']]  
+    return resultorder
+
+def gen_table_rev(y):
+    """ Function to generate tables for the ADnum.
+
+    INPUTS
+    ======
+    y : ADnum
+
+    OUTPUTS
+    =======
+    A pandas data frame of the computational traces
+    """
+    parents = reverse_graph(y)
+    labs = get_labels_rev(y)
+    visited = []
+    data = {}
+    data['Trace'] = []
+    data['Operation']=[]
+    data['Value']= []
+    data['Derivative']=[]
+    data['Weight'] = []
+    nodes = [y]
+    while len(nodes)>0:
+        node = nodes.pop()
+        if node not in visited:
+            if node.constant:
+                visited.append(node)
+            else:
+                visited.append(node)
+                data['Trace'].append(labs[node])
+                data['Value'].append(node.val)
+                data['Derivative'].append(node.der)
+                data['Weight'].append(node.rder)
+                if node in parents:
+                    if len(parents[node]) == 1:
+                        link = parents[node][0][1]+'('+labs[parents[node][0][0]]+')'
+                    else:
+                        link = parents[node][0][1]+'(' +labs[parents[node][0][0]]+ ' , ' + labs[parents[node][1][0]] + ')'
+                    neighbors = parents[node]
+                    for neighbor in neighbors:
+                        nodes.append(neighbor[0])
+                else:
+                    link = 'input'
+                data['Operation'].append(link)
+    result = pd.DataFrame.from_dict(data)
+    result2 = result.sort_values('Trace')
+    resultorder = result2[['Trace', 'Operation', 'Value', 'Derivative', 'Weight']]  
     return resultorder
 
 def plot_ADnum(f, ins=1, xmin = -10, xmax = 10):

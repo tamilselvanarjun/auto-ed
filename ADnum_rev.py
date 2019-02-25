@@ -214,7 +214,9 @@ def merge_dicts(d1, d2):
     dnew = d1.copy()
     for key in d2:
         if key in dnew:
-            dnew[key] = dnew[key]+d2[key]
+            for item in d2[key]:
+                if item not in dnew[key]:
+                    dnew[key] = dnew[key]+[item]
         else:
             dnew[key] = d2[key]
     return dnew
