@@ -66,22 +66,32 @@ class ADnum:
             self.constant = 0
         else:
             self.constant = kwargs['constant']
+        if 'ops' not in kwargs:
+            self.ops = 0
+        else:
+            self.ops = kwargs['ops']
+        if 'rops' not in kwargs:
+            self.rops = 0
+        else:
+            self.rops = kwargs['rops']
 
     def revder(self, f):
         f.rder = 1
+        tolops = 0
         if self.rder is None:
             try:
                 children = f.graph[self]
                 calc = 0
                 for child in children:
-                    calc = calc + child[2]*child[0].revder(f)
+                    calc = calc + child[2]*child[0].revder(f)[0]
+                    tolops = tolops + child[0].revder(f)[1]+child[0].rops+2
                 self.rder = calc
             except KeyError:
                 self.rder = 0
-        return self.rder
+        return self.rder, tolops
 
     def __neg__(self):
-        y = ADnum(-self.val, der = -self.der)
+        y = ADnum(-self.val, der = -self.der, ops = self.ops+1, rops = 0)
         y.graph = self.graph
         if self not in y.graph:
             y.graph[self] = []
@@ -91,7 +101,7 @@ class ADnum:
     def __mul__(self,other):
         try:
             graph = merge_dicts(self.graph, other.graph)
-            y = ADnum(self.val*other.val, der = self.val*other.der+self.der*other.val)
+            y = ADnum(self.val*other.val, der = self.val*other.der+self.der*other.val, ops = self.ops+other.ops+3, rops=0)
             y.graph = graph
             if self not in y.graph:
                 y.graph[self] = []
@@ -110,7 +120,7 @@ class ADnum:
     def __add__(self,other):
         try:
             graph = merge_dicts(self.graph, other.graph)
-            y = ADnum(self.val+other.val, der = self.der+other.der)
+            y = ADnum(self.val+other.val, der = self.der+other.der, ops = self.ops+other.ops+1, rops=0)
             y.graph = graph
             if self not in y.graph:
                 y.graph[self] = []
@@ -129,7 +139,7 @@ class ADnum:
     def __sub__(self,other):
         try:
             graph = merge_dicts(self.graph, other.graph)
-            y = ADnum(self.val-other.val,der = self.der-other.der)
+            y = ADnum(self.val-other.val,der = self.der-other.der, ops = self.ops+other.ops+1, rops=0)
             y.graph = graph
             if self not in y.graph:
                 y.graph[self] = []
@@ -152,7 +162,7 @@ class ADnum:
     def __truediv__(self, other):
         try:
             graph = merge_dicts(self.graph, other.graph)
-            y = ADnum(self.val/other.val, der = (other.val*self.der-self.val*other.der)/(other.val**2))
+            y = ADnum(self.val/other.val, der = (other.val*self.der-self.val*other.der)/(other.val**2), ops = self.ops+other.ops+5, rops = 1)
             y.graph = graph
             if self not in y.graph:
                 y.graph[self] = []
@@ -167,7 +177,7 @@ class ADnum:
     
     def __rtruediv__(self, other):
         try:
-            return ADnum(other.val/self.val, der = (self.val*other.der-other.val*self.der)/(self.val**2))
+            return ADnum(other.val/self.val, der = (self.val*other.der-other.val*self.der)/(self.val**2), ops = self.ops+other.ops+5)
         except AttributeError:
             other = ADnum(other*np.ones(np.shape(self.val)), der = np.zeros(np.shape(self.der)), constant = 1)
             return other/self
@@ -176,9 +186,9 @@ class ADnum:
         try:
             graph = merge_dicts(self.graph, other.graph)
             if self.val == 0:
-                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val))
+                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val), ops = self.ops+other.ops+6, rops=3)
             else:
-                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der)
+                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der, ops = self.ops+other.ops+10)
             y.graph = graph
             if self not in y.graph:
                 y.graph[self] = []
@@ -193,7 +203,7 @@ class ADnum:
 
     def __rpow__(self, other):
         try:
-            return ADnum(other.val**self.val, der = self.val*(other.val**(self.val-1))*other.der+(other.val**self.val)*np.log(other.val)*self.der)
+            return ADnum(other.val**self.val, der = self.val*(other.val**(self.val-1))*other.der+(other.val**self.val)*np.log(np.abs(other.val))*self.der, ops = self.ops+other.ops+10)
         except AttributeError:
             other = ADnum(other*np.ones(np.shape(self.val)), der = np.zeros(np.shape(self.der)), constant = 1)
             return other**self
