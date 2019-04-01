@@ -103,7 +103,11 @@ class ADnum:
     def __mul__(self,other):
         try:
             graph = merge_dicts(self.graph, other.graph)
-            y = ADnum(self.val*other.val, der = self.val*other.der+self.der*other.val, ops = (1-self.counted)*self.ops+(1-other.counted)*other.ops+3, rops=0)
+            if self.constant or other.constant:
+                opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+1
+            else:
+                opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+3
+            y = ADnum(self.val*other.val, der = self.val*other.der+self.der*other.val, ops = opcount, rops=0)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -124,7 +128,8 @@ class ADnum:
     def __add__(self,other):
         try:
             graph = merge_dicts(self.graph, other.graph)
-            y = ADnum(self.val+other.val, der = self.der+other.der, ops = (1-self.counted)*self.ops+(1-other.counted)*other.ops+1, rops=0)
+            opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+1
+            y = ADnum(self.val+other.val, der = self.der+other.der, ops = opcount, rops=0)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -145,7 +150,8 @@ class ADnum:
     def __sub__(self,other):
         try:
             graph = merge_dicts(self.graph, other.graph)
-            y = ADnum(self.val-other.val,der = self.der-other.der, ops = (1-self.counted)*self.ops+(1-other.counted)*other.ops+1, rops=0)
+            opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+1
+            y = ADnum(self.val-other.val,der = self.der-other.der, ops = opcount, rops=0)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -170,7 +176,14 @@ class ADnum:
     def __truediv__(self, other):
         try:
             graph = merge_dicts(self.graph, other.graph)
-            y = ADnum(self.val/other.val, der = (other.val*self.der-self.val*other.der)/(other.val**2), ops = (1-self.counted)*self.ops+(1-other.counted)*other.ops+5, rops = 1)
+            opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)
+            if self.constant and not other.constant:
+                opcount = opcount + 3
+            elif other.constant and not self.constant:
+                opcount = opcount + 1
+            else:
+                opcount = opcount+5
+            y = ADnum(self.val/other.val, der = (other.val*self.der-self.val*other.der)/(other.val**2), ops = opcount, rops = 1)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -187,7 +200,14 @@ class ADnum:
     
     def __rtruediv__(self, other):
         try:
-            return ADnum(other.val/self.val, der = (self.val*other.der-other.val*self.der)/(self.val**2), ops = (1-self.counted)*self.ops+(1-other.counted)*other.ops+5)
+            opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)
+            if self.constant and not other.constant:
+                opcount = opcount + 3
+            elif other.constant and not self.constant:
+                opcount = opcount + 1
+            else:
+                opcount = opcount+5
+            return ADnum(other.val/self.val, der = (self.val*other.der-other.val*self.der)/(self.val**2), ops = opcount)
         except AttributeError:
             other = ADnum(other*np.ones(np.shape(self.val)), der = np.zeros(np.shape(self.der)), constant = 1)
             return other/self
@@ -195,12 +215,19 @@ class ADnum:
     def __pow__(self, other, modulo=None):
         try:
             graph = merge_dicts(self.graph, other.graph)
+            opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)
+            if self.constant and not other.constant:
+                opcount = opcount + 4
+            elif other.constant and not self.constant:
+                opcount = opcount + 4
+            else:
+                opcount  = opcount + 10
             if self.val == 0:
-                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val), ops = (1-self.counted)*self.ops+(1-other.counted)*other.ops+6, rops=3)
+                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val), ops = opcount, rops=3)
                 self.counted = 1
                 other.counted =1
             else:
-                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der, ops = (1-self.counted)*self.ops+(1-other.counted)*other.ops+10)
+                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der, ops = opcount)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -217,6 +244,13 @@ class ADnum:
 
     def __rpow__(self, other):
         try:
+            opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)
+            if self.constant and not other.constant:
+                opcount = opcount + 4
+            elif other.constant and not self.constant:
+                opcount = opcount + 4
+            else:
+                opcount  = opcount + 10
             return ADnum(other.val**self.val, der = self.val*(other.val**(self.val-1))*other.der+(other.val**self.val)*np.log(np.abs(other.val))*self.der, ops = (1-self.counted)*self.ops+other.ops+10)
         except AttributeError:
             other = ADnum(other*np.ones(np.shape(self.val)), der = np.zeros(np.shape(self.der)), constant = 1)
