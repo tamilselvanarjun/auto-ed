@@ -57,6 +57,7 @@ class ADnum:
             raise ValueError('Value and derivative of ADnum object must be numeric.')
         self.val = value
         self.der = der
+        self.ins = len(self.der)
         self.rder = None
         if 'graph' not in kwargs:
             self.graph = {}
@@ -74,6 +75,14 @@ class ADnum:
             self.rops = 0
         else:
             self.rops = kwargs['rops']
+        if 'tfops' not in kwargs:
+            self.tfops = 0
+        else:
+            self.tfops = kwargs['tfops']
+        if 'trops' not in kwargs:
+            self.trops = 0
+        else:
+            self.trops = kwargs['trops']
         self.counted = 0
 
     def revder(self, f):
@@ -85,14 +94,14 @@ class ADnum:
                 calc = 0
                 for child in children:
                     calc = calc + child[2]*child[0].revder(f)[0]
-                    tolops = tolops + child[0].revder(f)[1]+child[0].rops+2
+                    tolops = tolops + child[0].revder(f)[1]+child[0].rops+2*self.ins
                 self.rder = calc
             except KeyError:
                 self.rder = 0
         return self.rder, tolops
 
     def __neg__(self):
-        y = ADnum(-self.val, der = -self.der, ops = (1-self.counted)*self.ops+1, rops = 0)
+        y = ADnum(-self.val, der = -self.der, ops = (1-self.counted)*self.ops+1, rops = 0, tfops = self.tfops+self.ins, trops = self.trops+4*self.ins)
         self.counted = 1
         y.graph = self.graph
         if self not in y.graph:
@@ -107,7 +116,7 @@ class ADnum:
                 opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+1
             else:
                 opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+3
-            y = ADnum(self.val*other.val, der = self.val*other.der+self.der*other.val, ops = opcount, rops=0)
+            y = ADnum(self.val*other.val, der = self.val*other.der+self.der*other.val, ops = opcount, rops=0, tfops = 3*self.ins+self.tfops+other.tfops, trops = 4*self.ins+self.trops+other.trops)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -129,7 +138,7 @@ class ADnum:
         try:
             graph = merge_dicts(self.graph, other.graph)
             opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+1
-            y = ADnum(self.val+other.val, der = self.der+other.der, ops = opcount, rops=0)
+            y = ADnum(self.val+other.val, der = self.der+other.der, ops = opcount, rops=0, tfops = self.tfops+other.tfops+self.ins, trops = self.trops + other.trops+2*self.ins)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -151,7 +160,7 @@ class ADnum:
         try:
             graph = merge_dicts(self.graph, other.graph)
             opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+1
-            y = ADnum(self.val-other.val,der = self.der-other.der, ops = opcount, rops=0)
+            y = ADnum(self.val-other.val,der = self.der-other.der, ops = opcount, rops=0, tfops = self.tfops+other.tfops+self.ins, trops = self.trops+other.trops+2*self.ins)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -183,7 +192,7 @@ class ADnum:
                 opcount = opcount + 1
             else:
                 opcount = opcount+5
-            y = ADnum(self.val/other.val, der = (other.val*self.der-self.val*other.der)/(other.val**2), ops = opcount, rops = 1)
+            y = ADnum(self.val/other.val, der = (other.val*self.der-self.val*other.der)/(other.val**2), ops = opcount, rops = 1, tfops = self.tfops+other.tfops+5*self.ins, trops = self.trops+other.trops+4*self.ins)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -207,7 +216,7 @@ class ADnum:
                 opcount = opcount + 1
             else:
                 opcount = opcount+5
-            return ADnum(other.val/self.val, der = (self.val*other.der-other.val*self.der)/(self.val**2), ops = opcount)
+            return ADnum(other.val/self.val, der = (self.val*other.der-other.val*self.der)/(self.val**2), ops = opcount, tfops = self.tfops+other.tfops+5*self.ins, trops = self.trops+other.trops+4*self.ins)
         except AttributeError:
             other = ADnum(other*np.ones(np.shape(self.val)), der = np.zeros(np.shape(self.der)), constant = 1)
             return other/self
@@ -223,11 +232,11 @@ class ADnum:
             else:
                 opcount  = opcount + 10
             if self.val == 0:
-                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val), ops = opcount, rops=3)
+                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val), ops = opcount, rops=3, tfops = self.tfops+other.tfops+2+self.ins, trops = self.trops+other.trops+2+2*self.ins)
                 self.counted = 1
                 other.counted =1
             else:
-                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der, ops = opcount)
+                y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der, ops = opcount, tfops=self.tfops+other.tfops+2+self.ins, trops = self.trops+other.trops+2+2*self.ins)
             self.counted = 1
             other.counted = 1
             y.graph = graph
@@ -251,7 +260,7 @@ class ADnum:
                 opcount = opcount + 4
             else:
                 opcount  = opcount + 10
-            return ADnum(other.val**self.val, der = self.val*(other.val**(self.val-1))*other.der+(other.val**self.val)*np.log(np.abs(other.val))*self.der, ops = (1-self.counted)*self.ops+other.ops+10)
+            return ADnum(other.val**self.val, der = self.val*(other.val**(self.val-1))*other.der+(other.val**self.val)*np.log(np.abs(other.val))*self.der, ops = (1-self.counted)*self.ops+other.ops+10, tfops=self.tfops+other.tfops+2+self.ins, trops=self.trops+other.trops+2+2*self.ins)
         except AttributeError:
             other = ADnum(other*np.ones(np.shape(self.val)), der = np.zeros(np.shape(self.der)), constant = 1)
             return other**self

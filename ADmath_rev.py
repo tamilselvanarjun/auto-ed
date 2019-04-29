@@ -8,7 +8,7 @@ from ADnum_rev import ADnum
 #TRIGONOMETRIC FUNCTIONS
 def sin(X):
     try:
-        y = ADnum(np.sin(X.val), der = np.cos(X.val)*X.der, ops = (1-X.counted)*X.ops+2, rops =1)
+        y = ADnum(np.sin(X.val), der = np.cos(X.val)*X.der, ops = (1-X.counted)*X.ops+2, rops =1, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -20,7 +20,7 @@ def sin(X):
 
 def cos(X):
     try:
-        y = ADnum(np.cos(X.val), der = -np.sin(X.val)*X.der, ops = (1-X.counted)*X.ops+3, rops=2)
+        y = ADnum(np.cos(X.val), der = -np.sin(X.val)*X.der, ops = (1-X.counted)*X.ops+3, rops=2, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -32,7 +32,7 @@ def cos(X):
 
 def tan(X):
     try:
-        y = ADnum(np.tan(X.val), der = (1/np.cos(X.val)**2)*X.der, ops = (1-X.counted)*X.ops+4, rops=3)
+        y = ADnum(np.tan(X.val), der = (1/np.cos(X.val)**2)*X.der, ops = (1-X.counted)*X.ops+4, rops=3, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -44,7 +44,7 @@ def tan(X):
 
 def csc(X):
     try:
-        y = ADnum(1/np.sin(X.val), der = (-1/np.tan(X.val))*(1/np.sin(X.val))*X.der, ops = (1-X.counted)*X.ops+5, rops=4)
+        y = ADnum(1/np.sin(X.val), der = (-1/np.tan(X.val))*(1/np.sin(X.val))*X.der, ops = (1-X.counted)*X.ops+5, rops=4, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -56,7 +56,7 @@ def csc(X):
 
 def sec(X):
     try:
-        y = ADnum(1/np.cos(X.val), der = np.tan(X.val)/np.cos(X.val)*X.der, ops = (1-X.counted)*X.ops+4, rops=3)
+        y = ADnum(1/np.cos(X.val), der = np.tan(X.val)/np.cos(X.val)*X.der, ops = (1-X.counted)*X.ops+4, rops=3, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -68,7 +68,7 @@ def sec(X):
 
 def cot(X):
     try:
-        y = ADnum(1/np.tan(X.val), der = -1/(np.sin(X.val)**2)*X.der, ops = (1-X.counted)*X.ops+4, rops=3)
+        y = ADnum(1/np.tan(X.val), der = -1/(np.sin(X.val)**2)*X.der, ops = (1-X.counted)*X.ops+4, rops=3, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -81,7 +81,7 @@ def cot(X):
 #INVERSE TRIGONOMETRIC FUNCTIONS
 def arcsin(X):
     try:
-        y = ADnum(np.arcsin(X.val), der = 1/np.sqrt(1-X.val**2)*X.der, ops = (1-X.counted)*X.ops+5, rops=4)
+        y = ADnum(np.arcsin(X.val), der = 1/np.sqrt(1-X.val**2)*X.der, ops = (1-X.counted)*X.ops+5, rops=4, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -93,7 +93,7 @@ def arcsin(X):
 
 def arccos(X):
     try:
-        y = ADnum(np.arccos(X.val), der = -1/np.sqrt(1-X.val**2)*X.der, ops = (1-X.counted)*X.ops+5, rops=4)
+        y = ADnum(np.arccos(X.val), der = -1/np.sqrt(1-X.val**2)*X.der, ops = (1-X.counted)*X.ops+5, rops=4, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -105,7 +105,7 @@ def arccos(X):
 
 def arctan(X):
     try:
-        y = ADnum(np.arctan(X.val), der = 1/(1+X.val**2)*X.der, ops = (1-X.counted)*X.ops+4, rops=3)
+        y = ADnum(np.arctan(X.val), der = 1/(1+X.val**2)*X.der, ops = (1-X.counted)*X.ops+4, rops=3, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -118,7 +118,7 @@ def arctan(X):
 #HYPERBOLIC TRIG FUNCTIONS
 def sinh(X):
     try:
-        y = ADnum(np.sinh(X.val), der = np.cosh(X.val)*X.der, ops = (1-X.counted)*X.ops+2, rops=1)
+        y = ADnum(np.sinh(X.val), der = np.cosh(X.val)*X.der, ops = (1-X.counted)*X.ops+2, rops=1, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -130,7 +130,7 @@ def sinh(X):
 
 def cosh(X):
     try:
-        y = ADnum(np.cosh(X.val), der = np.sinh(X.val)*X.der, ops=(1-X.counted)*X.ops+2, rops=1)
+        y = ADnum(np.cosh(X.val), der = np.sinh(X.val)*X.der, ops=(1-X.counted)*X.ops+2, rops=1, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -142,7 +142,7 @@ def cosh(X):
 
 def tanh(X):
     try:
-        y = ADnum(np.tanh(X.val), der = 1/(np.cosh(X.val)**2)*X.der, ops = (1-X.counted)*X.ops+4, rops=3)
+        y = ADnum(np.tanh(X.val), der = 1/(np.cosh(X.val)**2)*X.der, ops = (1-X.counted)*X.ops+4, rops=3, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -155,7 +155,7 @@ def tanh(X):
 #NATURAL EXPONENTIAL AND NATURAL LOGARITHM
 def exp(X):
     try:
-        y = ADnum(np.exp(X.val), der = np.exp(X.val)*X.der, ops = (1-X.counted)*X.ops+2, rops=1)
+        y = ADnum(np.exp(X.val), der = np.exp(X.val)*X.der, ops = (1-X.counted)*X.ops+2, rops=1, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -167,7 +167,7 @@ def exp(X):
 
 def log(X):
     try:
-        y = ADnum(np.log(X.val), der = 1/X.val*X.der, ops = (1-X.counted)*X.ops+2, rops=1)
+        y = ADnum(np.log(X.val), der = 1/X.val*X.der, ops = (1-X.counted)*X.ops+2, rops=1, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
@@ -183,7 +183,7 @@ def logistic(X):
 
 def sqrt(X):
     try:
-        y = ADnum(np.sqrt(X.val), der = X.der/(2*np.sqrt(X.val)), ops=(1-X.counted)*X.ops+3, rops=3)
+        y = ADnum(np.sqrt(X.val), der = X.der/(2*np.sqrt(X.val)), ops=(1-X.counted)*X.ops+3, rops=3, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
