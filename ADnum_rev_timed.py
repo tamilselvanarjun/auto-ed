@@ -97,24 +97,24 @@ class ADnum:
 
     def revder(self, f):
         f.rder = 1
-        tolops = 0
+        #tolops = 0
         if self.rder is None:
             try:
                 children = f.graph[self]
                 calc = 0
                 for child in children:
-                    calc = calc + child[2]*child[0].revder(f)[0]
-                    tolops = tolops + child[0].revder(f)[1]+child[0].rops+2*self.ins
+                    calc = calc + child[2]*child[0].revder(f)#[0]
+                    #tolops = tolops + child[0].revder(f)[1]+child[0].rops+2*self.ins
                 self.rder = calc
             except KeyError:
                 self.rder = 0
-        return self.rder, tolops
+        return self.rder #, tolops
 
     def __neg__(self):
         fstart = timer()
-        -self.der
+        a=-self.der
         fend = timer()
-        y = ADnum(-self.val, der = -self.der, ops = (1-self.counted)*self.ops+1, rops = 0, tfops = self.tfops+self.ins, trops = self.trops+4*self.ins, ftime = self.ftime+fend-fstart, rtime = self.rtime)
+        y = ADnum(-self.val, der = -self.der, ops = (1-self.counted)*self.ops+1, rops = 0, tfops = self.tfops+3*self.ins, trops = self.trops+4*self.ins, ftime = self.ftime+fend-fstart, rtime = self.rtime)
         self.counted = 1
         y.graph = self.graph
         rstart = timer()
@@ -133,7 +133,7 @@ class ADnum:
             else:
                 opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+3
             fstart = timer()
-            self.val*other.der + self.der*other.val
+            a = self.val*other.der + self.der*other.val
             fend = timer()
             y = ADnum(self.val*other.val, der = self.val*other.der+self.der*other.val, ops = opcount, rops=0, tfops = 3*self.ins+self.tfops+other.tfops, trops = 4*self.ins+self.trops+other.trops, ftime = self.ftime+other.ftime+fend-fstart, rtime = self.rtime+other.rtime)
             self.counted = 1
@@ -161,7 +161,7 @@ class ADnum:
             graph = merge_dicts(self.graph, other.graph)
             opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+1
             fstart = timer()
-            self.der+other.der
+            a=self.der+other.der
             fend = timer()
             y = ADnum(self.val+other.val, der = self.der+other.der, ops = opcount, rops=0, tfops = self.tfops+other.tfops+self.ins, trops = self.trops + other.trops+2*self.ins, ftime = self.ftime+other.ftime+fend-fstart, rtime = self.rtime+other.rtime)
             self.counted = 1
@@ -189,7 +189,7 @@ class ADnum:
             graph = merge_dicts(self.graph, other.graph)
             opcount = (1-self.counted)*self.ops*(1-self.constant)+(1-other.counted)*other.ops*(1-other.constant)+1
             fstart = timer()
-            self.der-other.der
+            a=self.der-other.der
             fend = timer()
             y = ADnum(self.val-other.val,der = self.der-other.der, ops = opcount, rops=0, tfops = self.tfops+other.tfops+self.ins, trops = self.trops+other.trops+2*self.ins, ftime = self.ftime+other.ftime+fend-fstart, rtime = self.rtime+other.rtime)
             self.counted = 1
@@ -227,7 +227,7 @@ class ADnum:
             else:
                 opcount = opcount+5
             fstart = timer()
-            (other.val*self.der-self.val*other.der)/(other.val**2)
+            a= (other.val*self.der-self.val*other.der)/(other.val**2)
             fend = timer()
             y = ADnum(self.val/other.val, der = (other.val*self.der-self.val*other.der)/(other.val**2), ops = opcount, rops = 1, tfops = self.tfops+other.tfops+5*self.ins, trops = self.trops+other.trops+4*self.ins, ftime = self.ftime+other.ftime+fend-fstart, rtime = self.rtime+other.rtime)
             self.counted = 1
@@ -257,7 +257,7 @@ class ADnum:
             else:
                 opcount = opcount+5
             fstart = timer()
-            (self.val*other.der - other.val*self.der)/(self.val**2)
+            a=(self.val*other.der - other.val*self.der)/(self.val**2)
             fend = timer()
             return ADnum(other.val/self.val, der = (self.val*other.der-other.val*self.der)/(self.val**2), ops = opcount, tfops = self.tfops+other.tfops+5*self.ins, trops = self.trops+other.trops+4*self.ins, ftime = self.ftime+other.ftime+fend-fstart, rtime = self.rtime+other.rtime)
         except AttributeError:
@@ -276,14 +276,14 @@ class ADnum:
                 opcount  = opcount + 10
             if self.val == 0:
                 fstart = timer()
-                other.val*(self.val**(other.val-1))*self.der+self.val**other.val
+                a =other.val*(self.val**(other.val-1))*self.der+self.val**other.val
                 fend = timer()
                 y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val), ops = opcount, rops=3, tfops = self.tfops+other.tfops+2+self.ins, trops = self.trops+other.trops+2+2*self.ins, ftime = self.ftime+other.ftime+fend-fstart, rtime = self.rtime+other.rtime)
                 self.counted = 1
                 other.counted =1
             else:
                 fstart = timer()
-                other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der
+                a=other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der
                 fend = timer()
                 y = ADnum(self.val**other.val, der = other.val*(self.val**(other.val-1))*self.der+(self.val**other.val)*np.log(np.abs(self.val))*other.der, ops = opcount, tfops=self.tfops+other.tfops+2+self.ins, trops = self.trops+other.trops+2+2*self.ins, ftime = self.ftime+other.ftime+fend-fstart, rtime = self.rtime+other.rtime)
             self.counted = 1
@@ -313,7 +313,7 @@ class ADnum:
             else:
                 opcount  = opcount + 10
             fstart = timer()
-            self.val*(other.val**(self.val-1))*other.der+(other.val**self.val)*np.log(np.abs(other.val))*self.der
+            a=self.val*(other.val**(self.val-1))*other.der+(other.val**self.val)*np.log(np.abs(other.val))*self.der
             fend = timer()
             return ADnum(other.val**self.val, der = self.val*(other.val**(self.val-1))*other.der+(other.val**self.val)*np.log(np.abs(other.val))*self.der, ops = (1-self.counted)*self.ops+other.ops+10, tfops=self.tfops+other.tfops+2+self.ins, trops=self.trops+other.trops+2+2*self.ins, ftime = self.ftime+other.ftime+fend-fstart, rtime = self.rtime+other.rtime)
         except AttributeError:
