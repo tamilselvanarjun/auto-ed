@@ -211,14 +211,47 @@ def draw_graph_rev(y):
     plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
     return fig
 
-
-def gen_table(y):
-    """ Function to generate tables for the ADnum.
+def draw_graph_rev_dynamic(y, edgelist):
+    """ Function to draw the graph.
 
     INPUTS
     ======
     y : ADnum
 
+    OUTPUTS
+    =======
+    A plot of the graph
+    """  
+    edgelist.reverse()
+    fig = plt.figure()
+    G = gen_graph(y)
+    G = G.reverse()
+    edge_labs = nx.get_edge_attributes(G, 'label')
+    pos = nx.spring_layout(G)
+    labs = get_labels_rev(y)
+    nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labs)
+    limits = plt.axis('off')
+    mag_patch = mpatches.Patch(color = 'magenta', label = 'input')
+    red_patch = mpatches.Patch(color = 'red', label = 'intermediate')
+    blue_patch = mpatches.Patch(color = 'blue', label = 'constant')
+    green_patch = mpatches.Patch(color = 'green', label = 'output')
+    plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
+    figset = []
+    for edge in edgelist:
+        fignew = plt.figure()
+        nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
+        nx.draw_networkx_edges(G, pos=pos, edgelist = edge, edge_color = 'y', width =2)
+        figset.append(fignew)
+    return fig, figset
+ 
+def gen_table(y):
+    """ Function to generate tables for the ADnum.
+ 
+    INPUTS
+    ======
+    y : ADnum
+ 
     OUTPUTS
     =======
     A pandas data frame of the computational traces
@@ -238,21 +271,21 @@ def gen_table(y):
             if node.constant:
                 visited.append(node)
             else:
-                visited.append(node)
-                data['Trace'].append(labs[node])
-                data['Value'].append(node.val)
-                data['Derivative'].append(node.der)
-                if node in parents:
-                    if len(parents[node]) == 1:
-                        link = parents[node][0][1]+'('+labs[parents[node][0][0]]+')'
-                    else:
-                        link = parents[node][0][1]+'(' +labs[parents[node][0][0]]+ ' , ' + labs[parents[node][1][0]] + ')'
-                    neighbors = parents[node]
-                    for neighbor in neighbors:
-                        nodes.append(neighbor[0])
-                else:
-                    link = 'input'
-                data['Operation'].append(link)
+               visited.append(node)
+               data['Trace'].append(labs[node])
+               data['Value'].append(node.val)
+               data['Derivative'].append(node.der)
+               if node in parents:
+                   if len(parents[node]) == 1:
+                       link = parents[node][0][1]+'('+labs[parents[node][0][0]]+')'
+                   else:
+                       link = parents[node][0][1]+'(' +labs[parents[node][0][0]]+ ' , ' + labs[parents[node][1][0]] + ')'
+                   neighbors = parents[node]
+                   for neighbor in neighbors:
+                       nodes.append(neighbor[0])
+               else:
+                   link = 'input'
+               data['Operation'].append(link)
     result = pd.DataFrame.from_dict(data)
     result2 = result.sort_values('Trace')
     resultorder = result2[['Trace', 'Operation', 'Value', 'Derivative']]  
