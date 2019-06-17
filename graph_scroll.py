@@ -4,7 +4,6 @@ from ADnum_rev_timed_vis import ADnum
 import ADmath_rev as ADmath
 import ADgraph_GUI as ADgraph
 
-
 x = ADnum(1, ins=1, ind=0)
 f = x**3-3*x**2
 

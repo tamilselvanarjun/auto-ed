@@ -180,8 +180,8 @@ if __name__ == '__main__':
                 out_num = function_output(x, y, z, u, v)
             if master_ins == 6:
                 out_num = function_output(x, y, z, u, v, w)
-            show_value = tk.Label(graph_window, text = str(out_num.val), height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan=2)
-            show_derivatice = tk.Label(graph_window, text = str(out_num.der), height = 3, width = 20).grid(row = master_ins+4, column =1, columnspan = 2)
+            show_value = tk.Label(graph_window, text = str(round(out_num.val,2)), height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan=2)
+            show_derivatice = tk.Label(graph_window, text = str(round(out_num.der,2)), height = 3, width = 20).grid(row = master_ins+4, column =1, columnspan = 2)
 
             #show_value = tk.Label(graph_window, text = str(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),
              #                        ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)).val),height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan = 2)

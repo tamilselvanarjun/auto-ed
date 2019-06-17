@@ -25,8 +25,8 @@ if __name__ == '__main__':
     def close_window():
         if type(num_ins.get())!= int:
             messagebox.showinfo('Error', 'Please enter a positive integer number of inputs.')
-        elif num_ins.get()>6:
-            messagebox.showinfo('Error', 'More than 6 inputs is not supported in the GUI environment.  Please either use the AD20 package, or experiment with a function of fewer variables.')
+        elif num_ins.get()>5:
+            messagebox.showinfo('Error', 'More than 5 inputs is not supported in the GUI environment.  Please either use the AD20 package, or experiment with a function of fewer variables.')
         elif num_ins.get()>0:
             preset.destroy()
         else:
@@ -114,6 +114,7 @@ if __name__ == '__main__':
             plot_graph.title("Computational Graph")
             plot_graph.geometry("600x600")
             fig = ADgraph.draw_graph(out_num)
+            #fig.title(func_content.get())
             #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
             canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
             canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
@@ -323,33 +324,33 @@ if __name__ == '__main__':
         function_expression += '.'
     #===Add more functions to the added buttons===
     def sin():
-        edit_func("sin")
+        edit_func("sin(")
         global function_expression
-        function_expression += 'ADmath.sin'
+        function_expression += 'ADmath.sin('
     def cos():
-        edit_func("cos")
+        edit_func("cos(")
         global function_expression
-        function_expression += 'ADmath.cos'
+        function_expression += 'ADmath.cos('
     def tan():
-        edit_func("tan")
+        edit_func("tan(")
         global function_expression
-        function_expression += 'ADmath.tan'
+        function_expression += 'ADmath.tan('
     def exp():
-        edit_func("exp")
+        edit_func("exp(")
         global function_expression
-        function_expression += 'ADmath.exp'
+        function_expression += 'ADmath.exp('
     def log():
-        edit_func("log")
+        edit_func("log(")
         global function_expression
-        function_expression += 'ADmath.log'
+        function_expression += 'ADmath.log('
     def pow_to():
-        edit_func("pow")
+        edit_func("pow(")
         global function_expression
-        function_expression += '**'
+        function_expression += '**('
     def sqrt():
-        edit_func("sqrt")
+        edit_func("sqrt(")
         global function_expression
-        function_expression += 'ADmath.sqrt'
+        function_expression += 'ADmath.sqrt('
     def right_par():
         edit_func("(")
         global function_expression
@@ -385,8 +386,29 @@ if __name__ == '__main__':
         edit_func("w")
         global function_expression
         function_expression +='w'
-    #===2019 Add Functions to Extra Buttons Ends===
 
+
+    #===2019 Add Functions to Extra Buttons Ends===
+    def back_space():
+        global function_expression
+        function_expression = backstep(function_expression)
+        back_func()
+
+    def backstep(text):
+        if len(text) == 0:
+            func_content.set("")
+            return ""
+        if text[-1]=='(' and text[-2] in ['n', 't', 'p', 's', 'g', '*']:
+            if text[-2] == 't':
+                return text[:-12]
+            elif (text[-2] == '*' and text[-3]=='*'):
+                return text[:-3]
+            else:
+                return text[:-12]
+        else:
+            return text[:-1]
+    
+    
     def clear_all():
         func_content.set("")
         global function_expression 
@@ -434,16 +456,40 @@ if __name__ == '__main__':
             d = out.der
             #textVal = function_output(ADnum(5,ins=6,ind=0),ADnum(4,ins=6,ind=1),ADnum(3,ins=6,ind=2), ADnum(2,ins=6,ind=3),ADnum(1,ins=6,ind=4),ADnum(6,ins=6,ind=5)).val
             #textDer = function_output(ADnum(5,ins=6,ind=0),ADnum(4,ins=6,ind=1),ADnum(3,ins=6,ind=2), ADnum(2,ins=6,ind=3),ADnum(1,ins=6,ind=4),ADnum(6,ins=6,ind=5)).der
-            messagebox.showinfo("Continue","Your input is a function. Please continue to draw graphs.")
+            #messagebox.showinfo("Continue","Your input is a function. Please continue to draw graphs.")
             graph_window(master)
         except AttributeError:
-            messagebox.showinfo("Constant result:","The value is {}".format(function_output(1)))
+            if master_ins ==1:
+                messagebox.showinfo("Constant result:","The value is {}".format(function_output(1)))
+            if master_ins ==2:
+                messagebox.showinfo("Constant result:","The value is {}".format(function_output(1,1)))
+            if master_ins ==3:
+                messagebox.showinfo("Constant result:","The value is {}".format(function_output(1,1,1)))
+            if master_ins ==4:
+                messagebox.showinfo("Constant result:","The value is {}".format(function_output(1,1,1,1)))
+            if master_ins ==5:
+                messagebox.showinfo("Constant result:","The value is {}".format(function_output(1,1,1,1,1)))
         except SyntaxError:
-            messagebox.showerror("Error", "Syntax error in your expression.  Please use \'Clear All\', and try again.")
+            messagebox.showerror("Error", "Syntax error in your expression.  Please edit the expression, and try again.")
 
 
     def edit_func(text):
         content = func_content.get()+text
+        func_content.set(content)
+
+    def back_func():
+        content = func_content.get()
+        if len(content) == 0:
+          content = content          
+        elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g']:
+            if content[-2] == 't':
+                content = content[:-5]
+            elif content[-2] == 'w' and content[-3]!='o':
+                content = content[:-1]
+            else:
+                content = content[:-4]
+        else:
+            content = content[:-1]
         func_content.set(content)
 
     ##Set up button 
@@ -451,15 +497,15 @@ if __name__ == '__main__':
     cal_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
     #===2019 Add Variable Buttons===
     if master_ins>1:
-        button_y = tk.Button(cal_frame, text = "y", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_y).grid(row = 6, column = 0)
+        button_y = tk.Button(cal_frame, text = "y", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_y).grid(row = 6, column = 1)
         if master_ins>2:
-            button_z = tk.Button(cal_frame, text = "z", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_z).grid(row = 6, column = 1)
+            button_z = tk.Button(cal_frame, text = "z", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_z).grid(row = 6, column = 2)
             if master_ins>3:
-                button_m = tk.Button(cal_frame, text = "u", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_m).grid(row = 6, column = 2)
+                button_m = tk.Button(cal_frame, text = "u", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_m).grid(row = 6, column = 3)
                 if master_ins>4:
-                    button_n = tk.Button(cal_frame, text = "v", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_n).grid(row = 6, column = 3) 
+                    button_n = tk.Button(cal_frame, text = "v", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_n).grid(row = 6, column = 4) 
                     if master_ins>5:
-                        button_k = tk.Button(cal_frame, text = "w", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_k).grid(row = 6, column = 4) 
+                        button_k = tk.Button(cal_frame, text = "w", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_k).grid(row = 6, column = 5) 
     #===2019 Add Variable Buttons End===
     #===Add Buttons=====
     button_sin = tk.Button(cal_frame, text = "sin", font=('wasy10', 20),height=2, width=5,command = sin).grid(row = 1, column = 0)
@@ -472,9 +518,24 @@ if __name__ == '__main__':
     button_rightPar = tk.Button(cal_frame, text = "(", font=('wasy10', 20),height=2, width=5,command = right_par).grid(row = 4, column =4)
     button_leftPar = tk.Button(cal_frame, text = ")", font=('wasy10', 20),height=2, width=5,command = left_par).grid(row = 5, column =4)
     #=====Add Buttons End===
-    show_function = tk.Label(cal_frame, text = "f(x) = ").grid(row = 0, column = 0)
+    if master_ins==1:
+        show_function = tk.Label(cal_frame, text = "f(x) = ").grid(row = 0, column = 0)
 
-    button_x = tk.Button(cal_frame, text = "x", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_x).grid(row = 5, column =2)
+    if master_ins==2:
+        show_function = tk.Label(cal_frame, text = "f(x, y) = ").grid(row = 0, column = 0)
+ 
+    if master_ins==3:
+        show_function = tk.Label(cal_frame, text = "f(x, y, z) = ").grid(row = 0, column = 0)
+       
+    if master_ins==4:
+        show_function = tk.Label(cal_frame, text = "f(x, y, z, u) = ").grid(row = 0, column = 0)
+ 
+    if master_ins==5:
+        show_function = tk.Label(cal_frame, text = "f(x, y, z, u, v) = ").grid(row = 0, column = 0)
+    
+    button_backspace = tk.Button(cal_frame, text= '<-', font=('wasy10', 20), height=2, width=5,command= back_space).grid(row=5, column = 2)
+
+    button_x = tk.Button(cal_frame, text = "x", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_x).grid(row = 6, column =0)
 
     button_add = tk.Button(cal_frame, text = '+', font=('wasy10', 20),height=2, width=5,command = add).grid(row = 2, column = 3) # can add command
 

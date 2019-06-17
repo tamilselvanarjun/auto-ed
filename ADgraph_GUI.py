@@ -241,7 +241,7 @@ def draw_graph_rev_dynamic(y, edgelist):
     for edge in edgelist:
         fignew = plt.figure()
         nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
-        nx.draw_networkx_edges(G, pos=pos, edgelist = edge, edge_color = 'y', width =2)
+        nx.draw_networkx_edges(G, pos=pos, edgelist = edge, width = 4, edge_color = 'y', style = 'dashed')
         figset.append(fignew)
     return fig, figset
  
@@ -308,7 +308,7 @@ def gen_table_rev(y):
     data = {}
     data['Trace'] = []
     data['Operation']=[]
-    data['Value']= []
+    #data['Value']= []
     data['Derivative']=[]
     data['Weight'] = []
     nodes = [y]
@@ -320,7 +320,7 @@ def gen_table_rev(y):
             else:
                 visited.append(node)
                 data['Trace'].append(labs[node])
-                data['Value'].append(node.val)
+                #data['Value'].append(node.val)
                 data['Derivative'].append(node.der)
                 data['Weight'].append(node.rder)
                 if node in parents:
@@ -336,7 +336,7 @@ def gen_table_rev(y):
                 data['Operation'].append(link)
     result = pd.DataFrame.from_dict(data)
     result2 = result.sort_values('Trace')
-    resultorder = result2[['Trace', 'Operation', 'Value', 'Derivative', 'Weight']]  
+    resultorder = result2[['Trace', 'Operation', 'Derivative', 'Weight']]  
     return resultorder
 
 def plot_ADnum(f, ins=1, xmin = -10, xmax = 10):
