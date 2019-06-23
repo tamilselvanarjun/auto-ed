@@ -210,7 +210,7 @@ if __name__ == '__main__':
                 out_num = function_output(x, y, z, u, v)
             if master_ins == 6:
                 out_num = function_output(x, y, z, u, v, w)
-            show_value = tk.Label(graph_window, text = str(out_num.val), height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan=2)
+            show_value = tk.Label(graph_window, text = str(np.round(out_num.val,2)), height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan=2)
             show_derivatice = tk.Label(graph_window, text = str(out_num.der), height = 3, width = 20).grid(row = master_ins+4, column =1, columnspan = 2)
             show_forward_ops = tk.Label(graph_window, text = str(out_num.ops), height =3, width = 20).grid(row = master_ins+3, column =4, columnspan=2)
             value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 3)

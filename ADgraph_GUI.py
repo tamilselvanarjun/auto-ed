@@ -211,7 +211,59 @@ def draw_graph_rev(y):
     plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
     return fig
 
+def get_graph_setup(y):
+    G = gen_graph(y)
+    G = G.reverse()
+    edge_labs = nx.get_edge_attributes(G, 'label')
+    pos = nx.spring_layout(G, k=.15, iterations=20)
+    labs = get_labels_rev(y)
+    return G, edge_labs, pos, labs
+
+def axis_reverse_edge(y, G, edge_labs, pos, labs, ax, edgelist, idx):
+    edge = edgelist[idx]
+    nx.draw_networkx(G, pos, ax = ax, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
+    nx.draw_networkx_edges(G, pos=pos, ax=ax, edgelist = edge, width = 4, edge_color = 'y', style = 'dashed')
+    nx.draw_networkx_edge_labels(G, pos=pos, ax=ax, edge_labels = edge_labs)
+    limits = plt.axis('off')
+
 def draw_graph_rev_dynamic(y, edgelist):
+    edgelist.reverse()
+    fig = plt.figure()
+    G, edge_labs, pos, labs = get_graph_setup(y)
+    ax = fig.add_subplot(111)
+    plt.title('Press enter to start.')
+    global curr_pos
+    curr_pos = 0
+    #axis_reverse_edge(y, G, edge_labs, pos, labs, ax, edgelist, curr_pos)
+    #plt.show()
+    def key_event(e):
+        global curr_pos
+        ax.cla()
+        if e.key == 'enter':
+            curr_pos = curr_pos
+        elif e.key == 'right':
+            curr_pos = curr_pos +1
+            if curr_pos >= len(edgelist):
+                curr_pos = len(edgelist)-1
+        elif e.key == 'left':
+            curr_pos = curr_pos -1
+            if curr_pos<0:
+                curr_pos = 0
+        else:
+            return
+        #curr_pos = curr_pos%len(edgelist)
+        axis_reverse_edge(y, G, edge_labs, pos, labs, ax, edgelist, curr_pos)
+        if curr_pos == len(edgelist)-1:
+            plt.title('Step ' + str(curr_pos+1) +': Calculation Complete')
+        else:
+            plt.title('Step ' + str(curr_pos+1))
+
+        plt.show()
+    fig.canvas.mpl_connect('key_press_event', key_event)
+    plt.show()
+
+
+def draw_graph_rev_dynamic_old(y, edgelist):
     """ Function to draw the graph.
 
     INPUTS
@@ -242,6 +294,7 @@ def draw_graph_rev_dynamic(y, edgelist):
         fignew = plt.figure()
         nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
         nx.draw_networkx_edges(G, pos=pos, edgelist = edge, width = 4, edge_color = 'y', style = 'dashed')
+        nx.draw_networkx_edge_labels(G, pos=pos, edge_labels = edge_labs)
         figset.append(fignew)
     return fig, figset
  

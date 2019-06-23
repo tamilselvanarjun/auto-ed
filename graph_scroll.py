@@ -7,10 +7,13 @@ import ADgraph_GUI as ADgraph
 x = ADnum(1, ins=1, ind=0)
 f = x**3-3*x**2
 
+ADgraph.draw_graph_rev_dynamic(f, x.revder(f)[1])
+
 #fig = ADgraph.draw_graph(f)
 #plt.show()
 
-fig, figset = ADgraph.draw_graph_rev_dynamic(f, x.revder(f)[1])
+
+#fig, figset = ADgraph.draw_graph_rev_dynamic(f, x.revder(f)[1])
 #plt.show()
 
 
@@ -24,7 +27,11 @@ y2 = np.sin(t)
 y3 = np.tan(t)
 plots = [(t,y1), (t,y2), (t,y3)]
 
-# now the real code :) 
+# now the real code :)
+
+
+'''
+
 '''
 curr_pos = 0
 
@@ -52,4 +59,4 @@ figset[0].show()
 #ax = fig.add_subplot(111)
 #ax.plot(t,y1)
 plt.show()
-
+'''
