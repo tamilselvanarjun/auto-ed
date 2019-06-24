@@ -2,7 +2,7 @@ import numpy as np
 #import AD20
 #from AD20.ADnum import ADnum
 #from AD20 import ADmath as ADmath
-from ADnum_rev import ADnum
+from ADnum_rev_timed_vis import ADnum
 import ADmath_rev as ADmath
 import ADgraph_GUI as ADgraph
 
@@ -137,6 +137,19 @@ if __name__ == '__main__':
             table = pt = Table(f, dataframe=df,
                                     showtoolbar=True, showstatusbar=True)
             pt.show()
+        
+        def vis_rev():
+            #rev_graph = tk.Toplevel(graph_window)
+            #rev_graph.title('Dynamic Reverse Mode')
+            #rev_graph.geometry("600x600")
+            fig = ADgraph.draw_graph_rev_dynamic(out_num, x.revder(out_num)[1])
+            #canvas = FigureCanvasTkAgg(fig, master=rev_graph)
+            #canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = 1)
+            #canvas.draw()
+            #toolbar = NavigationToolbar2Tk(canvas, rev_graph)
+            #toolbar.update()
+            #canvas.get_tk_widget().pack(side=tk.TOP, fill = tk.BOTH, expand = 1)
+        
         def rev_draw_graph():
             plot_graph = tk.Toplevel(graph_window)
             plot_graph.title("Computational Graph")
@@ -186,16 +199,22 @@ if __name__ == '__main__':
             if not (type(value_x.get())==float and type(value_y.get())==float and type(value_z.get())==float
                    and type(value_m.get())==float and type(value_n.get())==float and type(value_k.get())==float):
                 messagebox.showerror('Error', 'Please enter a numeric value for x.')
+            global x
             x = ADnum(value_x.get(), ins = master_ins, ind = 0)
             if master_ins>1:
+                global y
                 y = ADnum(value_y.get(), ins = master_ins, ind =1)
                 if master_ins>2:
+                    global z
                     z = ADnum(value_z.get(), ins = master_ins, ind = 2)
                     if master_ins >3:
+                        global u
                         u = ADnum(value_m.get(), ins = master_ins, ind=3)
                         if master_ins > 4:
+                            global v
                             v = ADnum(value_n.get(), ins = master_ins, ind = 4)
                             if master_ins>5:
+                                global w
                                 w = ADnum(value_k.get(), ins = master_ins, ind = 5)
             global out_num
             if master_ins == 1:
@@ -211,7 +230,7 @@ if __name__ == '__main__':
             if master_ins == 6:
                 out_num = function_output(x, y, z, u, v, w)
             show_value = tk.Label(graph_window, text = str(np.round(out_num.val,2)), height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan=2)
-            show_derivatice = tk.Label(graph_window, text = str(out_num.der), height = 3, width = 20).grid(row = master_ins+4, column =1, columnspan = 2)
+            show_derivatice = tk.Label(graph_window, text = str(np.round(out_num.der, 2)), height = 3, width = 20).grid(row = master_ins+4, column =1, columnspan = 2)
             show_forward_ops = tk.Label(graph_window, text = str(out_num.ops), height =3, width = 20).grid(row = master_ins+3, column =4, columnspan=2)
             value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 3)
             enter_value_x = tk.Label(graph_window, text = str(x.revder(out_num)[1]), width = 10).grid(row = 2, column = 4)
@@ -240,11 +259,12 @@ if __name__ == '__main__':
         result_der = tk.Label(graph_window, text= "Derivative: ",height = 3, width = 10).grid(row = master_ins+4, column = 0)
         result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=10).grid(row=master_ins+3, column = 3)
 
-        enter_button = tk.Button(graph_window, text = "Enter", height = 3, width = 20, command = display).grid(row = 8, column = 0, columnspan = 3)
-        eval_prompt = tk.Button(graph_window, text = "Computational Graph",height = 3, width = 20, command = draw_graph).grid(row = 11, column = 0,columnspan = 3)
-        table_prompt = tk.Button(graph_window, text = "Evaluation Table",height = 3, width = 20, command = draw_table).grid(row = 12, column = 0,columnspan = 3)
-        rev_eval_prompt = tk.Button(graph_window, text = "Reverse Graph",height = 3, width = 20, command = rev_draw_graph).grid(row = 11, column = 3,columnspan = 3)
-        rev_table_prompt = tk.Button(graph_window, text = "Reverse Table",height = 3, width = 20, command = rev_draw_table).grid(row = 12, column = 3,columnspan = 3)
+        enter_button = tk.Button(graph_window, text = "Enter", height = 3, width = 20, command = display).grid(row = master_ins + 6, column = 0, columnspan = 3)
+        vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Mode", height = 3, width = 20, command = vis_rev).grid(row=master_ins+6, column = 3, columnspan=3)
+        eval_prompt = tk.Button(graph_window, text = "Computational Graph",height = 3, width = 20, command = draw_graph).grid(row = master_ins+9, column = 0,columnspan = 3)
+        table_prompt = tk.Button(graph_window, text = "Evaluation Table",height = 3, width = 20, command = draw_table).grid(row = master_ins+10, column = 0,columnspan = 3)
+        rev_eval_prompt = tk.Button(graph_window, text = "Reverse Graph",height = 3, width = 20, command = rev_draw_graph).grid(row = master_ins+9, column = 3,columnspan = 3)
+        rev_table_prompt = tk.Button(graph_window, text = "Reverse Table",height = 3, width = 20, command = rev_draw_table).grid(row = master_ins+10, column = 3,columnspan = 3)
 
 
     #===Block for Error message====
