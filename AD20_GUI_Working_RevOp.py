@@ -188,24 +188,25 @@ if __name__ == '__main__':
             pt.show()
 
         #orientation labels
-        setup_label = tk.Label(graph_window, text = 'SET VALUES', height = 3, width = 30, font= ('wasy10', 20)).grid(row=0, column = 0, columnspan = 2)
-        forward_label = tk.Label(graph_window, text = 'FORWARD MODE', height=3, width = 30, font = ('wasy10', 20)).grid(row = 0, column = 2, columnspan = 2)
-        reverse_label = tk.Label(graph_window, text = 'REVERSE MODE', height = 3, width = 30, font = ('wasy10', 20)).grid(row=0, column=4, columnspan = 2)
+        func_label = tk.Label(graph_window, textvariable = func_content, font = ('wasy10', 24)).grid(row=0, column=2, columnspan=2)
+        setup_label = tk.Label(graph_window, text = 'SET VALUES', height = 3, width = 30, font= ('wasy10', 20)).grid(row=1, column = 0, columnspan = 2)
+        forward_label = tk.Label(graph_window, text = 'FORWARD MODE', height=3, width = 30, font = ('wasy10', 20)).grid(row = 1, column = 2, columnspan = 2)
+        reverse_label = tk.Label(graph_window, text = 'REVERSE MODE', height = 3, width = 30, font = ('wasy10', 20)).grid(row=1, column=4, columnspan = 2)
 
 
         value_prompt_x = tk.Label(graph_window, text = "  Evaluate at x = ",height = 3, width = 15, font = ('wasy10', 12)).grid(row = 2, column = 0)
         enter_value_x = tk.Entry(graph_window, textvariable = value_x, width = 10).grid(row = 2, column = 1)
         if master_ins > 1:
-            value_prompt_y = tk.Label(graph_window, text = "  Evaluate at y = ",height = 3, width = 15).grid(row = 3, column = 0)
+            value_prompt_y = tk.Label(graph_window, text = "  Evaluate at y = ",height = 3, width = 15, font = ('wasy10',12)).grid(row = 3, column = 0)
             enter_value_y = tk.Entry(graph_window, textvariable = value_y, width = 10).grid(row = 3, column = 1)
             if master_ins >2:
-                value_prompt_z = tk.Label(graph_window, text = "  Evaluate at z = ",height = 3, width = 15).grid(row = 4, column = 0)
+                value_prompt_z = tk.Label(graph_window, text = "  Evaluate at z = ",height = 3, width = 15, font = ('wasy10', 12)).grid(row = 4, column = 0)
                 enter_value_z = tk.Entry(graph_window, textvariable = value_z, width = 10).grid(row = 4, column = 1)
                 if master_ins > 3:
-                    value_prompt_m = tk.Label(graph_window, text = "  Evaluate at u =  ",height = 3, width = 15).grid(row = 5, column = 0)
+                    value_prompt_m = tk.Label(graph_window, text = "  Evaluate at u =  ",height = 3, width = 15, font = ('wasy10', 12)).grid(row = 5, column = 0)
                     enter_value_m= tk.Entry(graph_window, textvariable = value_m, width = 10).grid(row = 5, column = 1)
                     if master_ins > 4:
-                        value_prompt_n= tk.Label(graph_window, text = "  Evaluate at v = ",height = 3, width = 15).grid(row = 6, column = 0)
+                        value_prompt_n= tk.Label(graph_window, text = "  Evaluate at v = ",height = 3, width = 15, font = ('wasy10', 12)).grid(row = 6, column = 0)
                         enter_value_n= tk.Entry(graph_window, textvariable = value_n, width = 10).grid(row = 6, column = 1)
                         if master_ins>5:
                             value_prompt_k= tk.Label(graph_window, text = "  Evaluate at w = ",height = 3, width = 15).grid(row = 7, column = 0)
@@ -245,42 +246,42 @@ if __name__ == '__main__':
                 out_num = function_output(x, y, z, u, v)
             if master_ins == 6:
                 out_num = function_output(x, y, z, u, v, w)
-            show_value = tk.Label(graph_window, text = str(np.round(out_num.val,2)), height = 3, width = 20).grid(row = 2, column = 2, columnspan=2)
-            show_derivatice = tk.Label(graph_window, text = str(np.round(out_num.der, 2)), height = 3, width = 20).grid(row = 4, column =2, columnspan = 2)
-            show_forward_ops = tk.Label(graph_window, text = str(out_num.ops), height =3, width = 20).grid(row = 6, column =2, columnspan=2)
-            value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 3)
-            enter_value_x = tk.Label(graph_window, text = str(x.revder(out_num)[1]), width = 10).grid(row = 2, column = 4)
+            show_value = tk.Label(graph_window, text = str(np.round(out_num.val,2)), height = 3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 3, column = 2, columnspan=2)
+            show_derivatice = tk.Label(graph_window, text = str(np.round(out_num.der, 2)), height = 3, width = 20, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 2)
+            show_forward_ops = tk.Label(graph_window, text = str(out_num.ops), height =3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 7, column =2, columnspan=2)
+            value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 4)
+            enter_value_x = tk.Label(graph_window, text = str(x.revder(out_num)[1]), width = 10).grid(row = 2, column = 5)
             if master_ins > 1:
-                value_rder_y = tk.Label(graph_window, text = "  Reverse y ops = ",height = 3, width = 10).grid(row = 3, column = 3)
-                enter_value_y = tk.Label(graph_window, text = str(y.revder(out_num)[1]), width = 10).grid(row = 3, column = 4)
+                value_rder_y = tk.Label(graph_window, text = "  Reverse y ops = ",height = 3, width = 10).grid(row = 3, column = 4)
+                enter_value_y = tk.Label(graph_window, text = str(y.revder(out_num)[1]), width = 10).grid(row = 3, column = 5)
                 if master_ins >2:
-                    value_rder_z = tk.Label(graph_window, text = "  Reverse z ops = ",height = 3, width = 10).grid(row = 4, column = 3)
-                    enter_value_z = tk.Label(graph_window, text = str(z.revder(out_num)[1]), width = 10).grid(row = 4, column = 4)
+                    value_rder_z = tk.Label(graph_window, text = "  Reverse z ops = ",height = 3, width = 10).grid(row = 4, column = 4)
+                    enter_value_z = tk.Label(graph_window, text = str(z.revder(out_num)[1]), width = 10).grid(row = 4, column = 5)
                     if master_ins > 3:
-                        value_rder_m = tk.Label(graph_window, text = " Reverse u ops =  ",height = 3, width = 10).grid(row = 5, column = 3)
-                        enter_value_m= tk.Label(graph_window, text = str(u.revder(out_num)[1]), width = 10).grid(row = 5, column = 4)
+                        value_rder_m = tk.Label(graph_window, text = " Reverse u ops =  ",height = 3, width = 10).grid(row = 5, column = 4)
+                        enter_value_m= tk.Label(graph_window, text = str(u.revder(out_num)[1]), width = 10).grid(row = 5, column = 5)
                         if master_ins > 4:
-                            value_rder_n= tk.Label(graph_window, text = "  Reverse v ops = ",height = 3, width = 10).grid(row = 6, column = 3)
-                            enter_value_n= tk.Label(graph_window, text = str(v.revder(out_num)[1]), width = 10).grid(row = 6, column = 4)
+                            value_rder_n= tk.Label(graph_window, text = "  Reverse v ops = ",height = 3, width = 10).grid(row = 6, column = 4)
+                            enter_value_n= tk.Label(graph_window, text = str(v.revder(out_num)[1]), width = 10).grid(row = 6, column = 5)
                             if master_ins>5:
-                                value_rder_k= tk.Label(graph_window, text = "  Reverse w ops = ",height = 3, width = 10).grid(row = 7, column = 3)
-                                enter_value_k= tk.Label(graph_window, text = str(w.revder(out_num)[1]), width = 10).grid(row = 7, column = 4)
+                                value_rder_k= tk.Label(graph_window, text = "  Reverse w ops = ",height = 3, width = 10).grid(row = 7, column = 4)
+                                enter_value_k= tk.Label(graph_window, text = str(w.revder(out_num)[1]), width = 10).grid(row = 7, column = 5)
 
 
             #show_value = tk.Label(graph_window, text = str(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),
              #                        ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)).val),height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan = 2)
             #show_derivatice = tk.Label(graph_window, text = str(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),
              #                        ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)).der),height = 3, width = 20).grid(row = master_ins+4, column = 1, columnspan = 2)
-        result_val = tk.Label(graph_window, text = "Value:",height = 3, width = 10).grid(row =3, column =2, columnspan=2)
-        result_der = tk.Label(graph_window, text= "Derivative: ",height = 3, width = 10).grid(row = 5, column = 2, columnspan=2)
-        result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=10).grid(row=7, column = 2, columnspan=2)
+        result_val = tk.Label(graph_window, text = "Value:",height = 3, width = 10, font = ('wasy10', 12)).grid(row =2, column =2, columnspan=2)
+        result_der = tk.Label(graph_window, text= "Derivative: ",height = 3, width = 10, font = ('wasy10', 12)).grid(row = 4, column = 2, columnspan=2)
+        result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=10, font = ('wasy10', 12)).grid(row= 6, column = 2, columnspan=2)
 
-        enter_button = tk.Button(graph_window, text = "Enter", height = 3, width = 20, command = display).grid(row = master_ins + 6, column = 0, columnspan = 3)
-        vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Mode", height = 3, width = 20, command = vis_rev).grid(row=master_ins+6, column = 3, columnspan=3)
-        eval_prompt = tk.Button(graph_window, text = "Computational Graph",height = 3, width = 20, command = draw_graph).grid(row = master_ins+9, column = 0,columnspan = 3)
-        table_prompt = tk.Button(graph_window, text = "Evaluation Table",height = 3, width = 20, command = draw_table).grid(row = master_ins+10, column = 0,columnspan = 3)
-        rev_eval_prompt = tk.Button(graph_window, text = "Reverse Graph",height = 3, width = 20, command = rev_draw_graph).grid(row = master_ins+9, column = 3,columnspan = 3)
-        rev_table_prompt = tk.Button(graph_window, text = "Reverse Table",height = 3, width = 20, command = rev_draw_table).grid(row = master_ins+10, column = 3,columnspan = 3)
+        enter_button = tk.Button(graph_window, text = "Set Input Values", height = 3, width = 20, command = display).grid(row = master_ins + 2, column = 0, columnspan = 2)
+        vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Mode", height = 3, width = 20, command = vis_rev).grid(row=master_ins+6, column = 3, columnspan=2)
+        eval_prompt = tk.Button(graph_window, text = "Computational Graph",height = 3, width = 20, command = draw_graph).grid(row = 8, column = 2,columnspan = 2)
+        table_prompt = tk.Button(graph_window, text = "Evaluation Table",height = 3, width = 20, command = draw_table).grid(row = 9, column = 2,columnspan = 2)
+        rev_eval_prompt = tk.Button(graph_window, text = "Reverse Graph",height = 3, width = 20, command = rev_draw_graph).grid(row = 8, column = 4,columnspan = 2)
+        rev_table_prompt = tk.Button(graph_window, text = "Reverse Table",height = 3, width = 20, command = rev_draw_table).grid(row = 9, column = 4,columnspan = 2)
 
 
     #===Block for Error message====
