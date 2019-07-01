@@ -15,6 +15,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 from pandastable import Table
 
+
 if __name__ == '__main__':
     preset = tk.Tk()
     preset.title('Number of inputs.')
@@ -36,26 +37,30 @@ if __name__ == '__main__':
     global master_ins
     master_ins = num_ins.get()
 
-    #print("number inputs")
-    #print(num_ins.get())
+    
     master = tk.Tk()
     master.title("AutoDiff Calculator")
-    master.geometry("400x700")
+    #master.attributes("-fullscreen", True)
+    master.state('zoomed')
+    #master.bind('<Escape>', end_fullscreen(master))
 
     def instruction():
-        text = "This calculator performs basic calculations and generates functions of a single variable. \n \n" +\
-        "Use the buttons below to define your function.  The magenta X is the input variable. \n \n" +\
-        "All of the special functions should use standard calculator syntax.  For example, to define the sine of X:" +\
-        "press \'sin\', press \'(\', and then press \')\'.  To define x squared:" +\
-        "press \'X\', press \'pow\', press \'(\', press '2', and press press \')\'. \n \n" +\
-        "When you are done defining your function, press \'Calculate\' to get the result.  Press \'Clear All\' to start over."
+        text = "This calculator generates functions of multiple variables.  Use the buttons below to define your function." +\
+                "The magenta buttons in the last row are the input variables.  Use standard calculator syntax to define your function." +\
+                "When you are done defining your function, press \'Calculate\' to get the result.  Press \'Clear All\' to start over."
+        #text = "This calculator performs basic calculations and generates functions of a single variable. \n \n" +\
+        #"Use the buttons below to define your function.  The magenta X is the input variable. \n \n" +\
+        #"All of the special functions should use standard calculator syntax.  For example, to define the sine of X:" +\
+        #"press \'sin\', press \'(\', and then press \')\'.  To define x squared:" +\
+        #"press \'X\', press \'pow\', press \'(\', press '2', and press press \')\'. \n \n" +\
+        #"When you are done defining your function, press \'Calculate\' to get the result.  Press \'Clear All\' to start over."
         messagebox.showinfo("Welcome to AutoDiff Education Mode",text)
 
     def versionInfo():
         messagebox.showinfo("Welcome to AutoDiff Education Mode","AD20 version 1.0")
     ##master button
     button_instruction = tk.Button(master, text = "Instructions",fg = "Orange",command = instruction)
-    button_instruction.place(relx=0.5, rely=0.05,anchor=tk.CENTER)
+    button_instruction.place(relx=0, rely= 0,anchor=tk.NW)
 
     #button_version = tk.Button(master, text = "Check Version", command = versionInfo)
     #button_version.pack(side = 'top')
@@ -71,12 +76,12 @@ if __name__ == '__main__':
 
     #===Block for Graph top level window===
 
-    def graph_window(master):
+    def graph_master(master):
         def show_plot():
             plot_window = tk.Toplevel(graph_window)
             plot_window.title("Function and derivative plot")
-            plot_window.geometry("600x600")
-
+            #plot_window.geometry("600x600")
+            plot_window.state('zoomed')    
             fig = ADgraph.plot_ADnum(function_output, ins = master_ins)
             canvas = FigureCanvasTkAgg(fig, master=plot_window)  # A tk.DrawingArea.
             canvas.draw()
@@ -95,11 +100,14 @@ if __name__ == '__main__':
             "\'Evaluation Table\' to see the corresponding table of function traces."
             messagebox.showinfo('Visualize Function Computations', text)
 
-        graph_window = tk.Toplevel(master)
-        graph_window.geometry("400x675")
-        graph_window.title("Graph Generator")
+        graph_master = tk.Toplevel(master)
+        #graph_window.geometry("400x675")
+        graph_master.state('zoomed')
+        graph_master.title("Graph Generator")
+        graph_window = tk.Frame(graph_master, height = 32, width = 32)
+        graph_window.place(relx=.5, rely=.5, anchor=tk.CENTER)
         global function_output
-        instruction_graph = tk.Button(graph_window, text = 'Instructions',fg = "Orange",command = graph_instructions).grid(row = 0, column = 0, columnspan = 3)
+        instruction_graph = tk.Button(graph_master, text = 'Instructions',fg = "Orange",command = graph_instructions).place(relx=0, rely=0, anchor = tk.NW)
 
         if master_ins < 3:
             show_plot = tk.Button(graph_window, text = "Visualize function", height = 3, width = 20, command = show_plot).grid(row = 1, column = 0, columnspan = 3)
@@ -113,6 +121,7 @@ if __name__ == '__main__':
             plot_graph = tk.Toplevel(graph_window)
             plot_graph.title("Computational Graph")
             plot_graph.geometry("600x600")
+            #plot_graph.state('zoomed')
             fig = ADgraph.draw_graph(out_num)
             #fig.title(func_content.get())
             #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
@@ -177,22 +186,29 @@ if __name__ == '__main__':
             table = pt = Table(f, dataframe=df,
                                     showtoolbar=True, showstatusbar=True)
             pt.show()
-        value_prompt_x = tk.Label(graph_window, text = "  Evaluate at x = ",height = 3, width = 10).grid(row = 2, column = 0)
+
+        #orientation labels
+        setup_label = tk.Label(graph_window, text = 'SET VALUES', height = 3, width = 30, font= ('wasy10', 20)).grid(row=0, column = 0, columnspan = 2)
+        forward_label = tk.Label(graph_window, text = 'FORWARD MODE', height=3, width = 30, font = ('wasy10', 20)).grid(row = 0, column = 2, columnspan = 2)
+        reverse_label = tk.Label(graph_window, text = 'REVERSE MODE', height = 3, width = 30, font = ('wasy10', 20)).grid(row=0, column=4, columnspan = 2)
+
+
+        value_prompt_x = tk.Label(graph_window, text = "  Evaluate at x = ",height = 3, width = 15, font = ('wasy10', 12)).grid(row = 2, column = 0)
         enter_value_x = tk.Entry(graph_window, textvariable = value_x, width = 10).grid(row = 2, column = 1)
         if master_ins > 1:
-            value_prompt_y = tk.Label(graph_window, text = "  Evaluate at y = ",height = 3, width = 10).grid(row = 3, column = 0)
+            value_prompt_y = tk.Label(graph_window, text = "  Evaluate at y = ",height = 3, width = 15).grid(row = 3, column = 0)
             enter_value_y = tk.Entry(graph_window, textvariable = value_y, width = 10).grid(row = 3, column = 1)
             if master_ins >2:
-                value_prompt_z = tk.Label(graph_window, text = "  Evaluate at z = ",height = 3, width = 10).grid(row = 4, column = 0)
+                value_prompt_z = tk.Label(graph_window, text = "  Evaluate at z = ",height = 3, width = 15).grid(row = 4, column = 0)
                 enter_value_z = tk.Entry(graph_window, textvariable = value_z, width = 10).grid(row = 4, column = 1)
                 if master_ins > 3:
-                    value_prompt_m = tk.Label(graph_window, text = "  Evaluate at u =  ",height = 3, width = 10).grid(row = 5, column = 0)
+                    value_prompt_m = tk.Label(graph_window, text = "  Evaluate at u =  ",height = 3, width = 15).grid(row = 5, column = 0)
                     enter_value_m= tk.Entry(graph_window, textvariable = value_m, width = 10).grid(row = 5, column = 1)
                     if master_ins > 4:
-                        value_prompt_n= tk.Label(graph_window, text = "  Evaluate at v = ",height = 3, width = 10).grid(row = 6, column = 0)
+                        value_prompt_n= tk.Label(graph_window, text = "  Evaluate at v = ",height = 3, width = 15).grid(row = 6, column = 0)
                         enter_value_n= tk.Entry(graph_window, textvariable = value_n, width = 10).grid(row = 6, column = 1)
                         if master_ins>5:
-                            value_prompt_k= tk.Label(graph_window, text = "  Evaluate at w = ",height = 3, width = 10).grid(row = 7, column = 0)
+                            value_prompt_k= tk.Label(graph_window, text = "  Evaluate at w = ",height = 3, width = 15).grid(row = 7, column = 0)
                             enter_value_k= tk.Entry(graph_window, textvariable = value_k, width = 10).grid(row = 7, column = 1)
         
         def display():
@@ -229,9 +245,9 @@ if __name__ == '__main__':
                 out_num = function_output(x, y, z, u, v)
             if master_ins == 6:
                 out_num = function_output(x, y, z, u, v, w)
-            show_value = tk.Label(graph_window, text = str(np.round(out_num.val,2)), height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan=2)
-            show_derivatice = tk.Label(graph_window, text = str(np.round(out_num.der, 2)), height = 3, width = 20).grid(row = master_ins+4, column =1, columnspan = 2)
-            show_forward_ops = tk.Label(graph_window, text = str(out_num.ops), height =3, width = 20).grid(row = master_ins+3, column =4, columnspan=2)
+            show_value = tk.Label(graph_window, text = str(np.round(out_num.val,2)), height = 3, width = 20).grid(row = 2, column = 2, columnspan=2)
+            show_derivatice = tk.Label(graph_window, text = str(np.round(out_num.der, 2)), height = 3, width = 20).grid(row = 4, column =2, columnspan = 2)
+            show_forward_ops = tk.Label(graph_window, text = str(out_num.ops), height =3, width = 20).grid(row = 6, column =2, columnspan=2)
             value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 3)
             enter_value_x = tk.Label(graph_window, text = str(x.revder(out_num)[1]), width = 10).grid(row = 2, column = 4)
             if master_ins > 1:
@@ -255,9 +271,9 @@ if __name__ == '__main__':
              #                        ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)).val),height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan = 2)
             #show_derivatice = tk.Label(graph_window, text = str(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),
              #                        ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)).der),height = 3, width = 20).grid(row = master_ins+4, column = 1, columnspan = 2)
-        result_val = tk.Label(graph_window, text = "Value:",height = 3, width = 10).grid(row =master_ins+3, column =0)
-        result_der = tk.Label(graph_window, text= "Derivative: ",height = 3, width = 10).grid(row = master_ins+4, column = 0)
-        result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=10).grid(row=master_ins+3, column = 3)
+        result_val = tk.Label(graph_window, text = "Value:",height = 3, width = 10).grid(row =3, column =2, columnspan=2)
+        result_der = tk.Label(graph_window, text= "Derivative: ",height = 3, width = 10).grid(row = 5, column = 2, columnspan=2)
+        result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=10).grid(row=7, column = 2, columnspan=2)
 
         enter_button = tk.Button(graph_window, text = "Enter", height = 3, width = 20, command = display).grid(row = master_ins + 6, column = 0, columnspan = 3)
         vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Mode", height = 3, width = 20, command = vis_rev).grid(row=master_ins+6, column = 3, columnspan=3)
@@ -477,7 +493,7 @@ if __name__ == '__main__':
             #textVal = function_output(ADnum(5,ins=6,ind=0),ADnum(4,ins=6,ind=1),ADnum(3,ins=6,ind=2), ADnum(2,ins=6,ind=3),ADnum(1,ins=6,ind=4),ADnum(6,ins=6,ind=5)).val
             #textDer = function_output(ADnum(5,ins=6,ind=0),ADnum(4,ins=6,ind=1),ADnum(3,ins=6,ind=2), ADnum(2,ins=6,ind=3),ADnum(1,ins=6,ind=4),ADnum(6,ins=6,ind=5)).der
             #messagebox.showinfo("Continue","Your input is a function. Please continue to draw graphs.")
-            graph_window(master)
+            graph_master(master)
         except AttributeError:
             if master_ins ==1:
                 messagebox.showinfo("Constant result:","The value is {}".format(function_output(1)))
@@ -553,7 +569,7 @@ if __name__ == '__main__':
     if master_ins==5:
         show_function = tk.Label(cal_frame, text = "f(x, y, z, u, v) = ").grid(row = 0, column = 0)
     
-    button_backspace = tk.Button(cal_frame, text= '<-', font=('wasy10', 20), height=2, width=5,command= back_space).grid(row=5, column = 2)
+    button_backspace = tk.Button(cal_frame, text= u'\u2B05', font=('wasy10', 20), height=2, width=5,command= back_space).grid(row=5, column = 2)
 
     button_x = tk.Button(cal_frame, text = "x", font=('wasy10', 20),fg = "magenta",height=2, width=5,command = var_number_x).grid(row = 6, column =0)
 
