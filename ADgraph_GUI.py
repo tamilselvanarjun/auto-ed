@@ -200,7 +200,8 @@ def draw_graph_rev(y):
     G = G.reverse()
     edge_labs = nx.get_edge_attributes(G, 'label')
     pos = nx.spring_layout(G)
-    labs = get_labels_rev(y)
+    labs = get_labels(y)
+    #labs = get_labels_rev(y)
     nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
     nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labs)
     limits = plt.axis('off')
@@ -356,7 +357,8 @@ def gen_table_rev(y):
     A pandas data frame of the computational traces
     """
     parents = reverse_graph(y)
-    labs = get_labels_rev(y)
+    labs = get_labels(y)
+    #labs = get_labels_rev(y)
     visited = []
     data = {}
     data['Trace'] = []
@@ -389,7 +391,7 @@ def gen_table_rev(y):
                 data['Operation'].append(link)
     result = pd.DataFrame.from_dict(data)
     result2 = result.sort_values('Trace')
-    resultorder = result2[['Trace', 'Operation', 'Derivative', 'Weight']]  
+    resultorder = result2[['Trace', 'Operation', 'Weight']]  
     return resultorder
 
 def plot_ADnum(f, ins=1, xmin = -10, xmax = 10):

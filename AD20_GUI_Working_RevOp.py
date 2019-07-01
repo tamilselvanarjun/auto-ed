@@ -110,7 +110,7 @@ if __name__ == '__main__':
         instruction_graph = tk.Button(graph_master, text = 'Instructions',fg = "Orange",command = graph_instructions).place(relx=0, rely=0, anchor = tk.NW)
 
         if master_ins < 3:
-            show_plot = tk.Button(graph_window, text = "Visualize function", height = 3, width = 20, command = show_plot).grid(row = 1, column = 0, columnspan = 3)
+            show_plot = tk.Button(graph_window, text = "Visualize function", height = 3, width = 20, command = show_plot).grid(row = 4, column = 0, columnspan = 2)
         value_x = tk.DoubleVar()
         value_y = tk.DoubleVar()
         value_z = tk.DoubleVar()
@@ -118,74 +118,124 @@ if __name__ == '__main__':
         value_n = tk.DoubleVar()
         value_k = tk.DoubleVar()
         def draw_graph():
-            plot_graph = tk.Toplevel(graph_window)
-            plot_graph.title("Computational Graph")
-            plot_graph.geometry("600x600")
-            #plot_graph.state('zoomed')
-            fig = ADgraph.draw_graph(out_num)
-            #fig.title(func_content.get())
-            #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
-            canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
-            canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-            canvas.draw()
-            toolbar = NavigationToolbar2Tk(canvas, plot_graph)
-            toolbar.update()
-            canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+            try:
+                plot_graph = tk.Toplevel(graph_window)
+                plot_graph.title("Forward Computational Graph")
+                plot_graph.geometry("600x600")
+                #plot_graph.state('zoomed')
+                fig = ADgraph.draw_graph(out_num)
+                #fig.title(func_content.get())
+                #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
+                canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
+                canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                canvas.draw()
+                toolbar = NavigationToolbar2Tk(canvas, plot_graph)
+                toolbar.update()
+                canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+            except NameError:
+                plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
         def draw_table():
-            plot_graph2 = tk.Toplevel(graph_window)
-            plot_graph2.title("Computational Table")
-            plot_graph2.geometry("600x600")
+            try:
+                plot_graph2 = tk.Toplevel(graph_window)
+                plot_graph2.title("Forward Computational Table")
+                plot_graph2.geometry("600x600")
     #         fig = ADgraph.gen_table(function_output)
-
-
-
-            f = tk.Frame(plot_graph2)
-            f.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
-            df = ADgraph.gen_table(out_num)
-            #df = ADgraph.gen_table(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
-            table = pt = Table(f, dataframe=df,
-                                    showtoolbar=True, showstatusbar=True)
-            pt.show()
+                f = tk.Frame(plot_graph2)
+                f.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
+                df = ADgraph.gen_table(out_num)
+                #df = ADgraph.gen_table(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
+                table = pt = Table(f, dataframe=df, showtoolbar=True, showstatusbar=True)
+                pt.show()
+            except NameError:
+                plot_graph2.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
         
-        def vis_rev():
+        def vis_rev_x():
             #rev_graph = tk.Toplevel(graph_window)
             #rev_graph.title('Dynamic Reverse Mode')
             #rev_graph.geometry("600x600")
+            #rev_graph.state('zoomed')
+            #try:
             fig = ADgraph.draw_graph_rev_dynamic(out_num, x.revder(out_num)[1])
+            #except NameError:
+             #   messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+            #if inval == 0:
+             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, x.revder(out_num)[1])
+            #if inval == 1:
+             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, y.revder(out_num)[1])
+            #if inval == 2:
+             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, z.revder(out_num)[1])
+            #if inval == 3:
+             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, u.revder(out_num)[1])
+            #if inval == 4:
+             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, v.revder(out_num)[1])
             #canvas = FigureCanvasTkAgg(fig, master=rev_graph)
             #canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = 1)
             #canvas.draw()
             #toolbar = NavigationToolbar2Tk(canvas, rev_graph)
             #toolbar.update()
             #canvas.get_tk_widget().pack(side=tk.TOP, fill = tk.BOTH, expand = 1)
+
+        def vis_rev_y():
+            #try:
+            fig = ADgraph.draw_graph_rev_dynamic(out_num, y.revder(out_num)[1])
+            #except NameError:
+                #plot_graph.destroy()
+                #messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+        def vis_rev_z():
+            #try:
+            fig = ADgraph.draw_graph_rev_dynamic(out_num, z.revder(out_num)[1])
+            #except NameError:
+                #plot_graph.destroy()
+                #messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+        def vis_rev_u():
+            #try:
+            fig = ADgraph.draw_graph_rev_dynamic(out_num, u.revder(out_num)[1])
+            #except NameError:
+                #plot_graph.destroy()
+             #   messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+        def vis_rev_v():
+            #try:
+            fig = ADgraph.draw_graph_rev_dynamic(out_num, v.revder(out_num)[1])
+            #except NameError:
+                #plot_graph.destroy()
+                #messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+
+
         
         def rev_draw_graph():
-            plot_graph = tk.Toplevel(graph_window)
-            plot_graph.title("Computational Graph")
-            plot_graph.geometry("600x600")
-            fig = ADgraph.draw_graph_rev(out_num)
-            #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
-            canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
-            canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-            canvas.draw()
-            toolbar = NavigationToolbar2Tk(canvas, plot_graph)
-            toolbar.update()
-            canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+            try:
+                plot_graph = tk.Toplevel(graph_window)
+                plot_graph.title("Reverse Computational Graph")
+                plot_graph.geometry("600x600")
+                fig = ADgraph.draw_graph_rev(out_num)
+                #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
+                canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
+                canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                canvas.draw()
+                toolbar = NavigationToolbar2Tk(canvas, plot_graph)
+                toolbar.update()
+                canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+            except NameError:
+                plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+
         def rev_draw_table():
-            plot_graph2 = tk.Toplevel(graph_window)
-            plot_graph2.title("Computational Table")
-            plot_graph2.geometry("600x600")
+            try:
+                plot_graph2 = tk.Toplevel(graph_window)
+                plot_graph2.title("Reverse Computational Table")
+                plot_graph2.geometry("600x600")
     #         fig = ADgraph.gen_table(function_output)
-
-
-
-            f = tk.Frame(plot_graph2)
-            f.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
-            df = ADgraph.gen_table_rev(out_num)
-            #df = ADgraph.gen_table(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
-            table = pt = Table(f, dataframe=df,
-                                    showtoolbar=True, showstatusbar=True)
-            pt.show()
+                f = tk.Frame(plot_graph2)
+                f.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
+                df = ADgraph.gen_table_rev(out_num)
+                #df = ADgraph.gen_table(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
+                table = pt = Table(f, dataframe=df, showtoolbar=True, showstatusbar=True)
+                pt.show()
+            except NameError:
+                plot_graph2.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
 
         #orientation labels
         func_label = tk.Label(graph_window, textvariable = func_content, font = ('wasy10', 24)).grid(row=0, column=2, columnspan=2)
@@ -250,22 +300,26 @@ if __name__ == '__main__':
             show_derivatice = tk.Label(graph_window, text = str(np.round(out_num.der, 2)), height = 3, width = 20, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 2)
             show_forward_ops = tk.Label(graph_window, text = str(out_num.ops), height =3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 7, column =2, columnspan=2)
             value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 4)
-            enter_value_x = tk.Label(graph_window, text = str(x.revder(out_num)[1]), width = 10).grid(row = 2, column = 5)
+            #enter_value_x = tk.Label(graph_window, text = '?', width = 10).grid(row = 2, column = 5)
             if master_ins > 1:
                 value_rder_y = tk.Label(graph_window, text = "  Reverse y ops = ",height = 3, width = 10).grid(row = 3, column = 4)
-                enter_value_y = tk.Label(graph_window, text = str(y.revder(out_num)[1]), width = 10).grid(row = 3, column = 5)
+                #enter_value_y = tk.Label(graph_window, text = "?", width = 10).grid(row = 3, column = 5)
+                vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_y).grid(row=3, column = 5, columnspan=1)
                 if master_ins >2:
                     value_rder_z = tk.Label(graph_window, text = "  Reverse z ops = ",height = 3, width = 10).grid(row = 4, column = 4)
-                    enter_value_z = tk.Label(graph_window, text = str(z.revder(out_num)[1]), width = 10).grid(row = 4, column = 5)
+                    #enter_value_z = tk.Label(graph_window, text = "?", width = 10).grid(row = 4, column = 5)
+                    vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_z).grid(row=4, column = 5, columnspan=1)
                     if master_ins > 3:
                         value_rder_m = tk.Label(graph_window, text = " Reverse u ops =  ",height = 3, width = 10).grid(row = 5, column = 4)
-                        enter_value_m= tk.Label(graph_window, text = str(u.revder(out_num)[1]), width = 10).grid(row = 5, column = 5)
+                        #enter_value_m= tk.Label(graph_window, text = "?", width = 10).grid(row = 5, column = 5)
+                        vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_u).grid(row=5, column = 5, columnspan=1)
                         if master_ins > 4:
                             value_rder_n= tk.Label(graph_window, text = "  Reverse v ops = ",height = 3, width = 10).grid(row = 6, column = 4)
-                            enter_value_n= tk.Label(graph_window, text = str(v.revder(out_num)[1]), width = 10).grid(row = 6, column = 5)
+                            #enter_value_n= tk.Label(graph_window, text = "?", width = 10).grid(row = 6, column = 5)
+                            vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_v).grid(row=6, column = 5, columnspan=1)
                             if master_ins>5:
                                 value_rder_k= tk.Label(graph_window, text = "  Reverse w ops = ",height = 3, width = 10).grid(row = 7, column = 4)
-                                enter_value_k= tk.Label(graph_window, text = str(w.revder(out_num)[1]), width = 10).grid(row = 7, column = 5)
+                                #enter_value_k= tk.Label(graph_window, text = "?", width = 10).grid(row = 7, column = 5)
 
 
             #show_value = tk.Label(graph_window, text = str(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),
@@ -277,7 +331,7 @@ if __name__ == '__main__':
         result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=10, font = ('wasy10', 12)).grid(row= 6, column = 2, columnspan=2)
 
         enter_button = tk.Button(graph_window, text = "Set Input Values", height = 3, width = 20, command = display).grid(row = master_ins + 2, column = 0, columnspan = 2)
-        vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Mode", height = 3, width = 20, command = vis_rev).grid(row=master_ins+6, column = 3, columnspan=2)
+        vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_x).grid(row=2, column = 5, columnspan=1)
         eval_prompt = tk.Button(graph_window, text = "Computational Graph",height = 3, width = 20, command = draw_graph).grid(row = 8, column = 2,columnspan = 2)
         table_prompt = tk.Button(graph_window, text = "Evaluation Table",height = 3, width = 20, command = draw_table).grid(row = 9, column = 2,columnspan = 2)
         rev_eval_prompt = tk.Button(graph_window, text = "Reverse Graph",height = 3, width = 20, command = rev_draw_graph).grid(row = 8, column = 4,columnspan = 2)
