@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 import pandas as pd
-from AD20.ADnum import ADnum
+from ADnum_rev_timed_vis import ADnum
 from mpl_toolkits.mplot3d import Axes3D
 
 def gen_graph(y):
