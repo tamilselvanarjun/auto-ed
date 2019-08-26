@@ -184,6 +184,33 @@ def draw_graph(y):
     plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
     return fig
 
+def draw_graph2(y, G, edge_labs, pos, labs):
+    """ Function to draw the graph.
+
+    INPUTS
+    ======
+    y : ADnum
+
+    OUTPUTS
+    =======
+    A plot of the graph
+    """  
+    fig = plt.figure()
+    #G = gen_graph(y)
+    #edge_labs = nx.get_edge_attributes(G, 'label')
+    #pos = nx.spring_layout(G)
+    #labs = get_labels(y)
+    nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labs)
+    limits = plt.axis('off')
+    mag_patch = mpatches.Patch(color = 'magenta', label = 'input')
+    red_patch = mpatches.Patch(color = 'red', label = 'intermediate')
+    blue_patch = mpatches.Patch(color = 'blue', label = 'constant')
+    green_patch = mpatches.Patch(color = 'green', label = 'output')
+    plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
+    return fig
+
+
 def draw_graph_rev(y):
     """ Function to draw the graph.
 
@@ -210,11 +237,40 @@ def draw_graph_rev(y):
     blue_patch = mpatches.Patch(color = 'blue', label = 'constant')
     green_patch = mpatches.Patch(color = 'green', label = 'output')
     plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
+    return fig 
+
+
+def draw_graph_rev2(y, G, edge_labs, pos, labs):
+    """ Function to draw the graph.
+
+    INPUTS
+    ======
+    y : ADnum
+
+    OUTPUTS
+    =======
+    A plot of the graph
+    """  
+    fig = plt.figure()
+    #G = gen_graph(y)
+    G = G.reverse()
+    #edge_labs = nx.get_edge_attributes(G, 'label')
+    #pos = nx.spring_layout(G)
+    #labs = get_labels(y)
+    #labs = get_labels_rev(y)
+    nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labs)
+    limits = plt.axis('off')
+    mag_patch = mpatches.Patch(color = 'magenta', label = 'input')
+    red_patch = mpatches.Patch(color = 'red', label = 'intermediate')
+    blue_patch = mpatches.Patch(color = 'blue', label = 'constant')
+    green_patch = mpatches.Patch(color = 'green', label = 'output')
+    plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
     return fig
 
 def get_graph_setup(y):
     G = gen_graph(y)
-    G = G.reverse()
+    #G = G.reverse()
     edge_labs = nx.get_edge_attributes(G, 'label')
     pos = nx.spring_layout(G, k=.15, iterations=20)
     labs = get_labels_rev(y)
@@ -227,10 +283,11 @@ def axis_reverse_edge(y, G, edge_labs, pos, labs, ax, edgelist, idx):
     nx.draw_networkx_edge_labels(G, pos=pos, ax=ax, edge_labels = edge_labs)
     limits = plt.axis('off')
 
-def draw_graph_rev_dynamic(y, edgelist):
+def draw_graph_rev_dynamic(y, edgelist, G, edge_labs, pos, labs):
     edgelist.reverse()
     fig = plt.figure()
-    G, edge_labs, pos, labs = get_graph_setup(y)
+    #G, edge_labs, pos, labs = get_graph_setup(y)
+    G = G.reverse()
     ax = fig.add_subplot(111)
     plt.title('Press enter to start.')
     global curr_pos
@@ -341,7 +398,8 @@ def gen_table(y):
                    link = 'input'
                data['Operation'].append(link)
     result = pd.DataFrame.from_dict(data)
-    result2 = result.sort_values('Trace')
+    result['Number'] = [int(name[1:]) for name in result['Trace']]
+    result2 = result.sort_values('Number')
     resultorder = result2[['Trace', 'Operation', 'Value', 'Derivative']]  
     return resultorder
 
@@ -390,7 +448,8 @@ def gen_table_rev(y):
                     link = 'input'
                 data['Operation'].append(link)
     result = pd.DataFrame.from_dict(data)
-    result2 = result.sort_values('Trace')
+    result['Number'] = [int(name[1:]) for name in result['Trace']]
+    result2 = result.sort_values('Number')
     resultorder = result2[['Trace', 'Operation', 'Weight']]  
     return resultorder
 
