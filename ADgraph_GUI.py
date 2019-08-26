@@ -273,7 +273,7 @@ def get_graph_setup(y):
     #G = G.reverse()
     edge_labs = nx.get_edge_attributes(G, 'label')
     pos = nx.spring_layout(G, k=.15, iterations=20)
-    labs = get_labels_rev(y)
+    labs = get_labels(y) #changed from get labels rev
     return G, edge_labs, pos, labs
 
 def axis_reverse_edge(y, G, edge_labs, pos, labs, ax, edgelist, idx):
