@@ -37,6 +37,25 @@ if __name__ == '__main__':
     global master_ins
     master_ins = num_ins.get()
 
+    preset2 = tk.Tk()
+    preset2.title('Number of outputs.')
+    preset2.geometry("300x200")
+    num_outs = tk.IntVar()
+    tk.Label(preset2, text = "Number of output functions:", height = 3, width = 30).grid(row = 0, column=0)
+    tk.Entry(preset2, textvariable = num_ins, width = 30).grid(row=1, column =0)
+    def close_window():
+        if type(num_ins.get())!= int:
+            messagebox.showinfo('Error', 'Please enter a positive integer number of inputs.')
+        elif num_ins.get()>3:
+            messagebox.showinfo('Error', 'More than 3 functions is not supported in the GUI environment.  Please either use the AD20 package, or experiment with fewer outputs.')
+        elif num_ins.get()>0:
+            preset2.destroy()
+        else:
+            messagebox.showinfo('Error', 'Please enter a positive integer number of inputs.')
+    tk.Button(preset2, text = 'Next', height = 3, width = 30, command = close_window).grid(row = 2, column = 0)
+    preset2.mainloop()
+    global master_outs
+    master_outs = num_outs.get()
     
     master = tk.Tk()
     master.title("AutoDiff Calculator")
@@ -120,22 +139,22 @@ if __name__ == '__main__':
         value_k = tk.DoubleVar()
         def draw_graph():
             try:
-                plot_graph = tk.Toplevel(graph_window)
-                plot_graph.title("Forward Computational Graph")
-                plot_graph.geometry("600x600")
+                #plot_graph = tk.Toplevel(graph_window)
+                #plot_graph.title("Forward Computational Graph")
+                #plot_graph.geometry("600x600")
                 #plot_graph.state('zoomed')
                 fig = ADgraph.draw_graph2(out_num, G, edge_labs, pos, labs)
                 #fig.title(func_content.get())
                 #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
-                canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
-                canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-                canvas.draw()
-                toolbar = NavigationToolbar2Tk(canvas, plot_graph)
-                toolbar.update()
-                canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                #canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
+                #canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                #canvas.draw()
+                #toolbar = NavigationToolbar2Tk(canvas, plot_graph)
+                #toolbar.update()
+                #canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
             except NameError:
-                plot_graph.destroy()
-                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
         def draw_table():
             try:
                 plot_graph2 = tk.Toplevel(graph_window)
@@ -150,17 +169,17 @@ if __name__ == '__main__':
                 pt.show()
             except NameError:
                 plot_graph2.destroy()
-                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
         
         def vis_rev_x():
             #rev_graph = tk.Toplevel(graph_window)
             #rev_graph.title('Dynamic Reverse Mode')
             #rev_graph.geometry("600x600")
             #rev_graph.state('zoomed')
-            #try:
-            fig = ADgraph.draw_graph_rev_dynamic(out_num, x.revder(out_num)[1], G, edge_labs, pos, labs)
-            #except NameError:
-             #   messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num, x.revder(out_num)[1], G, edge_labs, pos, labs)
+            except NameError:
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
             #if inval == 0:
              #   fig = ADgraph.draw_graph_rev_dynamic(out_num, x.revder(out_num)[1])
             #if inval == 1:
@@ -179,48 +198,48 @@ if __name__ == '__main__':
             #canvas.get_tk_widget().pack(side=tk.TOP, fill = tk.BOTH, expand = 1)
 
         def vis_rev_y():
-            #try:
-            fig = ADgraph.draw_graph_rev_dynamic(out_num, y.revder(out_num)[1], G, edge_labs, pos, labs)
-            #except NameError:
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num, y.revder(out_num)[1], G, edge_labs, pos, labs)
+            except NameError:
                 #plot_graph.destroy()
-                #messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
         def vis_rev_z():
-            #try:
-            fig = ADgraph.draw_graph_rev_dynamic(out_num, z.revder(out_num)[1], G, edge_labs, pos, labs)
-            #except NameError:
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num, z.revder(out_num)[1], G, edge_labs, pos, labs)
+            except NameError:
                 #plot_graph.destroy()
-                #messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
         def vis_rev_u():
-            #try:
-            fig = ADgraph.draw_graph_rev_dynamic(out_num, u.revder(out_num)[1], G, edge_labs, pos, labs)
-            #except NameError:
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num, u.revder(out_num)[1], G, edge_labs, pos, labs)
+            except NameError:
                 #plot_graph.destroy()
-             #   messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
         def vis_rev_v():
-            #try:
-            fig = ADgraph.draw_graph_rev_dynamic(out_num, v.revder(out_num)[1], G, edge_labs, pos, labs)
-            #except NameError:
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num, v.revder(out_num)[1], G, edge_labs, pos, labs)
+            except NameError:
                 #plot_graph.destroy()
-                #messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
 
 
         
         def rev_draw_graph():
             try:
-                plot_graph = tk.Toplevel(graph_window)
-                plot_graph.title("Reverse Computational Graph")
-                plot_graph.geometry("600x600")
+                #plot_graph = tk.Toplevel(graph_window)
+                #plot_graph.title("Reverse Computational Graph")
+                #plot_graph.geometry("600x600")
                 fig = ADgraph.draw_graph_rev2(out_num, G, edge_labs, pos, labs)
                 #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
-                canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
-                canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-                canvas.draw()
-                toolbar = NavigationToolbar2Tk(canvas, plot_graph)
-                toolbar.update()
-                canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                #canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
+                #canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                #canvas.draw()
+                #toolbar = NavigationToolbar2Tk(canvas, plot_graph)
+                #toolbar.update()
+                #canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
             except NameError:
-                plot_graph.destroy()
-                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
 
         def rev_draw_table():
             try:
@@ -236,7 +255,7 @@ if __name__ == '__main__':
                 pt.show()
             except NameError:
                 plot_graph2.destroy()
-                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.")
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
 
         #orientation labels
         func_label = tk.Label(graph_window, textvariable = func_content, font = ('wasy10', 24)).grid(row=0, column=2, columnspan=2)

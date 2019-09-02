@@ -208,7 +208,8 @@ def draw_graph2(y, G, edge_labs, pos, labs):
     blue_patch = mpatches.Patch(color = 'blue', label = 'constant')
     green_patch = mpatches.Patch(color = 'green', label = 'output')
     plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
-    return fig
+    plt.show()
+    #return fig
 
 
 def draw_graph_rev(y):
@@ -266,7 +267,8 @@ def draw_graph_rev2(y, G, edge_labs, pos, labs):
     blue_patch = mpatches.Patch(color = 'blue', label = 'constant')
     green_patch = mpatches.Patch(color = 'green', label = 'output')
     plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
-    return fig
+    plt.show()
+    #return fig
 
 def get_graph_setup(y):
     G = gen_graph(y)
