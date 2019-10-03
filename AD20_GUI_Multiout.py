@@ -198,7 +198,7 @@ if __name__ == '__main__':
             #rev_graph.geometry("600x600")
             #rev_graph.state('zoomed')
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], x.revder(out_num[0])[1], G, edge_labs, pos, labs)
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G, edge_labs, pos, labs)
             except NameError:
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
             #if inval == 0:
@@ -220,7 +220,7 @@ if __name__ == '__main__':
 
         def vis_rev_y():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], y.revder(out_num[0])[1], G, edge_labs, pos, labs)
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], y[0].revder(out_num[0])[1], G, edge_labs, pos, labs)
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
@@ -316,19 +316,19 @@ if __name__ == '__main__':
                    and type(value_m.get())==float and type(value_n.get())==float and type(value_k.get())==float):
                 messagebox.showerror('Error', 'Please enter a numeric value for x.')
             global x
-            x = ADnum(value_x.get(), ins = master_ins, ind = 0)
+            x = [ADnum(value_x.get(), ins = master_ins, ind = 0)]*master_outs
             if master_ins>1:
                 global y
-                y = ADnum(value_y.get(), ins = master_ins, ind =1)
+                y = [ADnum(value_y.get(), ins = master_ins, ind =1)]*master_outs
                 if master_ins>2:
                     global z
-                    z = ADnum(value_z.get(), ins = master_ins, ind = 2)
+                    z = [ADnum(value_z.get(), ins = master_ins, ind = 2)]*master_outs
                     if master_ins >3:
                         global u
-                        u = ADnum(value_m.get(), ins = master_ins, ind=3)
+                        u = [ADnum(value_m.get(), ins = master_ins, ind=3)]*master_outs
                         if master_ins > 4:
                             global v
-                            v = ADnum(value_n.get(), ins = master_ins, ind = 4)
+                            v = [ADnum(value_n.get(), ins = master_ins, ind = 4)]*master_outs
                             if master_ins>5:
                                 global w
                                 w = ADnum(value_k.get(), ins = master_ins, ind = 5)
@@ -336,21 +336,31 @@ if __name__ == '__main__':
             out_num = [None]*master_outs
             for i in range(master_outs):
                 if master_ins == 1:
-                    out_num[i] = function_output[i](x)
+                    out_num[i] = function_output[i](x[i])
                 if master_ins == 2:
-                    out_num[i] = function_output[i](x, y)
+                    out_num[i] = function_output[i](x[i], y[i])
                 if master_ins == 3:
-                    out_num[i] = function_output[i](x, y, z)
+                    out_num[i] = function_output[i](x[i], y[i], z[i])
                 if master_ins == 4:
-                    out_num[i] = function_output[i](x, y, z, u)
+                    out_num[i] = function_output[i](x[i], y[i], z[i], u[i])
                 if master_ins == 5:
-                    out_num[i] = function_output[i](x, y, z, u, v)
+                    out_num[i] = function_output[i](x[i], y[i], z[i], u[i], v[i])
                 if master_ins == 6:
                     out_num[i] = function_output[i](x, y, z, u, v, w)
             
-            disp_val = str([np.round(f.val, 2) for f in out_num])
-            disp_der = str([np.round(f.der, 2) for f in out_num])
-            
+            #disp_val = str([np.round(f.val, 2) for f in out_num])
+            #disp_der = str([np.round(f.der, 2) for f in out_num])
+            disp_val = '['
+            disp_der = '['
+            for out in out_num:
+                disp_val += str(np.round(out.val,2))
+                disp_der += str(np.round(out.der, 2))
+                disp_val += ',\n'
+                disp_der += ',\n'
+            disp_val = disp_val[:-2]+']'
+            disp_der = disp_der[:-2]+']'
+
+
             #show_value = tk.Label(graph_window, text = str(np.round(out_num[0].val,2)), height = 3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 3, column = 2, columnspan=2)
             #show_derivatice = tk.Label(graph_window, text = str(np.round(out_num[0].der, 2)), height = 3, width = 20, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 2)
             show_value = tk.Label(graph_window, text = disp_val, height = 3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 3, column = 2, columnspan=2)
@@ -598,7 +608,7 @@ if __name__ == '__main__':
                 if master_ins ==1:
                     function_output[i](1)
                 if master_ins == 2:
-                    function_ouput[i](1,1)
+                    function_output[i](1,1)
                 if master_ins ==3:
                     function_output[i](1,1,1)
                 if master_ins ==4:
