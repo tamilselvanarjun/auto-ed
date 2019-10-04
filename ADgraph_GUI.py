@@ -67,7 +67,7 @@ def get_labels(y):
     new_names = {}
     nodes = [y]
     while len(nodes)>0:
-        node = nodes.pop()
+        node = nodes.pop(0)
         if node not in new_names:
             if node.constant:
                 new_names[node] = str(np.round(node.val, decimals=1))
@@ -319,7 +319,11 @@ def draw_graph_rev_dynamic(y, edgelist, G, edge_labs, pos, labs):
             plt.title('Step ' + str(curr_pos+1))
 
         plt.show()
-    fig.canvas.mpl_connect('key_press_event', key_event)
+    if len(edgelist)>0:
+        fig.canvas.mpl_connect('key_press_event', key_event)
+    else:
+        #draw_graph_rev2(y, G, edge_labs, pos, labs)
+        plt.title('No dependence on input variable.')
     plt.show()
 
 

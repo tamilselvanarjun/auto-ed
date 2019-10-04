@@ -64,9 +64,9 @@ if __name__ == '__main__':
     #master.bind('<Escape>', end_fullscreen(master))
 
     def instruction():
-        text = "This calculator generates functions of multiple variables.  Use the buttons below to define your function." +\
+        text = "This calculator generates functions of multiple variables.  Use the buttons below to define your function(s)." +\
                 "The magenta buttons in the last row are the input variables.  Use standard calculator syntax to define your function." +\
-                "When you are done defining your function, press \'Calculate\' to get the result.  Press \'Clear All\' to start over."
+                "When you are done defining your function, press \'Calculate\' to get the result.  Press \'Clear Function\' to start over for a particular function."
         #text = "This calculator performs basic calculations and generates functions of a single variable. \n \n" +\
         #"Use the buttons below to define your function.  The magenta X is the input variable. \n \n" +\
         #"All of the special functions should use standard calculator syntax.  For example, to define the sine of X:" +\
@@ -133,13 +133,12 @@ if __name__ == '__main__':
             canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
         def graph_instructions():
-            text = "Use this window to visualize your function and how automatic differentiation is performed on it.\n \n" +\
-            "Press \'Draw plot\' to generate a plot of f and its derivative. \n" +\
-            "Type a number into the box to set a value for the input variable x.  Press \'Enter\' to calculate the value and" +\
-            " derivative of your function at x. \n \n" +\
-            "Press \'Computational Graph\' to see the computational graph used to calculate f and its derivative, and press" +\
-            "\'Evaluation Table\' to see the corresponding table of function traces."
-            messagebox.showinfo('Visualize Function Computations', text)
+            text = "Use this window to visualize how automatic differentiation is performed on your function.\n \n" +\
+            "First, type numbers into the boxes to set values for the input variables.  Press \'Set Input Values\' to calculate the value and" +\
+            " derivative of your function at this point. \n \n" +\
+            "After setting the input values, you can visualize the computational graph and evaluation table associated with each function in forward mode.  Press the button corresponding to the function you want to analyze under each heading." +\
+            "You can also dynamically visualize the steps in the calculation of a derivative in Reverse Mode or view the entire reverse graph."
+            messagebox.showinfo('Visualize Function Computations', text, parent=graph_window)
 
         graph_master = tk.Toplevel(master)
         #graph_window.geometry("400x675")
@@ -160,22 +159,25 @@ if __name__ == '__main__':
         value_k = tk.DoubleVar()
         def draw_graph():
             try:
-                #plot_graph = tk.Toplevel(graph_window)
-                #plot_graph.title("Forward Computational Graph")
-                #plot_graph.geometry("600x600")
-                #plot_graph.state('zoomed')
-                fig = ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
-                #fig.title(func_content.get())
-                #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
-                #canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
-                #canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-                #canvas.draw()
-                #toolbar = NavigationToolbar2Tk(canvas, plot_graph)
-                #toolbar.update()
-                #canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                fig = ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])    
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def draw_graph1():
+            try:
+                fig = ADgraph.draw_graph2(out_num[1], G[1], edge_labs[1], pos[1], labs[1])    
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def draw_graph2():
+            try:
+                fig = ADgraph.draw_graph2(out_num[2], G[2], edge_labs[2], pos[2], labs[2])    
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        
+        
+        
         def draw_table():
             try:
                 plot_graph2 = tk.Toplevel(graph_window)
@@ -191,54 +193,123 @@ if __name__ == '__main__':
             except NameError:
                 plot_graph2.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def draw_table1():
+            try:
+                plot_graph2 = tk.Toplevel(graph_window)
+                plot_graph2.title("Forward Computational Table")
+                plot_graph2.geometry("600x600")
+    #         fig = ADgraph.gen_table(function_output)
+                f = tk.Frame(plot_graph2)
+                f.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
+                df = ADgraph.gen_table(out_num[1])
+                #df = ADgraph.gen_table(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
+                table = pt = Table(f, dataframe=df, showtoolbar=True, showstatusbar=True)
+                pt.show()
+            except NameError:
+                plot_graph2.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def draw_table2():
+            try:
+                plot_graph2 = tk.Toplevel(graph_window)
+                plot_graph2.title("Forward Computational Table")
+                plot_graph2.geometry("600x600")
+    #         fig = ADgraph.gen_table(function_output)
+                f = tk.Frame(plot_graph2)
+                f.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
+                df = ADgraph.gen_table(out_num[2])
+                #df = ADgraph.gen_table(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
+                table = pt = Table(f, dataframe=df, showtoolbar=True, showstatusbar=True)
+                pt.show()
+            except NameError:
+                plot_graph2.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
         
         def vis_rev_x():
-            #rev_graph = tk.Toplevel(graph_window)
-            #rev_graph.title('Dynamic Reverse Mode')
-            #rev_graph.geometry("600x600")
-            #rev_graph.state('zoomed')
             try:
                 fig = ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
             except NameError:
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
-            #if inval == 0:
-             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, x.revder(out_num)[1])
-            #if inval == 1:
-             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, y.revder(out_num)[1])
-            #if inval == 2:
-             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, z.revder(out_num)[1])
-            #if inval == 3:
-             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, u.revder(out_num)[1])
-            #if inval == 4:
-             #   fig = ADgraph.draw_graph_rev_dynamic(out_num, v.revder(out_num)[1])
-            #canvas = FigureCanvasTkAgg(fig, master=rev_graph)
-            #canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = 1)
-            #canvas.draw()
-            #toolbar = NavigationToolbar2Tk(canvas, rev_graph)
-            #toolbar.update()
-            #canvas.get_tk_widget().pack(side=tk.TOP, fill = tk.BOTH, expand = 1)
-
         def vis_rev_y():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], y[0].revder(out_num[0])[1], G, edge_labs, pos, labs)
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], y[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
         def vis_rev_z():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], z.revder(out_num[0])[1], G, edge_labs, pos, labs)
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], z[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
         def vis_rev_u():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], u.revder(out_num[0])[1], G, edge_labs, pos, labs)
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], u[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
         def vis_rev_v():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], v.revder(out_num[0])[1], G, edge_labs, pos, labs)
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], v[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        
+        def vis_rev_x1():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], x[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+            except NameError:
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def vis_rev_y1():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], y[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def vis_rev_z1():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], z[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+        def vis_rev_u1():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], u[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def vis_rev_v1():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], v[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        
+        def vis_rev_x2():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], x[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+            except NameError:
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def vis_rev_y2():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], y[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def vis_rev_z2():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], z[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+        def vis_rev_u2():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], u[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+            except NameError:
+                #plot_graph.destroy()
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+        def vis_rev_v2():
+            try:
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], v[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
@@ -247,21 +318,23 @@ if __name__ == '__main__':
         
         def rev_draw_graph():
             try:
-                #plot_graph = tk.Toplevel(graph_window)
-                #plot_graph.title("Reverse Computational Graph")
-                #plot_graph.geometry("600x600")
-                fig = ADgraph.draw_graph_rev2(out_num[0], G, edge_labs, pos, labs)
-                #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
-                #canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
-                #canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-                #canvas.draw()
-                #toolbar = NavigationToolbar2Tk(canvas, plot_graph)
-                #toolbar.update()
-                #canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+                fig = ADgraph.draw_graph_rev2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])    
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
 
+        def rev_draw_graph1():
+            try:
+                fig = ADgraph.draw_graph_rev2(out_num[1], G[1], edge_labs[0], pos[0], labs[0])
+            except NameError:
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+
+        def rev_draw_graph2():
+            try:
+                fig = ADgraph.draw_graph_rev2(out_num[2], G[2], edge_labs[2], pos[2], labs[2])
+            except NameError:
+                messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+        
         def rev_draw_table():
             try:
                 plot_graph2 = tk.Toplevel(graph_window)
@@ -277,20 +350,28 @@ if __name__ == '__main__':
             except NameError:
                 plot_graph2.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+        if func_content[0].get()[0] != 'f':
+            func_content[0].set('f1 = '+func_content[0].get())
+        if master_outs > 1:
+            if func_content[1].get()[0] != 'f':
+                func_content[1].set('f2 = '+func_content[1].get())
+        if master_outs >2:
+            if func_content[2].get()[0]!= 'f':
+                func_content[2].set('f3 = '+func_content[2].get())
 
         #orientation labels
         if master_outs == 1:
             func_label = tk.Label(graph_window, textvariable = func_content[0], font = ('wasy10', 24)).grid(row=0, column=2, columnspan=2)
         if master_outs == 2:
             func1_label = tk.Label(graph_window, textvariable = func_content[0], font = ('wasy10', 24)).grid(row=0, column = 0, columnspan = 2)
-            func2_label = tk.Label(graph_window, textvariable = func_content[1], font = ('wasy10', 24)).grid(row=0, column = 2, columnspan = 2)
+            func2_label = tk.Label(graph_window, textvariable = func_content[1], font = ('wasy10', 24)).grid(row=0, column = 2, columnspan = 3)
         if master_outs == 3:
             func1_label = tk.Label(graph_window, textvariable = func_content[0], font = ('wasy10', 24)).grid(row=0, column = 0, columnspan = 2)
-            func2_label = tk.Label(graph_window, textvariable = func_content[1], font = ('wasy10', 24)).grid(row=0, column = 2, columnspan = 2)
-            func3_label = tk.Label(graph_window, textvariable = func_content[2], font = ('wasy10', 24)).grid(row=0, column = 4, columnspan=2)
+            func2_label = tk.Label(graph_window, textvariable = func_content[1], font = ('wasy10', 24)).grid(row=0, column = 2, columnspan = 3)
+            func3_label = tk.Label(graph_window, textvariable = func_content[2], font = ('wasy10', 24)).grid(row=0, column = 5, columnspan=5)
         setup_label = tk.Label(graph_window, text = 'EVALUATE AT', height = 3, width = 30, font= ('wasy10', 20)).grid(row=1, column = 0, columnspan = 2)
-        forward_label = tk.Label(graph_window, text = 'FORWARD MODE', height=3, width = 30, font = ('wasy10', 20)).grid(row = 1, column = 2, columnspan = 2)
-        reverse_label = tk.Label(graph_window, text = 'REVERSE MODE', height = 3, width = 30, font = ('wasy10', 20)).grid(row=1, column=4, columnspan = 2)
+        forward_label = tk.Label(graph_window, text = 'FORWARD MODE', height=3, width = 30, font = ('wasy10', 20)).grid(row = 1, column = 2, columnspan = 3)
+        reverse_label = tk.Label(graph_window, text = 'REVERSE MODE', height = 3, width = 30, font = ('wasy10', 20)).grid(row=1, column=5, columnspan = 5)
 
 
         value_prompt_x = tk.Label(graph_window, text = "  Evaluate at x = ",height = 3, width = 15, font = ('wasy10', 12)).grid(row = 2, column = 0)
@@ -314,7 +395,7 @@ if __name__ == '__main__':
         def display():
             if not (type(value_x.get())==float and type(value_y.get())==float and type(value_z.get())==float
                    and type(value_m.get())==float and type(value_n.get())==float and type(value_k.get())==float):
-                messagebox.showerror('Error', 'Please enter a numeric value for x.')
+                messagebox.showerror('Error', 'Please enter a numeric value for the inputs.')
             global x
             x = [ADnum(value_x.get(), ins = master_ins, ind = 0)]*master_outs
             if master_ins>1:
@@ -363,30 +444,40 @@ if __name__ == '__main__':
 
             #show_value = tk.Label(graph_window, text = str(np.round(out_num[0].val,2)), height = 3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 3, column = 2, columnspan=2)
             #show_derivatice = tk.Label(graph_window, text = str(np.round(out_num[0].der, 2)), height = 3, width = 20, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 2)
-            show_value = tk.Label(graph_window, text = disp_val, height = 3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 3, column = 2, columnspan=2)
-            show_derivatice = tk.Label(graph_window, text = disp_der, height = 3, width = 20, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 2)
-            show_forward_ops = tk.Label(graph_window, text = str(out_num[0].ops), height =3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 7, column =2, columnspan=2)
+            show_value = tk.Label(graph_window, text = disp_val, height = 3, width = 15, font = ('wasy10', 12), fg = 'green').grid(row = 3, column = 2, columnspan=3)
+            show_derivatice = tk.Label(graph_window, text = disp_der, height = 3, width = 15, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 3)
+            #show_forward_ops = tk.Label(graph_window, text = str(out_num[0].ops), height =3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 7, column =2, columnspan=3)
             #eval_rder_x = tk.Label(graph_window, text = "")
-            value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 4)
+            #value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 4)
             #enter_value_x = tk.Label(graph_window, text = '?', width = 10).grid(row = 2, column = 5)
-            if master_ins > 1:
-                value_rder_y = tk.Label(graph_window, text = "  Reverse y ops = ",height = 3, width = 10).grid(row = 3, column = 4)
-                #enter_value_y = tk.Label(graph_window, text = "?", width = 10).grid(row = 3, column = 5)
-                vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_y).grid(row=3, column = 5, columnspan=1)
-                if master_ins >2:
-                    value_rder_z = tk.Label(graph_window, text = "  Reverse z ops = ",height = 3, width = 10).grid(row = 4, column = 4)
-                    #enter_value_z = tk.Label(graph_window, text = "?", width = 10).grid(row = 4, column = 5)
-                    vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_z).grid(row=4, column = 5, columnspan=1)
-                    if master_ins > 3:
-                        value_rder_m = tk.Label(graph_window, text = " Reverse u ops =  ",height = 3, width = 10).grid(row = 5, column = 4)
-                        #enter_value_m= tk.Label(graph_window, text = "?", width = 10).grid(row = 5, column = 5)
-                        vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_u).grid(row=5, column = 5, columnspan=1)
-                        if master_ins > 4:
-                            value_rder_n= tk.Label(graph_window, text = "  Reverse v ops = ",height = 3, width = 10).grid(row = 6, column = 4)
-                            #enter_value_n= tk.Label(graph_window, text = "?", width = 10).grid(row = 6, column = 5)
-                            vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_v).grid(row=6, column = 5, columnspan=1)
-                            if master_ins>5:
-                                value_rder_k= tk.Label(graph_window, text = "  Reverse w ops = ",height = 3, width = 10).grid(row = 7, column = 4)
+           # if master_ins > 1:
+           #     #value_rder_y = tk.Label(graph_window, text = "  Reverse y ops = ",height = 3, width = 10).grid(row = 3, column = 4)
+           #     #enter_value_y = tk.Label(graph_window, text = "?", width = 10).grid(row = 3, column = 5)
+           #     vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_y).grid(row=3, column = 5, columnspan=1)
+           #     if master_ins >2:
+           #         value_rder_z = tk.Label(graph_window, text = "  Reverse z ops = ",height = 3, width = 10).grid(row = 4, column = 4)
+           #         #enter_value_z = tk.Label(graph_window, text = "?", width = 10).grid(row = 4, column = 5)
+           #         vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_z).grid(row=4, column = 5, columnspan=1)
+           #         if master_ins > 3:
+           #             value_rder_m = tk.Label(graph_window, text = " Reverse u ops =  ",height = 3, width = 10).grid(row = 5, column = 4)
+           #             #enter_value_m= tk.Label(graph_window, text = "?", width = 10).grid(row = 5, column = 5)
+           #             vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_u).grid(row=5, column = 5, columnspan=1)
+           #             if master_ins > 4:
+           #                 value_rder_n= tk.Label(graph_window, text = "  Reverse v ops = ",height = 3, width = 10).grid(row = 6, column = 4)
+           #                 #enter_value_n= tk.Label(graph_window, text = "?", width = 10).grid(row = 6, column = 5)
+           #                 vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_v).grid(row=6, column = 5, columnspan=1)
+           #                 if master_ins>5:
+           #                     value_rder_k= tk.Label(graph_window, text = "  Reverse w ops = ",height = 3, width = 10).grid(row = 7, column = 4)
+            
+            inputs_list = ['x', 'y', 'z', 'u', 'v']
+            vis_funcs = [[vis_rev_x, vis_rev_x1, vis_rev_x2], [vis_rev_y, vis_rev_y1, vis_rev_y2], [vis_rev_z, vis_rev_z1, vis_rev_z2], [vis_rev_u, vis_rev_u1, vis_rev_u2], [vis_rev_v, vis_rev_v1, vis_rev_v2]]
+            for i in range(master_ins):
+                for j in range(master_outs):
+                    tk.Button(graph_window, text = "df" + str(j+1)+"/d" + inputs_list[i], height=3, width=5, command=vis_funcs[i][j]).grid(row=4+j, column=5+i, columnspan =1)
+            
+            
+            
+            
             global G, edge_labs, pos, labs
             G = [None]*master_outs
             edge_labs = [None]*master_outs
@@ -395,25 +486,30 @@ if __name__ == '__main__':
             for i, out in enumerate(out_num):
                 G[i], edge_labs[i], pos[i], labs[i] = ADgraph.get_graph_setup(out)
 
-            
-        
-                       #enter_value_k= tk.Label(graph_window, text = "?", width = 10).grid(row = 7, column = 5)
-
-
-            #show_value = tk.Label(graph_window, text = str(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),
-             #                        ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)).val),height = 3, width = 20).grid(row = master_ins+3, column = 1, columnspan = 2)
-            #show_derivatice = tk.Label(graph_window, text = str(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2),
-             #                        ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)).der),height = 3, width = 20).grid(row = master_ins+4, column = 1, columnspan = 2)
-        result_val = tk.Label(graph_window, text = "Function Value:",height = 3, width = 20, font = ('wasy10', 12)).grid(row =2, column =2, columnspan=2)
-        result_der = tk.Label(graph_window, text= "Gradient: ",height = 3, width = 20, font = ('wasy10', 12)).grid(row = 4, column = 2, columnspan=2)
-        result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=20, font = ('wasy10', 12)).grid(row= 6, column = 2, columnspan=2)
+        result_val = tk.Label(graph_window, text = "Function Value:",height = 3, width = 15, font = ('wasy10', 12)).grid(row =2, column =2, columnspan=3)
+        result_der = tk.Label(graph_window, text= "Gradient: ",height = 3, width = 15, font = ('wasy10', 12)).grid(row = 4, column = 2, columnspan=3)
+        #result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=15, font = ('wasy10', 12)).grid(row= 6, column = 2, columnspan=3)
+        vis_label = tk.Label(graph_window, text = 'Visualize Reverse Calculation:', height = 3, width = 25, font = ('wasy10', 12)).grid(row=2, column=5, columnspan=5)
 
         enter_button = tk.Button(graph_window, text = "Set Input Values", height = 3, width = 20, command = display).grid(row = master_ins + 2, column = 0, columnspan = 2)
-        vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_x).grid(row=2, column = 5, columnspan=1)
-        eval_prompt = tk.Button(graph_window, text = "Computational Graph",height = 3, width = 20, command = draw_graph).grid(row = 8, column = 2,columnspan = 2)
-        table_prompt = tk.Button(graph_window, text = "Evaluation Table",height = 3, width = 20, command = draw_table).grid(row = 9, column = 2,columnspan = 2)
-        rev_eval_prompt = tk.Button(graph_window, text = "Reverse Graph",height = 3, width = 20, command = rev_draw_graph).grid(row = 8, column = 4,columnspan = 2)
-        rev_table_prompt = tk.Button(graph_window, text = "Reverse Table",height = 3, width = 20, command = rev_draw_table).grid(row = 9, column = 4,columnspan = 2)
+        #vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_x).grid(row=2, column = 5, columnspan=1)
+        eval_label = tk.Label(graph_window, text = 'Computational Graph:', height =3, width = 30, font = ('wasy10', 12)).grid(row=8, column=2, columnspan=3)
+        eval_prompt = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = draw_graph).grid(row = 9, column = 2,columnspan = 1)
+        table_label = tk.Label(graph_window, text = 'Evaluation Table:', height =3, width =30, font = ('wasy10', 12)).grid(row=10, column=2, columnspan=3)
+        table_prompt = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = draw_table).grid(row = 11, column = 2,columnspan = 1)
+        rev_eval_label = tk.Label(graph_window, text = "Reverse Graph:", height = 3, width = 30, font = ('wasy10', 12)).grid(row=8, column =5, columnspan=5)
+        #rev_table_label = tk.Label(graph_window, text = 'Reverse Table:', height = 3, width = 30, font = ('wasy10', 12)).grid(row=10, column=5, columnspan=5)
+        rev_eval_prompt = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = rev_draw_graph).grid(row = 9, column = 5,columnspan = 1)
+        #rev_table_prompt = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = rev_draw_table).grid(row = 11, column = 5,columnspan = 1)
+        if master_outs>1:
+            eval_prompt1 = tk.Button(graph_window, text = "f2",height = 3, width = 5, command = draw_graph1).grid(row = 9, column = 3,columnspan = 1)
+            table_prompt1 = tk.Button(graph_window, text = "f2",height = 3, width = 5, command = draw_table1).grid(row = 11, column = 3,columnspan = 1)
+            rev_eval_prompt1 = tk.Button(graph_window, text = "f2",height = 3, width = 5, command = rev_draw_graph1).grid(row = 9, column = 6,columnspan = 1)
+        if master_outs>2:
+            eval_prompt2 = tk.Button(graph_window, text = "f3",height = 3, width = 5, command = draw_graph2).grid(row = 9, column = 4,columnspan = 1)
+            table_prompt2 = tk.Button(graph_window, text = "f3",height = 3, width = 5, command = draw_table2).grid(row = 11, column = 4,columnspan = 1)
+            rev_eval_prompt2 = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = rev_draw_graph2).grid(row = 9, column = 7,columnspan = 1)
+        
 
 
     #===Block for Error message====
@@ -426,7 +522,7 @@ if __name__ == '__main__':
     def var_number_x():
         edit_func("x")
         global function_expression
-        function_expression[editing] +='x'#'ADnum(x, der = 1)'
+        function_expression[editing] +='x'
     def add():
         edit_func("+")
         global function_expression
@@ -580,9 +676,7 @@ if __name__ == '__main__':
     
     def clear_all():
         func_content[editing].set("")
-        #global function_expression 
         function_expression[editing] = " "
-        #global function_output
         function_output[editing] = lambda x :0
     
     def get_func(function_expression, i):
@@ -604,11 +698,6 @@ if __name__ == '__main__':
         return f
 
     def confirm():
-        #global function_expression
-        #global function_output
-        #function_output = [None]*master_outs
-    #     function_output = lambda x: eval(function_expression)
-    #     graph_window(master)
         try:
             for i in range(master_outs):
                 function_output[i] = get_func(function_expression, i)
@@ -622,52 +711,6 @@ if __name__ == '__main__':
                     function_output[i](1,1,1,1)
                 if master_ins ==5:
                     function_output[i](1,1,1,1,1)
-                # if master_ins == 1:
-               #     def f(x): return eval(function_expression[i])                          
-               #     #f = lambda x: eval(function_expression[i])
-               #     function_output[i] = get_func(function_expression, i) #f #lambda x: eval(function_expression[i])
-               #     int(i)
-               #     print(function_expression[i])
-               #     print(function_output[0](5))
-               #     print(function_output[1](5))
-               #     print(function_output[i](5))
-               # if master_ins == 2:
-               #     function_output[i] = lambda x,y : eval(function_expression[i])
-               #     #print(function_output[i](1,1))
-               # if master_ins == 3:
-               #     function_output[i] = lambda x, y, z: eval(function_expression[i])
-               # if master_ins == 4:
-               #     function_output[i] = lambda x, y, z, u: eval(function_expression[i])
-               # if master_ins == 5:
-               #     function_output[i] = lambda x, y, z, u, v: eval(function_expression[i])
-               # if master_ins == 6:
-               #     function_output[i] = lambda x,y,z,u,v,w: eval(function_expression[i])
-               #     #graph_window(master)
-            #print(function_output)
-            #print(function_expression)
-            
-        #except:
-    #         error_window(master)
-    #         raise exception("expression error")
-         #   messagebox.showinfo("Error","Syntax error in your expression, please try again.")
-        #try:
-            #if master_ins == 1:
-            #    out = function_output[0](ADnum(5, ins = 1, ind = 0))
-            #if master_ins == 2:
-            #    out = function_output[0](ADnum(5, ins = 2, ind = 0), ADnum(5, ins=2, ind = 1))
-            #if master_ins == 3:
-            #    out = function_output[0](ADnum(5, ins = 3, ind = 0), ADnum(5, ins =3, ind = 1), ADnum(5, ins =3, ind = 2))
-            #if master_ins == 4:
-            #    out = function_output[0](ADnum(5, ins = 4, ind = 0), ADnum(5, ins = 4, ind = 1), ADnum(5, ins = 4, ind =2), ADnum(5, ins = 4, ind = 3))
-            #if master_ins == 5:
-            #    out = function_output[0](ADnum(5, ins=5, ind=0), ADnum(5, ins=5, ind=1), ADnum(5, ins = 5, ind =2), ADnum(5, ins=5, ind =3), ADnum(5, ins=5, ind=4))
-            #if master_ins ==6:
-            #    out = function_output[0](ADnum(5, ins=6, ind = 0), ADnum(5, ins=6, ind=1), ADnum(5, ins=6, ind=2), ADnum(5, ins=6, ind =3), ADnum(5, ins = 6, ind =4), ADnum(5, ins=6, ind=5))
-            #v = out.val
-            #d = out.der
-            #textVal = function_output(ADnum(5,ins=6,ind=0),ADnum(4,ins=6,ind=1),ADnum(3,ins=6,ind=2), ADnum(2,ins=6,ind=3),ADnum(1,ins=6,ind=4),ADnum(6,ins=6,ind=5)).val
-            #textDer = function_output(ADnum(5,ins=6,ind=0),ADnum(4,ins=6,ind=1),ADnum(3,ins=6,ind=2), ADnum(2,ins=6,ind=3),ADnum(1,ins=6,ind=4),ADnum(6,ins=6,ind=5)).der
-            #messagebox.showinfo("Continue","Your input is a function. Please continue to draw graphs.")
             graph_master(master)
         except AttributeError:
             if master_ins ==1:
@@ -730,39 +773,39 @@ if __name__ == '__main__':
     button_leftPar = tk.Button(cal_frame, text = ")", font=('wasy10', 20),height=2, width=5,command = left_par).grid(row = 7, column =4)
     #=====Add Buttons End===
     if master_ins==1:
-        show_function = tk.Label(cal_frame, text = "f_1(x) = ").grid(row = 0, column = 0)
+        show_function = tk.Label(cal_frame, text = "f1(x) = ").grid(row = 0, column = 0)
         if master_outs >1:
-            show_function2 = tk.Label(cal_frame, text = "f_2(x)= ").grid(row=0, column=9)
+            show_function2 = tk.Label(cal_frame, text = "f2(x)= ").grid(row=0, column=9)
         if master_outs >2:
-            show_function3 = tk.Label(cal_frame, text = "f_3(x)= ").grid(row=0, column=18)
+            show_function3 = tk.Label(cal_frame, text = "f3(x)= ").grid(row=0, column=18)
 
     if master_ins==2:
-        show_function = tk.Label(cal_frame, text = "f_1(x, y) = ").grid(row = 0, column = 0)
+        show_function = tk.Label(cal_frame, text = "f1(x, y) = ").grid(row = 0, column = 0)
         if master_outs >1:
-            show_function2 = tk.Label(cal_frame, text = "f_2(x, y)= ").grid(row=0, column=9)
+            show_function2 = tk.Label(cal_frame, text = "f2(x, y)= ").grid(row=0, column=9)
         if master_outs >2:
-            show_function3 = tk.Label(cal_frame, text = "f_3(x, y)= ").grid(row=0, column=18)
+            show_function3 = tk.Label(cal_frame, text = "f3(x, y)= ").grid(row=0, column=18)
  
     if master_ins==3:
-        show_function = tk.Label(cal_frame, text = "f_1(x, y, z) = ").grid(row = 0, column = 0)
+        show_function = tk.Label(cal_frame, text = "f1(x, y, z) = ").grid(row = 0, column = 0)
         if master_outs >1:
-            show_function2 = tk.Label(cal_frame, text = "f_2(x, y, z)= ").grid(row=0, column=9)
+            show_function2 = tk.Label(cal_frame, text = "f2(x, y, z)= ").grid(row=0, column=9)
         if master_outs >2:
-            show_function3 = tk.Label(cal_frame, text = "f_3(x, y, z)= ").grid(row=0, column=18)
+            show_function3 = tk.Label(cal_frame, text = "f3(x, y, z)= ").grid(row=0, column=18)
        
     if master_ins==4:
-        show_function = tk.Label(cal_frame, text = "f_1(x, y, z, u) = ").grid(row = 0, column = 0)
+        show_function = tk.Label(cal_frame, text = "f1(x, y, z, u) = ").grid(row = 0, column = 0)
         if master_outs >1:
-            show_function2 = tk.Label(cal_frame, text = "f_2(x, y, z, u)= ").grid(row=0, column=9)
+            show_function2 = tk.Label(cal_frame, text = "f2(x, y, z, u)= ").grid(row=0, column=9)
         if master_outs >2:
-            show_function3 = tk.Label(cal_frame, text = "f_3(x, y, z, u)= ").grid(row=0, column=18)
+            show_function3 = tk.Label(cal_frame, text = "f3(x, y, z, u)= ").grid(row=0, column=18)
  
     if master_ins==5:
-        show_function = tk.Label(cal_frame, text = "f_1(x, y, z, u, v) = ").grid(row = 0, column = 0)
+        show_function = tk.Label(cal_frame, text = "f1(x, y, z, u, v) = ").grid(row = 0, column = 0)
         if master_outs >1:
-            show_function2 = tk.Label(cal_frame, text = "f_2(x, y, z, u, v)= ").grid(row=0, column=9)
+            show_function2 = tk.Label(cal_frame, text = "f2(x, y, z, u, v)= ").grid(row=0, column=9)
         if master_outs >2:
-            show_function3 = tk.Label(cal_frame, text = "f_3(x, y, z, u, v)= ").grid(row=0, column=18)
+            show_function3 = tk.Label(cal_frame, text = "f3(x, y, z, u, v)= ").grid(row=0, column=18)
     
     global editing
     editing = 0
@@ -780,10 +823,10 @@ if __name__ == '__main__':
         editing = 2
 
     if master_outs>1:
-        tk.Button(cal_frame, text = "Edit f_1", command=edit_select1).grid(row=1, column=0)
-        tk.Button(cal_frame, text = "Edit f_2", command=edit_select2).grid(row=1, column=9)
+        tk.Button(cal_frame, text = "Edit f1", command=edit_select1).grid(row=1, column=0)
+        tk.Button(cal_frame, text = "Edit f2", command=edit_select2).grid(row=1, column=9)
     if master_outs>2:
-        tk.Button(cal_frame, text = "Edit f_3", command = edit_select3).grid(row=1, column=18)
+        tk.Button(cal_frame, text = "Edit f3", command = edit_select3).grid(row=1, column=18)
 
     button_backspace = tk.Button(cal_frame, text= u'\u2B05', font=('wasy10', 20), height=2, width=5,command= back_space).grid(row=7, column = 2)
 
