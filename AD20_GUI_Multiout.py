@@ -164,7 +164,7 @@ if __name__ == '__main__':
                 #plot_graph.title("Forward Computational Graph")
                 #plot_graph.geometry("600x600")
                 #plot_graph.state('zoomed')
-                fig = ADgraph.draw_graph2(out_num[0], G, edge_labs, pos, labs)
+                fig = ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
                 #fig.title(func_content.get())
                 #fig = ADgraph.draw_graph(function_output(ADnum(value_x.get(),ins=6,ind=0),ADnum(value_y.get(),ins=6,ind=1),ADnum(value_z.get(),ins=6,ind=2), ADnum(value_m.get(),ins=6,ind=3),ADnum(value_n.get(),ins=6,ind=4),ADnum(value_k.get(),ins=6,ind=5)))
                 #canvas = FigureCanvasTkAgg(fig, master=plot_graph)  # A tk.DrawingArea.
@@ -198,7 +198,7 @@ if __name__ == '__main__':
             #rev_graph.geometry("600x600")
             #rev_graph.state('zoomed')
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G, edge_labs, pos, labs)
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
             except NameError:
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
             #if inval == 0:
@@ -388,7 +388,14 @@ if __name__ == '__main__':
                             if master_ins>5:
                                 value_rder_k= tk.Label(graph_window, text = "  Reverse w ops = ",height = 3, width = 10).grid(row = 7, column = 4)
             global G, edge_labs, pos, labs
-            G, edge_labs, pos, labs = ADgraph.get_graph_setup(out_num[0])
+            G = [None]*master_outs
+            edge_labs = [None]*master_outs
+            pos = [None]*master_outs
+            labs = [None]*master_outs
+            for i, out in enumerate(out_num):
+                G[i], edge_labs[i], pos[i], labs[i] = ADgraph.get_graph_setup(out)
+
+            
         
                        #enter_value_k= tk.Label(graph_window, text = "?", width = 10).grid(row = 7, column = 5)
 
