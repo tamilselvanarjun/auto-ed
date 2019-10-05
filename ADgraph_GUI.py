@@ -285,13 +285,14 @@ def axis_reverse_edge(y, G, edge_labs, pos, labs, ax, edgelist, idx):
     nx.draw_networkx_edge_labels(G, pos=pos, ax=ax, edge_labels = edge_labs)
     limits = plt.axis('off')
 
-def draw_graph_rev_dynamic(y, edgelist, G, edge_labs, pos, labs):
+def draw_graph_rev_dynamic(y, edgelist, G, edge_labs, pos, labs, val):
     edgelist.reverse()
     fig = plt.figure()
     #G, edge_labs, pos, labs = get_graph_setup(y)
     G = G.reverse()
     ax = fig.add_subplot(111)
-    plt.title('Press enter to start.')
+    plt.title('Press enter to start.  \n Then use the left and right arrow keys to step through the calculation.')
+    plt.axis("off")
     global curr_pos
     curr_pos = 0
     #axis_reverse_edge(y, G, edge_labs, pos, labs, ax, edgelist, curr_pos)
@@ -321,6 +322,9 @@ def draw_graph_rev_dynamic(y, edgelist, G, edge_labs, pos, labs):
         plt.show()
     if len(edgelist)>0:
         fig.canvas.mpl_connect('key_press_event', key_event)
+    elif val == 1:
+        plt.close()
+        draw_graph_rev2(y, G, edge_labs, pos, labs)
     else:
         #draw_graph_rev2(y, G, edge_labs, pos, labs)
         plt.title('No dependence on input variable.')

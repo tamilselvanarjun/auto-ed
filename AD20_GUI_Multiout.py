@@ -163,18 +163,27 @@ if __name__ == '__main__':
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def draw_graph1():
             try:
                 fig = ADgraph.draw_graph2(out_num[1], G[1], edge_labs[1], pos[1], labs[1])    
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def draw_graph2():
             try:
                 fig = ADgraph.draw_graph2(out_num[2], G[2], edge_labs[2], pos[2], labs[2])    
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         
         
         
@@ -193,6 +202,8 @@ if __name__ == '__main__':
             except NameError:
                 plot_graph2.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
         def draw_table1():
             try:
                 plot_graph2 = tk.Toplevel(graph_window)
@@ -208,6 +219,9 @@ if __name__ == '__main__':
             except NameError:
                 plot_graph2.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def draw_table2():
             try:
                 plot_graph2 = tk.Toplevel(graph_window)
@@ -223,96 +237,147 @@ if __name__ == '__main__':
             except NameError:
                 plot_graph2.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         
         def vis_rev_x():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], x[0].revder(out_num[0])[0])
             except NameError:
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_y():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], y[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], y[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], y[0].revder(out_num[0])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_z():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], z[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], z[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], z[0].revder(out_num[0])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_u():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], u[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], u[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], u[0].revder(out_num[0])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_v():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], v[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[0], v[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], v[0].revder(out_num[0])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+                plt.close()
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         
         def vis_rev_x1():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], x[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], x[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1], x[1].revder(out_num[1])[0])
             except NameError:
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_y1():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], y[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], y[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1], y[1].revder(out_num[1])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_z1():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], z[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], z[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1], z[1].revder(out_num[1])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_u1():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], u[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], u[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1], u[1].revder(out_num[1])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+                plt.close()
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_v1():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], v[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[1], v[1].revder(out_num[1])[1], G[1], edge_labs[1], pos[1], labs[1], v[1].revder(out_num[1])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+                plt.close()
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         
         def vis_rev_x2():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], x[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], x[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2], x[2].revder(out_num[2])[0])
             except NameError:
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_y2():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], y[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], y[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2], y[2].revder(out_num[2])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_z2():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], z[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], z[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2], z[2].revder(out_num[2])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_u2():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], u[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], u[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2], u[2].revder(out_num[2])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         def vis_rev_v2():
             try:
-                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], v[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2])
+                fig = ADgraph.draw_graph_rev_dynamic(out_num[2], v[2].revder(out_num[2])[1], G[2], edge_labs[2], pos[2], labs[2], v[2].revder(out_num[2])[0])
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent=graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
 
 
         
@@ -322,18 +387,27 @@ if __name__ == '__main__':
             except NameError:
                 #plot_graph.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent = graph_window)
+                plt.close()
 
         def rev_draw_graph1():
             try:
-                fig = ADgraph.draw_graph_rev2(out_num[1], G[1], edge_labs[0], pos[0], labs[0])
+                fig = ADgraph.draw_graph_rev2(out_num[1], G[1], edge_labs[1], pos[1], labs[1])
             except NameError:
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
 
         def rev_draw_graph2():
             try:
                 fig = ADgraph.draw_graph_rev2(out_num[2], G[2], edge_labs[2], pos[2], labs[2])
             except NameError:
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
+                plt.close()
         
         def rev_draw_table():
             try:
@@ -350,6 +424,8 @@ if __name__ == '__main__':
             except NameError:
                 plot_graph2.destroy()
                 messagebox.showinfo("Error", "Please use \'Set Input Values\' to define your input values.", parent = graph_window)
+            except AttributeError:
+                messagebox.showinfo('Error', 'Function is a constant.', parent=graph_window)
         if func_content[0].get()[0] != 'f':
             func_content[0].set('f1 = '+func_content[0].get())
         if master_outs > 1:
@@ -434,46 +510,26 @@ if __name__ == '__main__':
             disp_val = '['
             disp_der = '['
             for out in out_num:
-                disp_val += str(np.round(out.val,2))
-                disp_der += str(np.round(out.der, 2))
+                try:
+                    disp_val += str(np.round(out.val,2))
+                    disp_der += str(np.round(out.der, 2))
+                except AttributeError:
+                    disp_val += str(np.round(out, 2))
+                    disp_der += str([0]*master_ins)
                 disp_val += ',\n'
                 disp_der += ',\n'
             disp_val = disp_val[:-2]+']'
             disp_der = disp_der[:-2]+']'
 
 
-            #show_value = tk.Label(graph_window, text = str(np.round(out_num[0].val,2)), height = 3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 3, column = 2, columnspan=2)
-            #show_derivatice = tk.Label(graph_window, text = str(np.round(out_num[0].der, 2)), height = 3, width = 20, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 2)
             show_value = tk.Label(graph_window, text = disp_val, height = 3, width = 15, font = ('wasy10', 12), fg = 'green').grid(row = 3, column = 2, columnspan=3)
-            show_derivatice = tk.Label(graph_window, text = disp_der, height = 3, width = 15, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 3)
-            #show_forward_ops = tk.Label(graph_window, text = str(out_num[0].ops), height =3, width = 20, font = ('wasy10', 12), fg = 'green').grid(row = 7, column =2, columnspan=3)
-            #eval_rder_x = tk.Label(graph_window, text = "")
-            #value_rder_x = tk.Label(graph_window, text = "  Reverse x ops = ",height = 3, width = 10).grid(row = 2, column = 4)
-            #enter_value_x = tk.Label(graph_window, text = '?', width = 10).grid(row = 2, column = 5)
-           # if master_ins > 1:
-           #     #value_rder_y = tk.Label(graph_window, text = "  Reverse y ops = ",height = 3, width = 10).grid(row = 3, column = 4)
-           #     #enter_value_y = tk.Label(graph_window, text = "?", width = 10).grid(row = 3, column = 5)
-           #     vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_y).grid(row=3, column = 5, columnspan=1)
-           #     if master_ins >2:
-           #         value_rder_z = tk.Label(graph_window, text = "  Reverse z ops = ",height = 3, width = 10).grid(row = 4, column = 4)
-           #         #enter_value_z = tk.Label(graph_window, text = "?", width = 10).grid(row = 4, column = 5)
-           #         vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_z).grid(row=4, column = 5, columnspan=1)
-           #         if master_ins > 3:
-           #             value_rder_m = tk.Label(graph_window, text = " Reverse u ops =  ",height = 3, width = 10).grid(row = 5, column = 4)
-           #             #enter_value_m= tk.Label(graph_window, text = "?", width = 10).grid(row = 5, column = 5)
-           #             vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_u).grid(row=5, column = 5, columnspan=1)
-           #             if master_ins > 4:
-           #                 value_rder_n= tk.Label(graph_window, text = "  Reverse v ops = ",height = 3, width = 10).grid(row = 6, column = 4)
-           #                 #enter_value_n= tk.Label(graph_window, text = "?", width = 10).grid(row = 6, column = 5)
-           #                 vis_rev_prompt = tk.Button(graph_window, text = "Visualize Reverse Calc", height = 3, width = 20, command = vis_rev_v).grid(row=6, column = 5, columnspan=1)
-           #                 if master_ins>5:
-           #                     value_rder_k= tk.Label(graph_window, text = "  Reverse w ops = ",height = 3, width = 10).grid(row = 7, column = 4)
+            show_derivatice = tk.Label(graph_window, text = disp_der, height = 3, width = 25, font = ('wasy10', 12), fg='green').grid(row = 5, column =2, columnspan = 3)
             
             inputs_list = ['x', 'y', 'z', 'u', 'v']
             vis_funcs = [[vis_rev_x, vis_rev_x1, vis_rev_x2], [vis_rev_y, vis_rev_y1, vis_rev_y2], [vis_rev_z, vis_rev_z1, vis_rev_z2], [vis_rev_u, vis_rev_u1, vis_rev_u2], [vis_rev_v, vis_rev_v1, vis_rev_v2]]
             for i in range(master_ins):
                 for j in range(master_outs):
-                    tk.Button(graph_window, text = "df" + str(j+1)+"/d" + inputs_list[i], height=3, width=5, command=vis_funcs[i][j]).grid(row=4+j, column=5+i, columnspan =1)
+                    tk.Button(graph_window, text = "df" + str(j+1)+"/d" + inputs_list[i], height=3, width=5, command=vis_funcs[i][j]).grid(row=3+j, column=5+i, columnspan =1)
             
             
             
@@ -484,8 +540,12 @@ if __name__ == '__main__':
             pos = [None]*master_outs
             labs = [None]*master_outs
             for i, out in enumerate(out_num):
-                G[i], edge_labs[i], pos[i], labs[i] = ADgraph.get_graph_setup(out)
+                try:
+                    G[i], edge_labs[i], pos[i], labs[i] = ADgraph.get_graph_setup(out)
+                except AttributeError:
+                    pass
 
+        
         result_val = tk.Label(graph_window, text = "Function Value:",height = 3, width = 15, font = ('wasy10', 12)).grid(row =2, column =2, columnspan=3)
         result_der = tk.Label(graph_window, text= "Gradient: ",height = 3, width = 15, font = ('wasy10', 12)).grid(row = 4, column = 2, columnspan=3)
         #result_ops = tk.Label(graph_window, text="Forward Ops:", height =3, width=15, font = ('wasy10', 12)).grid(row= 6, column = 2, columnspan=3)
@@ -499,16 +559,16 @@ if __name__ == '__main__':
         table_prompt = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = draw_table).grid(row = 11, column = 2,columnspan = 1)
         rev_eval_label = tk.Label(graph_window, text = "Reverse Graph:", height = 3, width = 30, font = ('wasy10', 12)).grid(row=8, column =5, columnspan=5)
         #rev_table_label = tk.Label(graph_window, text = 'Reverse Table:', height = 3, width = 30, font = ('wasy10', 12)).grid(row=10, column=5, columnspan=5)
-        rev_eval_prompt = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = rev_draw_graph).grid(row = 9, column = 5,columnspan = 1)
+        rev_eval_prompt = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = rev_draw_graph).grid(row = 9, column = 6,columnspan = 1)
         #rev_table_prompt = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = rev_draw_table).grid(row = 11, column = 5,columnspan = 1)
         if master_outs>1:
             eval_prompt1 = tk.Button(graph_window, text = "f2",height = 3, width = 5, command = draw_graph1).grid(row = 9, column = 3,columnspan = 1)
             table_prompt1 = tk.Button(graph_window, text = "f2",height = 3, width = 5, command = draw_table1).grid(row = 11, column = 3,columnspan = 1)
-            rev_eval_prompt1 = tk.Button(graph_window, text = "f2",height = 3, width = 5, command = rev_draw_graph1).grid(row = 9, column = 6,columnspan = 1)
+            rev_eval_prompt1 = tk.Button(graph_window, text = "f2",height = 3, width = 5, command = rev_draw_graph1).grid(row = 9, column = 7,columnspan = 1)
         if master_outs>2:
             eval_prompt2 = tk.Button(graph_window, text = "f3",height = 3, width = 5, command = draw_graph2).grid(row = 9, column = 4,columnspan = 1)
             table_prompt2 = tk.Button(graph_window, text = "f3",height = 3, width = 5, command = draw_table2).grid(row = 11, column = 4,columnspan = 1)
-            rev_eval_prompt2 = tk.Button(graph_window, text = "f1",height = 3, width = 5, command = rev_draw_graph2).grid(row = 9, column = 7,columnspan = 1)
+            rev_eval_prompt2 = tk.Button(graph_window, text = "f3",height = 3, width = 5, command = rev_draw_graph2).grid(row = 9, column = 8,columnspan = 1)
         
 
 
@@ -723,6 +783,8 @@ if __name__ == '__main__':
                 messagebox.showinfo("Constant result:","The value is {}".format(function_output(1,1,1,1)))
             if master_ins ==5:
                 messagebox.showinfo("Constant result:","The value is {}".format(function_output(1,1,1,1,1)))
+        except NameError:
+            messagebox.showerror("Error", "Syntax error in your expression.  Please edit the expression, and try again.")
         except SyntaxError:
             messagebox.showerror("Error", "Syntax error in your expression.  Please edit the expression, and try again.")
 

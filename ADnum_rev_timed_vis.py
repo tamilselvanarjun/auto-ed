@@ -99,6 +99,8 @@ class ADnum:
         f.rder = 1
         edge_visits = []
         #tolops = 0
+        if self == f:
+            return 1, []
         if True: #self.rder is None:
             try:
                 children = f.graph[self]
