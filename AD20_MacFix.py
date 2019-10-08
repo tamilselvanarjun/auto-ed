@@ -33,15 +33,15 @@ if __name__ == '__main__':
             preset.destroy()
         else:
             messagebox.showinfo('Error', 'Please enter a positive integer number of inputs.')
-    tk.Button(preset, text = 'Next', height = 3, width = 30, command = close_window).grid(row = 2, column = 0)
-    def fix():
-        a = preset.winfo_geometry().split('+')[0]
-        b = a.split('x')
-        w = int(b[0])
-        h = int(b[1])
-        preset.geometry('%dx%d' % (w+1, h+1))
-    preset.update()
-    preset.after(0, fix)
+    ttk.Button(preset, text = 'Next', width = 30, command = close_window).grid(row = 2, column = 0)
+   # def fix():
+    #    a = preset.winfo_geometry().split('+')[0]
+     #   b = a.split('x')
+      #  w = int(b[0])
+       # h = int(b[1])
+        #preset.geometry('%dx%d' % (w+1, h+1))
+    #preset.update()
+    #preset.after(0, fix)
     
     preset.mainloop()
     global master_ins
@@ -62,7 +62,7 @@ if __name__ == '__main__':
             preset2.destroy()
         else:
             messagebox.showinfo('Error', 'Please enter a positive integer number of inputs.')
-    tk.Button(preset2, text = 'Next', height = 3, width = 30, command = close_window).grid(row = 2, column = 0)
+    ttk.Button(preset2, text = 'Next', width = 30, command = close_window).grid(row = 2, column = 0)
     preset2.mainloop()
     global master_outs
     master_outs = num_outs.get()
