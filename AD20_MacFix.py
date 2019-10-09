@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
     #===Block for Graph top level window===
 
-    def graph_master(master):
+    def graph_master():
        # print(function_output)
        # print(function_expression)
        # for i in range(master_outs):
@@ -150,7 +150,8 @@ if __name__ == '__main__':
             "You can also dynamically visualize the steps in the calculation of a derivative in Reverse Mode or view the entire reverse graph."
             messagebox.showinfo('Visualize Function Computations', text, parent=graph_window)
 
-        graph_master = tk.Toplevel(master)
+        graph_master = tk.Tk()
+        #graph_master = tk.Toplevel(master)
         #graph_window.geometry("400x675")
         graph_master.state('zoomed')
         graph_master.title("Graph Generator")
@@ -579,6 +580,7 @@ if __name__ == '__main__':
             eval_prompt2 = tk.Button(graph_window, text = "f3",height = 3, width = 5, command = draw_graph2).grid(row = 9, column = 4,columnspan = 1)
             table_prompt2 = tk.Button(graph_window, text = "f3",height = 3, width = 5, command = draw_table2).grid(row = 11, column = 4,columnspan = 1)
             rev_eval_prompt2 = tk.Button(graph_window, text = "f3",height = 3, width = 5, command = rev_draw_graph2).grid(row = 9, column = 8,columnspan = 1)
+        graph_master.mainloop()
         
 
 
@@ -781,7 +783,8 @@ if __name__ == '__main__':
                     function_output[i](1,1,1,1)
                 if master_ins ==5:
                     function_output[i](1,1,1,1,1)
-            graph_master(master)
+            master.destroy()
+            graph_master()
         except AttributeError:
             if master_ins ==1:
                 messagebox.showinfo("Constant result:","The value is {}".format(function_output(1)))
