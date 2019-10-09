@@ -11,6 +11,8 @@ import math
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+import matplotlib
+matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
