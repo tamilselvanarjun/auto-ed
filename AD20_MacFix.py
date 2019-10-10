@@ -72,7 +72,7 @@ if __name__ == '__main__':
     master = tk.Tk()
     master.title("AutoDiff Calculator")
     #master.attributes("-fullscreen", True)
-    master.state('zoomed')
+    #master.state('zoomed')
     #master.bind('<Escape>', end_fullscreen(master))
 
     def instruction():
@@ -155,7 +155,7 @@ if __name__ == '__main__':
         graph_master = tk.Tk()
         #graph_master = tk.Toplevel(master)
         #graph_window.geometry("400x675")
-        graph_master.state('zoomed')
+        #graph_master.state('zoomed')
         graph_master.title("Graph Generator")
         graph_window = tk.Frame(graph_master, height = 32, width = 32)
         graph_window.place(relx=.5, rely=.5, anchor=tk.CENTER)
