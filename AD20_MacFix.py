@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use("agg")
+matplotlib.use("TkAgg")
 import numpy as np
 #import AD20
 #from AD20.ADnum import ADnum
@@ -17,6 +17,7 @@ from tkinter import messagebox
 #matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+plt.switch_backend('TkAgg')
 from matplotlib.figure import Figure
 from pandastable import Table
 
