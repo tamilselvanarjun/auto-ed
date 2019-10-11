@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use("TkAgg")
+matplotlib.use("agg")
 import numpy as np
 #import AD20
 #from AD20.ADnum import ADnum
