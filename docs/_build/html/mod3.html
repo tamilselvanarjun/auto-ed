@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 3: The Reverse Mode of Automatic Differentiation &#8212; AD Visualization  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Beyond the Basics: Extensions and Software Development" href="mod4.html" />
+    <link rel="prev" title="Module 2: Deeper Into Forward Mode" href="mod2.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-3-the-reverse-mode-of-automatic-differentiation">
+<h1>Module 3: The Reverse Mode of Automatic Differentiation<a class="headerlink" href="#module-3-the-reverse-mode-of-automatic-differentiation" title="Permalink to this headline">¶</a></h1>
+<p>So far we have considered one mode of automatic differentiation, forward mode.  In forward mode, we carried derivatives along as we traversed the graph so that  the graph itself did not need to be explicitly stored in memory.  In reverse mode, we build the graph and store derivative information at each node but do not compute the derivative until the backward pass of the graph.  We will see that this approach can have computational advantages over forward mode and hence is commonly used, most well known in the backpropagation algorithm.</p>
+<div class="section" id="the-basics-of-reverse-mode">
+<h2>The Basics of Reverse Mode<a class="headerlink" href="#the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
+<p>At each node,</p>
+</div>
+<div class="section" id="practice-with-the-visualization-tool">
+<h2>Practice with the Visualization Tool<a class="headerlink" href="#practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s revisit our typical example.  As with forward mode, we input the function into the interface in the same way and can compute the function value and derivative, but now we know a little bit about what reverse mode computes.</p>
+<p>Press the Reverse Computational Graph button.  You&#8217;ll see a graph that looks very similar to the one produced in forward mode.  Notice that the only difference is the direction of the errors, representing the fact that derivatives are propagated in different directions.</p>
+<p>Now let&#8217;s dynamically visualize the process of reverse mode.  Press the df/dx button.  Use the arrow keys to step through the process of reverse mode.  At each step you&#8217;ll see the edge that the computation traverses being highlighted.</p>
+<p>Let&#8217;s consider another example but with multiple inputs.  Note that this function also has a branch in its underlying graph structure.
+(SOME NOTE HERE ABOUT BRANCHING)</p>
+<p><strong>Key Takeaways</strong>
+- Reverse mode and forward mode propagate the derivative in different directions.
+- The underlying graph structure of the function is the same for both modes of automatic differentiation.
+- Reverse mode computes derivatives by making a backward pass starting at the output.</p>
+</div>
+<div class="section" id="more-theory">
+<h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="a-comparison-of-forward-and-reverse-mode">
+<h2>A Comparison of Forward and Reverse Mode<a class="headerlink" href="#a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h2>
+<p>As the names suggest, the primary difference between forward and reverse mode is the direciton in which the computational graph is traversed, as we saw in the direction of the errors of the visualization tool.  This has implications for the computational efficiency of the two approaches.</p>
+<p>As we just showed, reverse mode computes ????, while in module 2, we learned that forward mode computes ????.  This means that reverse mode will be more efficient (require fewer operations) for functions with a ???? outputs and ??? inputs, while forward mode will be more efficient for functions with ???? outputs and ??? inputs.  Let&#8217;s consider an example of this.</p>
+<p><strong>Demo</strong>
+operation counting demo from lecture</p>
+</div>
+<div class="section" id="going-forward">
+<h2>Going Forward<a class="headerlink" href="#going-forward" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module 3: The Reverse Mode of Automatic Differentiation</a><ul>
+<li><a class="reference internal" href="#the-basics-of-reverse-mode">The Basics of Reverse Mode</a></li>
+<li><a class="reference internal" href="#practice-with-the-visualization-tool">Practice with the Visualization Tool</a></li>
+<li><a class="reference internal" href="#more-theory">More Theory</a></li>
+<li><a class="reference internal" href="#a-comparison-of-forward-and-reverse-mode">A Comparison of Forward and Reverse Mode</a></li>
+<li><a class="reference internal" href="#going-forward">Going Forward</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="mod2.html" title="previous chapter">Module 2: Deeper Into Forward Mode</a></li>
+      <li>Next: <a href="mod4.html" title="next chapter">Beyond the Basics: Extensions and Software Development</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mod3.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Lindsey Brown and David Sondak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/mod3.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

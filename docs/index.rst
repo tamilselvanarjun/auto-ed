@@ -4,11 +4,17 @@
    contain the root `toctree` directive.
 
 An Introduction to Automatic Differentiation with a Visualization Tool
-============================================
+======================================================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   
+   mod1
+   mod2
+   mod3
+   mod4
+..
+
    intro
    forward
    reverse

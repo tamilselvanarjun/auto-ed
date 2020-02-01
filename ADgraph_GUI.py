@@ -64,6 +64,7 @@ def get_labels(y):
     """
     parents = reverse_graph(y)
     total = len(y.graph) - sum([entry.constant for entry in y.graph.keys()])
+    ins = total-len(parents)
     new_names = {}
     nodes = [y]
     while len(nodes)>0:
@@ -78,6 +79,21 @@ def get_labels(y):
                 neighbors = parents[node]
                 for neighbor in neighbors:
                     nodes.append(neighbor[0])
+                #new_names[node] = 'X' + str(total)
+                #total = total -1
+            #else:
+             #   if len(nodes)>ins-2:
+              #      nodes.append(node)
+               # else:
+                #    new_names[node] = 'X'+str(total)
+                 #   total = total -1
+
+            #else:
+             #   if len(nodes) > ins-1:
+              #      nodes.insert(0, node)
+               # else:
+                #    new_names[node] = 'X' + str(total)
+                 #   total = total -1
     return new_names
 
 def get_labels_rev(y):

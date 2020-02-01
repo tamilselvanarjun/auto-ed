@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 1: The Basics of Forward Mode &#8212; AD Visualization  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Module 2: Deeper Into Forward Mode" href="mod2.html" />
+    <link rel="prev" title="An Introduction to Automatic Differentiation with a Visualization Tool" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-1-the-basics-of-forward-mode">
+<h1>Module 1: The Basics of Forward Mode<a class="headerlink" href="#module-1-the-basics-of-forward-mode" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Differentiation is a fundamental operation in computational science that is important in many applications, including optimization, sensitivity analysis, and solving differential equations.  To be useful in these applications, derivatives must be computed both precisely and efficiently.  <strong>Automatic differentiation</strong>, sometimes also called algorithmic differentiation or computational differentiation, is able to do both, distinguishing it from both numerical differentiation and symbolic differentiation.</p>
+<ul class="simple">
+<li>Automatic differentiation is not numerical differentiation.</li>
+</ul>
+<p><em>Numerical differentiation</em> refers to a class of methods that computes derivatives through finite difference formulae based on the definition of the derivative,</p>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">\frac{df(x)}{dx} = \lim_{h \rightarrow 0} \frac{f(x+h)-f(x)}{h}</tt>)</p>
+latex exited with error
+[stderr]
+
+Unfortunately, the package anyfontsize could not be installed.Please check the log file:
+C:/Users/Lindsey/AppData/Local/MiKTeX/2.9/miktex/log/latex.log
+
+[stdout]
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9)
+entering extended mode
+(math.tex
+LaTeX2e &lt;2016/03/31&gt; patch level 3
+Babel &lt;3.9r&gt; and hyphenation patterns for 75 language(s) loaded.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls&#8221;
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\utf8x.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\ucs.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\uni-global.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty&#8221;
+For additional information on amsmath, use the `?&#8217; option.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amscls\amsthm.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty&#8221;))
+======================================================================
+======================================================================
+
+
+! LaTeX Error: File `anyfontsize.sty&#8217; not found.
+
+Type X to quit or &lt;RETURN&gt; to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: </div>
+<p>Such methods are limited in precision due to truncation and roundoff errors as accuracy depends on choosing an appropriately sized h.  Let&#8217;s consider a basic example.</p>
+<div class="section" id="demo-1-errors-in-the-finite-difference-method">
+<h3>Demo 1: Errors in The Finite Difference Method<a class="headerlink" href="#demo-1-errors-in-the-finite-difference-method" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s consider the function :math:r`x-exp(-2sin^2(4x))`.  Using our basic differentiation rules, we can compute the derivative symbolically,</p>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">\frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x)</tt>)</p>
+latex exited with error
+[stderr]
+
+Unfortunately, the package anyfontsize could not be installed.Please check the log file:
+C:/Users/Lindsey/AppData/Local/MiKTeX/2.9/miktex/log/latex.log
+
+[stdout]
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9)
+entering extended mode
+(math.tex
+LaTeX2e &lt;2016/03/31&gt; patch level 3
+Babel &lt;3.9r&gt; and hyphenation patterns for 75 language(s) loaded.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls&#8221;
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\utf8x.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\ucs.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\uni-global.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty&#8221;
+For additional information on amsmath, use the `?&#8217; option.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amscls\amsthm.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty&#8221;))
+======================================================================
+======================================================================
+
+
+! LaTeX Error: File `anyfontsize.sty&#8217; not found.
+
+Type X to quit or &lt;RETURN&gt; to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: </div>
+<p>INSERT PYTHON CODE AND PLOT FROM LECTURE 9 HERE</p>
+<p>See Exercise 1 for another example motivating the use of automatic differentiation.</p>
+<ul class="simple">
+<li>Automatic differentiation is not symbolic differentiation.</li>
+</ul>
+<p><em>Symbolic differentiation</em> computes exact expressions for derivatives using expression trees.  As seen in the function in Demo 1, exact expressions for derivatives can quickly become complex, making computing derivatives in this manner computationally inefficient.</p>
+<ul class="simple">
+<li>Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an expression for the derivative by employing the ideas of the chain rule to decompose complex functions into elementary functions for which we can compute the derivative exactly.</li>
+</ul>
+<p>Automatic differentiation may perform this process through two different modes, forward and reverse, both allowing for efficient and accurate computation of derivatives.  These properties make automatic differentiation useful in a variety of applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic inference.  In the rest of this module, we will explore the underlying theory that allows automatic differentiation to be applied in this wide variety of applications.</p>
+</div>
+</div>
+<div class="section" id="the-basics-of-forward-mode">
+<h2>The Basics of Forward Mode<a class="headerlink" href="#the-basics-of-forward-mode" title="Permalink to this headline">¶</a></h2>
+<p>The major theoretical concept underlying automatic differentiation is <em>the chain rule</em>.  Recall from calculus that the chain rule states that to find the derivative of composition of functions, we multiply a series of derivatives; let f(t) = g(h(t)).  We have</p>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">\frac{df}{dt} = \frac{dg}{dh}\frac{dh}{dt}</tt>)</p>
+latex exited with error
+[stderr]
+
+Unfortunately, the package anyfontsize could not be installed.Please check the log file:
+C:/Users/Lindsey/AppData/Local/MiKTeX/2.9/miktex/log/latex.log
+
+[stdout]
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9)
+entering extended mode
+(math.tex
+LaTeX2e &lt;2016/03/31&gt; patch level 3
+Babel &lt;3.9r&gt; and hyphenation patterns for 75 language(s) loaded.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls&#8221;
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\utf8x.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\ucs.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\uni-global.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty&#8221;
+For additional information on amsmath, use the `?&#8217; option.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amscls\amsthm.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty&#8221;))
+======================================================================
+======================================================================
+
+
+! LaTeX Error: File `anyfontsize.sty&#8217; not found.
+
+Type X to quit or &lt;RETURN&gt; to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: </div>
+<p>This can be generalized to functions of multiple inputs, which we will discuss in more detail in Unit 2.</p>
+<div class="section" id="elementary-functions">
+<h3>Elementary Functions<a class="headerlink" href="#elementary-functions" title="Permalink to this headline">¶</a></h3>
+<p>Every function can be decomposed into a series of binary elementary operations or unary functions.  These elementary operations include addition, subtraction, multiplication, division, and exponentiation.  Elementary functions include the natrual exponential and natural logarithm, trigonometric functions, and hyperbolic trigonometric functions.  From basic calculus, we know closed form differentiation rules for these elementary functions.  This means that we can compose these functions to form more complex functions and find the derivative of these more complex functions using the chain rule.  To understand this composition from elementary functions, we can think of the composition of functions as having an underlying graph structure.</p>
+</div>
+</div>
+<div class="section" id="a-tool-for-visualizing-automatic-differentiation">
+<h2>A Tool for Visualizing Automatic Differentiation<a class="headerlink" href="#a-tool-for-visualizing-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
+<p>The ???? tool is a pedagogical tool to help visualize the processes underlying automatic differentiation.  In particular, this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.  In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each node of the graph which will be discussed in more detail in Unit 2.</p>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>The tool can be downloaded by</p>
+</div>
+<div class="section" id="basic-instructions">
+<h3>Basic Instructions<a class="headerlink" href="#basic-instructions" title="Permalink to this headline">¶</a></h3>
+<p>Launch the tool in the terminal...</p>
+</div>
+</div>
+<div class="section" id="a-first-demo-of-automatic-differentiation">
+<h2>A First Demo of Automatic Differentiation<a class="headerlink" href="#a-first-demo-of-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s use the tool to visualize the function from our first demo.
+#. The function has a single input variable, x, so we enter that our function has 1 input into the tool.
+#. Our function is scalar valued so we enter that our function has 1 output.
+#. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
+#. Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
+#. Enter the value for x at which you&#8217;d like to evaluate the function.  For the purposes of this demo, we&#8217;ll choose x=4.  Hit the enter button on the far left.
+#. You&#8217;ll see the values for the function and derivative appear in green in the center column.
+#. Below this you&#8217;ll see a buttons for graph and table (CHECK BUTTON NAMES).  We&#8217;ll talk more about the computational table in the next unit, so for now let&#8217;s just hit the graph button.
+#. This will open a new window with the underlying computational graph for the function.  Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)</p>
+<div class="section" id="some-key-takeaways">
+<h3>Some Key Takeaways<a class="headerlink" href="#some-key-takeaways" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Our function was decomposed into a series of elementary operations</li>
+<li>These operations include both basic binary operations (addition, subtraction, multiplication, and division) and unary operations (exponential functions, trigonometric functions)</li>
+<li>Using this graph to compute the derivative is the same process as using the chain rule to compute the derivative, allowing the derivative to be computed to machine precision</li>
+</ul>
+</div>
+</div>
+<div class="section" id="practice-exercises">
+<h2>Practice Exercises<a class="headerlink" href="#practice-exercises" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercise-1-motivating-automatic-differentiation">
+<h3>Exercise 1: Motivating Automatic Differentiation<a class="headerlink" href="#exercise-1-motivating-automatic-differentiation" title="Permalink to this headline">¶</a></h3>
+<p>Problem from HW 4</p>
+</div>
+<div class="section" id="exercise-2-basic-graph-structure-of-calculations">
+<h3>Exercise 2: Basic Graph Structure of Calculations<a class="headerlink" href="#exercise-2-basic-graph-structure-of-calculations" title="Permalink to this headline">¶</a></h3>
+<p>Try drawing the graph by hand.  Compare results to that using the visualization tool.</p>
+</div>
+<div class="section" id="exercise-3-looking-toward-multiple-inputs">
+<h3>Exercise 3: Looking Toward Multiple Inputs<a class="headerlink" href="#exercise-3-looking-toward-multiple-inputs" title="Permalink to this headline">¶</a></h3>
+<p>We can use the same process to compute derivatives for functions of multiple inputs.  Practice drawing the computational graph for this function.  We&#8217;ll discuss the theory behind functions of multiple inputs in the next unit.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module 1: The Basics of Forward Mode</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#demo-1-errors-in-the-finite-difference-method">Demo 1: Errors in The Finite Difference Method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-basics-of-forward-mode">The Basics of Forward Mode</a><ul>
+<li><a class="reference internal" href="#elementary-functions">Elementary Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-tool-for-visualizing-automatic-differentiation">A Tool for Visualizing Automatic Differentiation</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#basic-instructions">Basic Instructions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-first-demo-of-automatic-differentiation">A First Demo of Automatic Differentiation</a><ul>
+<li><a class="reference internal" href="#some-key-takeaways">Some Key Takeaways</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#practice-exercises">Practice Exercises</a><ul>
+<li><a class="reference internal" href="#exercise-1-motivating-automatic-differentiation">Exercise 1: Motivating Automatic Differentiation</a></li>
+<li><a class="reference internal" href="#exercise-2-basic-graph-structure-of-calculations">Exercise 2: Basic Graph Structure of Calculations</a></li>
+<li><a class="reference internal" href="#exercise-3-looking-toward-multiple-inputs">Exercise 3: Looking Toward Multiple Inputs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">An Introduction to Automatic Differentiation with a Visualization Tool</a></li>
+      <li>Next: <a href="mod2.html" title="next chapter">Module 2: Deeper Into Forward Mode</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mod1.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Lindsey Brown and David Sondak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/mod1.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module 2: Deeper Into Forward Mode &#8212; AD Visualization  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Module 3: The Reverse Mode of Automatic Differentiation" href="mod3.html" />
+    <link rel="prev" title="Module 1: The Basics of Forward Mode" href="mod1.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-2-deeper-into-forward-mode">
+<h1>Module 2: Deeper Into Forward Mode<a class="headerlink" href="#module-2-deeper-into-forward-mode" title="Permalink to this headline">¶</a></h1>
+<p>As we introduced in Unit 1, the forward mode of automatic differentiation computes derviatives by decomposing functions into a series of elementary operations.  We can explicitly compute the derivative of each of these elementary operations, allowing us to combine them using the chain rule to accurately compute the derivative of our function.  As we have seen, in the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the elementary operations that join these nodes.  The inputs to our functions become the first nodes in our graph.  For each subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the computation as a series of elementary traces.</p>
+<div class="section" id="the-computational-trace-and-practice-with-the-visualization-tool">
+<h2>The Computational Trace and Practice with the Visualization Tool<a class="headerlink" href="#the-computational-trace-and-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
+<p>At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule, we compute the derivative at a particular node from the elementary operation that created that node and the value and derivative of the input node to that elementary operation.  Let&#8217;s return to our example from our first demo.  In unit 1, we formed the corresponding computational graph.  Now let&#8217;s use that graph to write the computational table.</p>
+<p>INSERT TABLE HERE</p>
+<p>The visualization tool which we installed in the first unit also computes the computational table for forward mode.  Let&#8217;s first consider a function of a single input.</p>
+<p>Notice how the computational trace corresponds to the nodes on the graph and the edges linking these nodes.  Note that the choices of labels for the traces might be different than the table we wrote by hand - compare the labels for the nodes in the graph.</p>
+<p>Now let&#8217;s consider an example with multiple inputs.  Observe that the computed derivative is now the gradient vector.  Instead of maintaining an evaluation trace of a scalar derivative for a single input, we instead have  a trace of the gradient for multiple inputs.  Note that this is done by assigning a seed vector to each input.  We&#8217;ll discuss more about what this means automatic differentiation is computing in the next section.</p>
+</div>
+<div class="section" id="more-theory">
+<h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-multivariate-chain-rule">
+<h3>The Multivariate Chain Rule<a class="headerlink" href="#the-multivariate-chain-rule" title="Permalink to this headline">¶</a></h3>
+<p>As we saw in the example above, we can also use automatic differentiation to find the gradient of functions with multiple inputs.  From our multivariate calculus class, recall that we can find the derivative of a function with multiple inputs also using the chain rule.  Let g(t) = h(u(t), v(t)).</p>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">\frac{dg}{dt} = \frac{dh}{du}\frac{du}{dt} + \frac{dh}{dv}\frac{dv}{dt}
+
+</tt>)</p>
+latex exited with error
+[stderr]
+
+Unfortunately, the package anyfontsize could not be installed.Please check the log file:
+C:/Users/Lindsey/AppData/Local/MiKTeX/2.9/miktex/log/latex.log
+
+[stdout]
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9)
+entering extended mode
+(math.tex
+LaTeX2e &lt;2016/03/31&gt; patch level 3
+Babel &lt;3.9r&gt; and hyphenation patterns for 75 language(s) loaded.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls&#8221;
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\utf8x.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\ucs.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\uni-global.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty&#8221;
+For additional information on amsmath, use the `?&#8217; option.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amscls\amsthm.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty&#8221;))
+======================================================================
+======================================================================
+
+
+! LaTeX Error: File `anyfontsize.sty&#8217; not found.
+
+Type X to quit or &lt;RETURN&gt; to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: </div>
+<p>We can write this in general form as</p>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">\nabla_x h = \sum_{i=1}^n \frac{\partial h}{\partial y_i}\nabla_x y_i
+
+</tt>)</p>
+latex exited with error
+[stderr]
+
+Unfortunately, the package anyfontsize could not be installed.Please check the log file:
+C:/Users/Lindsey/AppData/Local/MiKTeX/2.9/miktex/log/latex.log
+
+[stdout]
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9)
+entering extended mode
+(math.tex
+LaTeX2e &lt;2016/03/31&gt; patch level 3
+Babel &lt;3.9r&gt; and hyphenation patterns for 75 language(s) loaded.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls&#8221;
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\utf8x.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\ucs.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\uni-global.def&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty&#8221;
+For additional information on amsmath, use the `?&#8217; option.
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty&#8221;))
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amscls\amsthm.sty&#8221;)
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty&#8221;
+(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty&#8221;))
+======================================================================
+======================================================================
+
+
+! LaTeX Error: File `anyfontsize.sty&#8217; not found.
+
+Type X to quit or &lt;RETURN&gt; to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: </div>
+<p>Using this formula allows us to compute the partial derivatives for each input as we saw in the evaluation trace in our multivariate example.</p>
+</div>
+<div class="section" id="what-does-forward-mode-compute">
+<h3>What Does Forward Mode Compute?<a class="headerlink" href="#what-does-forward-mode-compute" title="Permalink to this headline">¶</a></h3>
+<p>At each evaluation step, the forward mode propagates the derivative to the next node using the chain rule to evaluate the derivative from the previous node and the elementary operation.  Notice that we do not need to store all of the values at each node in memory, but instead, we only need to store value and derivative values until all of the children of a node have been evaluated.</p>
+<p>If we consider the most general case, we are interested in computing Jacobians of vector valued functions of multiple variables.  To compute these individual gradients, we started our evaluation table with a seed vector, p.  This allows us to consider directional derivatives, $D_p x_k = sum dx_3/dx_j p_j$, so we find that forward mode actually computes directional derivatives and when we choose are seed vectors to be standard unit vectors, we attain the standard gradient.  Extending this to vector valued functions, we have that forward mode computes Jp, a Jacobian vector product.</p>
+</div>
+<div class="section" id="how-efficient-is-forward-mode">
+<h3>How Efficient is Forward Mode?<a class="headerlink" href="#how-efficient-is-forward-mode" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="neural-network-problem">
+<h3>Neural Network Problem<a class="headerlink" href="#neural-network-problem" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="operation-count-problem">
+<h3>Operation Count Problem<a class="headerlink" href="#operation-count-problem" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module 2: Deeper Into Forward Mode</a><ul>
+<li><a class="reference internal" href="#the-computational-trace-and-practice-with-the-visualization-tool">The Computational Trace and Practice with the Visualization Tool</a></li>
+<li><a class="reference internal" href="#more-theory">More Theory</a><ul>
+<li><a class="reference internal" href="#the-multivariate-chain-rule">The Multivariate Chain Rule</a></li>
+<li><a class="reference internal" href="#what-does-forward-mode-compute">What Does Forward Mode Compute?</a></li>
+<li><a class="reference internal" href="#how-efficient-is-forward-mode">How Efficient is Forward Mode?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a class="reference internal" href="#neural-network-problem">Neural Network Problem</a></li>
+<li><a class="reference internal" href="#operation-count-problem">Operation Count Problem</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="mod1.html" title="previous chapter">Module 1: The Basics of Forward Mode</a></li>
+      <li>Next: <a href="mod3.html" title="next chapter">Module 3: The Reverse Mode of Automatic Differentiation</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mod2.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Lindsey Brown and David Sondak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/mod2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
