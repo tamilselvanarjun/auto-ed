@@ -24,6 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Module 3: The Reverse Mode of Automatic Differentiation" href="mod3.html" />
@@ -59,91 +60,11 @@
 <div class="section" id="the-multivariate-chain-rule">
 <h3>The Multivariate Chain Rule<a class="headerlink" href="#the-multivariate-chain-rule" title="Permalink to this headline">¶</a></h3>
 <p>As we saw in the example above, we can also use automatic differentiation to find the gradient of functions with multiple inputs.  From our multivariate calculus class, recall that we can find the derivative of a function with multiple inputs also using the chain rule.  Let g(t) = h(u(t), v(t)).</p>
-<div class="system-message">
-<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">\frac{dg}{dt} = \frac{dh}{du}\frac{du}{dt} + \frac{dh}{dv}\frac{dv}{dt}
-
-</tt>)</p>
-latex exited with error
-[stderr]
-
-Unfortunately, the package anyfontsize could not be installed.Please check the log file:
-C:/Users/Lindsey/AppData/Local/MiKTeX/2.9/miktex/log/latex.log
-
-[stdout]
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9)
-entering extended mode
-(math.tex
-LaTeX2e &lt;2016/03/31&gt; patch level 3
-Babel &lt;3.9r&gt; and hyphenation patterns for 75 language(s) loaded.
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls&#8221;
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty&#8221;
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\utf8x.def&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\ucs.sty&#8221;
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\uni-global.def&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty&#8221;
-For additional information on amsmath, use the `?&#8217; option.
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty&#8221;
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty&#8221;)
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amscls\amsthm.sty&#8221;)
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty&#8221;
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty&#8221;))
-======================================================================
-======================================================================
-
-
-! LaTeX Error: File `anyfontsize.sty&#8217; not found.
-
-Type X to quit or &lt;RETURN&gt; to proceed,
-or enter new name. (Default extension: sty)
-
-Enter file name: </div>
+<div class="math">
+\[\frac{dg}{dt} = \frac{dh}{du}\frac{du}{dt} + \frac{dh}{dv}\frac{dv}{dt}\]</div>
 <p>We can write this in general form as</p>
-<div class="system-message">
-<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">\nabla_x h = \sum_{i=1}^n \frac{\partial h}{\partial y_i}\nabla_x y_i
-
-</tt>)</p>
-latex exited with error
-[stderr]
-
-Unfortunately, the package anyfontsize could not be installed.Please check the log file:
-C:/Users/Lindsey/AppData/Local/MiKTeX/2.9/miktex/log/latex.log
-
-[stdout]
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9)
-entering extended mode
-(math.tex
-LaTeX2e &lt;2016/03/31&gt; patch level 3
-Babel &lt;3.9r&gt; and hyphenation patterns for 75 language(s) loaded.
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls&#8221;
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty&#8221;
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\utf8x.def&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\ucs.sty&#8221;
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ucs\uni-global.def&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty&#8221;
-For additional information on amsmath, use the `?&#8217; option.
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty&#8221;
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty&#8221;)
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty&#8221;))
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amscls\amsthm.sty&#8221;)
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty&#8221;
-(&#8220;C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty&#8221;))
-======================================================================
-======================================================================
-
-
-! LaTeX Error: File `anyfontsize.sty&#8217; not found.
-
-Type X to quit or &lt;RETURN&gt; to proceed,
-or enter new name. (Default extension: sty)
-
-Enter file name: </div>
+<div class="math">
+\[\nabla_x h = \sum_{i=1}^n \frac{\partial h}{\partial y_i}\nabla_x y_i\]</div>
 <p>Using this formula allows us to compute the partial derivatives for each input as we saw in the evaluation trace in our multivariate example.</p>
 </div>
 <div class="section" id="what-does-forward-mode-compute">

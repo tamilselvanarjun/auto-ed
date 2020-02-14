@@ -24,6 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Beyond the Basics: Extensions and Software Development" href="mod4.html" />
@@ -49,7 +50,12 @@
 <div class="section" id="the-basics-of-reverse-mode">
 <h2>The Basics of Reverse Mode<a class="headerlink" href="#the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <p>As in forward mode, reverse mode still relies on the underlying computational graph structure of functions.  As we will see using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative information is propagated changes.  Recall that in forward mode we passed derivative information forward to store the derivative at each node.</p>
-<p>In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node x_3 has inputs nodes x_1 and x_2, only the partial derivatives $frac{partial x_3}{partial x_1}$ and $frac{partial x_3}{partial x_2}$ are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store $frac{partial x_3}{partial x}$ and $frac{partial x_3}{partial y}$.</p>
+<p>In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node x_3 has inputs nodes x_1 and x_2, only the partial derivatives $frac{partial x_3}{partial x_1}$ and $frac{partial x_3}{partial x_2}$ are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store $frac{partial x_3}{partial x}$ and $frac{partial x_3}{partial y}$.)</p>
+<p>The reverse mode consists of two passes.  The forward pass first builds the computational graph while storing just the partial derivative information.  The reverse pass then starts at the output node and traverses the graph in the reverse direction to find the full partial derivatives.</p>
+<p>We introduce the bar notation to denote our backward pass tangents, $bar{x_i} = frac{partial f}{partial x_i}$, which are sometimes also called the adjoint variable.  At the final node, $f = x_N$, we have $bar{x_N} = frac{partial f}{partial x_N} = 1$.  We then traverse backward through the graph to construct the partial derivative from the chain rule.  $bar{x_{N-1}}  = bar{x_N}frac{partial x_N}{partial x_{N-1}}$.  Note that the partial derivative is exactly the value that has already been stored by the forward pass of the graph.</p>
+<p>We see that this process is relatively straightforward for nodes with only one child.  When we encounter nodes with multiple children, we must perform a summation over the children, which follows directly from the multivariate chain rule.</p>
+<p>For $x_i$ with children $x_j$ and $x_k$, we have
+$$bar{x_i} = bar{x_j}frac{partial x_j}{partial x_i} + bar{x_k}frac{partial x_k}{partial x_i}$$.</p>
 </div>
 <div class="section" id="practice-with-the-visualization-tool">
 <h2>Practice with the Visualization Tool<a class="headerlink" href="#practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
@@ -65,6 +71,9 @@
 </div>
 <div class="section" id="more-theory">
 <h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
+<p>In the previous module, we demonstrated that forward mode computes the Jacobian vector product Jp.  (depends on number of input variables)</p>
+<p>In contrast, reverse mode computes $J^Tp$ which is independent of the number of inputs.</p>
+<p>This difference can result in different operation counts, accounting for the popularity of the backpropagation algorithm.</p>
 </div>
 <div class="section" id="a-comparison-of-forward-and-reverse-mode">
 <h2>A Comparison of Forward and Reverse Mode<a class="headerlink" href="#a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h2>
@@ -75,6 +84,8 @@ operation counting demo from lecture</p>
 </div>
 <div class="section" id="going-forward">
 <h2>Going Forward<a class="headerlink" href="#going-forward" title="Permalink to this headline">¶</a></h2>
+<p>In the next unit, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider questions of implementation in software.</p>
+<p>Other extensions for further reading include automatic differentiation for higher order derivatives and algorithmic differentiation.</p>
 </div>
 </div>
 

@@ -13,7 +13,7 @@ An Introduction to Automatic Differentiation with a Visualization Tool
    mod2
    mod3
    mod4
-..
+   ..
 
    intro
    forward
