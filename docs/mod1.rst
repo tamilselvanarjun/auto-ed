@@ -27,6 +27,8 @@ Let's consider the function :math:r`x-\exp(-2\sin^2(4x))`.  Using our basic diff
 
 INSERT PYTHON CODE AND PLOT FROM LECTURE 9 HERE
 
+In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h to large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.
+
 See Exercise 1 for another example motivating the use of automatic differentiation.
 
 * Automatic differentiation is not symbolic differentiation.

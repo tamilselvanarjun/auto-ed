@@ -47,9 +47,34 @@
 <p>We have presented one way of thinking about automatic differentiation and the graph structure of functions which underly the computations in both forward and reverse mode.  This section includes another way of thinking about automatic differentiation through dual numbers and considerations about how to implement automatic differentiation in software.</p>
 <div class="section" id="the-dual-numbers">
 <h2>The Dual Numbers<a class="headerlink" href="#the-dual-numbers" title="Permalink to this headline">¶</a></h2>
+<p>Another way to think about automatic differentiation is through the dual numbers.  Like complex numbers, which are written a+bi with real and imaginary part, we write the dual numbers as a+bepsilon with real and dual part.  Similarly to the imaginary numbers where i^2 = -1, we have epsilon^2=0 for the dual numbers.  Note that epsilon is not equal to zero, but is a nonreal constant defined by this property.  We will now see why this is useful when we consider the relationship between the dual numbers and differentiation.</p>
+<p>Consider the function y=x^2 whose derivative we know to be 2x.  Let&#8217;s evaluate y at the dual number a+bepsilon.  y = (a+bepsilon)^2 = a^2+2abepsilon+b^2epsilon^2.  By the property of epsilon, this is just the dual number a^2+2abepsilon.  Taking b=1, the real part of the dual number y is the function y evaluated at x=a and the dual part of the dual number y is the derivative of y evaluated at x=a.</p>
+<p>Let&#8217;s consider a second example.  This time let y=sin(x).  Again, let&#8217;s evaluate at x=a+bepsilon.  Using the angle addition formula,
+y = sin(a+bepsilon) = sin(a)cos(epsilon b)+cos(a)sin(bepsilon)
+To further simplify this expression, we can write sin(bepsilon) and cos(bepsilon) as Taylor series.
+sin(bepsilon) = bepsilon + (epsilon b)^3/3! + ...
+cos(bepsilon) = 1+(epsilon b)^2/2+ ...
+By the property of epsilon, powers of epsilon greater than 2 are 0, giving us
+sin(bepsilon) = epsilon b and cos(bepsilon) = 1.  Substituting these expressions back into y, we have y = sin(a)+cos(a)bepsilon, and as in the previous example, the real part is the function evaluated at a and the dual component is the derivative evaluated at a.</p>
 </div>
 <div class="section" id="toward-software-implementation">
 <h2>Toward Software Implementation<a class="headerlink" href="#toward-software-implementation" title="Permalink to this headline">¶</a></h2>
+<p>In our discussion of automatic differentiation, we noted that automatic differentiation is possible because functions can be decomposed into elementary functions whose derivatives we know explicitly.  Implementing this in software requires code so that these known derivatives are coded as part of the function.  We can do this through operator overloading.</p>
+<p>In operator overloading, we use different implementation of operators depending on the class of the object that is being operated on.  This can be done easily in Python by redefining the dunder methods for basic operations (i.e., __add__, __radd__, __pow__, __rpow__, etc.) for a class of automatic differentiation objects.</p>
+<p>We can see an example of operator overloading in rewriting addition for a class defined for complex numbers.</p>
+<p>COMPLEX NUMBER CODE HERE</p>
+<p>In our computational tables, we saw that each node of the graph in foward mode had a function evaluation and a derivative component, similar to the dual numbers.  We can use operator overloading to specify how the different elementary operations and functions act on these two components to produce a new node with a function evaluation and derivative.</p>
+</div>
+<div class="section" id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dual-numbers">
+<h3>Dual Numbers<a class="headerlink" href="#dual-numbers" title="Permalink to this headline">¶</a></h3>
+<p>Using the dual numbers, find the derivative of y=e^x^2.  Note that you will need to use Taylor series.</p>
+</div>
+<div class="section" id="toy-ad-example">
+<h3>Toy AD Example<a class="headerlink" href="#toy-ad-example" title="Permalink to this headline">¶</a></h3>
+<p>Linear function example from homework.</p>
+</div>
 </div>
 </div>
 
@@ -64,6 +89,11 @@
 <li><a class="reference internal" href="#">Beyond the Basics: Extensions and Software Development</a><ul>
 <li><a class="reference internal" href="#the-dual-numbers">The Dual Numbers</a></li>
 <li><a class="reference internal" href="#toward-software-implementation">Toward Software Implementation</a></li>
+<li><a class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a class="reference internal" href="#dual-numbers">Dual Numbers</a></li>
+<li><a class="reference internal" href="#toy-ad-example">Toy AD Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

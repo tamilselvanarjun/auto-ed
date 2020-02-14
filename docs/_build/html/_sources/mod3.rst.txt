@@ -5,7 +5,9 @@ So far we have considered one mode of automatic differentiation, forward mode.  
 
 The Basics of Reverse Mode
 --------------------------
-At each node,
+As in forward mode, reverse mode still relies on the underlying computational graph structure of functions.  As we will see using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative information is propagated changes.  Recall that in forward mode we passed derivative information forward to store the derivative at each node.
+
+In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node x_3 has inputs nodes x_1 and x_2, only the partial derivatives $\frac{\partial x_3}{\partial x_1}$ and $\frac{\partial x_3}{\partial x_2}$ are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store $\frac{\partial x_3}{\partial x}$ and $\frac{\partial x_3}{\partial y}$.
 
 
 Practice with the Visualization Tool

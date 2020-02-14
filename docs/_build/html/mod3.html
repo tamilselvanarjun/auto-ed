@@ -48,7 +48,8 @@
 <p>So far we have considered one mode of automatic differentiation, forward mode.  In forward mode, we carried derivatives along as we traversed the graph so that  the graph itself did not need to be explicitly stored in memory.  In reverse mode, we build the graph and store derivative information at each node but do not compute the derivative until the backward pass of the graph.  We will see that this approach can have computational advantages over forward mode and hence is commonly used, most well known in the backpropagation algorithm.</p>
 <div class="section" id="the-basics-of-reverse-mode">
 <h2>The Basics of Reverse Mode<a class="headerlink" href="#the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
-<p>At each node,</p>
+<p>As in forward mode, reverse mode still relies on the underlying computational graph structure of functions.  As we will see using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative information is propagated changes.  Recall that in forward mode we passed derivative information forward to store the derivative at each node.</p>
+<p>In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node x_3 has inputs nodes x_1 and x_2, only the partial derivatives $frac{partial x_3}{partial x_1}$ and $frac{partial x_3}{partial x_2}$ are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store $frac{partial x_3}{partial x}$ and $frac{partial x_3}{partial y}$.</p>
 </div>
 <div class="section" id="practice-with-the-visualization-tool">
 <h2>Practice with the Visualization Tool<a class="headerlink" href="#practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
