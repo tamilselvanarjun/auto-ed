@@ -27,7 +27,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Does markdown file work with other rsts?" href="mdtest.html" />
+    <link rel="next" title="Referernces and Additional Resources" href="refs.html" />
     <link rel="prev" title="Module 3: The Reverse Mode of Automatic Differentiation" href="mod3.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -49,15 +49,19 @@
 <p>We have presented one way of thinking about automatic differentiation and the graph structure of functions which underly the computations in both forward and reverse mode.  This section includes another way of thinking about automatic differentiation through dual numbers and considerations about how to implement automatic differentiation in software.</p>
 <div class="section" id="the-dual-numbers">
 <h2>The Dual Numbers<a class="headerlink" href="#the-dual-numbers" title="Permalink to this headline">¶</a></h2>
-<p>Another way to think about automatic differentiation is through the dual numbers.  Like complex numbers, which are written a+bi with real and imaginary part, we write the dual numbers as a+bepsilon with real and dual part.  Similarly to the imaginary numbers where i^2 = -1, we have epsilon^2=0 for the dual numbers.  Note that epsilon is not equal to zero, but is a nonreal constant defined by this property.  We will now see why this is useful when we consider the relationship between the dual numbers and differentiation.</p>
-<p>Consider the function y=x^2 whose derivative we know to be 2x.  Let&#8217;s evaluate y at the dual number a+bepsilon.  y = (a+bepsilon)^2 = a^2+2abepsilon+b^2epsilon^2.  By the property of epsilon, this is just the dual number a^2+2abepsilon.  Taking b=1, the real part of the dual number y is the function y evaluated at x=a and the dual part of the dual number y is the derivative of y evaluated at x=a.</p>
-<p>Let&#8217;s consider a second example.  This time let y=sin(x).  Again, let&#8217;s evaluate at x=a+bepsilon.  Using the angle addition formula,
-y = sin(a+bepsilon) = sin(a)cos(epsilon b)+cos(a)sin(bepsilon)
-To further simplify this expression, we can write sin(bepsilon) and cos(bepsilon) as Taylor series.
-sin(bepsilon) = bepsilon + (epsilon b)^3/3! + ...
-cos(bepsilon) = 1+(epsilon b)^2/2+ ...
-By the property of epsilon, powers of epsilon greater than 2 are 0, giving us
-sin(bepsilon) = epsilon b and cos(bepsilon) = 1.  Substituting these expressions back into y, we have y = sin(a)+cos(a)bepsilon, and as in the previous example, the real part is the function evaluated at a and the dual component is the derivative evaluated at a.</p>
+<p>Another way to think about automatic differentiation is through the dual numbers.  Like complex numbers, which are written a+bi with real and imaginary part, we write the dual numbers as <span class="math">\(a+b\epsilon\)</span> with real and dual part.  Similarly to the imaginary numbers where <span class="math">\(i^2 = -1\)</span>, we have <span class="math">\(\epsilon^2=0\)</span> for the dual numbers.  Note that <span class="math">\(\epsilon\)</span> is not equal to zero, but is a nonreal constant defined by this property.  We will now see why this is useful when we consider the relationship between the dual numbers and differentiation.</p>
+<p>Consider the function y=x^2 whose derivative we know to be 2x.  Let&#8217;s evaluate y at the dual number <span class="math">\(a+b\epsilon\)</span>.</p>
+<div class="math">
+\[y = (a+b\epsilon)^2 = a^2+2ab\epsilon+b^2\epsilon^2.\]</div>
+<p>By the property of <span class="math">\(\epsilon\)</span>, this is just the dual number <span class="math">\(a^2+2ab\epsilon\)</span>.  Taking b=1, the real part of the dual number y is the function y evaluated at x=a and the dual part of the dual number y is the derivative of y evaluated at x=a.</p>
+<p>Let&#8217;s consider a second example.  This time let <span class="math">\(y=sin(x)\)</span>.  Again, let&#8217;s evaluate at <span class="math">\(x=a+b\epsilon\)</span>.  Using the angle addition formula,</p>
+<div class="math">
+\[y = sin(a+b\epsilon) = sin(a)cos(\epsilon b)+cos(a)sin(b\epsilon)\]</div>
+<p>To further simplify this expression, we can write <span class="math">\(sin(b\epsilon)\)</span> and <span class="math">\(cos(b\epsilon)\)</span> as Taylor series.</p>
+<div class="math">
+\[sin(b\epsilon) = b\epsilon + (\epsilon b)^3/3! + ...
+cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...\]</div>
+<p>By the property of epsilon, powers of epsilon greater than 2 are 0, giving us <span class="math">\(sin(b\epsilon) = \epsilon b\)</span> and <span class="math">\(cos(b\epsilon) = 1\)</span>.  Substituting these expressions back into y, we have <span class="math">\(y = sin(a)+cos(a)b\epsilon\)</span>, and as in the previous example, the real part is the function evaluated at a and the dual component is the derivative evaluated at a.</p>
 </div>
 <div class="section" id="toward-software-implementation">
 <h2>Toward Software Implementation<a class="headerlink" href="#toward-software-implementation" title="Permalink to this headline">¶</a></h2>
@@ -104,7 +108,7 @@ sin(bepsilon) = epsilon b and cos(bepsilon) = 1.  Substituting these expressions
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="mod3.html" title="previous chapter">Module 3: The Reverse Mode of Automatic Differentiation</a></li>
-      <li>Next: <a href="mdtest.html" title="next chapter">Does markdown file work with other rsts?</a></li>
+      <li>Next: <a href="refs.html" title="next chapter">Referernces and Additional Resources</a></li>
   </ul></li>
 </ul>
 </div>

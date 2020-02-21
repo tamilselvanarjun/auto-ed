@@ -13,15 +13,10 @@ An Introduction to Automatic Differentiation with a Visualization Tool
    mod2
    mod3
    mod4
+   refs
    ..
 
-   intro
-   forward
-   reverse
-   install
-   basicuse
-   exercises
-
+   
 
 Indices and tables
 ==================

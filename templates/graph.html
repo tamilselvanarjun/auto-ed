@@ -1,0 +1,23 @@
+<html>
+	<body>
+		Use this window to visualize how automatic differentiation is performed on your function.
+
+		First, type numbers into the boxes to set values for the input variables.  Press 'Set Input Values' to calculate the value and derivative of your function at this point.
+
+		After setting the input values, you can visualize the computational graph and evaluation table associated with each function in forward mode.  Press the button corresponding to the function you want to analyze under each heading.  You can also dynamically visualize the steps in the calculation of a derivative in reverse mode or view the entire reverse graph.
+		<form method="post" action="./graphwindow">
+		<table>
+			<tr>
+				<td>
+					x=<input name="x">
+				</td>
+				{% if ins>1 %}
+				<td>
+					y=<input name="y">
+				</td>
+				{% endif %}
+			</tr>
+		</table>
+		</form>
+	</body>
+</html>

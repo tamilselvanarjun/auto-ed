@@ -5,17 +5,27 @@ We have presented one way of thinking about automatic differentiation and the gr
 
 The Dual Numbers
 ----------------
-Another way to think about automatic differentiation is through the dual numbers.  Like complex numbers, which are written a+bi with real and imaginary part, we write the dual numbers as a+b\epsilon with real and dual part.  Similarly to the imaginary numbers where i^2 = -1, we have \epsilon^2=0 for the dual numbers.  Note that \epsilon is not equal to zero, but is a nonreal constant defined by this property.  We will now see why this is useful when we consider the relationship between the dual numbers and differentiation.
+Another way to think about automatic differentiation is through the dual numbers.  Like complex numbers, which are written a+bi with real and imaginary part, we write the dual numbers as :math:`a+b\epsilon` with real and dual part.  Similarly to the imaginary numbers where :math:`i^2 = -1`, we have :math:`\epsilon^2=0` for the dual numbers.  Note that :math:`\epsilon` is not equal to zero, but is a nonreal constant defined by this property.  We will now see why this is useful when we consider the relationship between the dual numbers and differentiation.
 
-Consider the function y=x^2 whose derivative we know to be 2x.  Let's evaluate y at the dual number a+b\epsilon.  y = (a+b\epsilon)^2 = a^2+2ab\epsilon+b^2\epsilon^2.  By the property of \epsilon, this is just the dual number a^2+2ab\epsilon.  Taking b=1, the real part of the dual number y is the function y evaluated at x=a and the dual part of the dual number y is the derivative of y evaluated at x=a.
+Consider the function y=x^2 whose derivative we know to be 2x.  Let's evaluate y at the dual number :math:`a+b\epsilon`.  
 
-Let's consider a second example.  This time let y=sin(x).  Again, let's evaluate at x=a+b\epsilon.  Using the angle addition formula,
-y = sin(a+b\epsilon) = sin(a)cos(\epsilon b)+cos(a)sin(b\epsilon)
-To further simplify this expression, we can write sin(b\epsilon) and cos(b\epsilon) as Taylor series.
-sin(b\epsilon) = b\epsilon + (\epsilon b)^3/3! + ...
-cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...
-By the property of \epsilon, powers of \epsilon greater than 2 are 0, giving us
-sin(b\epsilon) = \epsilon b and cos(b\epsilon) = 1.  Substituting these expressions back into y, we have y = sin(a)+cos(a)b\epsilon, and as in the previous example, the real part is the function evaluated at a and the dual component is the derivative evaluated at a.
+.. math::
+        y = (a+b\epsilon)^2 = a^2+2ab\epsilon+b^2\epsilon^2.  
+        
+By the property of :math:`\epsilon`, this is just the dual number :math:`a^2+2ab\epsilon`.  Taking b=1, the real part of the dual number y is the function y evaluated at x=a and the dual part of the dual number y is the derivative of y evaluated at x=a.
+
+Let's consider a second example.  This time let :math:`y=sin(x)`.  Again, let's evaluate at :math:`x=a+b\epsilon`.  Using the angle addition formula,
+
+.. math::
+        y = sin(a+b\epsilon) = sin(a)cos(\epsilon b)+cos(a)sin(b\epsilon)
+
+To further simplify this expression, we can write :math:`sin(b\epsilon)` and :math:`cos(b\epsilon)` as Taylor series.
+
+.. math::
+        sin(b\epsilon) = b\epsilon + (\epsilon b)^3/3! + ...
+        cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...
+
+By the property of \epsilon, powers of \epsilon greater than 2 are 0, giving us :math:`sin(b\epsilon) = \epsilon b` and :math:`cos(b\epsilon) = 1`.  Substituting these expressions back into y, we have :math:`y = sin(a)+cos(a)b\epsilon`, and as in the previous example, the real part is the function evaluated at a and the dual component is the derivative evaluated at a.
 
 Toward Software Implementation
 ------------------------------
