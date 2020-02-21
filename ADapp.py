@@ -1,6 +1,11 @@
 from flask import Flask, render_template, redirect, url_for, request
 app = Flask(__name__)
 
+import numpy as np
+from ADnum_rev_timed_vis import ADnum
+import ADmath_rev as ADmath
+import ADgraph_GUI as ADgraph
+
 @app.route('/', methods = ["GET", "POST"])
 def startup():
     errors = ""
@@ -42,7 +47,27 @@ def calculate():
 
 @app.route('/graphwindow', methods = ["GET", "POST"])
 def graphwindow():
-    return render_template('graph.html', ins=master_ins)
+    errors = ""
+    if request.method == "POST":
+        if request.form["action"] == "Set Input Values":
+            try:
+                global x
+                x = [ADnum(float(request.form["x"]), ins=master_ins, ind=0)]*master_outs
+                if master_ins>1:
+                    global y
+                    y=[ADnum(float(request.form["y"]), ins=master_ins, ind=1)]*master_outs
+                if master_ins>2:
+                    global z
+                    z=[ADnum(float(request.form["z"]), ins=master_ins, ind=2)]*master_outs
+                if master_ins>3:
+                    global u
+                    u=[ADnum(float(request.form["u"]), ins=master_ins, ind=3)]*master_outs
+                if master_ins>4:
+                    global v
+                    v=[ADnum(float(request.form["v"]), ins=master_ins, ind=1)]*master_outs
+            except:
+                errors += "Please enter numeric values for all of the inputs."
+    return render_template('graph.html', ins=master_ins, errors=errors)
 
 global flabels
 flabels = ['', 'x', 'x,y', 'x,y,z', 'x,y,z,u', 'x,y,z,u,v'] 
