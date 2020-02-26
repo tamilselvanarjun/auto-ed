@@ -38,12 +38,33 @@ def startup():
 
 @app.route('/calculate', methods = ["GET", "POST"])
 def calculate():
+    errors = ""
     if request.method == "POST":
-        if request.form["action"] == "Calculate":
+        if request.form["action"] == "Clear All":
+            clear_all()
+        elif request.form["action"] == u"\u2b05":
+            back_space()
+        elif request.form["action"] == "Calculate":
+            try:
+                for i in range(master_outs):
+                    function_output[i] = get_func(function_expression, i)
+                    if master_ins == 1:
+                        function_output[i](1)
+                    if master_ins == 2:
+                        function_output[i](1, 1)
+                    if master_ins ==3:
+                        function_output[i](1, 1, 1)
+                    if master_ins == 4:
+                        function_output[i](1, 1, 1, 1)
+                    if master_ins == 5:
+                        function_output[i](1, 1, 1, 1, 1)
+            except:
+                errors += "There is a syntax error in your function.  Please edit and try again."
+                return render_template('calculator.html', func_content=func_content, calcfuncs=calcfuncs, ins=master_ins, outs=master_outs, flabels = flabels, errors = errors)
             return redirect(url_for('graphwindow'))
         else:
             calcfuncs[request.form["action"]]()
-    return render_template('calculator.html', func_content = func_content, calcfuncs=calcfuncs, ins=master_ins, outs=master_outs, flabels = flabels)
+    return render_template('calculator.html', func_content = func_content, calcfuncs=calcfuncs, ins=master_ins, outs=master_outs, flabels = flabels, errors=errors)
 
 @app.route('/graphwindow', methods = ["GET", "POST"])
 def graphwindow():
@@ -53,21 +74,27 @@ def graphwindow():
             try:
                 global x
                 x = [ADnum(float(request.form["x"]), ins=master_ins, ind=0)]*master_outs
+                var_strs['x']=request.form["x"]
                 if master_ins>1:
                     global y
                     y=[ADnum(float(request.form["y"]), ins=master_ins, ind=1)]*master_outs
+                    var_strs['y']=request.form["y"]
                 if master_ins>2:
                     global z
                     z=[ADnum(float(request.form["z"]), ins=master_ins, ind=2)]*master_outs
+                    var_strs['z'] = request.form['z']
                 if master_ins>3:
                     global u
                     u=[ADnum(float(request.form["u"]), ins=master_ins, ind=3)]*master_outs
+                    var_strs['u'] = request.form["u"]
                 if master_ins>4:
                     global v
                     v=[ADnum(float(request.form["v"]), ins=master_ins, ind=1)]*master_outs
+                    var_strs['v']=request.form["v"]
+                return render_template('graph.html', ins=master_ins, outs = master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True)
             except:
                 errors += "Please enter numeric values for all of the inputs."
-    return render_template('graph.html', ins=master_ins, errors=errors)
+    return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels = flabels, func_content=func_content, full=False)
 
 global flabels
 flabels = ['', 'x', 'x,y', 'x,y,z', 'x,y,z,u', 'x,y,z,u,v'] 
@@ -83,6 +110,14 @@ function_output = [None]*3
 global editing
 editing = 0
 
+global var_strs
+var_strs = {}
+var_strs["x"] = ""
+var_strs["y"] = ""
+var_strs["z"] = ""
+var_strs["u"] = ""
+var_strs["v"] = ""
+
 def edit_f1():
     global editing
     editing = 0
@@ -94,6 +129,62 @@ def edit_f2():
 def edit_f3():
     global editing
     editing = 2
+
+def clear_all():
+    func_content[editing] = ""
+    function_expression[editing] = ""
+
+def back_space():
+    function_expression[editing] = backstep(function_expression[editing])
+    back_func()
+
+def backstep(text):
+    if len(text) == 0:
+        return ""
+    if text[-1]=='(' and text[-2] in ['n', 't', 'p', 's', 'g', '*']:
+        if text[-2] == 't':
+            return text[:-12]
+        elif (text[-2] == '*' and text[-2]=='*'):
+            return text[:-3]
+        else:
+            return text[:-12]
+    else:
+        return text[:-1]
+
+def back_func():
+    content = func_content[editing]
+    if len(content)==0:
+        content=content
+    elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g']:
+        if content[-2] == 't':
+            content = content[:-5]
+        elif content[-2] == 'w' and content[-3] != 'o':
+            content = content[:-1]
+        else:
+            content = content[:-4]
+    else:
+        content = content[:-1]
+    func_content[editing] = content
+
+def get_func(function_expression, i):
+    if master_ins == 1:
+        def f(x):
+            return eval(function_expression[i])
+    if master_ins == 2:
+        def f(x,y):
+            return eval(function_expression[i])
+    if master_ins == 3:
+        def f(x, y, z):
+            return eval(function_expression[i])
+    if master_ins == 4:
+        def f(x, y, z, u):
+            return eval(function_expression[i])
+    if master_ins == 5:
+        def f(x, y, z, u, v):
+            return eval(function_expression[i])
+    return f
+
+
 
 def add():
     global func_content

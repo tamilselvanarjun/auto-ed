@@ -2,6 +2,7 @@
 	<head>
 	<body>
 		<p>This calculator generates functions of multiple variables.  Use the buttons below to define your function(s).  The edit buttons allow you to choose which function to update.  The magenta buttons in the last row are the input variables.  Use standard calculator syntax to detfine your function.  When you are done defining your function, press 'Calculate' to get the result.  Press 'Clear All' to start over for a particular function.</p>
+		<p> {{errors}} </p>
 		<form name="calculator" method="post" action='./calculate'>
 			<table>
 				<tr>
@@ -54,7 +55,7 @@
 `				<tr>
 						<td><input type="submit" name="action" value="0" onclick="calculator.display.value+='F'"></td>
 						<td><input type="submit" name="action" value="." onclick="calculator.display.value+='F'"></td>
-						<td><input type="submit" name="action" value="sin" onclick="calculator.display.value+='F'"></td>
+						<td><input type="submit" name="action" value="&#11013" onclick="calculator.display.value+='F'"></td>
 						<td><input type="submit" name="action" value="/" onclick="calculator.display.value+='F'"></td>
 						<td><input type="submit" name="action" value=")" onclick="calculator.display.value+='F'"></td>
 				</tr>
