@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib
-matplotlib.use('TkAgg')
+#matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
