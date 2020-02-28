@@ -47,6 +47,7 @@ def calculate():
         elif request.form["action"] == "Calculate":
             try:
                 for i in range(master_outs):
+                    global function_output
                     function_output[i] = get_func(function_expression, i)
                     if master_ins == 1:
                         function_output[i](1)
@@ -89,11 +90,15 @@ def graphwindow():
                     var_strs['u'] = request.form["u"]
                 if master_ins>4:
                     global v
-                    v=[ADnum(float(request.form["v"]), ins=master_ins, ind=1)]*master_outs
+                    v=[ADnum(float(request.form["v"]), ins=master_ins, ind=4)]*master_outs
                     var_strs['v']=request.form["v"]
-                return render_template('graph.html', ins=master_ins, outs = master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True)
+                build_function()    
+                return render_template('graph.html', ins=master_ins, outs = master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der = disp_der)
             except:
                 errors += "Please enter numeric values for all of the inputs."
+        if request.form["action"]=="Computational Graph":
+            ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
+            return redner_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der)
     return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels = flabels, func_content=func_content, full=False)
 
 global flabels
@@ -117,6 +122,47 @@ var_strs["y"] = ""
 var_strs["z"] = ""
 var_strs["u"] = ""
 var_strs["v"] = ""
+
+def build_function():
+    global out_num
+    out_num = [None]*master_outs
+    for i in range(master_outs):
+        if master_ins == 1:
+            out_num[i] = function_output[i](x[i])
+        if master_ins == 2:
+            out_num[i] = function_output[i](x[i], y[i])
+        if master_ins == 3:
+            out_num[i] = function_output[i](x[i], y[i], z[i])
+        if master_ins == 4:
+            out_num[i] = function_output[i](x[i], y[i], z[i], u[i])
+        if master_ins == 5:
+            out_num[i] = function_output[i](x[i], y[i], z[i], u[i], v[i])
+    global disp_val, disp_der
+    disp_val = '['
+    disp_der = '['
+    for out in out_num:
+        #disp_val = str(np.round(out.val, 2))
+        #disp_der = str(np.round(out.der, 2))
+        try:
+            disp_val += str(np.round(out.val, 2))
+            disp_der += str(np.round(out.der, 2))
+        except:
+            disp_val += str(np.round(out, 2))
+            disp_der ++ str([0]*master_ins)
+        disp_val += ',\n'
+        disp_der +=',\n'
+    disp_val = disp_val[:-2]+']'
+    disp_der = disp_der[:-2]+']'
+    global G, edge_labs, pos, labs
+    G = [None]*master_outs
+    edge_labs = [None]*master_outs
+    pos = [None]*master_outs
+    labs = [None]*master_outs
+    for i, out in enumerate(out_num):
+        try:
+            G[i], edge_labs[i], pos[i], labs[i] = ADgraph.get_graph_setup(out)
+        except AttributeError:
+            pass
 
 def edit_f1():
     global editing

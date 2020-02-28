@@ -27,22 +27,22 @@
 				</td>
 				{% if ins>1 %}
 				<td>
-					y=<input name="y">
+					y=<input name="y" value = {{var_strs['y']}}>
 				</td>
 				{% endif %}
 				{% if ins>2 %}
 				<td>
-					z=<input name="z">
+					z=<input name="z" value = {{var_strs['z']}}>
 				</td>
 				{% endif %}
 				{% if ins>3 %}
 				<td>
-					u=<input name="u">
+					u=<input name="u" value = {{var_strs['u']}}>
 				</td>
 				{% endif %}
 				{% if ins>4 %}
 				<td>
-					v=<input name="v">
+					v=<input name="v" value = {{var_strs['v']}}>
 				</td>
 				{% endif %}
 			</tr>
@@ -51,7 +51,23 @@
 		</form>
 
 		{% if full %}
-		<p> Next steps to add lots of buttons!!! <\p>
+		<p> Function value: {{val}} </p>
+		<p> Function gradient: {{der}} </p>
+
+		<form method="post" action="./graphwindow">
+
+		<table>
+			<td>
+				<tr>FORWARD MODE</tr>
+				<tr>
+					<input type="submit" name="action" value="Computational Graph">
+				</tr>
+			</td>
+			<td>
+				<tr>REVERSE MODE</tr>
+			</td>
+		</table>
+		</form>
 		{% endif %}
 	</body>
 </html>
