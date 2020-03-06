@@ -1,0 +1,14 @@
+#forward {
+	float: left;
+	width: 50%;
+}
+
+#reverse {
+	float: left;
+	width: 50%;
+}
+
+#container {
+	float: left;
+	width: 100%;
+}

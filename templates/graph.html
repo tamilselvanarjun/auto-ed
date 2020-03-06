@@ -1,4 +1,5 @@
 <html>
+<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css')}}">
 	<body>
 		Use this window to visualize how automatic differentiation is performed on your function.
 
@@ -55,19 +56,98 @@
 		<p> Function gradient: {{der}} </p>
 
 		<form method="post" action="./graphwindow">
-
-		<table>
-			<td>
-				<tr>FORWARD MODE</tr>
-				<tr>
-					<input type="submit" name="action" value="Computational Graph">
-				</tr>
-			</td>
-			<td>
-				<tr>REVERSE MODE</tr>
-			</td>
-		</table>
+		<div id="container">	
+			<div id="forward">
+				<p>FORWARD MODE</p>
+				<p>Computational Graph</p>
+				<p>
+					<button type="submit" name="action" value="graph0">f1</button>
+					{% if outs>1 %}
+					<button type="submit" name="action" value="graph1">f2</button>
+					{% endif %}
+					{% if outs>2 %}
+					<button type="submit" name="action" value="graph2">f3</button>
+					{% endif %}
+				</p>
+				<p>Evaluation Table</p>
+				<p>
+					<button type="submit" name="action" value="table0">f1</button>
+					{% if outs>1 %}
+					<button type="submit" name="action" value="table1">f2</button>
+					{% endif %}
+					{% if outs>2 %}
+					<button type="submit" name="action" value="table2">f3</button>
+					{% endif %}
+				</p>
+			</div>
+			<div id="reverse">
+				<p>REVERSE MODE</p>
+				<p>Reverse Graph</p>
+				<p>
+					<button type="submit" name="action" value="rgraph0">f1</button>
+					{% if outs>1 %}
+					<button type="submit" name="action" value="rgraph1">f2</button>
+					{% endif %}
+					{% if outs>2 %}
+					<button type="submit" name="action" value="rgraph2">f3</button>
+					{% endif %}
+				</p>
+				<p>Visualize Reverse Calculations</p>
+				<p>
+					<button type="submit" name="action" value="dyn00">df1/dx</button>
+					{% if ins>1 %}
+					<button type="submit" name="action" value="dyn01">df1/dy</button>
+					{% endif %}
+					{% if ins>2 %}
+					<button type="submit" name="action" value="dyn02">df1/dz</button>
+					{% endif %}
+					{% if ins>3 %}
+					<button type="submit" name="action" value="dyn03">df1/du</button>
+					{% endif %}
+					{% if ins>4 %}
+					<button type="submit" name="action" value="dyn04">df1/dv</button>
+					{% endif %}
+				</p>
+				{% if outs>1 %}
+				<p>
+					<button type="submit" name="action" value="dyn10">df2/dx</button>
+					{% if ins>1 %}
+					<button type="submit" name="action" value="dyn11">df2/dy</button>
+					{% endif %}
+					{% if ins>2 %}
+					<button type="submit" name="action" value="dyn12">df2/dz</button>
+					{% endif %}
+					{% if ins>3 %}
+					<button type="submit" name="action" value="dyn13">df2/du</button>
+					{% endif %}
+					{% if ins>4 %}
+					<button type="submit" name="action" value="dyn14">df2/dv</button>
+					{% endif %}
+				</p>
+				{% endif %}
+				{% if outs>2 %}
+				<p>
+					<button type="submit" name="action" value="dyn20">df3/dx</button>
+					{% if ins>1 %}
+					<button type="submit" name="action" value="dyn21">df3/dy</button>
+					{% endif %}
+					{% if ins>2 %}
+					<button type="submit" name="action" value="dyn22">df3/dz</button>
+					{% endif %}
+					{% if ins>3 %}
+					<button type="submit" name="action" value="dyn23">df3/du</button>
+					{% endif %}
+					{% if ins>4 %}
+					<button type="submit" name="action" value="dyn24">df3/dv</button>
+					{% endif %}
+				</p>
+				{% endif %}
+			</div>
+		</div>
 		</form>
+		{% endif %}
+		{% if show_table %}
+		{{tables|safe}}
 		{% endif %}
 	</body>
 </html>

@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request
 app = Flask(__name__)
 
 import numpy as np
+import pandas as pd
 from ADnum_rev_timed_vis import ADnum
 import ADmath_rev as ADmath
 import ADgraph_GUI as ADgraph
@@ -69,37 +70,64 @@ def calculate():
 
 @app.route('/graphwindow', methods = ["GET", "POST"])
 def graphwindow():
+    global show_table
     errors = ""
     if request.method == "POST":
+        action = request.form["action"]
         if request.form["action"] == "Set Input Values":
+            show_table = False
+            global varlist
+            varlist = []
             try:
                 global x
                 x = [ADnum(float(request.form["x"]), ins=master_ins, ind=0)]*master_outs
                 var_strs['x']=request.form["x"]
+                varlist.append(x)
                 if master_ins>1:
                     global y
                     y=[ADnum(float(request.form["y"]), ins=master_ins, ind=1)]*master_outs
                     var_strs['y']=request.form["y"]
+                    varlist.append(y)
                 if master_ins>2:
                     global z
                     z=[ADnum(float(request.form["z"]), ins=master_ins, ind=2)]*master_outs
                     var_strs['z'] = request.form['z']
+                    varlist.append(z)
                 if master_ins>3:
                     global u
                     u=[ADnum(float(request.form["u"]), ins=master_ins, ind=3)]*master_outs
                     var_strs['u'] = request.form["u"]
+                    varlist.append(u)
                 if master_ins>4:
                     global v
                     v=[ADnum(float(request.form["v"]), ins=master_ins, ind=4)]*master_outs
                     var_strs['v']=request.form["v"]
+                    varlist.append(v)
                 build_function()    
-                return render_template('graph.html', ins=master_ins, outs = master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der = disp_der)
+                return render_template('graph.html', ins=master_ins, outs = master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der = disp_der, show_table=False)
             except:
                 errors += "Please enter numeric values for all of the inputs."
-        if request.form["action"]=="Computational Graph":
-            ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
-            return redner_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der)
-    return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels = flabels, func_content=func_content, full=False)
+        if action[0]=="g":
+        #if request.form["action"]=="Computational Graph":
+            comp_graph(int(action[-1]))
+            #ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
+            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
+        if action[0]=="t":
+            df = ADgraph.gen_table(out_num[int(action[-1])])
+            table = df.to_html(index=False)
+            show_table = True
+            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table = show_table, tables=table)
+        if action[0]=='r':
+        #if request.form["action"]=="Reverse Graph":
+            rev_graph(int(action[-1]))
+            #ADgraph.draw_graph_rev2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
+            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
+        if action[0]=='d':
+        #if request.form["action"]=="Rev Dynamic":
+            rev_dynamic(int(action[-2]), varlist[int(action[-1])])
+            #ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], x[0].revder(out_num[0])[0])
+            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
+    return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels = flabels, func_content=func_content, full=False, show_table=False)
 
 global flabels
 flabels = ['', 'x', 'x,y', 'x,y,z', 'x,y,z,u', 'x,y,z,u,v'] 
@@ -163,6 +191,15 @@ def build_function():
             G[i], edge_labs[i], pos[i], labs[i] = ADgraph.get_graph_setup(out)
         except AttributeError:
             pass
+
+def comp_graph(i):
+    ADgraph.draw_graph2(out_num[i], G[i], edge_labs[i], pos[i], labs[i]) 
+
+def rev_graph(i):
+    ADgraph.draw_graph_rev2(out_num[i], G[i], edge_labs[i], pos[i], labs[i])
+
+def rev_dynamic(i, var):
+    ADgraph.draw_graph_rev_dynamic(out_num[i], var[i].revder(out_num[i])[1], G[i], edge_labs[i], pos[i], labs[i], var[i].revder(out_num[i])[0])
 
 def edit_f1():
     global editing
