@@ -110,8 +110,13 @@ def graphwindow():
         if action[0]=="g":
         #if request.form["action"]=="Computational Graph":
             comp_graph(int(action[-1]))
+            if show_table:
+                df = ADgraph.gen_table(out_num[int(action[-1])])
+                table = df.to_html(index=False)
             #ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
-            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
+            else:
+                table = 0
+            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table, tables=table)
         if action[0]=="t":
             df = ADgraph.gen_table(out_num[int(action[-1])])
             table = df.to_html(index=False)
