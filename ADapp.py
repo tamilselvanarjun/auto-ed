@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from ADnum_rev_timed_vis import ADnum
 import ADmath_rev as ADmath
-import ADgraph_GUI as ADgraph
+import ADgraph_GUI2 as ADgraph
 
 @app.route('/', methods = ["GET", "POST"])
 def startup():
@@ -117,6 +117,7 @@ def graphwindow():
             else:
                 table = 0
             return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table, tables=table)
+            #comp_graph(int(action[-1]))
         if action[0]=="t":
             df = ADgraph.gen_table(out_num[int(action[-1])])
             table = df.to_html(index=False)
