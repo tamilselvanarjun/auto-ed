@@ -310,6 +310,7 @@ def draw_graph_rev_dynamic(y, edgelist, G, edge_labs, pos, labs, val):
     ax = fig.add_subplot(111)
     ax.set_title('Press enter to start. \n Then use the left and right arrow keys to step through the calculation.')
     #plt.title('Press enter to start.  \n Then use the left and right arrow keys to step through the calculation.')
+    ax.axis("off")
     #plt.axis("off")
     global curr_pos
     curr_pos = 0
