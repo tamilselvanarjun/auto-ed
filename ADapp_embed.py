@@ -1,8 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, Response
 app = Flask(__name__)
 
+import io
 import numpy as np
 import pandas as pd
+from matplotlib.backends.backend_svg import FigureCanvasSVG
 from ADnum_rev_timed_vis import ADnum
 import ADmath_rev as ADmath
 import ADgraph_GUI3 as ADgraph
@@ -71,6 +73,7 @@ def calculate():
 @app.route('/graphwindow', methods = ["GET", "POST"])
 def graphwindow():
     global show_table
+    global visfunc
     errors = ""
     if request.method == "POST":
         action = request.form["action"]
@@ -104,36 +107,45 @@ def graphwindow():
                     var_strs['v']=request.form["v"]
                     varlist.append(v)
                 build_function()    
-                return render_template('graph.html', ins=master_ins, outs = master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der = disp_der, show_table=False)
+                return render_template('graph2.html', ins=master_ins, outs = master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der = disp_der, show_table=False, func_select=False)
             except:
                 errors += "Please enter numeric values for all of the inputs."
-        if action[0]=="g":
+        
+        else:
+            if request.form["action"] == "f1":
+                visfunc = 0
+            if request.form["action"] == "f2":
+                visfunc = 1
+            if request.form["action"] == "f3":
+                visfunc  = 2
+            return render_template('graph2.html', visfunc=visfunc, ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, func_select=True)
+        #if action[0]=="g":
         #if request.form["action"]=="Computational Graph":
-            comp_graph(int(action[-1]))
-            if show_table:
-                df = ADgraph.gen_table(out_num[int(action[-1])])
-                table = df.to_html(index=False)
+         #   comp_graph(int(action[-1]))
+          #  if show_table:
+           #     df = ADgraph.gen_table(out_num[int(action[-1])])
+            #    table = df.to_html(index=False)
             #ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
-            else:
-                table = 0
-            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table, tables=table)
+            #else:
+             #   table = 0
+            #return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table, tables=table)
             #comp_graph(int(action[-1]))
-        if action[0]=="t":
-            df = ADgraph.gen_table(out_num[int(action[-1])])
-            table = df.to_html(index=False)
-            show_table = True
-            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table = show_table, tables=table)
-        if action[0]=='r':
+        #if action[0]=="t":
+         #   df = ADgraph.gen_table(out_num[int(action[-1])])
+          #  table = df.to_html(index=False)
+           # show_table = True
+            #return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table = show_table, tables=table)
+        #if action[0]=='r':
         #if request.form["action"]=="Reverse Graph":
-            rev_graph(int(action[-1]))
+         #   rev_graph(int(action[-1]))
             #ADgraph.draw_graph_rev2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
-            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
-        if action[0]=='d':
+          #  return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
+        #if action[0]=='d':
         #if request.form["action"]=="Rev Dynamic":
-            rev_dynamic(int(action[-2]), varlist[int(action[-1])])
+         #   rev_dynamic(int(action[-2]), varlist[int(action[-1])])
             #ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], x[0].revder(out_num[0])[0])
-            return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
-    return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels = flabels, func_content=func_content, full=False, show_table=False)
+            #return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
+    return render_template('graph2.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels = flabels, func_content=func_content, full=False, show_table=False, func_select=False)
 
 global flabels
 flabels = ['', 'x', 'x,y', 'x,y,z', 'x,y,z,u', 'x,y,z,u,v'] 
@@ -197,6 +209,18 @@ def build_function():
             G[i], edge_labs[i], pos[i], labs[i] = ADgraph.get_graph_setup(out)
         except AttributeError:
             pass
+
+global visfunc
+visfunc = 0
+
+@app.route('/comp_graph')
+def comp_graph_embed():
+    output = ADgraph.draw_graph2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
+    print('entered function')
+    #output = io.BytesIO()
+    #FigureCanvasSVG(fig).print_svg(output)
+    return Response(output.getvalue(), mimetype='image/svg+xml')
+
 
 def comp_graph(i):
     ADgraph.draw_graph2(out_num[i], G[i], edge_labs[i], pos[i], labs[i]) 
