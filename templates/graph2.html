@@ -83,7 +83,9 @@
 					<button type="submit" name="action" value="graph2">f3</button>
 					{% endif %}
 				</p>
+				-->
 				<p>Evaluation Table</p>
+				<!--
 				<p>
 					<button type="submit" name="action" value="table0">f1</button>
 					{% if outs>1 %}
@@ -94,11 +96,13 @@
 					{% endif %}
 				</p>i
 				-->
+				{{table|safe}}
 			</div>
 			<div id="reverse">
 				<p>REVERSE MODE</p>
-				<!--
 				<p>Reverse Graph</p>
+				<img src='/rev_graph' alt='reversegraph'>
+				<!--
 				<p>
 					<button type="submit" name="action" value="rgraph0">f1</button>
 					{% if outs>1 %}
@@ -165,8 +169,5 @@
 		</form>
 		{% endif %}
 		{% endif %}
-		{% if show_table %}
-		{{tables|safe}}
-		{% endif %}
-	</body>
+		</body>
 </html>

@@ -276,23 +276,27 @@ def draw_graph_rev2(y, G, edge_labs, pos, labs, ax=None):
     =======
     A plot of the graph
     """  
-    fig = plt.figure()
+    fig = Figure()
     #G = gen_graph(y)
     G = G.reverse()
     #edge_labs = nx.get_edge_attributes(G, 'label')
     #pos = nx.spring_layout(G)
     #labs = get_labels(y)
     #labs = get_labels_rev(y)
+    ax = fig.add_subplot(1, 1, 1)
     nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white', ax=ax)
-    nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labs)
-    limits = plt.axis('off')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labs, ax=ax)
+    ax.axis('off')
     mag_patch = mpatches.Patch(color = 'magenta', label = 'input')
     red_patch = mpatches.Patch(color = 'red', label = 'intermediate')
     blue_patch = mpatches.Patch(color = 'blue', label = 'constant')
     green_patch = mpatches.Patch(color = 'green', label = 'output')
-    plt.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
-    plt.show()
+    ax.legend(handles = [mag_patch, red_patch, blue_patch, green_patch])
+    #plt.show()
     #return fig
+    output = io.BytesIO()
+    FigureCanvasSVG(fig).print_svg(output)
+    return output
 
 def get_graph_setup(y):
     G = gen_graph(y)

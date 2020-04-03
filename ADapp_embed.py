@@ -118,7 +118,8 @@ def graphwindow():
                 visfunc = 1
             if request.form["action"] == "f3":
                 visfunc  = 2
-            return render_template('graph2.html', visfunc=visfunc, ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, func_select=True)
+            table = get_table()
+            return render_template('graph2.html', visfunc=visfunc, ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, func_select=True, table=table)
         #if action[0]=="g":
         #if request.form["action"]=="Computational Graph":
          #   comp_graph(int(action[-1]))
@@ -221,6 +222,15 @@ def comp_graph_embed():
     #FigureCanvasSVG(fig).print_svg(output)
     return Response(output.getvalue(), mimetype='image/svg+xml')
 
+@app.route('/rev_graph')
+def rev_graph_embed():
+    output = ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
+    return Response(output.getvalue(), mimetype='image/svg+xml')
+
+
+def get_table():
+    df = ADgraph.gen_table(out_num[visfunc])
+    return df.to_html(index=False)
 
 def comp_graph(i):
     ADgraph.draw_graph2(out_num[i], G[i], edge_labs[i], pos[i], labs[i]) 
