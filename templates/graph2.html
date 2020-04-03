@@ -112,7 +112,10 @@
 					<button type="submit" name="action" value="rgraph2">f3</button>
 					{% endif %}
 				</p>
+				-->
 				<p>Visualize Reverse Calculations</p>
+			
+				{% if visfunc==0 %}
 				<p>
 					<button type="submit" name="action" value="dyn00">df1/dx</button>
 					{% if ins>1 %}
@@ -128,7 +131,8 @@
 					<button type="submit" name="action" value="dyn04">df1/dv</button>
 					{% endif %}
 				</p>
-				{% if outs>1 %}
+				{% endif %}
+				{% if visfunc==1 %}
 				<p>
 					<button type="submit" name="action" value="dyn10">df2/dx</button>
 					{% if ins>1 %}
@@ -145,7 +149,7 @@
 					{% endif %}
 				</p>
 				{% endif %}
-				{% if outs>2 %}
+				{% if visfunc==2 %}
 				<p>
 					<button type="submit" name="action" value="dyn20">df3/dx</button>
 					{% if ins>1 %}
@@ -162,7 +166,11 @@
 					{% endif %}
 				</p>
 				{% endif %}
-				-->
+				<img src='/rev_dynamic' alt='dynvis'>
+				<p>
+				<button type='submit' name="action" value='Previous Step'>
+				<button type='submit' name='action' value='Next Step'>
+				</p>
 			</div>
 		</div>
 			

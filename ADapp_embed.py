@@ -227,6 +227,11 @@ def rev_graph_embed():
     output = ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
     return Response(output.getvalue(), mimetype='image/svg+xml')
 
+@app.route('/rev_dynamic')
+def rev_dynamic():
+    output = ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
+    return Response(output.getvalue(), mimetype='image/svg+xml')
+
 
 def get_table():
     df = ADgraph.gen_table(out_num[visfunc])
