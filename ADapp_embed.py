@@ -112,13 +112,30 @@ def graphwindow():
                 errors += "Please enter numeric values for all of the inputs."
         
         else:
+            global curr_idx
+            global rev_dyn_set
             if request.form["action"] == "f1":
                 visfunc = 0
+                curr_idx = 0
+                rev_dyn_set = []
             if request.form["action"] == "f2":
                 visfunc = 1
+                curr_idx = 0
+                rev_dyn_set = []
             if request.form["action"] == "f3":
                 visfunc  = 2
+                curr_idx = 0
+                rev_dyn_set = []
             table = get_table()
+            if request.form["action"][0] == 'd':
+                action = request.form["action"]
+                i = int(action[-2])
+                var = varlist[int(action[-1])]
+                rev_dyn_set = ADgraph.get_rev_dynamic_outs(out_num[i], var[i].revder(out_num[i])[1], G[i], edge_labs[i], pos[i], labs[i], var[i].revder(out_num[i])[0])
+            if request.form["action"] == "prev":
+                curr_idx = curr_idx-1
+            if request.form["action"] == "next":
+                curr_idx = curr_idx+1
             return render_template('graph2.html', visfunc=visfunc, ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, func_select=True, table=table)
         #if action[0]=="g":
         #if request.form["action"]=="Computational Graph":
@@ -147,6 +164,14 @@ def graphwindow():
             #ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], x[0].revder(out_num[0])[0])
             #return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
     return render_template('graph2.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels = flabels, func_content=func_content, full=False, show_table=False, func_select=False)
+
+
+global curr_idx
+curr_idx = 0
+
+global rev_dyn_set
+rev_dyn_set = []
+
 
 global flabels
 flabels = ['', 'x', 'x,y', 'x,y,z', 'x,y,z,u', 'x,y,z,u,v'] 
@@ -229,7 +254,17 @@ def rev_graph_embed():
 
 @app.route('/rev_dynamic')
 def rev_dynamic():
-    output = ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
+    global curr_idx
+    if len(rev_dyn_set) == 0:
+        out = ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
+        return Response(out.getvalue(), mimetype = 'image/svg+xml')
+    if curr_idx < 0:
+        #global curr_idx
+        curr_idx = 0
+    if curr_idx > len(rev_dyn_set)-1:
+        #global curr_idx
+        curr_idx = len(rev_dyn_set)-1
+    output = rev_dyn_set[curr_idx] #ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
     return Response(output.getvalue(), mimetype='image/svg+xml')
 
 

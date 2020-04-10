@@ -367,6 +367,31 @@ def draw_graph_rev_dynamic(y, edgelist, G, edge_labs, pos, labs, val):
     plt.show()
 
 
+def get_rev_dynamic_outs(y, edgelist, G, edge_labs, pos, labs, val):
+    figset = [None]*len(edgelist)
+    curr_pos = 0
+    edgelist.reverse()
+    G=G.reverse()
+    for (i, edge) in enumerate(edgelist):
+        fig = Figure()
+        ax = fig.add_subplot(1, 1, 1)
+        nx.draw_networkx(G, pos, labels = labs, node_color = get_colors(G, y), node_size = get_sizes(G, y, labs), font_color= 'white', ax=ax)
+        nx.draw_networkx_edges(G, pos=pos, ax=ax, edgelist = edge, width = 4, edge_color = 'y', style = 'dashed')
+        nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labs, ax=ax)
+        ax.axis('off')
+
+        if curr_pos == len(edgelist)-1:
+            ax.set_title('Step ' + str(curr_pos+1)+': Caclulation Complete')
+                #print('hello')
+                #plt.title('Step ' + str(curr_pos+1) +': Calculation Complete')
+        else:
+            ax.set_title('Step ' + str(curr_pos+1))   
+        output = io.BytesIO()
+        FigureCanvasSVG(fig).print_svg(output)
+        figset[i] = output
+        curr_pos = curr_pos+1
+    return figset
+
 def draw_graph_rev_dynamic_old(y, edgelist):
     """ Function to draw the graph.
 
