@@ -12,25 +12,31 @@ import ADgraph_GUI3 as ADgraph
 @app.route('/', methods = ["GET", "POST"])
 def startup():
     errors = ""
+    global func_content
+    global function_expression
+    global function_output
+    func_content = ["", "", ""]
+    function_expression = ["", "", ""]
+    function_output = [None]*3
     if request.method == "POST":
         try:
             ins = int(request.form["inputs"])
             assert ins>0
         except:
-            errors += "<p> Please enter a positive integer number of inputs.</p>"
+            errors += "Please enter a positive integer number of inputs."
             return render_template('welcome.html', errors=errors)
         
         try:
             outs = int(request.form["outputs"])
             assert outs>0
         except:
-            errors += "<p> Please enter a positive integer number of outputs.</p>"
+            errors += "Please enter a positive integer number of outputs."
             return render_template('welcome.html', errors=errors)
         if ins>5:
-            errors += "<p> More than 5 inputs is not supported in the web app environment.  Please either use the AD?? package or experiment with a fewer number of variables.</p>"
+            errors += "More than 5 inputs is not supported in the web app environment.  Please either use the AD?? package or experiment with a fewer number of variables."
             return render_template('welcome.html', errors=errors)
         if outs>3:
-            errors += "<p> More than 3 outputs is not supported in the web app environmnent.  Please either use the AD?? package or experiment with a fewer number of functions.</p>"
+            errors += "More than 3 outputs is not supported in the web app environmnent.  Please either use the AD?? package or experiment with a fewer number of functions."
             return render_template('welcome.html', errors=errors)
         global master_ins
         master_ins = ins
@@ -318,11 +324,13 @@ def back_func():
     content = func_content[editing]
     if len(content)==0:
         content=content
-    elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g']:
+    elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g', '^']:
         if content[-2] == 't':
             content = content[:-5]
         elif content[-2] == 'w' and content[-3] != 'o':
             content = content[:-1]
+        elif content[-2]=='^':
+            content = content[:-2]
         else:
             content = content[:-4]
     else:
@@ -477,7 +485,7 @@ def log():
 
 def pow_to():
     global func_content
-    func_content[editing]+='pow('
+    func_content[editing]+='^('
     global function_expression
     function_expression[editing] +='**('
 
@@ -549,7 +557,7 @@ calcfuncs['cos']=cos
 calcfuncs['tan']=tan
 calcfuncs['exp']=exp
 calcfuncs['log']=log
-calcfuncs['pow']=pow_to
+calcfuncs['^']=pow_to
 calcfuncs['sqrt']=sqrt
 calcfuncs['(']=left_par
 calcfuncs[')']=right_par

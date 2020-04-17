@@ -381,7 +381,7 @@ def get_rev_dynamic_outs(y, edgelist, G, edge_labs, pos, labs, val):
         ax.axis('off')
 
         if curr_pos == len(edgelist)-1:
-            ax.set_title('Step ' + str(curr_pos+1)+': Caclulation Complete')
+            ax.set_title('Step ' + str(curr_pos+1)+': Calculation Complete')
                 #print('hello')
                 #plt.title('Step ' + str(curr_pos+1) +': Calculation Complete')
         else:
