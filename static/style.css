@@ -76,33 +76,6 @@ table {
 	margin-bottom: 15px;
 }
 
-#calc:hover {
-	border: 0 solid #000;
-	color: #495069;
-	background-color: #fff;
-	border-radius: 4px;
-	width: 70px;
-	height: 60px;
-	float: left;
-	margin: 5px;
-	font-size: 20px;
-	box-shadow: 0 4px #b0d2cf;
-}
-
-#calc:active {
-	top: 4px;
-	color: #495069;
-	background-color: #fff;
-	border-radius: 4px;
-	width: 70px;
-	height: 60px;
-	float: left;
-	margin: 5px;
-	font-size: 20px;
-	box-shadow: none;
-}
-
-
 
 #forward {
 	float: left;

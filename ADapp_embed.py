@@ -134,6 +134,7 @@ def graphwindow():
                 rev_dyn_set = []
             table = get_table()
             if request.form["action"][0] == 'd':
+                curr_idx = 0
                 action = request.form["action"]
                 i = int(action[-2])
                 var = varlist[int(action[-1])]
