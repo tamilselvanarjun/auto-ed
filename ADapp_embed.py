@@ -89,27 +89,37 @@ def graphwindow():
             varlist = []
             try:
                 global x
-                x = [ADnum(float(request.form["x"]), ins=master_ins, ind=0)]*master_outs
+                x = [None]*master_outs
+                for i in range(master_outs):
+                    x[i]  = ADnum(float(request.form["x"]), ins=master_ins, ind=0)
                 var_strs['x']=request.form["x"]
                 varlist.append(x)
                 if master_ins>1:
                     global y
-                    y=[ADnum(float(request.form["y"]), ins=master_ins, ind=1)]*master_outs
+                    y = [None]*master_outs
+                    for i in range(master_outs):
+                        y[i]=ADnum(float(request.form["y"]), ins=master_ins, ind=1)
                     var_strs['y']=request.form["y"]
                     varlist.append(y)
                 if master_ins>2:
                     global z
-                    z=[ADnum(float(request.form["z"]), ins=master_ins, ind=2)]*master_outs
+                    z = [None]*master_outs
+                    for i in range(master_outs):
+                        z[i]=ADnum(float(request.form["z"]), ins=master_ins, ind=2)
                     var_strs['z'] = request.form['z']
                     varlist.append(z)
                 if master_ins>3:
                     global u
-                    u=[ADnum(float(request.form["u"]), ins=master_ins, ind=3)]*master_outs
+                    u = [None]*master_outs
+                    for i in range(master_outs):
+                        u[i] = ADnum(float(request.form["u"]), ins=master_ins, ind=3)
                     var_strs['u'] = request.form["u"]
                     varlist.append(u)
                 if master_ins>4:
                     global v
-                    v=[ADnum(float(request.form["v"]), ins=master_ins, ind=4)]*master_outs
+                    v = [None]*master_outs
+                    for i in range(master_outs):
+                        v[i]=ADnum(float(request.form["v"]), ins=master_ins, ind=4)
                     var_strs['v']=request.form["v"]
                     varlist.append(v)
                 build_function()    
