@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Module 1: The Basics of Forward Mode &#8212; AD Visualization  documentation</title>
+    <title>Module 1: The Basics of Forward Mode &#8212; Auto-eD  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -58,10 +58,44 @@
 <p>Such methods are limited in precision due to truncation and roundoff errors as accuracy depends on choosing an appropriately sized h.  Let&#8217;s consider a basic example.</p>
 <div class="section" id="demo-1-errors-in-the-finite-difference-method">
 <h3>Demo 1: Errors in The Finite Difference Method<a class="headerlink" href="#demo-1-errors-in-the-finite-difference-method" title="Permalink to this headline">¶</a></h3>
-<p>Let&#8217;s consider the function :math:r`x-exp(-2sin^2(4x))`.  Using our basic differentiation rules, we can compute the derivative symbolically,</p>
+<p>Let&#8217;s consider the function r&#8221;:math:x-exp(-2sin^2(4x))&#8221;.  Using our basic differentiation rules, we can compute the derivative symbolically,</p>
 <div class="math">
 \[\frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x)\]</div>
-<p>INSERT PYTHON CODE AND PLOT FROM LECTURE 9 HERE</p>
+<p>Let&#8217;s write code to calculate derivatives using the finite difference method for this function.
+.. code-block:: python</p>
+<blockquote>
+<div><p>#define our function
+def f(x):</p>
+<blockquote>
+<div>return x-np.exp(-2*np.sin(4*x)**2)</div></blockquote>
+<p>#explicitly define the derivative to compare accuracy
+def dfdx(x):</p>
+<blockquote>
+<div>return 1+16*np.exp(-2*np.sin(4*x)**2)*np.sin(4*x)*np.cos(4*x)</div></blockquote>
+<p>#get numerical derivative at x for stepsize h
+def finite_diff(f, x, h):</p>
+<blockquote>
+<div>return (f(x+h)-f(x))/h</div></blockquote>
+<p>#explore accuracy when changing h
+x = np.linspace(0, 2, 1000)
+hs = np.logspace(-13, 1, 1000)</p>
+<p>errs = np.zeros(len(hs))</p>
+<dl class="docutils">
+<dt>for i, h in enumerate(hs):</dt>
+<dd>err = finite_diff(f, x, h)-dfdx(x) # compute error at each domain point
+errs[i] = np.linalg.norm(err) # store L2 norm of error</dd>
+</dl>
+<p>#make plot of the error
+fig, ax = plt.subplots(1,1, figsize=(10,6))
+ax.plot(hs, errs, lw=3)
+ax.set_xscale(&#8216;log&#8217;)
+ax.set_yscale(&#8216;log&#8217;)
+ax.set_xlabel(&#8216;h&#8217;, fontsize=24)
+ax.set_ylabel(r&#8217;$|f^{prime}_{FD}-f^{prime}_{exact}|_{L_2}$&#8217;)
+ax.tick_params(labelsize=24)
+plt.tight_layout()</p>
+</div></blockquote>
+<p>The code producing the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.</p>
 <p>In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h to large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.</p>
 <p>See Exercise 1 for another example motivating the use of automatic differentiation.</p>
 <ul class="simple">
@@ -87,7 +121,7 @@
 </div>
 <div class="section" id="a-tool-for-visualizing-automatic-differentiation">
 <h2>A Tool for Visualizing Automatic Differentiation<a class="headerlink" href="#a-tool-for-visualizing-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
-<p>The ???? tool is a pedagogical tool to help visualize the processes underlying automatic differentiation.  In particular, this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.  In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each node of the graph which will be discussed in more detail in Unit 2.</p>
+<p>The Auto-eD tool is a pedagogical tool to help visualize the processes underlying automatic differentiation.  In particular, this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.  In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each node of the graph which will be discussed in more detail in Unit 2.</p>
 <div class="section" id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
 <p>The tool can be downloaded by</p>
@@ -99,15 +133,30 @@
 </div>
 <div class="section" id="a-first-demo-of-automatic-differentiation">
 <h2>A First Demo of Automatic Differentiation<a class="headerlink" href="#a-first-demo-of-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
-<p>Let&#8217;s use the tool to visualize the function from our first demo.
-#. The function has a single input variable, x, so we enter that our function has 1 input into the tool.
-#. Our function is scalar valued so we enter that our function has 1 output.
-#. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
-#. Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
-#. Enter the value for x at which you&#8217;d like to evaluate the function.  For the purposes of this demo, we&#8217;ll choose x=4.  Hit the enter button on the far left.
-#. You&#8217;ll see the values for the function and derivative appear in green in the center column.
-#. Below this you&#8217;ll see a buttons for graph and table (CHECK BUTTON NAMES).  We&#8217;ll talk more about the computational table in the next unit, so for now let&#8217;s just hit the graph button.
-#. This will open a new window with the underlying computational graph for the function.  Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)</p>
+<p>Let&#8217;s use the tool to visualize the function from our first demo.</p>
+<ol class="arabic simple">
+<li>The function has a single input variable, x, so we enter that our function has 1 input into the tool.</li>
+<li>Our function is scalar valued so we enter that our function has 1 output.</li>
+</ol>
+<img alt="_images/Step1.png" src="_images/Step1.png" />
+<ol class="arabic simple">
+<li>We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)</li>
+</ol>
+<img alt="_images/Step2.png" src="_images/Step2.png" />
+<ol class="arabic simple">
+<li>Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.</li>
+<li>Enter the value for x at which you&#8217;d like to evaluate the function.  For the purposes of this demo, we&#8217;ll choose x=4.  Hit the enter button on the far left.</li>
+<li>You&#8217;ll see the values for the function and derivative appear in green in the center column.</li>
+</ol>
+<img alt="_images/Step3.png" src="_images/Step3.png" />
+<ol class="arabic simple">
+<li>Below this you&#8217;ll see buttons for which function you&#8217;d like to visualize.  In this example, we only have a single function, so press f1.</li>
+<li>This will generate the computational graph for both forward and reverse mode as well as the computational table.  We&#8217;ll talk more about the computational table and reverse mode in the next units, so for now let&#8217;s just focus on the computational graph in forward mode.</li>
+</ol>
+<img alt="_images/Step4.png" src="_images/Step4.png" />
+<ol class="arabic simple">
+<li>Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)</li>
+</ol>
 <div class="section" id="some-key-takeaways">
 <h3>Some Key Takeaways<a class="headerlink" href="#some-key-takeaways" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">

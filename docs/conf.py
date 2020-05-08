@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'AD Visualization'
+project = 'Auto-eD'
 copyright = '2019, Lindsey Brown and David Sondak'
 author = 'Lindsey Brown and David Sondak'
 

@@ -19,13 +19,49 @@ Such methods are limited in precision due to truncation and roundoff errors as a
 Demo 1: Errors in The Finite Difference Method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's consider the function :math:r`x-\exp(-2\sin^2(4x))`.  Using our basic differentiation rules, we can compute the derivative symbolically,
+Let's consider the function r":math:x-\exp(-2\sin^2(4x))".  Using our basic differentiation rules, we can compute the derivative symbolically,
 
 .. math::
 
         \frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x)
 
-INSERT PYTHON CODE AND PLOT FROM LECTURE 9 HERE
+Let's write code to calculate derivatives using the finite difference method for this function.
+.. code-block:: python
+        #define our function
+        def f(x):
+            return x-np.exp(-2*np.sin(4*x)**2)
+        
+        #explicitly define the derivative to compare accuracy
+        def dfdx(x):
+            return 1+16*np.exp(-2*np.sin(4*x)**2)*np.sin(4*x)*np.cos(4*x)
+
+        #get numerical derivative at x for stepsize h
+        def finite_diff(f, x, h):
+            return (f(x+h)-f(x))/h
+
+        #explore accuracy when changing h
+        x = np.linspace(0, 2, 1000)
+        hs = np.logspace(-13, 1, 1000)
+
+        errs = np.zeros(len(hs))
+
+        for i, h in enumerate(hs):
+            err = finite_diff(f, x, h)-dfdx(x) # compute error at each domain point
+            errs[i] = np.linalg.norm(err) # store L2 norm of error
+
+        #make plot of the error
+        fig, ax = plt.subplots(1,1, figsize=(10,6))
+        ax.plot(hs, errs, lw=3)
+        ax.set_xscale('log')
+        ax.set_yscale('log')
+        ax.set_xlabel('h', fontsize=24)
+        ax.set_ylabel(r'$\|f^{\prime}_{FD}-f^{\prime}_{exact}\|_{L_2}$')
+        ax.tick_params(labelsize=24)
+        plt.tight_layout()
+
+The code producing the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.
+
+
 
 In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h to large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.
 
@@ -56,7 +92,7 @@ Every function can be decomposed into a series of binary elementary operations o
 
 A Tool for Visualizing Automatic Differentiation
 ------------------------------------------------
-The ???? tool is a pedagogical tool to help visualize the processes underlying automatic differentiation.  In particular, this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.  In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each node of the graph which will be discussed in more detail in Unit 2.
+The Auto-eD tool is a pedagogical tool to help visualize the processes underlying automatic differentiation.  In particular, this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.  In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each node of the graph which will be discussed in more detail in Unit 2.
 
 Installation
 ^^^^^^^^^^^^
@@ -69,14 +105,27 @@ Launch the tool in the terminal...
 A First Demo of Automatic Differentiation
 -----------------------------------------
 Let's use the tool to visualize the function from our first demo.
-#. The function has a single input variable, x, so we enter that our function has 1 input into the tool.
+
+#. The function has a single input variable, x, so we enter that our function has 1 input into the tool.   
 #. Our function is scalar valued so we enter that our function has 1 output.
+
+.. image:: Step1.png
+
 #. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
+
+.. image:: Step2.png   
 #. Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
 #. Enter the value for x at which you'd like to evaluate the function.  For the purposes of this demo, we'll choose x=4.  Hit the enter button on the far left.
 #. You'll see the values for the function and derivative appear in green in the center column.
-#. Below this you'll see a buttons for graph and table (CHECK BUTTON NAMES).  We'll talk more about the computational table in the next unit, so for now let's just hit the graph button.
-#. This will open a new window with the underlying computational graph for the function.  Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)
+
+.. image:: Step3.png
+
+#. Below this you'll see buttons for which function you'd like to visualize.  In this example, we only have a single function, so press f1.
+#. This will generate the computational graph for both forward and reverse mode as well as the computational table.  We'll talk more about the computational table and reverse mode in the next units, so for now let's just focus on the computational graph in forward mode.
+
+.. image:: Step4.png
+
+#. Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)
 
 Some Key Takeaways
 ^^^^^^^^^^^^^^^^^^
