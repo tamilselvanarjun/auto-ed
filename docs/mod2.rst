@@ -7,7 +7,20 @@ The Computational Trace and Practice with the Visualization Tool
 ----------------------------------------------------------------
 At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule, we compute the derivative at a particular node from the elementary operation that created that node and the value and derivative of the input node to that elementary operation.  Let's return to our example from our first demo.  In unit 1, we formed the corresponding computational graph.  Now let's use that graph to write the computational table.
 
-INSERT TABLE HERE
+.. list-table::
+        :widths: 10 25 25 25 25
+        :header-rows: 1
+        
+        * - Trace
+          - Elementary Function
+          - Current Value
+          - Elementary Function Derivative
+          - Derivative Evaluated at x
+        * - Does
+          - this
+          - work
+          - as 
+          - expected
 
 The visualization tool which we installed in the first unit also computes the computational table for forward mode.  Let's first consider a function of a single input.
 
@@ -22,12 +35,14 @@ The Multivariate Chain Rule
 As we saw in the example above, we can also use automatic differentiation to find the gradient of functions with multiple inputs.  From our multivariate calculus class, recall that we can find the derivative of a function with multiple inputs also using the chain rule.  Let g(t) = h(u(t), v(t)).
 
 .. math::
+
         \frac{dg}{dt} = \frac{dh}{du}\frac{du}{dt} + \frac{dh}{dv}\frac{dv}{dt}
 
 
 We can write this in general form as
 
 .. math::
+        
         \nabla_x h = \sum_{i=1}^n \frac{\partial h}{\partial y_i}\nabla_x y_i
 
 Using this formula allows us to compute the partial derivatives for each input as we saw in the evaluation trace in our multivariate example. 

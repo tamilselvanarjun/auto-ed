@@ -26,7 +26,8 @@ Let's consider the function r":math:x-\exp(-2\sin^2(4x))".  Using our basic diff
         \frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x)
 
 Let's write code to calculate derivatives using the finite difference method for this function.
-.. code-block:: python
+.. highlight:: 
+
         #define our function
         def f(x):
             return x-np.exp(-2*np.sin(4*x)**2)
@@ -106,26 +107,26 @@ A First Demo of Automatic Differentiation
 -----------------------------------------
 Let's use the tool to visualize the function from our first demo.
 
-#. The function has a single input variable, x, so we enter that our function has 1 input into the tool.   
-#. Our function is scalar valued so we enter that our function has 1 output.
+1. The function has a single input variable, x, so we enter that our function has 1 input into the tool.   
+2. Our function is scalar valued so we enter that our function has 1 output.
 
 .. image:: Step1.png
 
-#. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
+3. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
 
 .. image:: Step2.png   
-#. Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
-#. Enter the value for x at which you'd like to evaluate the function.  For the purposes of this demo, we'll choose x=4.  Hit the enter button on the far left.
-#. You'll see the values for the function and derivative appear in green in the center column.
+4. Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
+5. Enter the value for x at which you'd like to evaluate the function.  For the purposes of this demo, we'll choose x=4.  Hit the enter button on the far left.
+6. You'll see the values for the function and derivative appear in green in the center column.
 
 .. image:: Step3.png
 
-#. Below this you'll see buttons for which function you'd like to visualize.  In this example, we only have a single function, so press f1.
-#. This will generate the computational graph for both forward and reverse mode as well as the computational table.  We'll talk more about the computational table and reverse mode in the next units, so for now let's just focus on the computational graph in forward mode.
+7. Below this you'll see buttons for which function you'd like to visualize.  In this example, we only have a single function, so press f1.
+8. This will generate the computational graph for both forward and reverse mode as well as the computational table.  We'll talk more about the computational table and reverse mode in the next units, so for now let's just focus on the computational graph in forward mode.
 
 .. image:: Step4.png
 
-#. Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)
+9. Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)
 
 Some Key Takeaways
 ^^^^^^^^^^^^^^^^^^
@@ -137,12 +138,26 @@ Practice Exercises
 ------------------
 Exercise 1: Motivating Automatic Differentiation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Problem from HW 4
+A. Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x the computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)
+
+B.  Let :math:`f(x) = ln(x)`.  For :math:`0.2\leq x \leq 0.4`, make a plot comparing the numerically estimated derivative for h=1e-1, h=1e-7, and h=1e-15 to the analytic derivative (which should be used explicitly).
+
+C.  Answer the following questions:
+* Which value of h most closely approximates the true derivative?  What happens for values of h that are too small?  What happens for values of h that are too large?
+* How does automatic differentiation address these problems?
+
 
 Exercise 2: Basic Graph Structure of Calculations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Consider the function :math:`f(x)= tan(x^2+3)+x`.
 Try drawing the graph by hand.  Compare results to that using the visualization tool.
 
 Exercise 3: Looking Toward Multiple Inputs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-We can use the same process to compute derivatives for functions of multiple inputs.  Practice drawing the computational graph for this function.  We'll discuss the theory behind functions of multiple inputs in the next unit.
+We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function,
+
+.. math::
+        f(x,y)=exp(-(sin(x)-cos(y))^2)
+
+
+Practice drawing the computational graph for this function.  We'll discuss the theory behind functions of multiple inputs in the next unit.

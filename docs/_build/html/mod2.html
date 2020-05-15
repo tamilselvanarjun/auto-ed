@@ -50,7 +50,31 @@
 <div class="section" id="the-computational-trace-and-practice-with-the-visualization-tool">
 <h2>The Computational Trace and Practice with the Visualization Tool<a class="headerlink" href="#the-computational-trace-and-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
 <p>At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule, we compute the derivative at a particular node from the elementary operation that created that node and the value and derivative of the input node to that elementary operation.  Let&#8217;s return to our example from our first demo.  In unit 1, we formed the corresponding computational graph.  Now let&#8217;s use that graph to write the computational table.</p>
-<p>INSERT TABLE HERE</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="9%" />
+<col width="23%" />
+<col width="23%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Trace</th>
+<th class="head">Elementary Function</th>
+<th class="head">Current Value</th>
+<th class="head">Elementary Function Derivative</th>
+<th class="head">Derivative Evaluated at x</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Does</td>
+<td>this</td>
+<td>work</td>
+<td>as</td>
+<td>expected</td>
+</tr>
+</tbody>
+</table>
 <p>The visualization tool which we installed in the first unit also computes the computational table for forward mode.  Let&#8217;s first consider a function of a single input.</p>
 <p>Notice how the computational trace corresponds to the nodes on the graph and the edges linking these nodes.  Note that the choices of labels for the traces might be different than the table we wrote by hand - compare the labels for the nodes in the graph.</p>
 <p>Now let&#8217;s consider an example with multiple inputs.  Observe that the computed derivative is now the gradient vector.  Instead of maintaining an evaluation trace of a scalar derivative for a single input, we instead have  a trace of the gradient for multiple inputs.  Note that this is done by assigning a seed vector to each input.  We&#8217;ll discuss more about what this means automatic differentiation is computing in the next section.</p>

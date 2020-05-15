@@ -62,39 +62,40 @@
 <div class="math">
 \[\frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x)\]</div>
 <p>Let&#8217;s write code to calculate derivatives using the finite difference method for this function.
-.. code-block:: python</p>
-<blockquote>
-<div><p>#define our function
-def f(x):</p>
-<blockquote>
-<div>return x-np.exp(-2*np.sin(4*x)**2)</div></blockquote>
-<p>#explicitly define the derivative to compare accuracy
-def dfdx(x):</p>
-<blockquote>
-<div>return 1+16*np.exp(-2*np.sin(4*x)**2)*np.sin(4*x)*np.cos(4*x)</div></blockquote>
-<p>#get numerical derivative at x for stepsize h
-def finite_diff(f, x, h):</p>
-<blockquote>
-<div>return (f(x+h)-f(x))/h</div></blockquote>
-<p>#explore accuracy when changing h
-x = np.linspace(0, 2, 1000)
-hs = np.logspace(-13, 1, 1000)</p>
-<p>errs = np.zeros(len(hs))</p>
-<dl class="docutils">
-<dt>for i, h in enumerate(hs):</dt>
-<dd>err = finite_diff(f, x, h)-dfdx(x) # compute error at each domain point
-errs[i] = np.linalg.norm(err) # store L2 norm of error</dd>
-</dl>
-<p>#make plot of the error
-fig, ax = plt.subplots(1,1, figsize=(10,6))
-ax.plot(hs, errs, lw=3)
-ax.set_xscale(&#8216;log&#8217;)
-ax.set_yscale(&#8216;log&#8217;)
-ax.set_xlabel(&#8216;h&#8217;, fontsize=24)
-ax.set_ylabel(r&#8217;$|f^{prime}_{FD}-f^{prime}_{exact}|_{L_2}$&#8217;)
-ax.tick_params(labelsize=24)
-plt.tight_layout()</p>
-</div></blockquote>
+.. highlight:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#define our function</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1">#explicitly define the derivative to compare accuracy</span>
+<span class="k">def</span> <span class="nf">dfdx</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">+</span><span class="mi">16</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1">#get numerical derivative at x for stepsize h</span>
+<span class="k">def</span> <span class="nf">finite_diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">h</span><span class="p">)</span><span class="o">-</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="n">h</span>
+
+<span class="c1">#explore accuracy when changing h</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">hs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hs</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hs</span><span class="p">):</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">finite_diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span><span class="o">-</span><span class="n">dfdx</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># compute error at each domain point</span>
+    <span class="n">errs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="c1"># store L2 norm of error</span>
+
+<span class="c1">#make plot of the error</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">errs</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\|f^{\prime}_</span><span class="si">{FD}</span><span class="s1">-f^{\prime}_</span><span class="si">{exact}</span><span class="s1">\|_</span><span class="si">{L_2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
 <p>The code producing the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.</p>
 <p>In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h to large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.</p>
 <p>See Exercise 1 for another example motivating the use of automatic differentiation.</p>
@@ -139,22 +140,22 @@ plt.tight_layout()</p>
 <li>Our function is scalar valued so we enter that our function has 1 output.</li>
 </ol>
 <img alt="_images/Step1.png" src="_images/Step1.png" />
-<ol class="arabic simple">
+<ol class="arabic simple" start="3">
 <li>We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)</li>
 </ol>
 <img alt="_images/Step2.png" src="_images/Step2.png" />
-<ol class="arabic simple">
+<ol class="arabic simple" start="4">
 <li>Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.</li>
 <li>Enter the value for x at which you&#8217;d like to evaluate the function.  For the purposes of this demo, we&#8217;ll choose x=4.  Hit the enter button on the far left.</li>
 <li>You&#8217;ll see the values for the function and derivative appear in green in the center column.</li>
 </ol>
 <img alt="_images/Step3.png" src="_images/Step3.png" />
-<ol class="arabic simple">
+<ol class="arabic simple" start="7">
 <li>Below this you&#8217;ll see buttons for which function you&#8217;d like to visualize.  In this example, we only have a single function, so press f1.</li>
 <li>This will generate the computational graph for both forward and reverse mode as well as the computational table.  We&#8217;ll talk more about the computational table and reverse mode in the next units, so for now let&#8217;s just focus on the computational graph in forward mode.</li>
 </ol>
 <img alt="_images/Step4.png" src="_images/Step4.png" />
-<ol class="arabic simple">
+<ol class="arabic simple" start="9">
 <li>Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)</li>
 </ol>
 <div class="section" id="some-key-takeaways">
@@ -170,15 +171,25 @@ plt.tight_layout()</p>
 <h2>Practice Exercises<a class="headerlink" href="#practice-exercises" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="exercise-1-motivating-automatic-differentiation">
 <h3>Exercise 1: Motivating Automatic Differentiation<a class="headerlink" href="#exercise-1-motivating-automatic-differentiation" title="Permalink to this headline">¶</a></h3>
-<p>Problem from HW 4</p>
+<ol class="upperalpha simple">
+<li>Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x the computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)</li>
+<li>Let <span class="math">\(f(x) = ln(x)\)</span>.  For <span class="math">\(0.2\leq x \leq 0.4\)</span>, make a plot comparing the numerically estimated derivative for h=1e-1, h=1e-7, and h=1e-15 to the analytic derivative (which should be used explicitly).</li>
+</ol>
+<p>C.  Answer the following questions:
+* Which value of h most closely approximates the true derivative?  What happens for values of h that are too small?  What happens for values of h that are too large?
+* How does automatic differentiation address these problems?</p>
 </div>
 <div class="section" id="exercise-2-basic-graph-structure-of-calculations">
 <h3>Exercise 2: Basic Graph Structure of Calculations<a class="headerlink" href="#exercise-2-basic-graph-structure-of-calculations" title="Permalink to this headline">¶</a></h3>
-<p>Try drawing the graph by hand.  Compare results to that using the visualization tool.</p>
+<p>Consider the function <span class="math">\(f(x)= tan(x^2+3)+x\)</span>.
+Try drawing the graph by hand.  Compare results to that using the visualization tool.</p>
 </div>
 <div class="section" id="exercise-3-looking-toward-multiple-inputs">
 <h3>Exercise 3: Looking Toward Multiple Inputs<a class="headerlink" href="#exercise-3-looking-toward-multiple-inputs" title="Permalink to this headline">¶</a></h3>
-<p>We can use the same process to compute derivatives for functions of multiple inputs.  Practice drawing the computational graph for this function.  We&#8217;ll discuss the theory behind functions of multiple inputs in the next unit.</p>
+<p>We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function,</p>
+<div class="math">
+\[f(x,y)=exp(-(sin(x)-cos(y))^2)\]</div>
+<p>Practice drawing the computational graph for this function.  We&#8217;ll discuss the theory behind functions of multiple inputs in the next unit.</p>
 </div>
 </div>
 </div>
