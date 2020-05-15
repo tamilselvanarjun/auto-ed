@@ -110,11 +110,14 @@ Let's use the tool to visualize the function from our first demo.
 1. The function has a single input variable, x, so we enter that our function has 1 input into the tool.   
 2. Our function is scalar valued so we enter that our function has 1 output.
 
-.. image:: Step1.png
+.. image:: 
+        Step1.png
 
 3. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
 
-.. image:: Step2.png   
+.. image:: 
+        Step2.png
+        
 4. Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
 5. Enter the value for x at which you'd like to evaluate the function.  For the purposes of this demo, we'll choose x=4.  Hit the enter button on the far left.
 6. You'll see the values for the function and derivative appear in green in the center column.
