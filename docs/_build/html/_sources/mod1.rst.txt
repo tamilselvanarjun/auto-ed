@@ -111,7 +111,7 @@ Let's use the tool to visualize the function from our first demo.
 2. Our function is scalar valued so we enter that our function has 1 output.
 
 .. image:: 
-        Step1.png
+        Step1.PNG
 
 3. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
 
