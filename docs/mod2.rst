@@ -33,29 +33,29 @@ At each step in the graph, we can consider the current function value and deriva
           - :math:`2\sqrt{2}`
         * - :math:`x_4`
           - :math:`x_3^2`
-          - :math:`\frac{1}{2}
+          - :math:`\frac{1}{2}`
           - :math:`2x_3\dot{x_3}`
           - 4
         * - :math:`x_5`
-          -
-          -
-          -
-          -
+          - :math:`-2x_4`
+          - 1
+          - :math:`-2\dot{x_4}
+          - -8
         * - :math:`x_6`
-          -
-          -
-          -
-          -
+          - :math:`exp(x_5)`
+          - :math:`\frac{1}{e}`
+          - :math:`exp(x_5)\dot{x_5}`
+          - :math:`\frac{-8}{e}
         * - :math:`x_7`
-          -
-          -
-          -
-          -
+          - :math:`-x_6`
+          - :math:`\frac{-1}{e}
+          - :math:`-\dot{x_6}`
+          - :math:`\frac{8}{e}`
         * - :math:`x_8`
-          -
-          -
-          -
-          -
+          - :math:`x_1 + x_7`
+          - :math:`\frac{\pi}{16}-\frac{1}{e}`
+          - :math:`\dot{x_1}+\dot{x_7}`
+          - :math:`1+\frac{8}{e}`
         
           
 
@@ -103,7 +103,8 @@ Neural Network Problem
 ^^^^^^^^^^^^^^^^^^^^^^
 Artificial neural networks take as input the values of an input layer of neurons and combine these inputs in a series of layers to compute an output.  A small network with a single hidden layer is drawn below.
 
-ADD FIGURE FROM HW4
+.. image::
+        NNFigNoPhi.PNG
 
 The network can be expressed in matrix notation as
 
@@ -137,3 +138,5 @@ Note that in practical applications the biases play a key role.  However, we hav
 
 Operation Count Problem
 ^^^^^^^^^^^^^^^^^^^^^^^
+
+TO WRITE
