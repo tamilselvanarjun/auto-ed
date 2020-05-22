@@ -1,18 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
     <title>Beyond the Basics: Extensions and Software Development &#8212; Auto-eD  documentation</title>
+    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Referernces and Additional Resources" href="refs.html" />
@@ -23,14 +35,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head><body>
+  </head>
+  <body role="document">
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="beyond-the-basics-extensions-and-software-development">
@@ -38,19 +49,19 @@
 <p>We have presented one way of thinking about automatic differentiation and the graph structure of functions which underly the computations in both forward and reverse mode.  This section includes another way of thinking about automatic differentiation through dual numbers and considerations about how to implement automatic differentiation in software.</p>
 <div class="section" id="the-dual-numbers">
 <h2>The Dual Numbers<a class="headerlink" href="#the-dual-numbers" title="Permalink to this headline">¶</a></h2>
-<p>Another way to think about automatic differentiation is through the dual numbers.  Like complex numbers, which are written a+bi with real and imaginary part, we write the dual numbers as <span class="math notranslate nohighlight">\(a+b\epsilon\)</span> with real and dual part.  Similarly to the imaginary numbers where <span class="math notranslate nohighlight">\(i^2 = -1\)</span>, we have <span class="math notranslate nohighlight">\(\epsilon^2=0\)</span> for the dual numbers.  Note that <span class="math notranslate nohighlight">\(\epsilon\)</span> is not equal to zero, but is a nonreal constant defined by this property.  We will now see why this is useful when we consider the relationship between the dual numbers and differentiation.</p>
-<p>Consider the function y=x^2 whose derivative we know to be 2x.  Let’s evaluate y at the dual number <span class="math notranslate nohighlight">\(a+b\epsilon\)</span>.</p>
-<div class="math notranslate nohighlight">
+<p>Another way to think about automatic differentiation is through the dual numbers.  Like complex numbers, which are written a+bi with real and imaginary part, we write the dual numbers as <span class="math">\(a+b\epsilon\)</span> with real and dual part.  Similarly to the imaginary numbers where <span class="math">\(i^2 = -1\)</span>, we have <span class="math">\(\epsilon^2=0\)</span> for the dual numbers.  Note that <span class="math">\(\epsilon\)</span> is not equal to zero, but is a nonreal constant defined by this property.  We will now see why this is useful when we consider the relationship between the dual numbers and differentiation.</p>
+<p>Consider the function y=x^2 whose derivative we know to be 2x.  Let&#8217;s evaluate y at the dual number <span class="math">\(a+b\epsilon\)</span>.</p>
+<div class="math">
 \[y = (a+b\epsilon)^2 = a^2+2ab\epsilon+b^2\epsilon^2.\]</div>
-<p>By the property of <span class="math notranslate nohighlight">\(\epsilon\)</span>, this is just the dual number <span class="math notranslate nohighlight">\(a^2+2ab\epsilon\)</span>.  Taking b=1, the real part of the dual number y is the function y evaluated at x=a and the dual part of the dual number y is the derivative of y evaluated at x=a.</p>
-<p>Let’s consider a second example.  This time let <span class="math notranslate nohighlight">\(y=sin(x)\)</span>.  Again, let’s evaluate at <span class="math notranslate nohighlight">\(x=a+b\epsilon\)</span>.  Using the angle addition formula,</p>
-<div class="math notranslate nohighlight">
+<p>By the property of <span class="math">\(\epsilon\)</span>, this is just the dual number <span class="math">\(a^2+2ab\epsilon\)</span>.  Taking b=1, the real part of the dual number y is the function y evaluated at x=a and the dual part of the dual number y is the derivative of y evaluated at x=a.</p>
+<p>Let&#8217;s consider a second example.  This time let <span class="math">\(y=sin(x)\)</span>.  Again, let&#8217;s evaluate at <span class="math">\(x=a+b\epsilon\)</span>.  Using the angle addition formula,</p>
+<div class="math">
 \[y = sin(a+b\epsilon) = sin(a)cos(\epsilon b)+cos(a)sin(b\epsilon)\]</div>
-<p>To further simplify this expression, we can write <span class="math notranslate nohighlight">\(sin(b\epsilon)\)</span> and <span class="math notranslate nohighlight">\(cos(b\epsilon)\)</span> as Taylor series.</p>
-<div class="math notranslate nohighlight">
+<p>To further simplify this expression, we can write <span class="math">\(sin(b\epsilon)\)</span> and <span class="math">\(cos(b\epsilon)\)</span> as Taylor series.</p>
+<div class="math">
 \[sin(b\epsilon) = b\epsilon + (\epsilon b)^3/3! + ...
 cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...\]</div>
-<p>By the property of epsilon, powers of epsilon greater than 2 are 0, giving us <span class="math notranslate nohighlight">\(sin(b\epsilon) = \epsilon b\)</span> and <span class="math notranslate nohighlight">\(cos(b\epsilon) = 1\)</span>.  Substituting these expressions back into y, we have <span class="math notranslate nohighlight">\(y = sin(a)+cos(a)b\epsilon\)</span>, and as in the previous example, the real part is the function evaluated at a and the dual component is the derivative evaluated at a.</p>
+<p>By the property of epsilon, powers of epsilon greater than 2 are 0, giving us <span class="math">\(sin(b\epsilon) = \epsilon b\)</span> and <span class="math">\(cos(b\epsilon) = 1\)</span>.  Substituting these expressions back into y, we have <span class="math">\(y = sin(a)+cos(a)b\epsilon\)</span>, and as in the previous example, the real part is the function evaluated at a and the dual component is the derivative evaluated at a.</p>
 </div>
 <div class="section" id="toward-software-implementation">
 <h2>Toward Software Implementation<a class="headerlink" href="#toward-software-implementation" title="Permalink to this headline">¶</a></h2>
@@ -75,34 +86,23 @@ cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...\]</div>
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Auto-eD</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="mod1.html">Module 1: The Basics of Forward Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mod2.html">Module 2: Deeper Into Forward Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mod3.html">Module 3: The Reverse Mode of Automatic Differentiation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Beyond the Basics: Extensions and Software Development</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-dual-numbers">The Dual Numbers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#toward-software-implementation">Toward Software Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Beyond the Basics: Extensions and Software Development</a><ul>
+<li><a class="reference internal" href="#the-dual-numbers">The Dual Numbers</a></li>
+<li><a class="reference internal" href="#toward-software-implementation">Toward Software Implementation</a></li>
+<li><a class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a class="reference internal" href="#dual-numbers">Dual Numbers</a></li>
+<li><a class="reference internal" href="#toy-ad-example">Toy AD Example</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="refs.html">Referernces and Additional Resources</a></li>
 </ul>
-
+</li>
+</ul>
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -112,24 +112,23 @@ cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...\]</div>
   </ul></li>
 </ul>
 </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mod4.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
+  <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
@@ -138,8 +137,8 @@ cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...\]</div>
       &copy;2019, Lindsey Brown and David Sondak.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="_sources/mod4.rst.txt"

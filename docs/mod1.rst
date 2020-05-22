@@ -19,7 +19,7 @@ Such methods are limited in precision due to truncation and roundoff errors as a
 Demo 1: Errors in The Finite Difference Method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's consider the function :math:'x-\exp(-2\sin^2(4x))'.  Using our basic differentiation rules, we can compute the derivative symbolically,
+Let's consider the function :math:`x-\exp(-2\sin^2(4x))`.  Using our basic differentiation rules, we can compute the derivative symbolically,
 
 .. math::
 
@@ -27,7 +27,7 @@ Let's consider the function :math:'x-\exp(-2\sin^2(4x))'.  Using our basic diffe
 
 Let's write code to calculate derivatives using the finite difference method for this function.
 
-.. highlight::  
+::  
 
         #define our function
         def f(x):
@@ -99,11 +99,21 @@ The Auto-eD tool is a pedagogical tool to help visualize the processes underlyin
 
 Installation
 ^^^^^^^^^^^^
-The tool can be downloaded by
+The tool can be downloaded by  TO DO: FIND CUTE WAY TO LAUNCH
 
-Basic Instructions
-^^^^^^^^^^^^^^^^^^
-Launch the tool in the terminal...
+Developer Instructions
+^^^^^^^^^^^^^^^^^^^^^^
+To run the tool with the ability to modify and contribute to the code, you may choose to clone the github repo to have direct access to the code for the web app and access to the underlying package.  From the terminal,
+
+1. Clone the repo: git clone https:github.com/lindseysbrown/Auto-eD
+
+2. Install the dependencies: pip install -r requirements.txt
+
+3. Launch the web app from the terminal: python ADapp_embed.py
+
+4. Go to the local host in your browser to use the tool.
+
+If you would like to contirbute to this project, you can do so by making a pull request and the developers will respond to you.
 
 A First Demo of Automatic Differentiation
 -----------------------------------------

@@ -1,18 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
     <title>Module 3: The Reverse Mode of Automatic Differentiation &#8212; Auto-eD  documentation</title>
+    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Beyond the Basics: Extensions and Software Development" href="mod4.html" />
@@ -23,14 +35,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head><body>
+  </head>
+  <body role="document">
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="module-3-the-reverse-mode-of-automatic-differentiation">
@@ -39,18 +50,18 @@
 <div class="section" id="the-basics-of-reverse-mode">
 <h2>The Basics of Reverse Mode<a class="headerlink" href="#the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <p>As in forward mode, reverse mode still relies on the underlying computational graph structure of functions.  As we will see using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative information is propagated changes.  Recall that in forward mode we passed derivative information forward to store the derivative at each node.</p>
-<p>In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node <span class="math notranslate nohighlight">\(x_3\)</span> has inputs nodes <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>, only the partial derivatives <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_1}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_2}\)</span> are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial y}\)</span>.)</p>
+<p>In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node <span class="math">\(x_3\)</span> has inputs nodes <span class="math">\(x_1\)</span> and <span class="math">\(x_2\)</span>, only the partial derivatives <span class="math">\(\frac{\partial x_3}{\partial x_1}\)</span> and <span class="math">\(\frac{\partial x_3}{\partial x_2}\)</span> are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store <span class="math">\(\frac{\partial x_3}{\partial x}\)</span> and <span class="math">\(\frac{\partial x_3}{\partial y}\)</span>.)</p>
 <p>The reverse mode consists of two passes.  The forward pass first builds the computational graph while storing just the partial derivative information.  The reverse pass then starts at the output node and traverses the graph in the reverse direction to find the full partial derivatives.</p>
-<p>We introduce the bar notation to denote our backward pass tangents, <span class="math notranslate nohighlight">\(\bar{x_i} = \frac{\partial f}{\partial x_i}\)</span>, which are sometimes also called the adjoint variable.  At the final node, <span class="math notranslate nohighlight">\(f = x_N\)</span>, we have <span class="math notranslate nohighlight">\(\bar{x_N} = \frac{\partial f}{\partial x_N} = 1\)</span>.  We then traverse backward through the graph to construct the partial derivative from the chain rule.  <span class="math notranslate nohighlight">\(\bar{x_{N-1}}  = \bar{x_N}\frac{\partial x_N}{\partial x_{N-1}}\)</span>.  Note that the partial derivative is exactly the value that has already been stored by the forward pass of the graph.</p>
+<p>We introduce the bar notation to denote our backward pass tangents, <span class="math">\(\bar{x_i} = \frac{\partial f}{\partial x_i}\)</span>, which are sometimes also called the adjoint variable.  At the final node, <span class="math">\(f = x_N\)</span>, we have <span class="math">\(\bar{x_N} = \frac{\partial f}{\partial x_N} = 1\)</span>.  We then traverse backward through the graph to construct the partial derivative from the chain rule.  <span class="math">\(\bar{x_{N-1}}  = \bar{x_N}\frac{\partial x_N}{\partial x_{N-1}}\)</span>.  Note that the partial derivative is exactly the value that has already been stored by the forward pass of the graph.</p>
 <p>We see that this process is relatively straightforward for nodes with only one child.  When we encounter nodes with multiple children, we must perform a summation over the children, which follows directly from the multivariate chain rule.</p>
-<p>For <span class="math notranslate nohighlight">\(x_i\)</span> with children <span class="math notranslate nohighlight">\($x_j\)</span> and <span class="math notranslate nohighlight">\(x_k\)</span>, we have</p>
+<p>For <span class="math">\(x_i\)</span> with children <span class="math">\($x_j\)</span> and <span class="math">\(x_k\)</span>, we have</p>
 </div>
 <div class="section" id="practice-with-the-visualization-tool">
 <h2>Practice with the Visualization Tool<a class="headerlink" href="#practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
-<p>Let’s revisit our typical example.  As with forward mode, we input the function into the interface in the same way and can compute the function value and derivative, but now we know a little bit about what reverse mode computes.</p>
-<p>Press the Reverse Computational Graph button.  You’ll see a graph that looks very similar to the one produced in forward mode.  Notice that the only difference is the direction of the errors, representing the fact that derivatives are propagated in different directions.</p>
-<p>Now let’s dynamically visualize the process of reverse mode.  Press the df/dx button.  Use the arrow keys to step through the process of reverse mode.  At each step you’ll see the edge that the computation traverses being highlighted.</p>
-<p>Let’s consider another example but with multiple inputs.  Note that this function also has a branch in its underlying graph structure.
+<p>Let&#8217;s revisit our typical example.  As with forward mode, we input the function into the interface in the same way and can compute the function value and derivative, but now we know a little bit about what reverse mode computes.</p>
+<p>Press the Reverse Computational Graph button.  You&#8217;ll see a graph that looks very similar to the one produced in forward mode.  Notice that the only difference is the direction of the errors, representing the fact that derivatives are propagated in different directions.</p>
+<p>Now let&#8217;s dynamically visualize the process of reverse mode.  Press the df/dx button.  Use the arrow keys to step through the process of reverse mode.  At each step you&#8217;ll see the edge that the computation traverses being highlighted.</p>
+<p>Let&#8217;s consider another example but with multiple inputs.  Note that this function also has a branch in its underlying graph structure.
 (SOME NOTE HERE ABOUT BRANCHING)</p>
 <p><strong>Key Takeaways</strong>
 - Reverse mode and forward mode propagate the derivative in different directions.
@@ -60,13 +71,13 @@
 <div class="section" id="more-theory">
 <h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
 <p>In the previous module, we demonstrated that forward mode computes the Jacobian vector product Jp.  (depends on number of input variables)</p>
-<p>In contrast, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span> which is independent of the number of inputs.</p>
+<p>In contrast, reverse mode computes <span class="math">\(J^Tp\)</span> which is independent of the number of inputs.</p>
 <p>This difference can result in different operation counts, accounting for the popularity of the backpropagation algorithm.</p>
 </div>
 <div class="section" id="a-comparison-of-forward-and-reverse-mode">
 <h2>A Comparison of Forward and Reverse Mode<a class="headerlink" href="#a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <p>As the names suggest, the primary difference between forward and reverse mode is the direciton in which the computational graph is traversed, as we saw in the direction of the errors of the visualization tool.  This has implications for the computational efficiency of the two approaches.</p>
-<p>As we just showed, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span>, while in module 2, we learned that forward mode computes <span class="math notranslate nohighlight">\(Jp\)</span>.  This means that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.  Let’s consider an example of this.</p>
+<p>As we just showed, reverse mode computes <span class="math">\(J^Tp\)</span>, while in module 2, we learned that forward mode computes <span class="math">\(Jp\)</span>.  This means that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.  Let&#8217;s consider an example of this.</p>
 <p><strong>Demo</strong>
 operation counting demo from lecture</p>
 </div>
@@ -79,36 +90,21 @@ operation counting demo from lecture</p>
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Auto-eD</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="mod1.html">Module 1: The Basics of Forward Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mod2.html">Module 2: Deeper Into Forward Mode</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Module 3: The Reverse Mode of Automatic Differentiation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-basics-of-reverse-mode">The Basics of Reverse Mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#practice-with-the-visualization-tool">Practice with the Visualization Tool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#more-theory">More Theory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#a-comparison-of-forward-and-reverse-mode">A Comparison of Forward and Reverse Mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#going-forward">Going Forward</a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module 3: The Reverse Mode of Automatic Differentiation</a><ul>
+<li><a class="reference internal" href="#the-basics-of-reverse-mode">The Basics of Reverse Mode</a></li>
+<li><a class="reference internal" href="#practice-with-the-visualization-tool">Practice with the Visualization Tool</a></li>
+<li><a class="reference internal" href="#more-theory">More Theory</a></li>
+<li><a class="reference internal" href="#a-comparison-of-forward-and-reverse-mode">A Comparison of Forward and Reverse Mode</a></li>
+<li><a class="reference internal" href="#going-forward">Going Forward</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="mod4.html">Beyond the Basics: Extensions and Software Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="refs.html">Referernces and Additional Resources</a></li>
 </ul>
-
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -118,24 +114,23 @@ operation counting demo from lecture</p>
   </ul></li>
 </ul>
 </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mod3.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
+  <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
@@ -144,8 +139,8 @@ operation counting demo from lecture</p>
       &copy;2019, Lindsey Brown and David Sondak.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="_sources/mod3.rst.txt"
