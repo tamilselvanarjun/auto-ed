@@ -19,14 +19,15 @@ Such methods are limited in precision due to truncation and roundoff errors as a
 Demo 1: Errors in The Finite Difference Method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's consider the function r":math:x-\exp(-2\sin^2(4x))".  Using our basic differentiation rules, we can compute the derivative symbolically,
+Let's consider the function :math:'x-\exp(-2\sin^2(4x))'.  Using our basic differentiation rules, we can compute the derivative symbolically,
 
 .. math::
 
         \frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x)
 
 Let's write code to calculate derivatives using the finite difference method for this function.
-.. highlight:: 
+
+.. highlight::  
 
         #define our function
         def f(x):
@@ -62,7 +63,8 @@ Let's write code to calculate derivatives using the finite difference method for
 
 The code producing the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.
 
-
+.. image::
+        hEffect.PNG
 
 In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h to large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.
 
@@ -116,18 +118,18 @@ Let's use the tool to visualize the function from our first demo.
 3. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
 
 .. image:: 
-        Step2.png
+        Step2.PNG
         
 4. Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
 5. Enter the value for x at which you'd like to evaluate the function.  For the purposes of this demo, we'll choose x=4.  Hit the enter button on the far left.
 6. You'll see the values for the function and derivative appear in green in the center column.
 
-.. image:: Step3.png
+.. image:: Step3.PNG
 
 7. Below this you'll see buttons for which function you'd like to visualize.  In this example, we only have a single function, so press f1.
 8. This will generate the computational graph for both forward and reverse mode as well as the computational table.  We'll talk more about the computational table and reverse mode in the next units, so for now let's just focus on the computational graph in forward mode.
 
-.. image:: Step4.png
+.. image:: Step4.PNG
 
 9. Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)
 
