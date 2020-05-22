@@ -33,6 +33,7 @@ Let's consider another example but with multiple inputs.  Note that this functio
 (SOME NOTE HERE ABOUT BRANCHING)
 
 **Key Takeaways**
+
 - Reverse mode and forward mode propagate the derivative in different directions.
 - The underlying graph structure of the function is the same for both modes of automatic differentiation.
 - Reverse mode computes derivatives by making a backward pass starting at the output.
@@ -52,8 +53,12 @@ As the names suggest, the primary difference between forward and reverse mode is
 
 As we just showed, reverse mode computes :math:`J^Tp`, while in module 2, we learned that forward mode computes :math:`Jp`.  This means that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.  Let's consider an example of this.
 
-**Demo**
-operation counting demo from lecture
+**Demo: A Comparison of Forward and Reverse Mode**
+Let's consider the function :math:`f(w_1, w_2, w_3, w_4, w_5) = w_1w_2w_3w_4w_5`.  We want to compare the process of computing the partial derivatives in forward and reverse mode.  Let's start with an example of reverse mode, where we do not store the results of the chain rule but just the values of the partial derivatives at each step.
+
+
+
+To compute the derivatives, we will now traverse through the graph using our update equations.  You can visualize this graph by using the dynamic visualization tool.
 
 
 Going Forward
@@ -61,3 +66,8 @@ Going Forward
 In the next unit, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider questions of implementation in software.
 
 Other extensions for further reading include automatic differentiation for higher order derivatives, including computing Hessians, and algorithmic differentiation of computer programs.  We can also consider the efficiency of the algorithms in terms of memory and efficient graph storage, access, and traversal.  Such efficiency may be better achieved in cases where the Jacobian and Hessian are sparse.  Other work has explored using a mixture of forward and reverse mode for computations.
+
+Exercises
+---------
+TO DO
+

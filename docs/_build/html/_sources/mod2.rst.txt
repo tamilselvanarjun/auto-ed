@@ -39,16 +39,16 @@ At each step in the graph, we can consider the current function value and deriva
         * - :math:`x_5`
           - :math:`-2x_4`
           - 1
-          - :math:`-2\dot{x_4}
+          - :math:`-2\dot{x_4}`
           - -8
         * - :math:`x_6`
           - :math:`exp(x_5)`
           - :math:`\frac{1}{e}`
           - :math:`exp(x_5)\dot{x_5}`
-          - :math:`\frac{-8}{e}
+          - :math:`\frac{-8}{e}`
         * - :math:`x_7`
           - :math:`-x_6`
-          - :math:`\frac{-1}{e}
+          - :math:`\frac{-1}{e}`
           - :math:`-\dot{x_6}`
           - :math:`\frac{8}{e}`
         * - :math:`x_8`
@@ -104,7 +104,7 @@ Neural Network Problem
 Artificial neural networks take as input the values of an input layer of neurons and combine these inputs in a series of layers to compute an output.  A small network with a single hidden layer is drawn below.
 
 .. image::
-        NNFigNoPhi.PNG
+        NNFigNoPhi.png
 
 The network can be expressed in matrix notation as
 

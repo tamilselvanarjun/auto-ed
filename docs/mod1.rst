@@ -64,7 +64,7 @@ Let's write code to calculate derivatives using the finite difference method for
 The code producing the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.
 
 .. image::
-        hEffect.PNG
+        hEffect.png
 
 In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h to large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.
 
