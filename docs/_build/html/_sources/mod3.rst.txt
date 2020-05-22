@@ -56,9 +56,84 @@ As we just showed, reverse mode computes :math:`J^Tp`, while in module 2, we lea
 **Demo: A Comparison of Forward and Reverse Mode**
 Let's consider the function :math:`f(w_1, w_2, w_3, w_4, w_5) = w_1w_2w_3w_4w_5`.  We want to compare the process of computing the partial derivatives in forward and reverse mode.  Let's start with an example of reverse mode, where we do not store the results of the chain rule but just the values of the partial derivatives at each step.
 
+.. list-table::
+        :widths: 10 10 10 10 10 10 10
+        :header-rows: 1
+        * - Node
+          - Current Value
+          - Numerical Value
+          - :math:`\partial_1`
+          - :math:`\partial_1` Value
+          - :math:`\partial_2`
+          - :math:`\partial_2` Value
+        * - :math:`x_1`
+          - :math:`x_1`
+          - 2
+          - 1
+          - 1
+          - -
+          - -
+        * - :math:`x_2`
+          - :math:`x_2`
+          - 1
+          - 1
+          - 1
+          - -
+          - -
+        * - :math:`x_3`
+          - :math:`x_3`
+          - 1
+          - 1
+          - 1
+          - -
+          - -
+        * - :math:`x_4`
+          - :math:`x_4`
+          - 1
+          - 1
+          - 1
+          - -
+          - -
+        * - :math:`x_5`
+          - :math:`x_5`
+          - 1
+          - 1
+          - 1
+          - -
+          - -
+        * - :math:`x_6`
+          - :math:`x_4x_5`
+          - 1
+          - :math:`x_5`
+          - 1
+          - :math:`x_4`
+          - 1
+        * - :math:`x_7`
+          - :math:`x_3x_6`
+          - 1
+          - :math:`x_6`
+          - 1
+          - :math:`x_3`
+          - 1
+        * - :math:`x_8`
+          - :math:`x_2x_7`
+          - 1
+          - :math:`x_7`
+          - 1
+          - :math:`x_2`
+          - 1
+        * - :math:`x_9`
+          - :math:`x_1x_8`
+          - 2
+          - :math:`x_8`
+          - 1
+          - :math:`x_1`
+          - 2
 
 
-To compute the derivatives, we will now traverse through the graph using our update equations.  You can visualize this graph by using the dynamic visualization tool.
+To compute the derivatives, we will now traverse through the graph, picking up the partial derivatives, using our update equations.  You can visualize this graph traversal by using the dynamic visualization tool.
+
+
 
 
 Going Forward

@@ -82,7 +82,7 @@
 <p>As we just showed, reverse mode computes <span class="math">\(J^Tp\)</span>, while in module 2, we learned that forward mode computes <span class="math">\(Jp\)</span>.  This means that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.  Let&#8217;s consider an example of this.</p>
 <p><strong>Demo: A Comparison of Forward and Reverse Mode</strong>
 Let&#8217;s consider the function <span class="math">\(f(w_1, w_2, w_3, w_4, w_5) = w_1w_2w_3w_4w_5\)</span>.  We want to compare the process of computing the partial derivatives in forward and reverse mode.  Let&#8217;s start with an example of reverse mode, where we do not store the results of the chain rule but just the values of the partial derivatives at each step.</p>
-<p>To compute the derivatives, we will now traverse through the graph using our update equations.  You can visualize this graph by using the dynamic visualization tool.</p>
+<p>To compute the derivatives, we will now traverse through the graph, picking up the partial derivatives, using our update equations.  You can visualize this graph traversal by using the dynamic visualization tool.</p>
 </div>
 <div class="section" id="going-forward">
 <h2>Going Forward<a class="headerlink" href="#going-forward" title="Permalink to this headline">¶</a></h2>
