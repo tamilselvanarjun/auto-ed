@@ -14,6 +14,7 @@ An Introduction to Automatic Differentiation with a Visualization Tool
    mod3
    mod4
    refs
+   sols
    ..
 
    
