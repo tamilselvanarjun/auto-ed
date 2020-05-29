@@ -66,7 +66,7 @@ The code producing the following plot, showing the effects of the choice of h on
 .. image::
         hEffect.png
 
-In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h to large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.
+In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h too large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.
 
 See Exercise 1 for another example motivating the use of automatic differentiation.
 
@@ -76,7 +76,7 @@ See Exercise 1 for another example motivating the use of automatic differentiati
 
 * Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an expression for the derivative by employing the ideas of the chain rule to decompose complex functions into elementary functions for which we can compute the derivative exactly.
 
-Automatic differentiation may perform this process through two different modes, forward and reverse, both allowing for efficient and accurate computation of derivatives.  These properties make automatic differentiation useful in a variety of applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic inference.  In the rest of this module, we will explore the underlying theory that allows automatic differentiation to be applied in this wide variety of applications.
+Automatic differentiation may perform this process through two different modes, forward and reverse, both allowing for efficient and accurate computation of derivatives.  These properties make automatic differentiation useful in a variety of applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic inference.  In the rest of this module, we will explore the underlying theory that allows automatic differentiation to be applied in such a wide variety of applications.
 
 The Basics of Forward Mode
 --------------------------
@@ -125,23 +125,23 @@ Let's use the tool to visualize the function from our first demo.
 .. image:: 
         Step1.PNG
 
-3. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)
+3. We use the calculator interface to enter our function.  (Note that we can use the backspace key or the "Clear All" button to correct the function if we make a mistake when entering it.)
 
 .. image:: 
         Step2.PNG
         
-4. Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
-5. Enter the value for x at which you'd like to evaluate the function.  For the purposes of this demo, we'll choose x=4.  Hit the enter button on the far left.
-6. You'll see the values for the function and derivative appear in green in the center column.
+4. Press the "Calculate" button.  This will move you to a new screen with options to help you visualize both the forward and reverse mode of automatic differentiation.
+5. Enter the value for x at which you'd like to evaluate the function.  For the purposes of this demo, we'll choose x=4.  Hit the "Set Input Values" button.
+6. You'll see the values for the function and derivative appear below the input values you selected.
 
 .. image:: Step3.PNG
 
-7. Below this you'll see buttons for which function you'd like to visualize.  In this example, we only have a single function, so press f1.
+7. Below this, you'll see buttons for which function you'd like to visualize.  In this example, we only have a single function, so press f1.
 8. This will generate the computational graph for both forward and reverse mode as well as the computational table.  We'll talk more about the computational table and reverse mode in the next units, so for now let's just focus on the computational graph in forward mode.
 
 .. image:: Step4.PNG
 
-9. Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)
+9. Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: Occasionally the graphs may be difficult to read depending on the complexity of the function that you are visualizing.  You can try running the tool a second time to get a different configuration of the nodes.  Alternatively, for large functions, you can use the underlying package which will generate graphs that you can maximize to resize the edges.)
 
 Some Key Takeaways
 ^^^^^^^^^^^^^^^^^^
@@ -153,18 +153,20 @@ Practice Exercises
 ------------------
 Exercise 1: Motivating Automatic Differentiation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A. Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x the computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)
+A. Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x and computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)
 
 B.  Let :math:`f(x) = ln(x)`.  For :math:`0.2\leq x \leq 0.4`, make a plot comparing the numerically estimated derivative for h=1e-1, h=1e-7, and h=1e-15 to the analytic derivative (which should be used explicitly).
 
 C.  Answer the following questions:
+
 * Which value of h most closely approximates the true derivative?  What happens for values of h that are too small?  What happens for values of h that are too large?
 * How does automatic differentiation address these problems?
 
 
 Exercise 2: Basic Graph Structure of Calculations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Consider the function :math:`f(x)= tan(x^2+3)+x`.
+Consider the function :math:`f(x)= \tan(x^2+3)+x`.
+
 Try drawing the graph by hand.  Compare results to that using the visualization tool.
 
 Exercise 3: Looking Toward Multiple Inputs
@@ -172,7 +174,7 @@ Exercise 3: Looking Toward Multiple Inputs
 We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function,
 
 .. math::
-        f(x,y)=exp(-(sin(x)-cos(y))^2)
+        f(x,y)=\exp(-(\sin(x)-\cos(y))^2)
 
 
 Practice drawing the computational graph for this function.  We'll discuss the theory behind functions of multiple inputs in the next unit.

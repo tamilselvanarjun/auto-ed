@@ -97,7 +97,7 @@
 </div>
 <p>The code producing the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.</p>
 <img alt="_images/hEffect.png" src="_images/hEffect.png" />
-<p>In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h to large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.</p>
+<p>In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h too large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.</p>
 <p>See Exercise 1 for another example motivating the use of automatic differentiation.</p>
 <ul class="simple">
 <li>Automatic differentiation is not symbolic differentiation.</li>
@@ -106,7 +106,7 @@
 <ul class="simple">
 <li>Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an expression for the derivative by employing the ideas of the chain rule to decompose complex functions into elementary functions for which we can compute the derivative exactly.</li>
 </ul>
-<p>Automatic differentiation may perform this process through two different modes, forward and reverse, both allowing for efficient and accurate computation of derivatives.  These properties make automatic differentiation useful in a variety of applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic inference.  In the rest of this module, we will explore the underlying theory that allows automatic differentiation to be applied in this wide variety of applications.</p>
+<p>Automatic differentiation may perform this process through two different modes, forward and reverse, both allowing for efficient and accurate computation of derivatives.  These properties make automatic differentiation useful in a variety of applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic inference.  In the rest of this module, we will explore the underlying theory that allows automatic differentiation to be applied in such a wide variety of applications.</p>
 </div>
 </div>
 <div class="section" id="the-basics-of-forward-mode">
@@ -148,22 +148,22 @@
 </ol>
 <img alt="_images/Step1.PNG" src="_images/Step1.PNG" />
 <ol class="arabic simple" start="3">
-<li>We use the calculator interface to enter our function.  (Note that we can use the backspace key or the clear all (CHECK THIS NAME) to correct the function if we make a mistake when entering it.)</li>
+<li>We use the calculator interface to enter our function.  (Note that we can use the backspace key or the &#8220;Clear All&#8221; button to correct the function if we make a mistake when entering it.)</li>
 </ol>
 <img alt="_images/Step2.PNG" src="_images/Step2.PNG" />
 <ol class="arabic simple" start="4">
-<li>Press calculate.  This will open a second screen with options to help you visualize both the forward and reverse mode of automatic differentiation.</li>
-<li>Enter the value for x at which you&#8217;d like to evaluate the function.  For the purposes of this demo, we&#8217;ll choose x=4.  Hit the enter button on the far left.</li>
-<li>You&#8217;ll see the values for the function and derivative appear in green in the center column.</li>
+<li>Press the &#8220;Calculate&#8221; button.  This will move you to a new screen with options to help you visualize both the forward and reverse mode of automatic differentiation.</li>
+<li>Enter the value for x at which you&#8217;d like to evaluate the function.  For the purposes of this demo, we&#8217;ll choose x=4.  Hit the &#8220;Set Input Values&#8221; button.</li>
+<li>You&#8217;ll see the values for the function and derivative appear below the input values you selected.</li>
 </ol>
 <img alt="_images/Step3.PNG" src="_images/Step3.PNG" />
 <ol class="arabic simple" start="7">
-<li>Below this you&#8217;ll see buttons for which function you&#8217;d like to visualize.  In this example, we only have a single function, so press f1.</li>
+<li>Below this, you&#8217;ll see buttons for which function you&#8217;d like to visualize.  In this example, we only have a single function, so press f1.</li>
 <li>This will generate the computational graph for both forward and reverse mode as well as the computational table.  We&#8217;ll talk more about the computational table and reverse mode in the next units, so for now let&#8217;s just focus on the computational graph in forward mode.</li>
 </ol>
 <img alt="_images/Step4.PNG" src="_images/Step4.PNG" />
 <ol class="arabic simple" start="9">
-<li>Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: If you find the graph difficult to read, try maximizing the graph window to give more space between the nodes.)</li>
+<li>Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: Occasionally the graphs may be difficult to read depending on the complexity of the function that you are visualizing.  You can try running the tool a second time to get a different configuration of the nodes.  Alternatively, for large functions, you can use the underlying package which will generate graphs that you can maximize to resize the edges.)</li>
 </ol>
 <div class="section" id="some-key-takeaways">
 <h3>Some Key Takeaways<a class="headerlink" href="#some-key-takeaways" title="Permalink to this headline">¶</a></h3>
@@ -179,23 +179,25 @@
 <div class="section" id="exercise-1-motivating-automatic-differentiation">
 <h3>Exercise 1: Motivating Automatic Differentiation<a class="headerlink" href="#exercise-1-motivating-automatic-differentiation" title="Permalink to this headline">¶</a></h3>
 <ol class="upperalpha simple">
-<li>Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x the computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)</li>
+<li>Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x and computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)</li>
 <li>Let <span class="math">\(f(x) = ln(x)\)</span>.  For <span class="math">\(0.2\leq x \leq 0.4\)</span>, make a plot comparing the numerically estimated derivative for h=1e-1, h=1e-7, and h=1e-15 to the analytic derivative (which should be used explicitly).</li>
+<li>Answer the following questions:</li>
 </ol>
-<p>C.  Answer the following questions:
-* Which value of h most closely approximates the true derivative?  What happens for values of h that are too small?  What happens for values of h that are too large?
-* How does automatic differentiation address these problems?</p>
+<ul class="simple">
+<li>Which value of h most closely approximates the true derivative?  What happens for values of h that are too small?  What happens for values of h that are too large?</li>
+<li>How does automatic differentiation address these problems?</li>
+</ul>
 </div>
 <div class="section" id="exercise-2-basic-graph-structure-of-calculations">
 <h3>Exercise 2: Basic Graph Structure of Calculations<a class="headerlink" href="#exercise-2-basic-graph-structure-of-calculations" title="Permalink to this headline">¶</a></h3>
-<p>Consider the function <span class="math">\(f(x)= tan(x^2+3)+x\)</span>.
-Try drawing the graph by hand.  Compare results to that using the visualization tool.</p>
+<p>Consider the function <span class="math">\(f(x)= \tan(x^2+3)+x\)</span>.</p>
+<p>Try drawing the graph by hand.  Compare results to that using the visualization tool.</p>
 </div>
 <div class="section" id="exercise-3-looking-toward-multiple-inputs">
 <h3>Exercise 3: Looking Toward Multiple Inputs<a class="headerlink" href="#exercise-3-looking-toward-multiple-inputs" title="Permalink to this headline">¶</a></h3>
 <p>We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function,</p>
 <div class="math">
-\[f(x,y)=exp(-(sin(x)-cos(y))^2)\]</div>
+\[f(x,y)=\exp(-(\sin(x)-\cos(y))^2)\]</div>
 <p>Practice drawing the computational graph for this function.  We&#8217;ll discuss the theory behind functions of multiple inputs in the next unit.</p>
 </div>
 </div>
