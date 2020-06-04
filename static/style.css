@@ -30,6 +30,10 @@ table {
 	background-color: white;
 }
 
+img {
+	max-width: 95%;
+}
+
 #calctable {
 	margin: auto;
 	background-color: #AFB7C1;

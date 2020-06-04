@@ -189,7 +189,7 @@ def draw_graph(y):
     =======
     A plot of the graph
     """  
-    fig = plt.figure()
+    fig = plt.figure(figsize=(20,10))
     G = gen_graph(y)
     edge_labs = nx.get_edge_attributes(G, 'label')
     pos = nx.spring_layout(G)
@@ -216,6 +216,7 @@ def draw_graph2(y, G, edge_labs, pos, labs, ax=None):
     A plot of the graph
     """  
     fig = Figure() #plt.figure()
+    fig.set_size_inches(9, 6)
     ax = fig.add_subplot(1,1,1)
     ax.axis('off')
     #G = gen_graph(y)
@@ -277,6 +278,7 @@ def draw_graph_rev2(y, G, edge_labs, pos, labs, ax=None):
     A plot of the graph
     """  
     fig = Figure()
+    fig.set_size_inches(9,6)
     #G = gen_graph(y)
     G = G.reverse()
     #edge_labs = nx.get_edge_attributes(G, 'label')

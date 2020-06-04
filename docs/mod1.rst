@@ -149,8 +149,8 @@ Some Key Takeaways
 * These operations include both basic binary operations (addition, subtraction, multiplication, and division) and unary operations (exponential functions, trigonometric functions)
 * Using this graph to compute the derivative is the same process as using the chain rule to compute the derivative, allowing the derivative to be computed to machine precision
 
-Practice Exercises
-------------------
+Exercises
+---------
 Exercise 1: Motivating Automatic Differentiation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 A. Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x and computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)
