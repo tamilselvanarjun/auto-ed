@@ -123,8 +123,14 @@
 <p>The visualization tool which we installed in the first unit also computes the computational table.  Input the function and compare the forward mode graph to the forward model table.</p>
 <p>Notice how the computational trace corresponds to the nodes on the graph and the edges linking these nodes.  Note that the choices of labels for the traces might be different than the table we wrote by hand - compare the labels for the nodes in the graph.</p>
 <p>Now let&#8217;s consider an example with multiple inputs.  Observe that the computed derivative is now the gradient vector.  Instead of maintaining an evaluation trace of a scalar derivative for a single input, we instead have  a trace of the gradient for multiple inputs.</p>
-<p>NEED EXAMPLE FUNCTION HERE</p>
-<p>Note that this is done by assigning a seed vector to each input.  We&#8217;ll discuss more about what this means automatic differentiation is computing in the next section.</p>
+<p>In the exercises in the previous module, we practiced drawing the graph for the function</p>
+<div class="math">
+\[f(x,y) = \exp(-(\sin(x)-\cos(y))^2)\]</div>
+<p>The graph you drew should have the same structure as this graph produced with the visualization tool (with the exception of possibly interchanging some of the labels).</p>
+<img alt="_images/Mod1Ex3Sol.PNG" src="_images/Mod1Ex3Sol.PNG" />
+<p>We can also use the visualization tool to see the computational table which corresponds to the graph.  Observe that the derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative with respect to one of our inputs.</p>
+<img alt="_images/Mod2Table.PNG" src="_images/Mod2Table.PNG" />
+<p>Note that computing the gradient for this multivariate function is done by assigning a seed vector to each input, where to find the gradient we use the standard basis vectors as seeds.  We&#8217;ll discuss more about what this means automatic differentiation is computing in the next section.</p>
 </div>
 <div class="section" id="more-theory">
 <h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
@@ -171,8 +177,8 @@ In this part, you will completely neglect the biases.  The mathematical form is 
 \[\begin{split}f(x,y) = w_{out}^Tz\left(W\begin{bmatrix}x \\ y \end{bmatrix}\right)\end{split}\]</div>
 <p>Note that in practical applications the biases play a key role.  However, we have elected to neglect them in this problem so that your results are more readable.  You will complete the two steps below while neglecting the bias terms.</p>
 <ol class="arabic simple">
-<li>Draw the complete forward computational graph.  You may treat <span class="math">\(z\)</span> as a single elementary operation.  You should explicitly show the multiplications and additionas that are masked in the schematic of the network above.</li>
-<li>Use your graph to write out teh full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.</li>
+<li>Draw the complete forward computational graph.  You may treat <span class="math">\(z\)</span> as a single elementary operation.  You should explicitly show the multiplications and additions that are masked in the schematic of the network above.</li>
+<li>Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.</li>
 </ol>
 </div>
 <div class="section" id="operation-count-problem">

@@ -47,15 +47,227 @@
 <h1>Solutions to Exercises<a class="headerlink" href="#solutions-to-exercises" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-1-exercise-solutions">
 <h2>Module 1 Exercise Solutions<a class="headerlink" href="#module-1-exercise-solutions" title="Permalink to this headline">¶</a></h2>
+<p>Exercise 1: Motivating Automatic Differentiation</p>
+<p>A. The python code is given by:
+.. highlight</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">numerical_diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">num_der</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">h</span><span class="p">)</span><span class="o">-</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="n">h</span>
+    <span class="k">return</span> <span class="n">num_der</span>
+
+<span class="n">nd</span> <span class="o">=</span> <span class="n">numerical_diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="mf">1E-1</span><span class="p">)</span>
+<span class="n">nd2</span> <span class="o">=</span> <span class="n">numerical_diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="mf">1E-7</span><span class="p">)</span>
+<span class="n">nd3</span> <span class="o">=</span> <span class="n">numerical_diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="mf">1E-15</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nd</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;h=.1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nd2</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;h=1e-7&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nd3</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;h=1e-15&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;df/dx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="upperalpha simple" start="2">
+<li>The corresponding graph output is:</li>
+</ol>
+<img alt="_images/Mod1Ex1Sol.PNG" src="_images/Mod1Ex1Sol.PNG" />
+<ol class="upperalpha simple" start="3">
+<li>The numerical differentiation performs best for h=1e-7.  For h too small, we encounter round off errors as a result of limited machine precision.  For h too large, the numerical approximation is not exact.  Automatic differentiation addresses this by evaluating derivatives exactly to machine precision without taking numerical estimates.</li>
+</ol>
+<p>Exercise 2: Basic Graph Structure of Calculations
+.. image:: Mod1Ex2Sol.PNG
+You should notice that while your labelling of the nodes may be different, the overall connectivity structure and edges should be the same.</p>
+<p>Exercise 3:
+.. image:: Mod1Ex3Sol.PNG</p>
 </div>
 <div class="section" id="module-2-exercise-solutions">
 <h2>Module 2 Exercise Solutions<a class="headerlink" href="#module-2-exercise-solutions" title="Permalink to this headline">¶</a></h2>
+<p>Exercise 1: Neural Network Problem
+The corresponding computational graph is given by:
+.. image:: Mod2Ex1Sol.PNG</p>
+<p>The table corresponding to this graph is given by:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="5%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Trace</th>
+<th class="head">Elementary Function</th>
+<th class="head">Current Value</th>
+<th class="head">Elementary Function Derivative</th>
+<th class="head"><span class="math">\(\nabla_x\)</span> Evaluated at (x,y)</th>
+<th class="head"><span class="math">\(\nabla_y\)</span> Evaluated at (x,y)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math">\(x_1\)</span></td>
+<td><span class="math">\(x\)</span></td>
+<td><span class="math">\(x\)</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(x_2\)</span></td>
+<td><span class="math">\(y\)</span></td>
+<td><span class="math">\(y\)</span></td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><span class="math">\(x_3\)</span></td>
+<td><span class="math">\(w_{11} \times x_1\)</span></td>
+<td><span class="math">\(w_{11}x\)</span></td>
+<td><span class="math">\(w_{11}\dot{x_1}\)</span></td>
+<td><span class="math">\(w_{11}\)</span></td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(x_4\)</span></td>
+<td><span class="math">\(w_{21} \times x_1\)</span></td>
+<td><span class="math">\(w_{21}x\)</span></td>
+<td><span class="math">\(w_{21}\dot{x_1}\)</span></td>
+<td><span class="math">\(w_{21}\)</span></td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td><span class="math">\(x_5\)</span></td>
+<td><span class="math">\(w_{12} \times x_2\)</span></td>
+<td><span class="math">\(w_{12}y\)</span></td>
+<td><span class="math">\(w_{12}\dot{x_2}\)</span></td>
+<td>0</td>
+<td><span class="math">\(w_{12}\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(x_6\)</span></td>
+<td><span class="math">\(w_{22} \times x_2\)</span></td>
+<td><span class="math">\(w_{22}y\)</span></td>
+<td><span class="math">\(w_{22}\dot{x_2}\)</span></td>
+<td>0</td>
+<td><span class="math">\(w_{22}\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math">\(x_7\)</span></td>
+<td><span class="math">\(x_3+x_5\)</span></td>
+<td><span class="math">\(w_{11}x+w_{12}y\)</span></td>
+<td><span class="math">\(\dot{x_3}+\dot{x_5}\)</span></td>
+<td><span class="math">\(w_{11}\)</span></td>
+<td><span class="math">\(w_{12}\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(x_8\)</span></td>
+<td><span class="math">\(x_4+x_6\)</span></td>
+<td><span class="math">\(w_{21}x+w_{22}y\)</span></td>
+<td><span class="math">\(\dot{x_4}+\dot{x_6}\)</span></td>
+<td><span class="math">\(w_{21}\)</span></td>
+<td><span class="math">\(w_{22}\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math">\(x_9\)</span></td>
+<td><span class="math">\(z(x_7)\)</span></td>
+<td><span class="math">\(z(w_{11}x+w_{12}y)\)</span></td>
+<td><span class="math">\(z\prime (x_7)\dot{x_7}\)</span></td>
+<td><span class="math">\(z\prime (w_{11}x+w_{12}y)w_{11}\)</span></td>
+<td><span class="math">\(z\prime (w_{11}x+w_{12}y)w_{12}\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(x_{10}\)</span></td>
+<td><span class="math">\(z(x_8)\)</span></td>
+<td><span class="math">\(z(w_{21}x+w_{22}y)\)</span></td>
+<td><span class="math">\(z\prime (x_8)\dot{x_8}\)</span></td>
+<td><span class="math">\(z\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(z\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math">\(x_{11}\)</span></td>
+<td><span class="math">\(w_{out,1}\times x_9\)</span></td>
+<td><span class="math">\(w_{out,1}z(w_{11}x+w_{12}y)\)</span></td>
+<td><span class="math">\(w_{out, 1}\dot{x_9}\)</span></td>
+<td><span class="math">\(w_{out,1}z\prime (w_{11}x+w_{12}y)w_{11}\)</span></td>
+<td><span class="math">\(w_{out,1}z\prime (w_{11}x+w_{12}y)w_{12}\)</span></td>
+</tr>
+<tr class="row-odd"><td><span class="math">\(x_{12}\)</span></td>
+<td><span class="math">\(w_{out,2}\times x_{10}\)</span></td>
+<td><span class="math">\(w_{out,2}z(w_{21}x+w_{22}y)\)</span></td>
+<td><span class="math">\(w_{out, 2}\dot{x_{10}}\)</span></td>
+<td><span class="math">\(w_{out,2}z\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(w_{out,2}z\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
+</tr>
+<tr class="row-even"><td><span class="math">\(x_{13}\)</span></td>
+<td><span class="math">\(x_{11}+x_{12}\)</span></td>
+<td><span class="math">\(w_{out,1}z(w_{11}x+w_{12}y)+w_{out,2}z(w_{21}x+w_{22}y)\)</span></td>
+<td><span class="math">\(\dot{x_{11}}+\dot{x_{12}}\)</span></td>
+<td><span class="math">\(w_{out,1}z\prime (w_{11}x+w_{12}y)w_{11}+w_{out,2}z\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(w_{out,1}z\prime (w_{11}x+w_{12}y)w_{12}+w_{out,2}z\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Exercise 2: Operation Count Problem</p>
 </div>
 <div class="section" id="module-3-exercise-solutions">
 <h2>Module 3 Exercise Solutions<a class="headerlink" href="#module-3-exercise-solutions" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="extension-exercise-solutions">
-<h2>Extension Exercise Solutions<a class="headerlink" href="#extension-exercise-solutions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="beyond-the-basics-exercise-solutions">
+<h2>Beyond the Basics Exercise Solutions<a class="headerlink" href="#beyond-the-basics-exercise-solutions" title="Permalink to this headline">¶</a></h2>
+<p>Exercise 1: Dual Numbers
+To find the derivative, we look to the dual part when we replace x with <span class="math">\(a+b\epsilon\)</span>.  For our function,</p>
+<div class="math">
+\[y= e^{(a+b\epsilon)^2}
+= e^{a^2}e^{2ab\epsilon}e^{\b^2\epsilon^2}\]</div>
+<p>Since <span class="math">\(\epsilon^2=0\)</span>,</p>
+<div class="math">
+\[=e^{a^2}e^{2ab\epsilon}\]</div>
+<p>Expanding <span class="math">\(e^{2ab\epsilon}\)</span> using a Taylor series,</p>
+<div class="math">
+\[= e^{a^2}\left( 1+ 2ab\epsilon + \frac{(2ab\epsilon)^2}{2} + \cdots \right)
+= e^{a^2}+2ae^{a^2}b\epsilon\]</div>
+<p>So we have that the derivative evaluated at a is <span class="math">\(2ae^{a^2}\)</span>.</p>
+<p>Exercise 2: Toy AD Example
+.. highlight:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoDiffToy</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Creates an object for autodifferentiation</span>
+
+<span class="sd">    ATTRIBUTES</span>
+<span class="sd">    ==========</span>
+<span class="sd">    val : the value of the object</span>
+<span class="sd">    der : the derivative of the object</span>
+
+<span class="sd">    EXAMPLES</span>
+<span class="sd">    ========</span>
+<span class="sd">    &gt;&gt;&gt; x = AutoDiffToy(4)</span>
+<span class="sd">    &gt;&gt;&gt; x.val</span>
+<span class="sd">    4</span>
+<span class="sd">    &gt;&gt;&gt; x.der</span>
+<span class="sd">    1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">=</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#overload addition</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># derivative of a constant is zero</span>
+            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#ensure commutativity of addition</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#overload multiplication</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+           <span class="n">other</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+           <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+
+     <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -71,7 +283,7 @@
 <li><a class="reference internal" href="#module-1-exercise-solutions">Module 1 Exercise Solutions</a></li>
 <li><a class="reference internal" href="#module-2-exercise-solutions">Module 2 Exercise Solutions</a></li>
 <li><a class="reference internal" href="#module-3-exercise-solutions">Module 3 Exercise Solutions</a></li>
-<li><a class="reference internal" href="#extension-exercise-solutions">Extension Exercise Solutions</a></li>
+<li><a class="reference internal" href="#beyond-the-basics-exercise-solutions">Beyond the Basics Exercise Solutions</a></li>
 </ul>
 </li>
 </ul>

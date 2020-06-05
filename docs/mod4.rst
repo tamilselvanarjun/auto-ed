@@ -35,16 +35,47 @@ In operator overloading, we use different implementation of operators depending 
 
 We can see an example of operator overloading in rewriting addition for a class defined for complex numbers.
 
-COMPLEX NUMBER CODE HERE
+.. highlight::
+
+        class Complex():
+            def __init__(self, a, b):
+                self.a = a #real part
+                self.b = b #imaginary part
+
+            def __add__(self, other):
+                #overload addition, addition for complex numbers is component-wise
+                return Complex(self.a+other.a, self.b+other.b)
 
 In our computational tables, we saw that each node of the graph in foward mode had a function evaluation and a derivative component, similar to the dual numbers.  We can use operator overloading to specify how the different elementary operations and functions act on these two components to produce a new node with a function evaluation and derivative.
 
 Exercises
 ---------
-Dual Numbers
-++++++++++++
-Using the dual numbers, find the derivative of y=e^x^2.  Note that you will need to use Taylor series.
+Exercise 1: Dual Numbers
+++++++++++++++++++++++++
+Using the dual numbers, find the derivative of :math:`y=e^{x^2}`.  Note that you will need to use Taylor series.
 
-Toy AD Example
-++++++++++++++
-Linear function example from homework.
+Exercise 2: Toy AD Example
+++++++++++++++++++++++++++
+Write a forward mode automatic differentiation class capable of handling functions composed of addition and multiplication operations.  The class AutoDiffToy should return the value and derivative of functions of the form :math:`f(x)=\alpha x+\beta` for :math:`\alpha , \beta` real constants.
+
+Some thoughts on implementation:
+* The constructor should set the value of the function and the derivative.  This is similar to the first row in the computational tables.
+* Overload operations as appropriate.  Note that Python's __add__(self, other) and __mul__(self, other) methods are meant to be defined for objects of the same type, so your implementation should not assume that other is a real number but be robust enough to handle the case where it is.
+* Handle exceptions appropriately.  You may want to use duck-typing, where ratehr than checking if an argument to a special method is an instance of the object, you instead use a try-except blcok and catch an AttributeError.
+* Make your implementation robust encough to handle functions written as :math:`f = alpha*x+beta, f=x*alpha+beta, f=beta+alpha*x, f=beta+x*alpha`.
+
+Example Use Case:
+
+.. highlight::
+
+        a = 2.0 #value to evaluate at
+        x = AutoDiffToy(a)
+
+        alpha = 2.0
+        beta = 3.0
+        f = alpha*x + beta #define function
+
+        print(f.val, f.der)
+
+        >>> 7.0 2.0
+

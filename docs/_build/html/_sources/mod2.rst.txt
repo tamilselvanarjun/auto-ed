@@ -70,9 +70,21 @@ Notice how the computational trace corresponds to the nodes on the graph and the
 
 Now let's consider an example with multiple inputs.  Observe that the computed derivative is now the gradient vector.  Instead of maintaining an evaluation trace of a scalar derivative for a single input, we instead have  a trace of the gradient for multiple inputs.  
 
-NEED EXAMPLE FUNCTION HERE
+In the exercises in the previous module, we practiced drawing the graph for the function
 
-Note that this is done by assigning a seed vector to each input.  We'll discuss more about what this means automatic differentiation is computing in the next section.
+.. math::
+        f(x,y) = \exp(-(\sin(x)-\cos(y))^2)
+
+The graph you drew should have the same structure as this graph produced with the visualization tool (with the exception of possibly interchanging some of the labels).
+
+.. image:: Mod1Ex3Sol.PNG
+
+We can also use the visualization tool to see the computational table which corresponds to the graph.  Observe that the derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative with respect to one of our inputs.
+
+.. image:: Mod2Table.PNG
+
+
+Note that computing the gradient for this multivariate function is done by assigning a seed vector to each input, where to find the gradient we use the standard basis vectors as seeds.  We'll discuss more about what this means automatic differentiation is computing in the next section.
 
 More Theory
 -----------
@@ -142,8 +154,8 @@ In this part, you will completely neglect the biases.  The mathematical form is 
 
 Note that in practical applications the biases play a key role.  However, we have elected to neglect them in this problem so that your results are more readable.  You will complete the two steps below while neglecting the bias terms.
 
-1. Draw the complete forward computational graph.  You may treat :math:`z` as a single elementary operation.  You should explicitly show the multiplications and additionas that are masked in the schematic of the network above.
-2. Use your graph to write out teh full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.
+1. Draw the complete forward computational graph.  You may treat :math:`z` as a single elementary operation.  You should explicitly show the multiplications and additions that are masked in the schematic of the network above.
+2. Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.
 
 Operation Count Problem
 ^^^^^^^^^^^^^^^^^^^^^^^

@@ -15,9 +15,9 @@ We introduce the bar notation to denote our backward pass tangents, :math:`\bar{
 
 We see that this process is relatively straightforward for nodes with only one child.  When we encounter nodes with multiple children, we must perform a summation over the children, which follows directly from the multivariate chain rule.
 
-For :math:`x_i` with children :math:`$x_j` and :math:`x_k`, we have
+For :math:`x_i` with children :math:`x_j` and :math:`x_k`, we have
 
-.. :math::
+.. math::
         \bar{x_i} = \bar{x_j}\frac{\partial x_j}{\partial x_i} + \bar{x_k}\frac{\partial x_k}{\partial x_i}.
 
 
@@ -26,6 +26,8 @@ Practice with the Visualization Tool
 Let's revisit our typical example.  As with forward mode, we input the function into the interface in the same way and can compute the function value and derivative, but now we know a little bit about what reverse mode computes.  Let's start with the same example we analyzed for forward mode, :math:`f(x) = x-\exp(-2\sin(4x)^2)`.  Input it into the visualization tool in the same way that you did in the first module.
 
 Let's focus on the right half of the screen.  In the top right, you'll see a graph that looks very similar to the one produced in forward mode.  Notice that the only difference is the direction of the arrows, representing the fact that derivatives are propagated in different directions.
+
+.. image:: Step4.PNG
 
 Now let's dynamically visualize the process of reverse mode.  In the bottom right, press the df/dx button.  Use the 'Next' button to step through the process of reverse mode.  At each step you'll see the edge that the computation traverses being highlighted.  
 

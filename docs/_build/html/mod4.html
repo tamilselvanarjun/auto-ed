@@ -68,18 +68,23 @@ cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...\]</div>
 <p>In our discussion of automatic differentiation, we noted that automatic differentiation is possible because functions can be decomposed into elementary functions whose derivatives we know explicitly.  Implementing this in software requires code so that these known derivatives are coded as part of the function.  We can do this through operator overloading.</p>
 <p>In operator overloading, we use different implementation of operators depending on the class of the object that is being operated on.  This can be done easily in Python by redefining the dunder methods for basic operations (i.e., __add__, __radd__, __pow__, __rpow__, etc.) for a class of automatic differentiation objects.</p>
 <p>We can see an example of operator overloading in rewriting addition for a class defined for complex numbers.</p>
-<p>COMPLEX NUMBER CODE HERE</p>
 <p>In our computational tables, we saw that each node of the graph in foward mode had a function evaluation and a derivative component, similar to the dual numbers.  We can use operator overloading to specify how the different elementary operations and functions act on these two components to produce a new node with a function evaluation and derivative.</p>
 </div>
 <div class="section" id="exercises">
 <h2>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="dual-numbers">
-<h3>Dual Numbers<a class="headerlink" href="#dual-numbers" title="Permalink to this headline">¶</a></h3>
-<p>Using the dual numbers, find the derivative of y=e^x^2.  Note that you will need to use Taylor series.</p>
+<div class="section" id="exercise-1-dual-numbers">
+<h3>Exercise 1: Dual Numbers<a class="headerlink" href="#exercise-1-dual-numbers" title="Permalink to this headline">¶</a></h3>
+<p>Using the dual numbers, find the derivative of <span class="math">\(y=e^{x^2}\)</span>.  Note that you will need to use Taylor series.</p>
 </div>
-<div class="section" id="toy-ad-example">
-<h3>Toy AD Example<a class="headerlink" href="#toy-ad-example" title="Permalink to this headline">¶</a></h3>
-<p>Linear function example from homework.</p>
+<div class="section" id="exercise-2-toy-ad-example">
+<h3>Exercise 2: Toy AD Example<a class="headerlink" href="#exercise-2-toy-ad-example" title="Permalink to this headline">¶</a></h3>
+<p>Write a forward mode automatic differentiation class capable of handling functions composed of addition and multiplication operations.  The class AutoDiffToy should return the value and derivative of functions of the form <span class="math">\(f(x)=\alpha x+\beta\)</span> for <span class="math">\(\alpha , \beta\)</span> real constants.</p>
+<p>Some thoughts on implementation:
+* The constructor should set the value of the function and the derivative.  This is similar to the first row in the computational tables.
+* Overload operations as appropriate.  Note that Python&#8217;s __add__(self, other) and __mul__(self, other) methods are meant to be defined for objects of the same type, so your implementation should not assume that other is a real number but be robust enough to handle the case where it is.
+* Handle exceptions appropriately.  You may want to use duck-typing, where ratehr than checking if an argument to a special method is an instance of the object, you instead use a try-except blcok and catch an AttributeError.
+* Make your implementation robust encough to handle functions written as <span class="math">\(f = alpha*x+beta, f=x*alpha+beta, f=beta+alpha*x, f=beta+x*alpha\)</span>.</p>
+<p>Example Use Case:</p>
 </div>
 </div>
 </div>
@@ -96,8 +101,8 @@ cos(b\epsilon) = 1+(\epsilon b)^2/2+ ...\]</div>
 <li><a class="reference internal" href="#the-dual-numbers">The Dual Numbers</a></li>
 <li><a class="reference internal" href="#toward-software-implementation">Toward Software Implementation</a></li>
 <li><a class="reference internal" href="#exercises">Exercises</a><ul>
-<li><a class="reference internal" href="#dual-numbers">Dual Numbers</a></li>
-<li><a class="reference internal" href="#toy-ad-example">Toy AD Example</a></li>
+<li><a class="reference internal" href="#exercise-1-dual-numbers">Exercise 1: Dual Numbers</a></li>
+<li><a class="reference internal" href="#exercise-2-toy-ad-example">Exercise 2: Toy AD Example</a></li>
 </ul>
 </li>
 </ul>
