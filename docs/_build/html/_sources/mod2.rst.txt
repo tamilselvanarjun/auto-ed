@@ -159,5 +159,4 @@ Note that in practical applications the biases play a key role.  However, we hav
 
 Operation Count Problem
 ^^^^^^^^^^^^^^^^^^^^^^^
-
-TO WRITE
+Count the number of operations required to compute the derivatives in the neural network using forward mode.

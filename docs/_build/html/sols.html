@@ -170,41 +170,45 @@ The corresponding computational graph is given by:
 <tr class="row-even"><td><span class="math">\(x_9\)</span></td>
 <td><span class="math">\(z(x_7)\)</span></td>
 <td><span class="math">\(z(w_{11}x+w_{12}y)\)</span></td>
-<td><span class="math">\(z\prime (x_7)\dot{x_7}\)</span></td>
-<td><span class="math">\(z\prime (w_{11}x+w_{12}y)w_{11}\)</span></td>
-<td><span class="math">\(z\prime (w_{11}x+w_{12}y)w_{12}\)</span></td>
+<td><span class="math">\(z^\prime (x_7)\dot{x_7}\)</span></td>
+<td><span class="math">\(z^\prime (w_{11}x+w_{12}y)w_{11}\)</span></td>
+<td><span class="math">\(z^\prime (w_{11}x+w_{12}y)w_{12}\)</span></td>
 </tr>
 <tr class="row-odd"><td><span class="math">\(x_{10}\)</span></td>
 <td><span class="math">\(z(x_8)\)</span></td>
 <td><span class="math">\(z(w_{21}x+w_{22}y)\)</span></td>
-<td><span class="math">\(z\prime (x_8)\dot{x_8}\)</span></td>
-<td><span class="math">\(z\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
-<td><span class="math">\(z\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
+<td><span class="math">\(z^\prime (x_8)\dot{x_8}\)</span></td>
+<td><span class="math">\(z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
 </tr>
 <tr class="row-even"><td><span class="math">\(x_{11}\)</span></td>
 <td><span class="math">\(w_{out,1}\times x_9\)</span></td>
 <td><span class="math">\(w_{out,1}z(w_{11}x+w_{12}y)\)</span></td>
 <td><span class="math">\(w_{out, 1}\dot{x_9}\)</span></td>
-<td><span class="math">\(w_{out,1}z\prime (w_{11}x+w_{12}y)w_{11}\)</span></td>
-<td><span class="math">\(w_{out,1}z\prime (w_{11}x+w_{12}y)w_{12}\)</span></td>
+<td><span class="math">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{11}\)</span></td>
+<td><span class="math">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{12}\)</span></td>
 </tr>
 <tr class="row-odd"><td><span class="math">\(x_{12}\)</span></td>
 <td><span class="math">\(w_{out,2}\times x_{10}\)</span></td>
 <td><span class="math">\(w_{out,2}z(w_{21}x+w_{22}y)\)</span></td>
 <td><span class="math">\(w_{out, 2}\dot{x_{10}}\)</span></td>
-<td><span class="math">\(w_{out,2}z\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
-<td><span class="math">\(w_{out,2}z\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
+<td><span class="math">\(w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
 </tr>
 <tr class="row-even"><td><span class="math">\(x_{13}\)</span></td>
 <td><span class="math">\(x_{11}+x_{12}\)</span></td>
 <td><span class="math">\(w_{out,1}z(w_{11}x+w_{12}y)+w_{out,2}z(w_{21}x+w_{22}y)\)</span></td>
 <td><span class="math">\(\dot{x_{11}}+\dot{x_{12}}\)</span></td>
-<td><span class="math">\(w_{out,1}z\prime (w_{11}x+w_{12}y)w_{11}+w_{out,2}z\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
-<td><span class="math">\(w_{out,1}z\prime (w_{11}x+w_{12}y)w_{12}+w_{out,2}z\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
+<td><span class="math">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{11}+w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{12}+w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>Exercise 2: Operation Count Problem</p>
+<p>Exercise 2: Operation Count Problem
+Computing the derivative at the six nodes <span class="math">\(x_3, x_4, x_5, x_6, x_{11}, x_{12}\)</span> requires one multiplication in each of the 2 components, contributing <span class="math">\(6 \times 1 \times 2 = 12\)</span> operations.</p>
+<p>Computing the derivative at the 3 nodes <span class="math">\(x_7, x_8, x_{13}\)</span> requires one addition in each of the 2 components, contributing <span class="math">\(3\times 1 \times 2 = 6\)</span> operations.</p>
+<p>Computing the derivative at the nodes <span class="math">\(x_9, x_{10}\)</span> requires 2 operations (an elementary function evaluation of <span class="math">\(z^\prime\)</span> and a multiplication) in each of the 2 components, contributing <span class="math">\(2\times 2 \times 2 = 8\)</span> operations.</p>
+<p>This gives us a total of 26 operations.</p>
 </div>
 <div class="section" id="module-3-exercise-solutions">
 <h2>Module 3 Exercise Solutions<a class="headerlink" href="#module-3-exercise-solutions" title="Permalink to this headline">¶</a></h2>

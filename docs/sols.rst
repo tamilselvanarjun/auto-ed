@@ -112,37 +112,44 @@ The table corresponding to this graph is given by:
         * - :math:`x_9`
           - :math:`z(x_7)`
           - :math:`z(w_{11}x+w_{12}y)`
-          - :math:`z\prime (x_7)\dot{x_7}`
-          - :math:`z\prime (w_{11}x+w_{12}y)w_{11}`
-          - :math:`z\prime (w_{11}x+w_{12}y)w_{12}`
+          - :math:`z^\prime (x_7)\dot{x_7}`
+          - :math:`z^\prime (w_{11}x+w_{12}y)w_{11}`
+          - :math:`z^\prime (w_{11}x+w_{12}y)w_{12}`
         * - :math:`x_{10}`
           - :math:`z(x_8)`
           - :math:`z(w_{21}x+w_{22}y)`
-          - :math:`z\prime (x_8)\dot{x_8}`
-          - :math:`z\prime (w_{21}x+w_{22}y)w_{21}`
-          - :math:`z\prime (w_{21}x+w_{22}y)w_{22}`
+          - :math:`z^\prime (x_8)\dot{x_8}`
+          - :math:`z^\prime (w_{21}x+w_{22}y)w_{21}`
+          - :math:`z^\prime (w_{21}x+w_{22}y)w_{22}`
         * - :math:`x_{11}`
           - :math:`w_{out,1}\times x_9`
           - :math:`w_{out,1}z(w_{11}x+w_{12}y)`
           - :math:`w_{out, 1}\dot{x_9}`
-          - :math:`w_{out,1}z\prime (w_{11}x+w_{12}y)w_{11}`
-          - :math:`w_{out,1}z\prime (w_{11}x+w_{12}y)w_{12}`
+          - :math:`w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{11}`
+          - :math:`w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{12}`
         * - :math:`x_{12}`
           - :math:`w_{out,2}\times x_{10}`
           - :math:`w_{out,2}z(w_{21}x+w_{22}y)`
           - :math:`w_{out, 2}\dot{x_{10}}`
-          - :math:`w_{out,2}z\prime (w_{21}x+w_{22}y)w_{21}`
-          - :math:`w_{out,2}z\prime (w_{21}x+w_{22}y)w_{22}`
+          - :math:`w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{21}`
+          - :math:`w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{22}`
         * - :math:`x_{13}`
           - :math:`x_{11}+x_{12}`
           - :math:`w_{out,1}z(w_{11}x+w_{12}y)+w_{out,2}z(w_{21}x+w_{22}y)`
           - :math:`\dot{x_{11}}+\dot{x_{12}}`
-          - :math:`w_{out,1}z\prime (w_{11}x+w_{12}y)w_{11}+w_{out,2}z\prime (w_{21}x+w_{22}y)w_{21}`
-          - :math:`w_{out,1}z\prime (w_{11}x+w_{12}y)w_{12}+w_{out,2}z\prime (w_{21}x+w_{22}y)w_{22}`
+          - :math:`w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{11}+w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{21}`
+          - :math:`w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{12}+w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{22}`
             
 
 
 Exercise 2: Operation Count Problem
+Computing the derivative at the six nodes :math:`x_3, x_4, x_5, x_6, x_{11}, x_{12}` requires one multiplication in each of the 2 components, contributing :math:`6 \times 1 \times 2 = 12` operations.
+
+Computing the derivative at the 3 nodes :math:`x_7, x_8, x_{13}` requires one addition in each of the 2 components, contributing :math:`3\times 1 \times 2 = 6` operations.
+
+Computing the derivative at the nodes :math:`x_9, x_{10}` requires 2 operations (an elementary function evaluation of :math:`z^\prime` and a multiplication) in each of the 2 components, contributing :math:`2\times 2 \times 2 = 8` operations.
+
+This gives us a total of 26 operations.
 
 
 Module 3 Exercise Solutions
