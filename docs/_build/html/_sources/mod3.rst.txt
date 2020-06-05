@@ -268,5 +268,12 @@ Other extensions for further reading include automatic differentiation for highe
 
 Exercises
 ---------
+Exercise 1: Reverse Computational Table and Derivatives
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.
 
+.. math::
+        f(x, y) = xy + \exp(xy)
+
+Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point (1,2).  You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.
 

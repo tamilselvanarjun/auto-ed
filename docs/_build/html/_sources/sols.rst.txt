@@ -147,7 +147,67 @@ Exercise 2: Operation Count Problem
 
 Module 3 Exercise Solutions
 ---------------------------
+Exercise 1: Reverse Mode Computational Table and Derivatives
 
+The reverse computational table is given by:
+
+.. list-table::
+        :widths: 5 10 10 10 10 10 10
+        :header-rows: 1
+
+        * - Node
+          - Current Value
+          - Numerical Value
+          - :math:`\partial_1`
+          - :math:`\partial_1` Value
+          - :math:`\partial_2`
+          - :math:`\partial_2` Value
+        * - :math:`x_1`
+          - :math:`x`
+          - 1
+          - 1
+          - 1
+          - 0
+          - 0
+        * - :math:`x_2`
+          - :math:`y`
+          - 2
+          - 0
+          - 0
+          - 1
+          - 1
+        * - :math:`x_3`
+          - :math:`x_1x_2`
+          - 2
+          - :math:`x_2`
+          - 2
+          - :math:`x_1`
+          - 1
+        * - :math:`x_4`
+          - :math:`\exp(x_3)`
+          - :math:`e^2`
+          - :math:`\exp(x_3)`
+          - :math:`e^2`
+          - -
+          - -
+        * - :math:`x_5`
+          - :math:`x_3+x_4`
+          - 2+:math:`e^2`
+          - 1
+          - 1
+          - 1
+          - 1
+
+We can now trace back through the table to find the adjoints.
+
+.. math::
+        \bar{x_5} = \frac{\partial f}{\partial x_5} = 1
+        \bar{x_4} = \frac{\partial f}{\partial x_5}\frac{\partial x_5}{\partial x_4} = 1 \cdot 1 = 1
+        \bar{x_3} = \frac{\partial f}{\partial x_4}\frac{\partial x_4}{\partial x_5}+\frac{\partial f}{\partial x_5}\frac{\partial x_5}{\partial x_3} = 1\cdot e^2 + 1\cdot 1 = 1+e^2
+        \bar{x_2} = \frac{\partial f}{\partial x_3}\frac{\partial x_3}{\partial x_2} = (1+e^2)x_1 = 1+e^2
+        \bar{x_1} = \frac{\partial f}{\partial x_3}\frac{\partial x_3}{\partial x_1} = (1+e^2)x_2 = 2+2e^2
+
+We note that in our bar notation we have :math:`\bar{x_1} = \frac{\partial f}{\partial x}` and :math:`\bar{x_2} = \frac{\partial f}{\partial y}`.
 
 
 Beyond the Basics Exercise Solutions
