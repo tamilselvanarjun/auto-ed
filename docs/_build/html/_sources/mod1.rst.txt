@@ -109,7 +109,7 @@ To run the tool with the ability to modify and contribute to the code, you may c
 
 2. Install the dependencies: pip install -r requirements.txt
 
-3. Launch the web app from the terminal: python ADapp_embed.py
+3. Launch the web app from the terminal: python ADapp.py
 
 4. Go to the local host in your browser to use the tool.
 
