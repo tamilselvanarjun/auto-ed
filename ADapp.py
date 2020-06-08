@@ -5,9 +5,9 @@ import io
 import numpy as np
 import pandas as pd
 from matplotlib.backends.backend_svg import FigureCanvasSVG
-from ADnum_rev_timed_vis import ADnum
-import ADmath_rev as ADmath
-import ADgraph_GUI3 as ADgraph
+from ADnum import ADnum
+import ADmath
+import ADgraph
 
 @app.route('/', methods = ["GET", "POST"])
 def startup():

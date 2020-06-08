@@ -3,7 +3,7 @@ Take an ADnum object as input and return an ADnum object as output.
 For real number inputs, returns a real number.
 """
 import numpy as np
-from ADnum_rev_timed_vis import ADnum
+from ADnum import ADnum
 
 #TRIGONOMETRIC FUNCTIONS
 def sin(X):
