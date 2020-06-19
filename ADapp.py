@@ -321,8 +321,10 @@ def back_space():
 def backstep(text):
     if len(text) == 0:
         return ""
-    if text[-1]=='(' and text[-2] in ['n', 't', 'p', 's', 'g', '*']:
+    if text[-1]=='(' and text[-2] in ['n', 't', 'p', 's', 'g', '*', 'h']:
         if text[-2] == 't':
+            return text[:-12]
+        elif text[-2]=='h':
             return text[:-12]
         elif (text[-2] == '*' and text[-2]=='*'):
             return text[:-3]
@@ -335,8 +337,10 @@ def back_func():
     content = func_content[editing]
     if len(content)==0:
         content=content
-    elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g', '^']:
+    elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g', '^', 'h']:
         if content[-2] == 't':
+            content = content[:-5]
+        elif content[-2] == 'h':
             content = content[:-5]
         elif content[-2] == 'w' and content[-3] != 'o':
             content = content[:-1]
@@ -470,17 +474,31 @@ def cos():
     global function_expression
     function_expression[editing] +='ADmath.cos('
 
-def cos():
-    global func_content
-    func_content[editing]+='cos('
-    global function_expression
-    function_expression[editing] +='ADmath.cos('
 
 def tan():
     global func_content
     func_content[editing]+='tan('
     global function_expression
     function_expression[editing] +='ADmath.tan('
+
+def sinh():
+    global func_content
+    func_content[editing]+='sinh('
+    global function_expression
+    function_expression[editing] +='ADmath.sinh('
+
+def cosh():
+    global func_content
+    func_content[editing]+='cosh('
+    global function_expression
+    function_expression[editing] +='ADmath.cosh('
+
+
+def tanh():
+    global func_content
+    func_content[editing]+='tanh('
+    global function_expression
+    function_expression[editing] +='ADmath.tanh('
 
 def exp():
     global func_content
@@ -578,7 +596,9 @@ calcfuncs['y']=yvar
 calcfuncs['z']=zvar
 calcfuncs['u']=uvar
 calcfuncs['v']=vvar
-
+calcfuncs['sinh'] = sinh
+calcfuncs['cosh']=cosh
+calcfuncs['tanh']=tanh
 
 calcfuncs['Edit f1'] = edit_f1
 calcfuncs['Edit f2'] = edit_f2
