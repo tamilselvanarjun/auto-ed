@@ -67,14 +67,16 @@ def get_labels(y):
     A dictionary of ADnum objects mapped to string labels
     """
     parents = reverse_graph(y)
-    total = len(y.graph) - sum([entry.constant for entry in y.graph.keys()])
+    total = len(y.graph) - sum([entry.constant for entry in y.graph.keys()])-1 #subtract 1 for output
     ins = total-len(parents)
     new_names = {}
     nodes = [y]
     while len(nodes)>0:
         node = nodes.pop(0)
         if node not in new_names:
-            if node.constant:
+            if len(new_names)==0:
+                new_names[y] = 'f'
+            elif node.constant:
                 new_names[node] = str(np.round(node.val, decimals=1))
             else:
                 new_names[node] = 'X' + str(total)
@@ -471,7 +473,13 @@ def gen_table(y):
                    link = 'input'
                data['Operation'].append(link)
     result = pd.DataFrame.from_dict(data)
-    result['Number'] = [int(name[1:]) for name in result['Trace']]
+    result['Number'] = [0 for name in result['Trace']]
+    for i, name in enumerate(result['Trace']):
+        try:
+            result['Number'][i] = int(name[1:])
+        except:
+            result['Number'][i] = len(result['Trace'])+1
+    #result['Number'] = [int(name[1:]) for name in result['Trace']]
     result2 = result.sort_values('Number')
     resultorder = result2[['Trace', 'Operation', 'Value', 'Derivative']]  
     return resultorder

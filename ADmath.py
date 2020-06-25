@@ -180,6 +180,35 @@ def log(X):
 def logistic(X):
     return 1/(1+exp(-1*X))
 
+def sig(X):
+    try:
+        y = ADnum(logistic(X.val), der = X.der * logistic(X.val)*(1-logistic(X.val)), ops = (1-X.counted)*X.ops+3, tfops = X.tfops+2+X.ins, trops = X.trops+2+2*X.ins)
+        X.counted = 1
+        y.graph = X.graph
+        if X not in y.graph:
+            y.graph[X] = []
+        y.graph[X].append((y, 'sig', logistic(X.val)*(1-logistic(X.val))))
+        return y
+    except AttributeError:
+        return logistic(X)
+
+def relu(X):
+    try:
+        if X.val > 0:
+            y = ADnum(X.val, der = np.array([1]), ops = (1-X.counted)*X.ops+1, tfops = X.tfops+1+X.ins, trops = X.trops+1+X.ins)
+        else:
+            y = ADnum(0, der = np.array([0]), ops = (1-X.counted)*X.ops+1, tfops = X.tfops+1+X.ins, trops = X.trops+1+X.ins)
+        X.counted = 1
+        y.graph = X.graph
+        if X not in y.graph:
+            y.graph[X] = []
+        if X.val>0:
+            y.graph[X].append((y, 'relu', 1))
+        else:
+            y.graph[X].append((y,'relu',0))
+        return y
+    except AttributeError:
+        return np.maximum(X, 0)
 
 def sqrt(X):
     try:

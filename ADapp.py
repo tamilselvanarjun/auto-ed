@@ -321,10 +321,10 @@ def back_space():
 def backstep(text):
     if len(text) == 0:
         return ""
-    if text[-1]=='(' and text[-2] in ['n', 't', 'p', 's', 'g', '*', 'h']:
+    if text[-1]=='(' and text[-2] in ['n', 't', 'p', 's', 'g', '*', 'h', 'u']:
         if text[-2] == 't':
             return text[:-12]
-        elif text[-2]=='h':
+        elif text[-2]=='h' or text[-2]=='u':
             return text[:-12]
         elif (text[-2] == '*' and text[-2]=='*'):
             return text[:-3]
@@ -337,10 +337,10 @@ def back_func():
     content = func_content[editing]
     if len(content)==0:
         content=content
-    elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g', '^', 'h']:
+    elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g', '^', 'h', 'u']:
         if content[-2] == 't':
             content = content[:-5]
-        elif content[-2] == 'h':
+        elif content[-2] == 'h' or content[-2]=='u':
             content = content[:-5]
         elif content[-2] == 'w' and content[-3] != 'o':
             content = content[:-1]
@@ -500,6 +500,18 @@ def tanh():
     global function_expression
     function_expression[editing] +='ADmath.tanh('
 
+def sig():
+    global func_content
+    func_content[editing]+='sig('
+    global function_expression
+    function_expression[editing]+= 'ADmath.sig('
+
+def relu():
+    global func_content
+    func_content[editing] += 'relu('
+    global function_expression
+    function_expression[editing] += 'ADmath.relu('
+
 def exp():
     global func_content
     func_content[editing]+='exp('
@@ -599,6 +611,8 @@ calcfuncs['v']=vvar
 calcfuncs['sinh'] = sinh
 calcfuncs['cosh']=cosh
 calcfuncs['tanh']=tanh
+calcfuncs['sig'] = sig
+calcfuncs['relu'] = relu
 
 calcfuncs['Edit f1'] = edit_f1
 calcfuncs['Edit f2'] = edit_f2
