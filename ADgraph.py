@@ -79,8 +79,12 @@ def get_labels(y):
             elif node.constant:
                 new_names[node] = str(np.round(node.val, decimals=1))
             else:
-                new_names[node] = 'X' + str(total)
-                total = total - 1
+                if node in parents:
+                    new_names[node] = 'X' + str(total)
+                    total = total - 1
+                else:
+                    new_names[node] = 'X'+str(total)
+                    #new_names[node] = 'X' + str(np.where(X.der == 1)[0][0])
             if node in parents:
                 neighbors = parents[node]
                 for neighbor in neighbors:
