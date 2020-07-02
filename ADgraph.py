@@ -83,8 +83,8 @@ def get_labels(y):
                     new_names[node] = 'X' + str(total)
                     total = total - 1
                 else:
-                    new_names[node] = 'X'+str(total)
-                    #new_names[node] = 'X' + str(np.where(X.der == 1)[0][0])
+                    #new_names[node] = 'X'+str(total)
+                    new_names[node] = 'X' + str(np.where(node.der == 1)[0][0])
             if node in parents:
                 neighbors = parents[node]
                 for neighbor in neighbors:
