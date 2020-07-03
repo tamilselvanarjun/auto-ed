@@ -195,9 +195,9 @@ def sig(X):
 def relu(X):
     try:
         if X.val > 0:
-            y = ADnum(X.val, der = np.array([1]), ops = (1-X.counted)*X.ops+1, tfops = X.tfops+1+X.ins, trops = X.trops+1+X.ins)
+            y = ADnum(X.val, der = 1*X.der, ops = (1-X.counted)*X.ops+1, tfops = X.tfops+1+X.ins, trops = X.trops+1+X.ins)
         else:
-            y = ADnum(0, der = np.array([0]), ops = (1-X.counted)*X.ops+1, tfops = X.tfops+1+X.ins, trops = X.trops+1+X.ins)
+            y = ADnum(0, der = 0*X.der, ops = (1-X.counted)*X.ops+1, tfops = X.tfops+1+X.ins, trops = X.trops+1+X.ins)
         X.counted = 1
         y.graph = X.graph
         if X not in y.graph:
