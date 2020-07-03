@@ -191,7 +191,8 @@ rev_dyn_set = []
 
 
 global flabels
-flabels = ['', 'x', 'x,y', 'x,y,z', 'x,y,z,u', 'x,y,z,u,v'] 
+#flabels = ['', 'x', 'x,y', 'x,y,z', 'x,y,z,u', 'x,y,z,u,v'] 
+flabels = ['', 'x0', 'x0, x1', 'x0, x1, x2', 'x0, x1, x2, x3', 'x0, x1, x2, x3, x4']
 
 global dispval
 dispval = ''
@@ -337,6 +338,8 @@ def back_func():
     content = func_content[editing]
     if len(content)==0:
         content=content
+    elif content[-2] == 'x':
+        content = content[:-2]
     elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g', '^', 'h', 'u']:
         if content[-2] == 't':
             content = content[:-5]
@@ -550,31 +553,31 @@ def right_par():
     
 def xvar():
     global func_content
-    func_content[editing]+='x'
+    func_content[editing]+='x0'
     global function_expression
     function_expression[editing] +='x'
 
 def yvar():
     global func_content
-    func_content[editing]+='y'
+    func_content[editing]+='x1'
     global function_expression
     function_expression[editing] +='y'
 
 def zvar():
     global func_content
-    func_content[editing]+='z'
+    func_content[editing]+='x2'
     global function_expression
     function_expression[editing] +='z'
 
 def uvar():
     global func_content
-    func_content[editing]+='u'
+    func_content[editing]+='x3'
     global function_expression
     function_expression[editing] +='u'
 
 def vvar():
     global func_content
-    func_content[editing]+='v'
+    func_content[editing]+='x4'
     global function_expression
     function_expression[editing] +='v'
 
@@ -603,11 +606,11 @@ calcfuncs['sqrt']=sqrt
 calcfuncs['(']=left_par
 calcfuncs[')']=right_par
 calcfuncs['.']=dot
-calcfuncs['x']=xvar
-calcfuncs['y']=yvar
-calcfuncs['z']=zvar
-calcfuncs['u']=uvar
-calcfuncs['v']=vvar
+calcfuncs['x0']=xvar
+calcfuncs['x1']=yvar
+calcfuncs['x2']=zvar
+calcfuncs['x3']=uvar
+calcfuncs['x4']=vvar
 calcfuncs['sinh'] = sinh
 calcfuncs['cosh']=cosh
 calcfuncs['tanh']=tanh
