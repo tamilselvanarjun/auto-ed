@@ -15,9 +15,11 @@ def startup():
     global func_content
     global function_expression
     global function_output
+    global var_strs
     func_content = ["", "", ""]
     function_expression = ["", "", ""]
     function_output = [None]*3
+    var_strs = {}
     if request.method == "POST":
         try:
             ins = int(request.form["inputs"])
