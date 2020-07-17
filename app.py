@@ -629,4 +629,4 @@ if __name__ == '__main__':
     # https://github.com/skvark/opencv-python/issues/134
 
     #app.run()
-    app.run(host="0.0.0.0", port=5000, threaded=False) # https://github.com/pyeve/eve/issues/873
+    app.run(host="0.0.0.0", port=5000, threaded=True) # https://github.com/pyeve/eve/issues/873
