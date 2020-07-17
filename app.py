@@ -628,4 +628,4 @@ if __name__ == '__main__':
     # https://stackoverflow.com/questions/38876721/handle-flask-requests-concurrently-with-threaded-true/38876915#38876915
     # https://github.com/skvark/opencv-python/issues/134
 
-    app.run(host="0.0.0.0", port=5000, threaded=False) # https://github.com/pyeve/eve/issues/873
+    app.run(host="0.0.0.0", port=(process.env.PORT || 5000), threaded=False) # https://github.com/pyeve/eve/issues/873
