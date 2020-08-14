@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, Response, session
 from flask_session import Session
+import os
 app = Flask(__name__)
 #SESSION_TYPE = 'redis'
 #app.config.from_object(__name__)
@@ -688,8 +689,8 @@ if __name__ == '__main__':
     #sess.init_app(app)
     #app.run()
 
-    app.secret_key = 'super secret key3'
-    app.config['SESSION_TYPE'] = 'filesystem'
+    app.secret_key = os.urandom(24) #'super secret key3'
+    app.config['SESSION_TYPE'] = 'redis'
     app.config['PERMANENT_SESSION_LIFETIME'] = 10
     
     sess.init_app(app)
