@@ -689,7 +689,7 @@ if __name__ == '__main__':
     #sess.init_app(app)
     #app.run()
 
-    app.secret_key = os.urandom(24) #'super secret key3'
+    app.secret_key = 'supersecretkey' #os.urandom(24) #'super secret key3'
     app.config['SESSION_TYPE'] = 'redis'
     app.config['PERMANENT_SESSION_LIFETIME'] = 10
     
