@@ -1,26 +1,58 @@
 from flask import Flask, render_template, redirect, url_for, request, Response, session
+from flask_session import Session
 app = Flask(__name__)
-app.secret_key = 'howdoesthiswork'
+#SESSION_TYPE = 'redis'
+#app.config.from_object(__name__)
+#app.config['SESSION_TYPE'] = 'redis'
+#Session(app)
+
+#@app.route('/set')
+#def set():
+ #   session['key']='value'
+ #   return 'ok'
+
+#@app.route('/get')
+#def get():
+ #   return session.get('key', 'not set')
+
+#@app.route('/')
+#def index():
+ #   session['a'] = 'A'
+  #  return redirect(url_for(test))
+
+#@app.route('/test', methods = ['GET', 'POST'])
+#def test():
+ #   answer = session['a']
+  #  return '<p>' + answer + '</p>'
+
+
+
 
 @app.route('/')
 def index():
     if 'username' in session:
         username = session['username']
-        return 'Logged in as ' + username
-    return "You are not logged in <br><a href = '/login'>" + "click here to log in</a>"
+        return 'Logged in as ' + username + "<b><a href = '/logout'>click here to log out</a></b>"
+    return "You are not logged in <br><a href = '/login'></b>" + "click here to log in</a>"
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if request.method == 'POST':
         session['username'] = request.form['user']
         return redirect(url_for('index'))
+        #username = session['username']
+        #return 'logged in as' + username
     return '''
 
     <form action = "" method = "post">
-        <p><input type = text name = user/></p>
-        <p><input type = submit value = Login/></p>
+        <p><input type = text name = user /></p>
+        <p><input type = submit value = Login /></p>
     </form>
     '''
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    return redirect(url_for('index'))
 
 #import io
 #import numpy as np
@@ -649,6 +681,17 @@ if __name__ == '__main__':
     # Discussion about threads in Flask and such
     # https://stackoverflow.com/questions/38876721/handle-flask-requests-concurrently-with-threaded-true/38876915#38876915
     # https://github.com/skvark/opencv-python/issues/134
+    
 
+    
+    sess = Session()
+    #sess.init_app(app)
     #app.run()
+
+    app.secret_key = 'super secret key3'
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.config['PERMANENT_SESSION_LIFETIME'] = 10
+    
+    sess.init_app(app)
+
     app.run(host="0.0.0.0", port=5000, threaded=True) # https://github.com/pyeve/eve/issues/873
