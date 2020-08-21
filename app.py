@@ -8,10 +8,12 @@ sess = Session()
     #sess.init_app(app)
     #app.run()
 
-app.secret_key = 'supersecretkey' #os.urandom(24) #'super secret key3'
-app.config['SESSION_TYPE'] = 'redis'
-app.config['PERMANENT_SESSION_LIFETIME'] = 10
-    
+app.secret_key = 'supersecretkeyFileSystemTest' #os.urandom(24) #'super secret key3'
+#app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_TYPE'] = 'filesystem'
+
+app.config['PERMANENT_SESSION_LIFETIME']=15
+
 sess.init_app(app)
 
 #SESSION_TYPE = 'redis'
@@ -697,14 +699,14 @@ if __name__ == '__main__':
     
 
     
-    sess = Session()
+    #sess = Session()
     #sess.init_app(app)
     #app.run()
 
-    app.secret_key = 'supersecretkey' #os.urandom(24) #'super secret key3'
-    app.config['SESSION_TYPE'] = 'redis'
-    app.config['PERMANENT_SESSION_LIFETIME'] = 10
+    #app.secret_key = 'supersecretkey' #os.urandom(24) #'super secret key3'
+    #app.config['SESSION_TYPE'] = 'redis'
+    #app.config['PERMANENT_SESSION_LIFETIME'] = 10
     
-    sess.init_app(app)
+    #sess.init_app(app)
 
     app.run(host="0.0.0.0", port=5000, threaded=True) # https://github.com/pyeve/eve/issues/873
