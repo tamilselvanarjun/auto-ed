@@ -1,8 +1,10 @@
-<html>
-	<head>
+{% extends "layout.html" %}
+
+	{% block heading %}
 		<link rel="stylesheet" type = text/css href="{{ url_for('static', filename='style.css') }}">
-	</head>
-	<body>
+	{% endblock %}
+
+	{% block body %}
 		<h1> Welcome to the Automatic Differentiation Visualization Tool. </h1>
 		<p>Use this tool to visualize the calculations and computational structure that underlie automatic differentiation.  To learn more about the theory behind automatic differentiation, this tool can be used in conjunction with a set of basic modules on automatic differentiation available in the Read the Docs associated with the Auto-eD repository.</p>
 
@@ -16,5 +18,4 @@
 			<p><input name="outputs" /></p>
 			<p><input id='textbutton' type="submit" value="Next"/></p>
 		</form>
-	</body>
-</html>
+	{% endblock %}
