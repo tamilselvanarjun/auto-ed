@@ -24,6 +24,8 @@ p {
 
 body {
 	background-color: #E7F3FB;
+	max-width:1000px;
+	margin:auto;
 }
 
 table {
@@ -52,7 +54,7 @@ img {
 
 #textbutton {
 	font-size: 20px;
-	width: 160px;
+	width: 100px;
 	height: 40px;
 }
 

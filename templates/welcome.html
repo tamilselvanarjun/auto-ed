@@ -1,21 +1,21 @@
 {% extends "layout.html" %}
 
-	{% block heading %}
-		<link rel="stylesheet" type = text/css href="{{ url_for('static', filename='style.css') }}">
-	{% endblock %}
-
+	
+	{% block heading %} Welcome to the Automatic Differentiation Visualization Tool. {% endblock %}
 	{% block body %}
-		<h1> Welcome to the Automatic Differentiation Visualization Tool. </h1>
+		<br>
 		<p>Use this tool to visualize the calculations and computational structure that underlie automatic differentiation.  To learn more about the theory behind automatic differentiation, this tool can be used in conjunction with a set of basic modules on automatic differentiation available in the Read the Docs associated with the Auto-eD repository.</p>
 
-		<p>To get started, specify the number of input variables and output functions that you would like to visualize below.  Note that this tool only supports up to 5 function inputs and up to 3 function outputs.  For more complex functions, please use the ADnum, ADmath, and ADgraph modules from the Auto-eD repository.</p>
+		<p>To get started, specify the number of input variables and output functions that you would like to visualize below. </p>
+		<p>(Note that this tool only supports up to 5 function inputs and up to 3 function outputs.  For more complex functions, please use the ADnum, ADmath, and ADgraph modules from the Auto-eD repository.)</p>
+
 
 			<p id='error'>{{errors}}</p>
 		<form method="post" action=".">
-			<p>Number of input variables:</p>
-			<p><input name="inputs" /></p>
-			<p>Number of output functions:</p>
-			<p><input name="outputs" /></p>
+			<p>Number of input variables: <input name="inputs" size="1" /></p>
+			<p>Number of output functions: <input name="outputs" size="1" /></p>
 			<p><input id='textbutton' type="submit" value="Next"/></p>
 		</form>
+
+
 	{% endblock %}

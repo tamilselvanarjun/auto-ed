@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
-    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <link rel="stylesheet" type = text/css href="{{ url_for('static', filename='style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'> -->
     <meta charset="UTF-8">
@@ -14,9 +14,8 @@
     {% block script %}{% endblock %}
   </head>
   <body>
-    
-    <div class="col-lg-6 col-md-6 col-sm-6 float-md-center">
-      <h2>{% block heading %}{% endblock %}</h2>
+      <br><br>
+      <h1>{% block heading %}{% endblock %}</h1>
 
       {% block body %}
       {% endblock %}
