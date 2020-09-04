@@ -81,7 +81,7 @@ def calculate():
             try:
                 for i in range(session['master_outs']):
                     global function_output
-                    session['function_output'][i] = get_func(session['function_expression'], i)
+                    session['function_output'][i] = f #get_func(session['function_expression'], i)
                     if session['master_ins'] == 1:
                         session['function_output'][i](1)
                     if session['master_ins'] == 2:
@@ -117,7 +117,7 @@ def graphwindow():
                 for i in range(session['master_outs']):
                     session['x'][i]  = ADnum(float(request.form["x"]), ins=session['master_ins'], ind=0)
                 session['var_strs']['x']=request.form["x"]
-                session['varlist'].append(x)
+                session['varlist'].append(session['x'])
                 if session['master_ins']>1:
                     global y
                     y = [None]*session['master_outs']
@@ -148,12 +148,12 @@ def graphwindow():
                     session['varlist'].append(v)
                 build_function()    
                 return render_template('graph2.html', ins=session['master_ins'], outs = session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der = session['disp_der'], show_table=False, func_select=False)
-            except:
-                errors += "Please enter numeric values for all of the inputs."
+            except Exception as e:
+                errors += str(e) #"Please enter numeric values for all of the inputs."
         
         else:
             #global curr_idx
-            #global rev_dyn_set
+            global rev_dyn_set
             if request.form["action"] == "f1":
                 session['visfunc'] = 0
                 session['curr_idx'] = 0
@@ -236,6 +236,9 @@ def graphwindow():
 #session['var_strs']["z"] = ""
 #session['var_strs']["u"] = ""
 #session['var_strs']["v"] = ""
+
+def f(x):
+    return eval(session['function_expression'][0])
 
 def build_function():
     #global out_num
@@ -397,6 +400,9 @@ def get_func(function_expression, i):
             return eval(function_expression[i])
     return f
 
+
+def check(x):
+    return x
 
 
 def add():
