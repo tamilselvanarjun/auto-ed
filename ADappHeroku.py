@@ -189,8 +189,8 @@ def graphwindow():
                     session['varlist'].append(session['v'])
                 build_function()    
                 return render_template('graph2.html', ins=session['master_ins'], outs = session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der = session['disp_der'], show_table=False, func_select=False)
-            except Exception as e:
-                errors += str(e) #"Please enter numeric values for all of the inputs."
+            except:
+                errors += "Please enter numeric values for all of the inputs."
         
         else:
             #global curr_idx
@@ -294,34 +294,34 @@ def f4(x, y, z, u, v):
     return eval(session['function_expression'][0])
 
 def g0(x):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][1])
 
 def g1(x,y):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][1])
 
 def g2(x, y, z):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][1])
 
 def g3(x, y, z, u):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][1])
 
 def g4(x, y, z, u, v):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][1])
 
 def h0(x):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][2])
 
 def h1(x,y):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][2])
 
 def h2(x, y, z):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][2])
 
 def h3(x, y, z, u):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][2])
 
 def h4(x, y, z, u, v):
-    return eval(session['function_expression'][0])
+    return eval(session['function_expression'][2])
 
 def build_function():
     #global out_num
