@@ -79,19 +79,60 @@ def calculate():
             back_space()
         elif request.form["action"] == "Calculate":
             try:
-                for i in range(session['master_outs']):
-                    global function_output
-                    session['function_output'][i] = get_func(session['function_expression'], i)
+                if session['master_outs']>0: #for i in range(session['master_outs']):
+                    #global function_output
+                    #session['function_output'][i] = f #get_func(session['function_expression'], i)
                     if session['master_ins'] == 1:
-                        session['function_output'][i](1)
+                        session['function_output'][0] = f0
+                        session['function_output'][0](1)
                     if session['master_ins'] == 2:
-                        session['function_output'][i](1, 1)
+                        session['function_output'][0] = f1
+                        session['function_output'][0](1, 1) 
                     if session['master_ins'] ==3:
-                        session['function_output'][i](1, 1, 1)
+                        session['function_output'][0] = f2
+                        session['function_output'][0](1, 1, 1)
                     if session['master_ins']== 4:
-                        session['function_output'][i](1, 1, 1, 1)
+                        session['function_output'][0] = f3
+                        session['function_output'][0](1, 1, 1, 1)
                     if session['master_ins'] == 5:
-                        session['function_output'][i](1, 1, 1, 1, 1)
+                        session['function_output'][0] = f4
+                        session['function_output'][0](1, 1, 1, 1, 1)
+                if session['master_outs']>1: #for i in range(session['master_outs']):
+                    #global function_output
+                    #session['function_output'][i] = f #get_func(session['function_expression'], i)
+                    if session['master_ins'] == 1:
+                        session['function_output'][1] = g0
+                        session['function_output'][1](1)
+                    if session['master_ins'] == 2:
+                        session['function_output'][1] = g1
+                        session['function_output'][1](1, 1) 
+                    if session['master_ins'] ==3:
+                        session['function_output'][1] = g2
+                        session['function_output'][1](1, 1, 1)
+                    if session['master_ins']== 4:
+                        session['function_output'][1] = g3
+                        session['function_output'][1](1, 1, 1, 1)
+                    if session['master_ins'] == 5:
+                        session['function_output'][1] = g4
+                        session['function_output'][1](1, 1, 1, 1, 1)
+                if session['master_outs']>2: #for i in range(session['master_outs']):
+                    #global function_output
+                    #session['function_output'][i] = f #get_func(session['function_expression'], i)
+                    if session['master_ins'] == 1:
+                        session['function_output'][2] = h0
+                        session['function_output'][2](1)
+                    if session['master_ins'] == 2:
+                        session['function_output'][2] = h1
+                        session['function_output'][2](1, 1) 
+                    if session['master_ins'] ==3:
+                        session['function_output'][2] = h2
+                        session['function_output'][2](1, 1, 1)
+                    if session['master_ins']== 4:
+                        session['function_output'][2] = h3
+                        session['function_output'][2](1, 1, 1, 1)
+                    if session['master_ins'] == 5:
+                        session['function_output'][2] = h4
+                        session['function_output'][2](1, 1, 1, 1, 1)
             except:
                 errors += "There is a syntax error in your function.  Please edit and try again."
                 return render_template('calculator.html', func_content=session['func_content'], calcfuncs=calcfuncs, ins=session['master_ins'], outs=session['master_outs'], flabels = session['flabels'], errors = errors)
@@ -117,35 +158,35 @@ def graphwindow():
                 for i in range(session['master_outs']):
                     session['x'][i]  = ADnum(float(request.form["x"]), ins=session['master_ins'], ind=0)
                 session['var_strs']['x']=request.form["x"]
-                session['varlist'].append(x)
+                session['varlist'].append(session['x'])
                 if session['master_ins']>1:
-                    global y
-                    y = [None]*session['master_outs']
+                    #global y
+                    session['y'] = [None]*session['master_outs']
                     for i in range(session['master_outs']):
-                        y[i]=ADnum(float(request.form["y"]), ins=session['master_ins'], ind=1)
+                        session['y'][i]=ADnum(float(request.form["y"]), ins=session['master_ins'], ind=1)
                     session['var_strs']['y']=request.form["y"]
-                    session['varlist'].append(y)
+                    session['varlist'].append(session['y'])
                 if session['master_ins']>2:
-                    global z
-                    z = [None]*session['master_outs']
+                    #global z
+                    session['z'] = [None]*session['master_outs']
                     for i in range(session['master_outs']):
-                        z[i]=ADnum(float(request.form["z"]), ins=session['master_ins'], ind=2)
+                        session['z'][i]=ADnum(float(request.form["z"]), ins=session['master_ins'], ind=2)
                     session['var_strs']['z'] = request.form['z']
-                    session['varlist'].append(z)
+                    session['varlist'].append(session['z'])
                 if session['master_ins']>3:
-                    global u
-                    u = [None]*session['master_outs']
+                    #global u
+                    session['u'] = [None]*session['master_outs']
                     for i in range(session['master_outs']):
-                        u[i] = ADnum(float(request.form["u"]), ins=session['master_ins'], ind=3)
+                        session['u'][i] = ADnum(float(request.form["u"]), ins=session['master_ins'], ind=3)
                     session['var_strs']['u'] = request.form["u"]
-                    session['varlist'].append(u)
+                    session['varlist'].append(session['u'])
                 if session['master_ins']>4:
-                    global v
-                    v = [None]*session['master_outs']
+                    #global v
+                    session['v'] = [None]*session['master_outs']
                     for i in range(session['master_outs']):
-                        v[i]=ADnum(float(request.form["v"]), ins=session['master_ins'], ind=4)
+                        session['v'][i]=ADnum(float(request.form["v"]), ins=session['master_ins'], ind=4)
                     session['var_strs']['v']=request.form["v"]
-                    session['varlist'].append(v)
+                    session['varlist'].append(session['v'])
                 build_function()    
                 return render_template('graph2.html', ins=session['master_ins'], outs = session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der = session['disp_der'], show_table=False, func_select=False)
             except:
@@ -153,7 +194,7 @@ def graphwindow():
         
         else:
             #global curr_idx
-            #global rev_dyn_set
+            global rev_dyn_set
             if request.form["action"] == "f1":
                 session['visfunc'] = 0
                 session['curr_idx'] = 0
@@ -237,20 +278,65 @@ def graphwindow():
 #session['var_strs']["u"] = ""
 #session['var_strs']["v"] = ""
 
+def f0(x):
+    return eval(session['function_expression'][0])
+
+def f1(x,y):
+    return eval(session['function_expression'][0])
+
+def f2(x, y, z):
+    return eval(session['function_expression'][0])
+
+def f3(x, y, z, u):
+    return eval(session['function_expression'][0])
+
+def f4(x, y, z, u, v):
+    return eval(session['function_expression'][0])
+
+def g0(x):
+    return eval(session['function_expression'][1])
+
+def g1(x,y):
+    return eval(session['function_expression'][1])
+
+def g2(x, y, z):
+    return eval(session['function_expression'][1])
+
+def g3(x, y, z, u):
+    return eval(session['function_expression'][1])
+
+def g4(x, y, z, u, v):
+    return eval(session['function_expression'][1])
+
+def h0(x):
+    return eval(session['function_expression'][2])
+
+def h1(x,y):
+    return eval(session['function_expression'][2])
+
+def h2(x, y, z):
+    return eval(session['function_expression'][2])
+
+def h3(x, y, z, u):
+    return eval(session['function_expression'][2])
+
+def h4(x, y, z, u, v):
+    return eval(session['function_expression'][2])
+
 def build_function():
     #global out_num
     session['out_num'] = [None]*session['master_outs']
     for i in range(session['master_outs']):
         if session['master_ins'] == 1:
-            session['out_num'][i] = session['function_output'][i](x[i])
+            session['out_num'][i] = session['function_output'][i](session['x'][i])
         if session['master_ins'] == 2:
-            session['out_num'][i] = session['function_output'][i](x[i], y[i])
+            session['out_num'][i] = session['function_output'][i](session['x'][i], session['y'][i])
         if session['master_ins'] == 3:
-            session['out_num'][i] = session['function_output'][i](x[i], y[i], z[i])
+            session['out_num'][i] = session['function_output'][i](session['x'][i], session['y'][i], session['z'][i])
         if session['master_ins'] == 4:
-            session['out_num'][i] = session['function_output'][i](x[i], y[i], z[i], u[i])
+            session['out_num'][i] = session['function_output'][i](session['x'][i], session['y'][i], session['z'][i], session['u'][i])
         if session['master_ins'] == 5:
-            session['out_num'][i] = session['function_output'][i](x[i], y[i], z[i], u[i], v[i])
+            session['out_num'][i] = session['function_output'][i](session['x'][i], session['y'][i], session['z'][i], session['u'][i], session['v'][i])
     #global disp_val, disp_der
     session['disp_val'] = '['
     session['disp_der'] = '['
@@ -397,6 +483,9 @@ def get_func(function_expression, i):
             return eval(function_expression[i])
     return f
 
+
+def check(x):
+    return x
 
 
 def add():

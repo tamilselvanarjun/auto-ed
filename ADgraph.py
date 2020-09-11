@@ -69,6 +69,8 @@ def get_labels(y):
     parents = reverse_graph(y)
     total = len(y.graph) - sum([entry.constant for entry in y.graph.keys()])-1 #subtract 1 for output
     ins = total-len(parents)
+    #total = total-ins
+    total = len(parents)-1
     new_names = {}
     nodes = [y]
     while len(nodes)>0:
@@ -80,7 +82,7 @@ def get_labels(y):
                 new_names[node] = str(np.round(node.val, decimals=1))
             else:
                 if node in parents:
-                    new_names[node] = 'X' + str(total)
+                    new_names[node] = 'V' + str(total)
                     total = total - 1
                 else:
                     #new_names[node] = 'X'+str(total)
@@ -480,7 +482,10 @@ def gen_table(y):
     result['Number'] = [0 for name in result['Trace']]
     for i, name in enumerate(result['Trace']):
         try:
-            result['Number'][i] = int(name[1:])
+            if name[0]=='X':
+                result['Number'][i] = int(name[1:])-2*len(result['Trace'])
+            else:
+                result['Number'][i] = int(name[1:])
         except:
             result['Number'][i] = len(result['Trace'])+1
     #result['Number'] = [int(name[1:]) for name in result['Trace']]
