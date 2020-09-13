@@ -1,3 +1,116 @@
+{% extends "layout.html" %}
+
+	
+	{% block heading %} Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Definition</small> {% endblock %}
+	{% block body %}
+	<p>This calculator generates functions of multiple variables.  Click on the buttons below to define your function(s) in a standard calculator syntax. 
+		Input variables are located at the last row. 
+	<ul>
+	 <li><b>Edit f</b>: Choose which function to update. </li>
+	 <li><b>Clear All</b>: Start over for a particular function. </li>
+	 <li><b>Calculate</b>: Press when you are finished with defining your functions! </p></li>
+	</ul>
+	{% if errors %}
+	<div class="alert alert-danger" role="alert">
+		{{ errors }}
+	</div>
+	{% endif %}
+	<form name="calculator" method="post" action='./calculate'>
+		<table id='calctable'>
+			<tr>
+				<td colspan="5">
+					<p>f1({{flabels[ins]}}):</p><input id='dispfunc' type="text" name="f1" id="f1" value={{func_content[0]}}>
+					<input id='textbutton' type="submit" name="action" value ="Edit f1">
+				</td>
+				{% if outs>1 %}
+				<td colspan="5">
+					<p>f2({{flabels[ins]}}):</p><input id='dispfunc' type="text" name="f2" id="f2" value={{func_content[1]}}>
+					<input id='textbutton' type="submit" name="action" value ="Edit f2">
+				</td>
+				{% endif %}
+				{% if outs>2 %}
+				<td colspan="5">
+					<p>f3({{flabels[ins]}}):</p><input id='dispfunc' type="test" name="f3" id="f3" value={{func_content[2]}}>
+					<input id='textbutton' type="submit" name="action" value="Edit f3">
+				</td>
+				{% endif %}
+			</tr>
+`				<tr>
+					<td><input id='calc' type="submit" name="action" value="sin" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="cos" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="tan" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="exp" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="log" onclick="calculator.display.value+='F'"></td>
+			</tr>
+`				<tr>
+					<td><input id='calc' type="submit" name="action" value="sinh" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="cosh" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="tanh" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="sig" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="relu" onclick="calculator.display.value+='F'"></td>
+			</tr>
+`	
+`				<tr>
+					<td><input id='calc' type="submit" name="action" value="7" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="8" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="9" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="+" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="^" onclick="calculator.display.value+='F'"></td>
+			</tr>
+`				<tr>
+					<td><input id='calc' type="submit" name="action" value="4" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="5" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="6" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="-" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="sqrt" onclick="calculator.display.value+='F'"></td>
+			</tr>
+`				<tr>
+					<td><input id='calc' type="submit" name="action" value="1"></td>
+					<td><input id='calc' type="submit" name="action" value="2" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="3" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="*" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="(" onclick="calculator.display.value+='F'"></td>
+			</tr>
+`				<tr>
+					<td><input id='calc' type="submit" name="action" value="0" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="." onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="&#11013" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value="/" onclick="calculator.display.value+='F'"></td>
+					<td><input id='calc' type="submit" name="action" value=")" onclick="calculator.display.value+='F'"></td>
+			</tr>
+			<tr>
+					<td><input id='calc' class='invar' type="submit" name="action" value="x0" onclick="calculator.display.value+='F'"></td>
+					{% if ins>1 %} 
+					<td><input id='calc' class='invar' type="submit" name="action" value="x1" onclick="calculator.display.value+='F'"></td>
+					{% endif %}
+					{% if ins>2 %}
+					<td><input id='calc' class='invar' type="submit" name="action" value="x2" onclick="calculator.display.value+='F'"></td>
+					{% endif %}
+					{% if ins>3 %}
+					<td><input id='calc' class='invar' type="submit" name="action" value="x3" onclick="calculator.display.value+='F'"></td>
+					{% endif %}
+					{% if ins>4 %}
+					<td><input id='calc' class='invar' type="submit" name="action" value="x4" onclick="calculator.display.value+='F'"></td>
+					{% endif %}
+			</tr>
+			<tr>
+				<td colspan="5">
+					<input id='textbutton' type ="submit" name="action" value="Calculate">
+				</td>
+				<td colspan="5">
+					<input id='textbutton' type ="submit" name="action" value="Clear All">
+				</td>
+			</tr>
+
+		</table>
+	</form>
+	{% endblock %}
+
+
+
+
+<!-- 
+
 <html>
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<head>
@@ -101,4 +214,4 @@
 	
 	
 	
-	
+	 -->

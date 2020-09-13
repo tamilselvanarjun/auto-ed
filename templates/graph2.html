@@ -1,182 +1,232 @@
-<html>
-<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css')}}">
-<h1> Function Visualization </h1>	
-<body>
-		Use this window to visualize how automatic differentiation is performed on your function.
+{% extends "layout.html" %}
 
-		First, type numbers into the boxes to set values for the input variables.  Press 'Set Input Values' to calculate the value and derivative of your function at this point.
-
-		After setting the input values, you can visualize the computational graph and evaluation table associated with each function in forward mode.  Press the button corresponding to the function you want to analyze under each heading.  You can also dynamically visualize the steps in the calculation of a derivative in reverse mode or view the entire reverse graph.
-		
-		{{errors}}
-		
-		<p> f1({{flabels[ins]}})= {{func_content[0]}} </p>
+	{% block heading %} Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Visualization</small>{% endblock %}
 	
-		{% if outs>1 %}
-		<p> f2({{flabels[ins]}}) = {{func_content[1]}} </p>
-		{% endif %}
+	{% block body %}
+	<p>Let's visualize how automatic differentiation is performed on your function!
+	<br> Now, set values for the input variables to calcuate the value and derivatives of your functions.
+	<!-- <br> Then, press 'Set Input Values' to calculate the value and derivative of your function at this point. -->
+	</p>
 
-
-		{% if outs>2 %}
-		<p> f3({{flabels[ins]}}) = {{func_content[2]}} </p>
-		{% endif %}
-
-		<form method="post" action="./graphwindow">
-		<table>
-			<tr>
-				<td>
-					x0=<input name="x" value={{var_strs['x']}}>
-				</td>
-				{% if ins>1 %}
-				<td>
-					x1=<input name="y" value = {{var_strs['y']}}>
-				</td>
-				{% endif %}
-				{% if ins>2 %}
-				<td>
-					x2=<input name="z" value = {{var_strs['z']}}>
-				</td>
-				{% endif %}
-				{% if ins>3 %}
-				<td>
-					x3=<input name="u" value = {{var_strs['u']}}>
-				</td>
-				{% endif %}
-				{% if ins>4 %}
-				<td>
-					x4=<input name="v" value = {{var_strs['v']}}>
-				</td>
-				{% endif %}
-			</tr>
-		</table>
-		<input id='textbutton' type="submit" name="action" value="Set Input Values">
-		</form>
-
-		{% if full %}
-		<p> Function value: {{val}} </p>
-		<p> Function gradient: {{der}} </p>
-
+	{% if errors %}
+	<div class="alert alert-danger" role="alert">
+		{{ errors }}
+	</div>
+	{% endif %}
 	
 
-		<form method="post" action="./graphwindow">
-			<p> Choose a function to visualize. </p>
-			<input id='textbutton' type='submit' name='action' value='f1'>
-			{% if outs>1 %}
-			<input id='textbutton' type='submit' name='action' value='f2'>
-			{% endif %}
-			{% if outs>2 %}
-			<input id='textbutton' type='submit' name='action' value='f3'>
-			{% endif %}
 
-		{% if func_select %}
-			<div id="container">	
-			<div id="forward">
-				<h2>FORWARD MODE</h2>
-				<h3>Computational Graph</h3>
-				<img src='/comp_graph' alt='computational graph'>
-				<!--
-				<p>
-					<button type="submit" name="action" value="graph0">f1</button>
-					{% if outs>1 %}
-					<button type="submit" name="action" value="graph1">f2</button>
-					{% endif %}
-					{% if outs>2 %}
-					<button type="submit" name="action" value="graph2">f3</button>
-					{% endif %}
-				</p>
-				-->
-				<h3>Evaluation Table</h3>
-				<!--
-				<p>
-					<button type="submit" name="action" value="table0">f1</button>
-					{% if outs>1 %}
-					<button type="submit" name="action" value="table1">f2</button>
-					{% endif %}
-					{% if outs>2 %}
-					<button type="submit" name="action" value="table2">f3</button>
-					{% endif %}
-				</p>i
-				-->
-				{{table|safe}}
-			</div>
-			<div id="reverse">
-				<h2>REVERSE MODE</h2>
-				<h3>Reverse Graph</h3>
-				<img src='/rev_graph' alt='reversegraph'>
-				<!--
-				<p>
-					<button type="submit" name="action" value="rgraph0">f1</button>
-					{% if outs>1 %}
-					<button type="submit" name="action" value="rgraph1">f2</button>
-					{% endif %}
-					{% if outs>2 %}
-					<button type="submit" name="action" value="rgraph2">f3</button>
-					{% endif %}
-				</p>
-				-->
-				<h3>Visualize Reverse Calculations</h3>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm">
+				<p class='function-formula'> $ f1({{flabels[ins]}})= {{func_content[0]}} $</p>
+
+				{% if outs>1 %}
+				<p class='function-formula'> $ f2({{flabels[ins]}}) = {{func_content[1]}} $</p>
+				{% endif %}
 			
-				{% if visfunc==0 %}
-				<p>
-					<button id='derbutton' type="submit" name="action" value="dyn00">df1/dx0</button>
-					{% if ins>1 %}
-					<button id='derbutton' type="submit" name="action" value="dyn01">df1/dx1</button>
-					{% endif %}
-					{% if ins>2 %}
-					<button id='derbutton' type="submit" name="action" value="dyn02">df1/dx2</button>
-					{% endif %}
-					{% if ins>3 %}
-					<button id='derbutton' type="submit" name="action" value="dyn03">df1/dx3</button>
-					{% endif %}
-					{% if ins>4 %}
-					<button id='derbutton' type="submit" name="action" value="dyn04">df1/dx4</button>
-					{% endif %}
-				</p>
+			
+				{% if outs>2 %}
+				<p class='function-formula'> $ f3({{flabels[ins]}}) = {{func_content[2]}} $</p>
 				{% endif %}
-				{% if visfunc==1 %}
-				<p>
-					<button id='derbutton' type="submit" name="action" value="dyn10">df2/dx0</button>
-					{% if ins>1 %}
-					<button id='derbutton' type="submit" name="action" value="dyn11">df2/dx1</button>
-					{% endif %}
-					{% if ins>2 %}
-					<button id='derbutton' type="submit" name="action" value="dyn12">df2/dx2</button>
-					{% endif %}
-					{% if ins>3 %}
-					<button id='derbutton' type="submit" name="action" value="dyn13">df2/dx3</button>
-					{% endif %}
-					{% if ins>4 %}
-					<button id='derbutton' type="submit" name="action" value="dyn14">df2/dx4</button>
-					{% endif %}
-				</p>
+			</div>
+
+			<div class="col-sm">
+				{% if full %}
+				<p> <b>Function value:</b> $ {{val}} $</p>
+				<p> <b>Function gradient:</b> $ {{der}} $</p>
 				{% endif %}
-				{% if visfunc==2 %}
-				<p>
-					<button id='derbutton' type="submit" name="action" value="dyn20">df3/dx0</button>
-					{% if ins>1 %}
-					<button id='derbutton' type="submit" name="action" value="dyn21">df3/dx1</button>
-					{% endif %}
-					{% if ins>2 %}
-					<button id='derbutton' type="submit" name="action" value="dyn22">df3/dx2</button>
-					{% endif %}
-					{% if ins>3 %}
-					<button id='derbutton' type="submit" name="action" value="dyn23">df3/dx3</button>
-					{% endif %}
-					{% if ins>4 %}
-					<button id='derbutton' type="submit" name="action" value="dyn24">df3/dx4</button>
-					{% endif %}
-				</p>
-				{% endif %}
-				<img src='/rev_dynamic' alt='dynvis'>
-				<p>
-				<button id='textbutton' type='submit' name="action" value='prev'>Previous Step</button>
-				<button id='textbutton' type='submit' name='action' value='next'>Next Step</button>
-				</p>
 			</div>
 		</div>
-			
-		</form>
+	</div>
+
+
+	<form method="post" action="./graphwindow">
+	<table class='input-table'>
+		<tr>
+			<td>
+				$x0$ = <input name="x" size="7" value={{var_strs['x']}}> &nbsp;
+			</td>
+			{% if ins>1 %}
+			<td>
+				$x1$ = <input name="y" size="7" value = {{var_strs['y']}}>
+			</td>
+			{% endif %}
+			{% if ins>2 %}
+			<td>
+				$x2$ = <input name="z" size="7"  value = {{var_strs['z']}}> &nbsp;
+			</td>
+			{% endif %}
+			{% if ins>3 %}
+			<td>
+				$x3$ = <input name="u" size="7"  value = {{var_strs['u']}}>
+			</td>
+			{% endif %}
+			{% if ins>4 %}
+			<td>
+				$x4$ = <input name="v" size="7"  value = {{var_strs['v']}}>
+			</td>
+			{% endif %}
+		</tr>
+	</table>
+	<br>
+	<input id='textbutton' class="btn btn-lg btn-primary" type="submit" name="action" value="Set Input Values">
+	</form>
+	
+	<br>
+
+	{% if full %}
+	
+
+	<br>
+
+	<p> You can visualize the computational graph and evaluation table associated with each function in forward mode. <br>
+		<!-- Press the button corresponding to the function you want to analyze under each heading. -->
+		You can also dynamically visualize the steps in the calculation of a derivative in reverse mode or view the entire reverse graph.
+	</p>
+
+
+
+	<!-- <form id='function-to-viz' method="post" action="./graphwindow">
+	<div class="btn-group btn-group-toggle" data-toggle="buttons">
+		<label class="btn btn-lg btn-info active">
+		  <input type="radio" name="action" id="f1" autocomplete="off" value='f1' checked>f1
+		</label>
+		{% if outs>1 %}
+		<label class="btn btn-lg btn-info">
+		  <input type="radio" name="action" id="f2" autocomplete="off" value='f2'>f2
+		</label>
 		{% endif %}
+		{% if outs>2 %}
+		<label class="btn btn-lg btn-info">
+		  <input type="radio" name="action" id="f3" autocomplete="off" value='f3'>f3
+		</label>
 		{% endif %}
-		</body>
-</html>
+	  </div> -->
+
+
+	<form method="post" action="./graphwindow">
+		<p> Select a function to visualize:
+		<input id='textbutton' class="btn btn-lg btn-info" type='submit' name='action' value='f1'>
+		{% if outs>1 %}
+		<input id='textbutton' class="btn btn-lg btn-info" type='submit' name='action' value='f2'>
+		{% endif %}
+		{% if outs>2 %}
+		<input id='textbutton' class="btn btn-lg btn-info" type='submit' name='action' value='f3'> </p>
+		{% endif %}
+
+		<br><br>
+	{% if func_select %}
+		<div id="container">	
+		<div id="forward">
+			<h2>FORWARD MODE</h2>
+			<h3>Computational Graph</h3>
+			<img src='/comp_graph' alt='computational graph'><br><br>
+			<!--
+			<p>
+				<button type="submit" name="action" value="graph0">f1</button>
+				{% if outs>1 %}
+				<button type="submit" name="action" value="graph1">f2</button>
+				{% endif %}
+				{% if outs>2 %}
+				<button type="submit" name="action" value="graph2">f3</button>
+				{% endif %}
+			</p>
+			-->
+			<h3>Evaluation Table</h3>
+			<!--
+			<p>
+				<button type="submit" name="action" value="table0">f1</button>
+				{% if outs>1 %}
+				<button type="submit" name="action" value="table1">f2</button>
+				{% endif %}
+				{% if outs>2 %}
+				<button type="submit" name="action" value="table2">f3</button>
+				{% endif %}
+			</p>i
+			-->
+			{{table|safe}}
+		</div>
+		<div id="reverse">
+			<h2>REVERSE MODE</h2>
+			<h3>Reverse Graph</h3>
+			<img src='/rev_graph' alt='reversegraph'><br><br>
+			<!--
+			<p>
+				<button type="submit" name="action" value="rgraph0">f1</button>
+				{% if outs>1 %}
+				<button type="submit" name="action" value="rgraph1">f2</button>
+				{% endif %}
+				{% if outs>2 %}
+				<button type="submit" name="action" value="rgraph2">f3</button>
+				{% endif %}
+			</p>
+			-->
+			<h3>Visualize Reverse Calculations</h3>
+		
+			{% if visfunc==0 %}
+			<p>
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn00">df1/dx0</button>
+				{% if ins>1 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn01">df1/dx1</button>
+				{% endif %}
+				{% if ins>2 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn02">df1/dx2</button>
+				{% endif %}
+				{% if ins>3 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn03">df1/dx3</button>
+				{% endif %}
+				{% if ins>4 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn04">df1/dx4</button>
+				{% endif %}
+			</p>
+			{% endif %}
+			{% if visfunc==1 %}
+			<p>
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn10">df2/dx0</button>
+				{% if ins>1 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn11">df2/dx1</button>
+				{% endif %}
+				{% if ins>2 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn12">df2/dx2</button>
+				{% endif %}
+				{% if ins>3 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn13">df2/dx3</button>
+				{% endif %}
+				{% if ins>4 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn14">df2/dx4</button>
+				{% endif %}
+			</p>
+			{% endif %}
+			{% if visfunc==2 %}
+			<p>
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn20">df3/dx0</button>
+				{% if ins>1 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn21">df3/dx1</button>
+				{% endif %}
+				{% if ins>2 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn22">df3/dx2</button>
+				{% endif %}
+				{% if ins>3 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn23">df3/dx3</button>
+				{% endif %}
+				{% if ins>4 %}
+				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn24">df3/dx4</button>
+				{% endif %}
+			</p>
+			{% endif %}
+			<img src='/rev_dynamic' alt='dynvis'>
+			<p><br>
+			<button id='textbutton' class='btn btn-danger' type='submit' name="action" value='prev'>Previous Step</button>
+			<button id='textbutton' class='btn btn-success' type='submit' name='action' value='next'>Next Step</button>
+			</p>
+		</div>
+	</div>
+		
+	</form>
+	{% endif %}
+	{% endif %}
+
+	{% endblock %}
+
+

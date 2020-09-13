@@ -4,22 +4,78 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
     <link rel="stylesheet" type = text/css href="{{ url_for('static', filename='style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+      src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
     <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'> -->
     <meta charset="UTF-8">
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <title>Auto-ED</title>
 
     {% block script %}{% endblock %}
   </head>
   <body>
-      <br><br>
-      <h1>{% block heading %}{% endblock %}</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand mb-0 h1" href="{{ url_for('startup', _external=True) }}"><span style="font-weight:600;font-size:20px;">Auto-ED</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="{{ url_for('startup', _external=True) }}">Home</a>
+            <a class="nav-item nav-link" target="_blank" href="#">ReadtheDocs</a>
+            <a class="nav-item nav-link" target="_blank" href="#">GitHub</a>
+          </div>
+        </div>
+      </nav>
 
-      {% block body %}
-      {% endblock %}
-    </div>
 
+    
+
+      <div class="jumbotron bg-image">
+        <div class="container">
+          <h1>{% block heading %}{% endblock %}</h1>
+
+        </div>
+      </div>
+
+      <div class='container content'>
+        {% block body %}
+        {% endblock %}
+      </div>
+
+      <br>
+      <br>
+
+    
+		<script>
+			$(document).ready(function(){
+			  $('[data-toggle="tooltip"]').tooltip();   
+			});
+      
+      // $( "#f1" ).click(function() {
+      //   alert("hello");
+      //   $("#function-to-viz").attr("action", "f1");
+      //   $( "#function-to-viz" ).submit();
+      // });
+
+      // $( "#f2" ).click(function() {
+      //   $("#function-to-viz").attr("action", "f2");
+      //   $( "#function-to-viz" ).submit();
+      // });
+
+      // $( "#f3" ).click(function() {
+      //   $("#function-to-viz").attr("action", "f2");
+      //   $( "#function-to-viz" ).submit();
+      // });
+
+    </script>
+    
   </body>
 </html>
