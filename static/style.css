@@ -71,7 +71,7 @@ img {
 }
 
 #calctable {
-	margin: auto;
+	margin-left: -100px !important;
 	background-color: #AFB7C1;
 	text-align: center;
 	border-radius: 4px;

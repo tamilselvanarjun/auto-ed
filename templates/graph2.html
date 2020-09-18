@@ -106,19 +106,42 @@
 
 
 	<form method="post" action="./graphwindow">
-		<p> Select a function to visualize:
-		<input id='textbutton' class="btn btn-lg btn-info" type='submit' name='action' value='f1'>
+		<p> 
+		Select a function to visualize:
+		{% if visfunc == 0 %}
+			<input id='textbutton' class="btn btn-lg btn-outline-info active" aria-pressed="true" type='submit' name='action' value='f1'>
+		{% else %}
+			<input id='textbutton' class="btn btn-lg btn-outline-info" type='submit' name='action' value='f1'>
+		{% endif %}
+		
+
 		{% if outs>1 %}
-		<input id='textbutton' class="btn btn-lg btn-info" type='submit' name='action' value='f2'>
+			{% if visfunc == 1 %}
+				<input id='textbutton' class="btn btn-lg btn-outline-info active" type='submit' aria-pressed='true' name='action' value='f2'>
+			{% else %}
+				<input id='textbutton' class="btn btn-lg btn-outline-info" type='submit' name='action' value='f2'>
+			{% endif %}
 		{% endif %}
+		
 		{% if outs>2 %}
-		<input id='textbutton' class="btn btn-lg btn-info" type='submit' name='action' value='f3'> </p>
+			{% if visfunc == 2 %}
+				<input id='textbutton' class="btn btn-lg btn-outline-info active" aria-pressed='true' type='submit' name='action' value='f3'> 
+			{% else %}
+				<input id='textbutton' class="btn btn-lg btn-outline-info" type='submit' name='action' value='f3'>
+			{% endif %}
 		{% endif %}
+		</p>
+
 
 		<br><br>
 	{% if func_select %}
-		<div id="container">	
+		<div id="container">
+			<!-- {% if visfunc == 0 or visfunc == 1 or visfunc == 2 %} -->
+			<!-- <h1 style="color:black;">Visualizing: F{{ visfunc + 1 }}</h1> -->
+			<!-- {% endif %} -->	
 		<div id="forward">
+
+	
 			<h2>FORWARD MODE</h2>
 			<h3>Computational Graph</h3>
 			<img src='/comp_graph' alt='computational graph'><br><br>
