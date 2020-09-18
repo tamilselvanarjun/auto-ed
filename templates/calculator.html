@@ -7,7 +7,7 @@
 		Input variables are located at the last row. 
 	<ul>
 	 <li><b>Edit f</b>: Choose which function to update. </li>
-	 <li><b>Clear All</b>: Start over for a particular function. </li>
+	 <li><b>Clear Function</b>: Start over for a particular selected function. </li>
 	 <li><b>Calculate</b>: Press when you are finished with defining your functions! </p></li>
 	</ul>
 	{% if errors %}
@@ -17,61 +17,62 @@
 	{% endif %}
 	<form name="calculator" method="post" action='./calculate'>
 		<table id='calctable'>
+
 			<tr>
-				<td colspan="5">
-					<p>f1({{flabels[ins]}}):</p><input id='dispfunc' type="text" name="f1" id="f1" value={{func_content[0]}}>
-					<input id='textbutton' type="submit" name="action" value ="Edit f1">
+				<td style='padding-top:20px;' colspan="5">
+					<p><b>f1({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f1" id="f1" value={{func_content[0]}}>
+					<input id='textbutton' type="submit" name="action" value ="Edit f1"></p>
 				</td>
 				{% if outs>1 %}
-				<td colspan="5">
-					<p>f2({{flabels[ins]}}):</p><input id='dispfunc' type="text" name="f2" id="f2" value={{func_content[1]}}>
-					<input id='textbutton' type="submit" name="action" value ="Edit f2">
+				<td style='padding-top:20px;' colspan="5">
+					<p><b>f2({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f2" id="f2" value={{func_content[1]}}>
+					<input id='textbutton' type="submit" name="action" value ="Edit f2"></p>
 				</td>
 				{% endif %}
 				{% if outs>2 %}
-				<td colspan="5">
-					<p>f3({{flabels[ins]}}):</p><input id='dispfunc' type="test" name="f3" id="f3" value={{func_content[2]}}>
-					<input id='textbutton' type="submit" name="action" value="Edit f3">
+				<td style='padding-top:20px;' colspan="5">
+					<p><b>f3({{flabels[ins]}}):</b><br><input id='dispfunc' type="test" name="f3" id="f3" value={{func_content[2]}}>
+					<input id='textbutton' type="submit" name="action" value="Edit f3"></p>
 				</td>
 				{% endif %}
 			</tr>
-`				<tr>
+				<tr>
 					<td><input id='calc' type="submit" name="action" value="sin" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="cos" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="tan" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="exp" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="log" onclick="calculator.display.value+='F'"></td>
 			</tr>
-`				<tr>
+ 			<tr>
 					<td><input id='calc' type="submit" name="action" value="sinh" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="cosh" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="tanh" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="sig" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="relu" onclick="calculator.display.value+='F'"></td>
 			</tr>
-`	
-`				<tr>
+	
+				<tr>
 					<td><input id='calc' type="submit" name="action" value="7" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="8" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="9" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="+" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="^" onclick="calculator.display.value+='F'"></td>
 			</tr>
-`				<tr>
+				<tr>
 					<td><input id='calc' type="submit" name="action" value="4" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="5" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="6" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="-" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="sqrt" onclick="calculator.display.value+='F'"></td>
 			</tr>
-`				<tr>
+				<tr>
 					<td><input id='calc' type="submit" name="action" value="1"></td>
 					<td><input id='calc' type="submit" name="action" value="2" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="3" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="*" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="(" onclick="calculator.display.value+='F'"></td>
 			</tr>
-`				<tr>
+				<tr>
 					<td><input id='calc' type="submit" name="action" value="0" onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="." onclick="calculator.display.value+='F'"></td>
 					<td><input id='calc' type="submit" name="action" value="&#11013" onclick="calculator.display.value+='F'"></td>
@@ -94,11 +95,11 @@
 					{% endif %}
 			</tr>
 			<tr>
-				<td colspan="5">
+				<td style="padding-bottom:20px;" colspan="5">
 					<input id='textbutton' type ="submit" name="action" value="Calculate">
 				</td>
-				<td colspan="5">
-					<input id='textbutton' type ="submit" name="action" value="Clear All">
+				<td style="padding-bottom:20px;" colspan="5">
+					<input id='textbutton' type ="submit" name="action" value="Clear Function">
 				</td>
 			</tr>
 
