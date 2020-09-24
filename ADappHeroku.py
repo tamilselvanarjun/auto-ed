@@ -9,7 +9,8 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['PERMANENT_SESSION_LIFETIME']=600
 sess.init_app(app)
 
-import io
+import io, sympy
+from sympy import latex, sympify
 import numpy as np
 import pandas as pd
 from matplotlib.backends.backend_svg import FigureCanvasSVG
@@ -17,6 +18,19 @@ from ADnum import ADnum
 import ADmath
 import ADgraph
 
+# python functions for jinja template
+# https://stackoverflow.com/a/32034945/10012842
+@app.context_processor
+def my_utility_processor():
+    def convert_latex(string):
+        return latex(sympify(string))
+
+    def wrap_brackets(string):
+        if string[-1] != ')':
+            string = '(' + string + ')'
+        return string
+
+    return dict(convert_latex=convert_latex, wrap_brackets = wrap_brackets)
 
 
 @app.route('/', methods = ["GET", "POST"])
@@ -73,7 +87,7 @@ def startup():
 def calculate():
     errors = ""
     if request.method == "POST":
-        if request.form["action"] == "Clear All":
+        if request.form["action"] == "Clear Function":
             clear_all()
         elif request.form["action"] == u"\u2b05":
             back_space()
@@ -146,6 +160,12 @@ def graphwindow():
     #global show_table
     #global visfunc
     errors = ""
+
+    # print
+    print(session['disp_val'])
+    print(type(session['disp_val']))
+    print(session['disp_der'])
+
     if request.method == "POST":
         action = request.form["action"]
         if request.form["action"] == "Set Input Values":
@@ -188,6 +208,7 @@ def graphwindow():
                     session['var_strs']['v']=request.form["v"]
                     session['varlist'].append(session['v'])
                 build_function()    
+                
                 return render_template('graph2.html', ins=session['master_ins'], outs = session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der = session['disp_der'], show_table=False, func_select=False)
             except:
                 errors += "Please enter numeric values for all of the inputs."

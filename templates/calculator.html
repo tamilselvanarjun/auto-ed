@@ -3,8 +3,7 @@
 	
 	{% block heading %} Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Definition</small> {% endblock %}
 	{% block body %}
-	<p>This calculator generates functions of multiple variables.  Click on the buttons below to define your function(s) in a standard calculator syntax. 
-		Input variables are located at the last row. 
+	<p>Now, click on the buttons below (do not type!) to define your function(s) in a standard calculator syntax. <br>Input variables are located at the last row. 
 	<ul>
 	 <li><b>Edit f</b>: Choose which function to update. </li>
 	 <li><b>Clear Function</b>: Start over for a particular selected function. </li>
@@ -20,18 +19,18 @@
 
 			<tr>
 				<td style='padding-top:20px;' colspan="5">
-					<p><b>f1({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f1" id="f1" value={{func_content[0]}}>
+					<p><b>$f_1$({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f1" id="f1" value={{func_content[0]}}>
 					<input id='textbutton' type="submit" name="action" value ="Edit f1"></p>
 				</td>
 				{% if outs>1 %}
 				<td style='padding-top:20px;' colspan="5">
-					<p><b>f2({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f2" id="f2" value={{func_content[1]}}>
+					<p><b>$f_2$({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f2" id="f2" value={{func_content[1]}}>
 					<input id='textbutton' type="submit" name="action" value ="Edit f2"></p>
 				</td>
 				{% endif %}
 				{% if outs>2 %}
 				<td style='padding-top:20px;' colspan="5">
-					<p><b>f3({{flabels[ins]}}):</b><br><input id='dispfunc' type="test" name="f3" id="f3" value={{func_content[2]}}>
+					<p><b>$f_3$({{flabels[ins]}}):</b><br><input id='dispfunc' type="test" name="f3" id="f3" value={{func_content[2]}}>
 					<input id='textbutton' type="submit" name="action" value="Edit f3"></p>
 				</td>
 				{% endif %}
