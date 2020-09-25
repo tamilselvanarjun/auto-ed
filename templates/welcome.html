@@ -1,20 +1,25 @@
-<html>
-	<head>
-		<link rel="stylesheet" type = text/css href="{{ url_for('static', filename='style.css') }}">
-	</head>
-	<body>
-		<h1> Welcome to the Automatic Differentiation Visualization Tool. </h1>
-		<p>Use this tool to visualize the calculations and computational structure that underlie automatic differentiation.  To learn more about the theory behind automatic differentiation, this tool can be used in conjunction with a set of basic modules on automatic differentiation available in the Read the Docs associated with the Auto-eD repository.</p>
+{% extends "layout.html" %}
 
-		<p>To get started, specify the number of input variables and output functions that you would like to visualize below.  Note that this tool only supports up to 5 function inputs and up to 3 function outputs.  For more complex functions, please use the ADnum, ADmath, and ADgraph modules from the Auto-eD repository.</p>
-
-			<p id='error'>{{errors}}</p>
+	
+	{% block heading %} Automatic Differentiation Visualization Tool {% endblock %}
+	{% block body %}
+		<br>
+		<p>Welcome! Let's visualize the calculations and computational structure that underlie <a href="#" target="_blank" data-toggle="tooltip" 
+			data-container="body" title="To learn more about the theory behind automatic differentiation, this tool can be used in conjunction with a set of basic modules on automatic differentiation available in the ReadtheDocs page.">
+			automatic differentiation.</a> 
+		<br>To get started, plrease specify the number of input variables and output functions that you would like to visualize. </p>
+		<p style="font-size:16px;"> ⚠️: This tool only supports up to 3 output functions and up to 5 function input variables.  For more complex functions, please use the ADnum, ADmath, and ADgraph modules from the Auto-eD repository.</p>
+		<!-- <p id='error'>{{errors}}</p> -->
+		{% if errors %}
+		<div class="alert alert-danger" role="alert">
+			{{ errors }}
+		</div>
+		{% endif %}
 		<form method="post" action=".">
-			<p>Number of input variables:</p>
-			<p><input name="inputs" /></p>
-			<p>Number of output functions:</p>
-			<p><input name="outputs" /></p>
-			<p><input id='textbutton' type="submit" value="Next"/></p>
+			<p><b>Number of input variables:</b> <input name="inputs" size="1" /></p>
+			<p><b>Number of output functions:</b> <input name="outputs" size="1" /></p>
+			<p><input id='textbutton' class="btn btn-primary btn-lg" type="submit" value="Next"/></p>
 		</form>
-	</body>
-</html>
+
+
+	{% endblock %}

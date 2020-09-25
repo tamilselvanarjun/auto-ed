@@ -1,3 +1,4 @@
 .ipynb_checkpoints
 __pycache__
-flask_session
+flask_session/*
+.DS_Store
