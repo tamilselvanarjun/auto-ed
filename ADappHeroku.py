@@ -161,10 +161,6 @@ def graphwindow():
     #global visfunc
     errors = ""
 
-    # print
-    print(session['disp_val'])
-    print(type(session['disp_val']))
-    print(session['disp_der'])
 
     if request.method == "POST":
         action = request.form["action"]
