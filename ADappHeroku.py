@@ -30,7 +30,18 @@ def my_utility_processor():
             string = '(' + string + ')'
         return string
 
-    return dict(convert_latex=convert_latex, wrap_brackets = wrap_brackets)
+    def clean_latex(string):
+        # convert sigmoid to lowercase sigma
+        string = string.replace('sig', '\sigma')
+        
+        return string
+
+    def to_matrix(string):
+        string = string.replace(',\n', '<br>')
+        # string = string.encode()
+        return string
+
+    return dict(convert_latex=convert_latex, wrap_brackets=wrap_brackets, clean_latex=clean_latex, to_matrix=to_matrix)
 
 
 @app.route('/', methods = ["GET", "POST"])
@@ -160,7 +171,6 @@ def graphwindow():
     #global show_table
     #global visfunc
     errors = ""
-
 
     if request.method == "POST":
         action = request.form["action"]
