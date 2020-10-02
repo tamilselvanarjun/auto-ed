@@ -26,8 +26,8 @@
 			<form name="calculator" method="post" action="{{ url_for('press_calculator') }}">
 			<tr>
 				<td style='padding-top:20px;' colspan="5">
-					<p><b>$f_1$({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f1" id="f1" value={{func_content[0]}}>
-					<input id='textbutton' type="submit" name="action" value ="Edit f1"></p>
+					<p><b>$f_1$({{flabels[ins]}}):</b><br><input id='dispfunc' style='background-color:#87ceeb;' type="text" name="f1" id="f1" value={{func_content[0]}}>
+					<input id='textbutton' type="submit" name="action"  value ="Edit f1"></p>
 				</td>
 				{% if outs>1 %}
 				<td style='padding-top:20px;' colspan="5">
@@ -108,7 +108,7 @@
 					<input id='textbutton' type ="submit" name="action" value="Calculate">
 				</td>
 				</form>
-				<form method="post" action="{{ url_for('calculate') }}" >
+				<form method="post" name='clear-function' action="{{ url_for('clear_function_calculator') }}" >
 				<td style="padding-bottom:20px;" colspan="5">
 					<input id='textbutton' type ="submit" name="action" value="Clear Function">
 				</td>
