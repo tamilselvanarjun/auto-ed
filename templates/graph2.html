@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 
-	{% block heading %}Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Visualization</small>{% endblock %}
+
+
+	<!-- {% block script %} 
+	<script src="{{ url_for('static', filename='js/graphwindow.js') }}">></script>
+	{% endblock %} -->
+	
+	{% block heading %}
+	Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Visualization</small>
+	{% endblock %}
 	
 	{% block body %}
 	<p>Let's visualize how automatic differentiation is performed on your function!
@@ -19,22 +27,22 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm">
-				<p class='function-formula'> $ f_1{{ wrap_brackets(convert_latex(flabels[ins])) }} = {{ convert_latex(func_content[0]) }} $</p>
+				<p class='function-formula'> $ f_1{{ wrap_brackets(convert_latex(flabels[ins])) }} = {{ clean_latex(convert_latex(func_content[0])) }} $</p>
 
 				{% if outs>1 %}
-				<p class='function-formula'> $ f_2{{ wrap_brackets(convert_latex(flabels[ins])) }} = {{ convert_latex(func_content[1]) }} $</p>
+				<p class='function-formula'> $ f_2{{ wrap_brackets(convert_latex(flabels[ins])) }} = {{ clean_latex(convert_latex(func_content[1])) }} $</p>
 				{% endif %}
 			
 			
 				{% if outs>2 %}
-				<p class='function-formula'> $ f_3{{ wrap_brackets(convert_latex(flabels[ins])) }} = {{ convert_latex(func_content[2]) }} $</p>
+				<p class='function-formula'> $ f_3{{ wrap_brackets(convert_latex(flabels[ins])) }} = {{ clean_latex(convert_latex(func_content[2])) }} $</p>
 				{% endif %}
 			</div>
 
 			<div class="col-sm">
 				{% if full %}
-				<p> <b>Function value:</b>   {{ val }}  </p>
-				<p> <b>Function gradient:</b>  {{ der }} </p>
+				<p> <b>Function value</b><br>  {{ val }}  </p>
+				<p> <b>Function gradient</b><br> {{ to_matrix(der) |safe }} </p>
 				{% endif %}
 			</div>
 		</div>

@@ -1,7 +1,14 @@
 {% extends "layout.html" %}
 
 	
-	{% block heading %} Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Definition</small> {% endblock %}
+	{% block script %} 
+	<script src="{{ url_for('static', filename='js/calculator.js') }}">></script>
+	{% endblock %}
+
+	{% block heading %}
+	Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Definition</small> 
+	{% endblock %}
+	
 	{% block body %}
 	<p>Now, click on the buttons below (do not type!) to define your function(s) in a standard calculator syntax. <br>Input variables are located at the last row. 
 	<ul>
@@ -14,13 +21,13 @@
 		{{ errors }}
 	</div>
 	{% endif %}
-	<form name="calculator" method="post" action='./calculate'>
+	
 		<table id='calctable'>
-
+			<form name="calculator" method="post" action="{{ url_for('press_calculator') }}">
 			<tr>
 				<td style='padding-top:20px;' colspan="5">
-					<p><b>$f_1$({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f1" id="f1" value={{func_content[0]}}>
-					<input id='textbutton' type="submit" name="action" value ="Edit f1"></p>
+					<p><b>$f_1$({{flabels[ins]}}):</b><br><input id='dispfunc' style='background-color:#87ceeb;' type="text" name="f1" id="f1" value={{func_content[0]}}>
+					<input id='textbutton' type="submit" name="action"  value ="Edit f1"></p>
 				</td>
 				{% if outs>1 %}
 				<td style='padding-top:20px;' colspan="5">
@@ -30,7 +37,7 @@
 				{% endif %}
 				{% if outs>2 %}
 				<td style='padding-top:20px;' colspan="5">
-					<p><b>$f_3$({{flabels[ins]}}):</b><br><input id='dispfunc' type="test" name="f3" id="f3" value={{func_content[2]}}>
+					<p><b>$f_3$({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f3" id="f3" value={{func_content[2]}}>
 					<input id='textbutton' type="submit" name="action" value="Edit f3"></p>
 				</td>
 				{% endif %}
@@ -93,17 +100,23 @@
 					<td><input id='calc' class='invar' type="submit" name="action" value="x4" onclick="calculator.display.value+='F'"></td>
 					{% endif %}
 			</tr>
+			</form>
+			
 			<tr>
+				<form method="post" action="{{ url_for('calculate') }}" >
 				<td style="padding-bottom:20px;" colspan="5">
 					<input id='textbutton' type ="submit" name="action" value="Calculate">
 				</td>
+				</form>
+				<form method="post" name='clear-function' action="{{ url_for('clear_function_calculator') }}" >
 				<td style="padding-bottom:20px;" colspan="5">
 					<input id='textbutton' type ="submit" name="action" value="Clear Function">
 				</td>
+				</form>
 			</tr>
-
+			
 		</table>
-	</form>
+	
 	{% endblock %}
 
 
