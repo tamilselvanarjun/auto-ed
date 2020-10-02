@@ -1,7 +1,14 @@
 {% extends "layout.html" %}
 
 	
-	{% block heading %} Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Definition</small> {% endblock %}
+	{% block script %} 
+	<script src="{{ url_for('static', filename='js/calculator.js') }}">></script>
+	{% endblock %}
+
+	{% block heading %}
+	Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Definition</small> 
+	{% endblock %}
+	
 	{% block body %}
 	<p>Now, click on the buttons below (do not type!) to define your function(s) in a standard calculator syntax. <br>Input variables are located at the last row. 
 	<ul>
@@ -14,6 +21,15 @@
 		{{ errors }}
 	</div>
 	{% endif %}
+
+
+
+	<!-- <form id='test' method='post' action="{{ url_for('press_calculator') }}">
+		<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+		<button type='submit' name='button_value' value='cos'>COS</button>
+	</form>
+	<p id='testspace'></p> -->
+
 	<form name="calculator" method="post" action='./calculate'>
 		<table id='calctable'>
 

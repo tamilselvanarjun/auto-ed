@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 
-	{% block heading %}Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Visualization</small>{% endblock %}
+
+
+	<!-- {% block script %} 
+	<script src="{{ url_for('static', filename='js/graphwindow.js') }}">></script>
+	{% endblock %} -->
+	
+	{% block heading %}
+	Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Visualization</small>
+	{% endblock %}
 	
 	{% block body %}
 	<p>Let's visualize how automatic differentiation is performed on your function!
@@ -33,8 +41,8 @@
 
 			<div class="col-sm">
 				{% if full %}
-				<p> <b>Function value:</b>   {{ val }}  </p>
-				<p> <b>Function gradient:</b> <br> {{ to_matrix(der) |safe }} </p>
+				<p> <b>Function value</b><br>  {{ val }}  </p>
+				<p> <b>Function gradient</b><br> {{ to_matrix(der) |safe }} </p>
 				{% endif %}
 			</div>
 		</div>

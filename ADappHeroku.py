@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, Response, session
+from flask import Flask, render_template, redirect, url_for, request, Response, session, jsonify
 from flask_session import Session
 
 #set up for flask app
@@ -17,6 +17,7 @@ from matplotlib.backends.backend_svg import FigureCanvasSVG
 from ADnum import ADnum
 import ADmath
 import ADgraph
+
 
 # python functions for jinja template
 # https://stackoverflow.com/a/32034945/10012842
@@ -38,10 +39,14 @@ def my_utility_processor():
 
     def to_matrix(string):
         string = string.replace(',\n', '<br>')
-        # string = string.encode()
         return string
 
     return dict(convert_latex=convert_latex, wrap_brackets=wrap_brackets, clean_latex=clean_latex, to_matrix=to_matrix)
+
+
+
+
+
 
 
 @app.route('/', methods = ["GET", "POST"])
@@ -93,6 +98,12 @@ def startup():
         session['master_outs'] = outs
         return redirect(url_for('calculate'))
     return render_template('welcome.html', errors=errors)
+
+
+
+
+
+
 
 @app.route('/calculate', methods = ["GET", "POST"])
 def calculate():
@@ -166,6 +177,31 @@ def calculate():
             calcfuncs[request.form["action"]]()
     return render_template('calculator.html', func_content = session['func_content'], calcfuncs=calcfuncs, ins=session['master_ins'], outs=session['master_outs'], flabels = session['flabels'], errors=errors)
 
+
+
+# @app.route('/clear-function-calculator', methods=["POST"])
+# def clear_function_calculator():
+#     clear_all()
+#     return
+
+
+# @app.route('/press-calculator', methods = ["POST"])
+# def press_calculator():
+#     # if request.form["action"] == u"\u2b05":
+#     #     back_space()
+        
+#     # calcfuncs[request.form["action"]]()
+#     tmp = request.form.get("action")
+#     print(tmp)
+#     data = {'tmp': None}
+#     return jsonify(data)
+
+
+
+
+
+
+
 @app.route('/graphwindow', methods = ["GET", "POST"])
 def graphwindow():
     #global show_table
@@ -173,6 +209,7 @@ def graphwindow():
     errors = ""
 
     if request.method == "POST":
+        
         action = request.form["action"]
         if request.form["action"] == "Set Input Values":
             session['show_table'] = False
@@ -273,6 +310,16 @@ def graphwindow():
             #ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], x[0].revder(out_num[0])[0])
             #return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
     return render_template('graph2.html', ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels = session['flabels'], func_content=session['func_content'], full=False, show_table=False, func_select=False)
+
+
+
+
+
+
+
+
+
+
 
 
 #global curr_idx
