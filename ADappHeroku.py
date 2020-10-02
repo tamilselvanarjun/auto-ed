@@ -111,8 +111,6 @@ def calculate():
     if request.method == "POST":
         if request.form["action"] == "Clear Function":
             clear_all()
-        elif request.form["action"] == u"\u2b05":
-            back_space()
         elif request.form["action"] == "Calculate":
             try:
                 if session['master_outs']>0: #for i in range(session['master_outs']):
@@ -173,8 +171,7 @@ def calculate():
                 errors += "There is a syntax error in your function.  Please edit and try again."
                 return render_template('calculator.html', func_content=session['func_content'], calcfuncs=calcfuncs, ins=session['master_ins'], outs=session['master_outs'], flabels = session['flabels'], errors = errors)
             return redirect(url_for('graphwindow'))
-        else:
-            calcfuncs[request.form["action"]]()
+
     return render_template('calculator.html', func_content = session['func_content'], calcfuncs=calcfuncs, ins=session['master_ins'], outs=session['master_outs'], flabels = session['flabels'], errors=errors)
 
 
@@ -185,16 +182,19 @@ def calculate():
 #     return
 
 
-# @app.route('/press-calculator', methods = ["POST"])
-# def press_calculator():
-#     # if request.form["action"] == u"\u2b05":
-#     #     back_space()
-        
-#     # calcfuncs[request.form["action"]]()
-#     tmp = request.form.get("action")
-#     print(tmp)
-#     data = {'tmp': None}
-#     return jsonify(data)
+@app.route('/press-calculator', methods = ["POST"])
+def press_calculator():
+    # if request.form["action"] == u"\u2b05":
+    #     back_space()
+    
+    button_value = request.form.get("action")
+
+    if button_value  == u"\u2b05":
+        back_space()
+    else:
+        calcfuncs[button_value]()
+    data = {'button': button_value, 'func_content': session['func_content'], 'editing': session['editing']}
+    return jsonify(data)
 
 
 

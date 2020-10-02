@@ -21,18 +21,9 @@
 		{{ errors }}
 	</div>
 	{% endif %}
-
-
-
-	<!-- <form id='test' method='post' action="{{ url_for('press_calculator') }}">
-		<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-		<button type='submit' name='button_value' value='cos'>COS</button>
-	</form>
-	<p id='testspace'></p> -->
-
-	<form name="calculator" method="post" action='./calculate'>
+	
 		<table id='calctable'>
-
+			<form name="calculator" method="post" action="{{ url_for('press_calculator') }}">
 			<tr>
 				<td style='padding-top:20px;' colspan="5">
 					<p><b>$f_1$({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f1" id="f1" value={{func_content[0]}}>
@@ -46,7 +37,7 @@
 				{% endif %}
 				{% if outs>2 %}
 				<td style='padding-top:20px;' colspan="5">
-					<p><b>$f_3$({{flabels[ins]}}):</b><br><input id='dispfunc' type="test" name="f3" id="f3" value={{func_content[2]}}>
+					<p><b>$f_3$({{flabels[ins]}}):</b><br><input id='dispfunc' type="text" name="f3" id="f3" value={{func_content[2]}}>
 					<input id='textbutton' type="submit" name="action" value="Edit f3"></p>
 				</td>
 				{% endif %}
@@ -109,17 +100,23 @@
 					<td><input id='calc' class='invar' type="submit" name="action" value="x4" onclick="calculator.display.value+='F'"></td>
 					{% endif %}
 			</tr>
+			</form>
+			
 			<tr>
+				<form method="post" action="{{ url_for('calculate') }}" >
 				<td style="padding-bottom:20px;" colspan="5">
 					<input id='textbutton' type ="submit" name="action" value="Calculate">
 				</td>
+				</form>
+				<form method="post" action="{{ url_for('calculate') }}" >
 				<td style="padding-bottom:20px;" colspan="5">
 					<input id='textbutton' type ="submit" name="action" value="Clear Function">
 				</td>
+				</form>
 			</tr>
-
+			
 		</table>
-	</form>
+	
 	{% endblock %}
 
 
