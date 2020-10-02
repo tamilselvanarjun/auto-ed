@@ -4,7 +4,7 @@ Module 1: The Basics of Forward Mode
 Introduction
 ------------
 
-Differentiation is a fundamental operation in computational science that is important in many applications, including optimization, sensitivity analysis, and solving differential equations.  To be useful in these applications, derivatives must be computed both precisely and efficiently.  **Automatic differentiation**, sometimes also called algorithmic differentiation or computational differentiation, is able to do both, distinguishing it from both numerical differentiation and symbolic differentiation.
+Differentiation is fundamental to computational science and is important in many applications, including optimization, sensitivity analysis, and solving differential equations. To be useful in these applications, derivatives must be computed both precisely and efficiently.  **Automatic differentiation**, sometimes also called algorithmic differentiation or computational differentiation, is able to do both, distinguishing it from both numerical differentiation and symbolic differentiation.
 
 * Automatic differentiation is not numerical differentiation.
 

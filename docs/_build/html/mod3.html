@@ -1,30 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Module 3: The Reverse Mode of Automatic Differentiation &#8212; Auto-eD  documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Beyond the Basics: Extensions and Software Development" href="mod4.html" />
@@ -35,13 +23,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-3-the-reverse-mode-of-automatic-differentiation">
@@ -50,290 +39,290 @@
 <div class="section" id="the-basics-of-reverse-mode">
 <h2>The Basics of Reverse Mode<a class="headerlink" href="#the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <p>As in forward mode, reverse mode still relies on the underlying computational graph structure of functions.  As we will see using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative information is propagated changes.  Recall that in forward mode we passed derivative information forward to store the derivative at each node.</p>
-<p>In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node <span class="math">\(x_3\)</span> has inputs nodes <span class="math">\(x_1\)</span> and <span class="math">\(x_2\)</span>, only the partial derivatives <span class="math">\(\frac{\partial x_3}{\partial x_1}\)</span> and <span class="math">\(\frac{\partial x_3}{\partial x_2}\)</span> are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store <span class="math">\(\frac{\partial x_3}{\partial x}\)</span> and <span class="math">\(\frac{\partial x_3}{\partial y}\)</span>.)</p>
+<p>In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node <span class="math notranslate nohighlight">\(x_3\)</span> has inputs nodes <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>, only the partial derivatives <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_1}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_2}\)</span> are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial y}\)</span>.)</p>
 <p>The reverse mode consists of two passes.  The forward pass first builds the computational graph while storing just the partial derivative information.  The reverse pass then starts at the output node and traverses the graph in the reverse direction to find the full partial derivatives.</p>
-<p>We introduce the bar notation to denote our backward pass tangents, <span class="math">\(\bar{x_i} = \frac{\partial f}{\partial x_i}\)</span>, which are sometimes also called the adjoint variable.  At the final node, <span class="math">\(f = x_N\)</span>, we have <span class="math">\(\bar{x_N} = \frac{\partial f}{\partial x_N} = 1\)</span>.  We then traverse backward through the graph to construct the partial derivative from the chain rule.  <span class="math">\(\bar{x_{N-1}}  = \bar{x_N}\frac{\partial x_N}{\partial x_{N-1}}\)</span>.  Note that the partial derivative is exactly the value that has already been stored by the forward pass of the graph.</p>
+<p>We introduce the bar notation to denote our backward pass tangents, <span class="math notranslate nohighlight">\(\bar{x_i} = \frac{\partial f}{\partial x_i}\)</span>, which are sometimes also called the adjoint variable.  At the final node, <span class="math notranslate nohighlight">\(f = x_N\)</span>, we have <span class="math notranslate nohighlight">\(\bar{x_N} = \frac{\partial f}{\partial x_N} = 1\)</span>.  We then traverse backward through the graph to construct the partial derivative from the chain rule.  <span class="math notranslate nohighlight">\(\bar{x_{N-1}}  = \bar{x_N}\frac{\partial x_N}{\partial x_{N-1}}\)</span>.  Note that the partial derivative is exactly the value that has already been stored by the forward pass of the graph.</p>
 <p>We see that this process is relatively straightforward for nodes with only one child.  When we encounter nodes with multiple children, we must perform a summation over the children, which follows directly from the multivariate chain rule.</p>
-<p>For <span class="math">\(x_i\)</span> with children <span class="math">\(x_j\)</span> and <span class="math">\(x_k\)</span>, we have</p>
-<div class="math">
+<p>For <span class="math notranslate nohighlight">\(x_i\)</span> with children <span class="math notranslate nohighlight">\(x_j\)</span> and <span class="math notranslate nohighlight">\(x_k\)</span>, we have</p>
+<div class="math notranslate nohighlight">
 \[\bar{x_i} = \bar{x_j}\frac{\partial x_j}{\partial x_i} + \bar{x_k}\frac{\partial x_k}{\partial x_i}.\]</div>
 </div>
 <div class="section" id="practice-with-the-visualization-tool">
 <h2>Practice with the Visualization Tool<a class="headerlink" href="#practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
-<p>Let&#8217;s revisit our typical example.  As with forward mode, we input the function into the interface in the same way and can compute the function value and derivative, but now we know a little bit about what reverse mode computes.  Let&#8217;s start with the same example we analyzed for forward mode, <span class="math">\(f(x) = x-\exp(-2\sin(4x)^2)\)</span>.  Input it into the visualization tool in the same way that you did in the first module.</p>
-<p>Let&#8217;s focus on the right half of the screen.  In the top right, you&#8217;ll see a graph that looks very similar to the one produced in forward mode.  Notice that the only difference is the direction of the arrows, representing the fact that derivatives are propagated in different directions.</p>
+<p>Let’s revisit our typical example.  As with forward mode, we input the function into the interface in the same way and can compute the function value and derivative, but now we know a little bit about what reverse mode computes.  Let’s start with the same example we analyzed for forward mode, <span class="math notranslate nohighlight">\(f(x) = x-\exp(-2\sin(4x)^2)\)</span>.  Input it into the visualization tool in the same way that you did in the first module.</p>
+<p>Let’s focus on the right half of the screen.  In the top right, you’ll see a graph that looks very similar to the one produced in forward mode.  Notice that the only difference is the direction of the arrows, representing the fact that derivatives are propagated in different directions.</p>
 <img alt="_images/Step4.PNG" src="_images/Step4.PNG" />
-<p>Now let&#8217;s dynamically visualize the process of reverse mode.  In the bottom right, press the df/dx button.  Use the &#8216;Next&#8217; button to step through the process of reverse mode.  At each step you&#8217;ll see the edge that the computation traverses being highlighted.</p>
-<p>Let&#8217;s consider another example but with multiple inputs, <span class="math">\(f(x,y) = xy+\exp(xy)\)</span>.  Observe that this function also has a branch in its underlying graph structure.  This time when dynamically visualizing the reverse mode, you should see that the computation has to trace through both branches to pick up the stored partial derivatives for the computation of the derivatives.</p>
+<p>Now let’s dynamically visualize the process of reverse mode.  In the bottom right, press the df/dx button.  Use the ‘Next’ button to step through the process of reverse mode.  At each step you’ll see the edge that the computation traverses being highlighted.</p>
+<p>Let’s consider another example but with multiple inputs, <span class="math notranslate nohighlight">\(f(x,y) = xy+\exp(xy)\)</span>.  Observe that this function also has a branch in its underlying graph structure.  This time when dynamically visualizing the reverse mode, you should see that the computation has to trace through both branches to pick up the stored partial derivatives for the computation of the derivatives.</p>
 <p><strong>Key Takeaways</strong></p>
 <ul class="simple">
-<li>Reverse mode and forward mode propagate the derivative in different directions.</li>
-<li>The underlying graph structure of the function is the same for both modes of automatic differentiation.</li>
-<li>Reverse mode computes derivatives by making a backward pass starting at the output.</li>
+<li><p>Reverse mode and forward mode propagate the derivative in different directions.</p></li>
+<li><p>The underlying graph structure of the function is the same for both modes of automatic differentiation.</p></li>
+<li><p>Reverse mode computes derivatives by making a backward pass starting at the output.</p></li>
 </ul>
 </div>
 <div class="section" id="more-theory">
 <h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
 <p>In the previous module, we demonstrated that forward mode computes the Jacobian vector product Jp.  (depends on number of input variables)</p>
-<p>In contrast, reverse mode computes <span class="math">\(J^Tp\)</span> which is independent of the number of inputs.</p>
+<p>In contrast, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span> which is independent of the number of inputs.</p>
 <p>This difference can result in different operation counts, accounting for the popularity of the backpropagation algorithm.  Backpropagation is a just a special case of the reverse mode of automatic differentiation where the function of which we are interested in taking derivatives is a scalar objective function that represents the error between the output and the true value.</p>
 </div>
 <div class="section" id="a-comparison-of-forward-and-reverse-mode">
 <h2>A Comparison of Forward and Reverse Mode<a class="headerlink" href="#a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <p>As the names suggest, the primary difference between forward and reverse mode is the direciton in which the computational graph is traversed, as we saw in the direction of the errors of the visualization tool.  This has implications for the computational efficiency of the two approaches.</p>
-<p>As we just showed, reverse mode computes <span class="math">\(J^Tp\)</span>, while in module 2, we learned that forward mode computes <span class="math">\(Jp\)</span>.  This means that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.  Let&#8217;s consider an example of this.</p>
+<p>As we just showed, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span>, while in module 2, we learned that forward mode computes <span class="math notranslate nohighlight">\(Jp\)</span>.  This means that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.  Let’s consider an example of this.</p>
 <p><strong>Demo: A Comparison of Forward and Reverse Mode</strong>
-Let&#8217;s consider the function <span class="math">\(f(w_1, w_2, w_3, w_4, w_5) = w_1w_2w_3w_4w_5\)</span>.  We want to compare the process of computing the partial derivatives in forward and reverse mode at the point (2, 1, 1, 1, 1).  Let&#8217;s start with using reverse mode, where we do not store the results of the chain rule but just the values of the partial derivatives at each step.</p>
-<table border="1" class="colwidths-given docutils">
+Let’s consider the function <span class="math notranslate nohighlight">\(f(w_1, w_2, w_3, w_4, w_5) = w_1w_2w_3w_4w_5\)</span>.  We want to compare the process of computing the partial derivatives in forward and reverse mode at the point (2, 1, 1, 1, 1).  Let’s start with using reverse mode, where we do not store the results of the chain rule but just the values of the partial derivatives at each step.</p>
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="14%" />
-<col width="14%" />
-<col width="14%" />
-<col width="14%" />
-<col width="14%" />
-<col width="14%" />
-<col width="14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Node</th>
-<th class="head">Current Value</th>
-<th class="head">Numerical Value</th>
-<th class="head"><span class="math">\(\partial_1\)</span></th>
-<th class="head"><span class="math">\(\partial_1\)</span> Value</th>
-<th class="head"><span class="math">\(\partial_2\)</span></th>
-<th class="head"><span class="math">\(\partial_2\)</span> Value</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Node</p></th>
+<th class="head"><p>Current Value</p></th>
+<th class="head"><p>Numerical Value</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_1\)</span> Value</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_2\)</span> Value</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td><span class="math">\(x_1\)</span></td>
-<td><span class="math">\(x_1\)</span></td>
-<td>2</td>
-<td>1</td>
-<td>1</td>
-<td><ul class="first last simple">
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-</tr>
-<tr class="row-odd"><td><span class="math">\(x_2\)</span></td>
-<td><span class="math">\(x_2\)</span></td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td><span class="math">\(x_3\)</span></td>
-<td><span class="math">\(x_3\)</span></td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td><ul class="first last simple">
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_2\)</span></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-</tr>
-<tr class="row-odd"><td><span class="math">\(x_4\)</span></td>
-<td><span class="math">\(x_4\)</span></td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td><span class="math">\(x_5\)</span></td>
-<td><span class="math">\(x_5\)</span></td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td><ul class="first last simple">
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_3\)</span></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(x_6\)</span></td>
-<td><span class="math">\(x_4x_5\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_5\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_4\)</span></td>
-<td>1</td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_4\)</span></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
 </tr>
-<tr class="row-even"><td><span class="math">\(x_7\)</span></td>
-<td><span class="math">\(x_3x_6\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_6\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_3\)</span></td>
-<td>1</td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_5\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_5\)</span></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(x_8\)</span></td>
-<td><span class="math">\(x_2x_7\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_7\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_2\)</span></td>
-<td>1</td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_6\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_4x_5\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_5\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_4\)</span></p></td>
+<td><p>1</p></td>
 </tr>
-<tr class="row-even"><td><span class="math">\(x_9\)</span></td>
-<td><span class="math">\(x_1x_8\)</span></td>
-<td>2</td>
-<td><span class="math">\(x_8\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_1\)</span></td>
-<td>2</td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_7\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_3x_6\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_6\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_3\)</span></p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_8\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_2x_7\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_7\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_2\)</span></p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_9\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_1x_8\)</span></p></td>
+<td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_8\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
+<td><p>2</p></td>
 </tr>
 </tbody>
 </table>
 <p>To compute the derivatives, we will now traverse through the graph, picking up the partial derivatives, using our update equations.  You can visualize this graph traversal by using the dynamic visualization tool.</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\bar{x_9} = \frac{\partial f}{\partial x_9} = 1\\\bar{x_8} = \frac{\partial f}{\partial x_9}\frac{\partial x_9}{\partial x_8} = 1 \cdot 2 = 2\\\bar{x_7} = \frac{\partial f}{\partial x_8}\frac{\partial x_8}{\partial x_7} = 2 \cdot 1 = 2\\\bar{x_6} = \frac{\partial f}{\partial x_7}\frac{\partial x_7}{\partial x_6} = 2 \cdot 1 = 2\\\bar{x_5} = \frac{\partial f}{\partial x_6}\frac{\partial x_6}{\partial x_5} = 2 \cdot 1 = 2\\\bar{x_4} = \frac{\partial f}{\partial x_6}\frac{\partial x_6}{\partial x_4} = 2 \cdot 1 = 2\\\bar{x_3} = \frac{\partial f}{\partial x_7}\frac{\partial x_7}{\partial x_3} = 2 \cdot 1 = 2\\\bar{x_2} = \frac{\partial f}{\partial x_8}\frac{\partial x_8}{\partial x_2} = 2 \cdot 1 = 2\\\bar{x_1} = \frac{\partial f}{\partial x_9}\frac{\partial x_9}{\partial x_1} = 1 \cdot 1 = 1\end{aligned}\end{align} \]</div>
-<p>In this way traversing the graph backwards, we compute all the partial derivatives.  As we learned in the previous unit, we could have used forward mode to compute the same values.  We know that we can use the samme graph structure for both directions, so let&#8217;s compare the computational table for forward mode.</p>
-<table border="1" class="colwidths-given docutils">
+<p>In this way traversing the graph backwards, we compute all the partial derivatives.  As we learned in the previous unit, we could have used forward mode to compute the same values.  We know that we can use the samme graph structure for both directions, so let’s compare the computational table for forward mode.</p>
+<table class="colwidths-given docutils align-default">
 <colgroup>
-<col width="8%" />
-<col width="17%" />
-<col width="17%" />
-<col width="17%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
+<col style="width: 8%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Node</th>
-<th class="head">Elementary Function</th>
-<th class="head">Numerical Value</th>
-<th class="head">Derivative</th>
-<th class="head"><span class="math">\(\partial_1\)</span></th>
-<th class="head"><span class="math">\(\partial_2\)</span></th>
-<th class="head"><span class="math">\(\partial_3\)</span></th>
-<th class="head"><span class="math">\(\partial_4\)</span></th>
-<th class="head"><span class="math">\(\partial_5\)</span></th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Node</p></th>
+<th class="head"><p>Elementary Function</p></th>
+<th class="head"><p>Numerical Value</p></th>
+<th class="head"><p>Derivative</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_3\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_4\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\partial_5\)</span></p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td><span class="math">\(x_1\)</span></td>
-<td><span class="math">\(x_1\)</span></td>
-<td>2</td>
-<td><span class="math">\(\dot{x_1}\)</span></td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
+<td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{x_1}\)</span></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(x_2\)</span></td>
-<td><span class="math">\(x_2\)</span></td>
-<td>1</td>
-<td><span class="math">\(\dot{x_2}\)</span></td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_2\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{x_2}\)</span></p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-even"><td><span class="math">\(x_3\)</span></td>
-<td><span class="math">\(x_3\)</span></td>
-<td>1</td>
-<td><span class="math">\(\dot{x_3}\)</span></td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_3\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{x_3}\)</span></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(x_4\)</span></td>
-<td><span class="math">\(x_4\)</span></td>
-<td>1</td>
-<td><span class="math">\(\dot{x_4}\)</span></td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_4\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{x_4}\)</span></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
 </tr>
-<tr class="row-even"><td><span class="math">\(x_5\)</span></td>
-<td><span class="math">\(x_5\)</span></td>
-<td>1</td>
-<td><span class="math">\(\dot{x_5}\)</span></td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_5\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_5\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{x_5}\)</span></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(x_6\)</span></td>
-<td><span class="math">\(x_4x_5\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_4\dot{x_5}+\dot{x_4}x_5\)</span></td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_6\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_4x_5\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_4\dot{x_5}+\dot{x_4}x_5\)</span></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
 </tr>
-<tr class="row-even"><td><span class="math">\(x_7\)</span></td>
-<td><span class="math">\(x_3x_6\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_3\dot{x_6}+\dot{x_3}x_6\)</span></td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_7\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_3x_6\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_3\dot{x_6}+\dot{x_3}x_6\)</span></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(x_8\)</span></td>
-<td><span class="math">\(x_2x_7\)</span></td>
-<td>1</td>
-<td><span class="math">\(x_2\dot{x_7}+\dot{x_2}x_7\)</span></td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_8\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_2x_7\)</span></p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_2\dot{x_7}+\dot{x_2}x_7\)</span></p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
 </tr>
-<tr class="row-even"><td><span class="math">\(x_9\)</span></td>
-<td><span class="math">\(x_1x_8\)</span></td>
-<td>2</td>
-<td><span class="math">\(x_1\dot{x_8}+\dot{x_1}x_8\)</span></td>
-<td>1</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-<td>2</td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_9\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(x_1x_8\)</span></p></td>
+<td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_1\dot{x_8}+\dot{x_1}x_8\)</span></p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
 </tr>
 </tbody>
 </table>
-<p>In this example, we can see why reverse mode is advantageous for many applicaations by couting the operations used to compute the derivatives in each of these directions.  To compute the product, both processes require 4 multiplication steps.  Let&#8217;s consider the operations to compute the partial derivatives.</p>
+<p>In this example, we can see why reverse mode is advantageous for many applicaations by couting the operations used to compute the derivatives in each of these directions.  To compute the product, both processes require 4 multiplication steps.  Let’s consider the operations to compute the partial derivatives.</p>
 <ul class="simple">
-<li>Reverse mode required a single multiplication step (the product of the two partial derivatives) at nodes 1-8, for a total of 8 operations.</li>
-<li>At nodes 6-9 (4 nodes), we use the product rule to compute the derivative (requiring 3 operations, 2 multiplications and 1 addition) for each of the 5 inputs, for a total of <span class="math">\(4\cdot 3 \cdot 5 = 60\)</span> operations</li>
+<li><p>Reverse mode required a single multiplication step (the product of the two partial derivatives) at nodes 1-8, for a total of 8 operations.</p></li>
+<li><p>At nodes 6-9 (4 nodes), we use the product rule to compute the derivative (requiring 3 operations, 2 multiplications and 1 addition) for each of the 5 inputs, for a total of <span class="math notranslate nohighlight">\(4\cdot 3 \cdot 5 = 60\)</span> operations</p></li>
 </ul>
 <p>From this example, we see that in cases with many inputs and few outputs, reverse mode is much more computationally efficient than forward mode.</p>
 </div>
@@ -347,7 +336,7 @@ Let&#8217;s consider the function <span class="math">\(f(w_1, w_2, w_3, w_4, w_5
 <div class="section" id="exercise-1-reverse-computational-table-and-derivatives">
 <h3>Exercise 1: Reverse Computational Table and Derivatives<a class="headerlink" href="#exercise-1-reverse-computational-table-and-derivatives" title="Permalink to this headline">¶</a></h3>
 <p>Return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[f(x, y) = xy + \exp(xy)\]</div>
 <p>Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point (1,2).  You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.</p>
 </div>
@@ -356,25 +345,38 @@ Let&#8217;s consider the function <span class="math">\(f(w_1, w_2, w_3, w_4, w_5
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Module 3: The Reverse Mode of Automatic Differentiation</a><ul>
-<li><a class="reference internal" href="#the-basics-of-reverse-mode">The Basics of Reverse Mode</a></li>
-<li><a class="reference internal" href="#practice-with-the-visualization-tool">Practice with the Visualization Tool</a></li>
-<li><a class="reference internal" href="#more-theory">More Theory</a></li>
-<li><a class="reference internal" href="#a-comparison-of-forward-and-reverse-mode">A Comparison of Forward and Reverse Mode</a></li>
-<li><a class="reference internal" href="#going-forward">Going Forward</a></li>
-<li><a class="reference internal" href="#exercises">Exercises</a><ul>
-<li><a class="reference internal" href="#exercise-1-reverse-computational-table-and-derivatives">Exercise 1: Reverse Computational Table and Derivatives</a></li>
+<h1 class="logo"><a href="index.html">Auto-eD</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="mod1.html">Module 1: The Basics of Forward Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mod2.html">Module 2: Deeper Into Forward Mode</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Module 3: The Reverse Mode of Automatic Differentiation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-basics-of-reverse-mode">The Basics of Reverse Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#practice-with-the-visualization-tool">Practice with the Visualization Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-theory">More Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-comparison-of-forward-and-reverse-mode">A Comparison of Forward and Reverse Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#going-forward">Going Forward</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="mod4.html">Beyond the Basics: Extensions and Software Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="refs.html">Referernces and Additional Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sols.html">Solutions to Exercises</a></li>
 </ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -384,23 +386,24 @@ Let&#8217;s consider the function <span class="math">\(f(w_1, w_2, w_3, w_4, w_5
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/mod3.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -409,8 +412,8 @@ Let&#8217;s consider the function <span class="math">\(f(w_1, w_2, w_3, w_4, w_5
       &copy;2019, Lindsey Brown and David Sondak.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/mod3.rst.txt"
