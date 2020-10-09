@@ -6,7 +6,7 @@ app = Flask(__name__)
 sess = Session()
 app.secret_key = 'gaeirogrioghogjfi'
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['PERMANENT_SESSION_LIFETIME']= 60 * 60 # 1hr
+app.config['PERMANENT_SESSION_LIFETIME']= 60  * 60 * 2 # 2hr
 sess.init_app(app)
 
 import io, sympy
@@ -119,7 +119,9 @@ def calculate():
     errors = ""
 
     # redirect to start page if session expired
-    check_session_expired()
+    if 'master_ins' not in session:
+        session['refresh_message'] = 'Your session has expired, please start again!'
+        return redirect(url_for('startup'))
 
 
     if request.method == "POST": # when "Calculate" button pressed!
@@ -225,7 +227,14 @@ def graphwindow():
     errors = ""
 
     # redirect to start page if session expired
-    check_session_expired()
+    if ('master_ins' not in session):
+        session['refresh_message'] = 'Your session has expired, please start again!'
+        return redirect(url_for('startup'))
+
+    # also redirect to start page if user erraneously moved back and forth on web ex. graph -> click previous arrow back to main main -> attempt to click forward arrow back to graph
+    if any(session['func_content']) == False: # if all function contents are empty
+        session['refresh_message'] = 'Your session has expired, please start again!'
+        return redirect(url_for('startup'))
 
 
     if request.method == "POST":
@@ -286,6 +295,7 @@ def graphwindow():
         #         session['curr_idx'] = session['curr_idx']+1
         #     return render_template('graph2.html', visfunc=session['visfunc'], ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der=session['disp_der'], func_select=True, table=table)
 
+    
     return render_template('graph2.html', ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels = session['flabels'], func_content=session['func_content'], full=False, show_table=False, func_select=False)
 
 
@@ -336,10 +346,12 @@ def partial_der():
     i = int(action[-2])
     var = session['varlist'][int(action[-1])]
     session['rev_dyn_set'] = ADgraph.get_rev_dynamic_outs(session['out_num'][i], var[i].revder(session['out_num'][i])[1], session['G'][i], session['edge_labs'][i], session['pos'][i], session['labs'][i], var[i].revder(session['out_num'][i])[0])
-    
+
+
     if session['curr_idx'] == len(session['rev_dyn_set'])-1: # if no steps available
         no_steps = True
 
+    print(session['rev_dyn_set'])
      # get initial dynamic reverse calculation graph
     rev_dynamic_raw = session['rev_dyn_set'][session['curr_idx']] #ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
     rev_dynamic_graph = b64encode(rev_dynamic_raw.getvalue()).decode('ascii')
@@ -352,6 +364,7 @@ def partial_der():
 
 @app.route('/navigate-steps', methods = ["POST"])
 def navigate_steps():
+    
     reached_max = False
     
     action = request.form.get("action")
@@ -378,16 +391,6 @@ def navigate_steps():
     return jsonify(data)
 
 
-
-
-
-
-
-# redirect to start page if session expired
-def check_session_expired():
-    if session.get('master_ins') == None:
-        session['refresh_message'] = 'Your session has expired, please start again!'
-        return redirect(url_for('startup'))
 
 
 def f0(x):

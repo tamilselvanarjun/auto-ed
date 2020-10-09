@@ -139,3 +139,7 @@ img {
 .hidden { 
 	display:none;
 }
+
+/* th, td, tr {
+	padding:10px;
+} */

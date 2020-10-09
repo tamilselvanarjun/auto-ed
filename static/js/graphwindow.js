@@ -1,4 +1,4 @@
-MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+// MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 
 
 $(document).ready(function() {
@@ -61,58 +61,58 @@ $(document).ready(function() {
                 var partialDerButtons = document.createElement('p');
 
                 if(data.visfunc == 0) {
-                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn00">$\\partial f_1 \\space / \\space \\partial x_0$</button> &nbsp;');    
+                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn00">df1/dx0</button> &nbsp;');    
                     if(data.ins > 1) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn01">$\\partial f_1 \\space / \\space \\partial x_1$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn01">df1/dx1</button> &nbsp;');
                     }
                     if(data.ins > 2) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn02">$\\partial f_1 \\space / \\space \\partial x_2$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn02">df1/dx2</button> &nbsp;');
                     }                    
                     if(data.ins > 3) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn03">$\\partial f_1 \\space / \\space \\partial x_3$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn03">df1/dx3</button> &nbsp;');
                     }
                     if(data.ins > 4) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn04">$\\partial f_1 \\space / \\space \\partial x_4$</button>');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn04">df1/dx4</button>');
                     }
                 };
 
                 if(data.visfunc == 1) {
-                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn10">$\\partial f_2 \\space / \\space \\partial x_0$</button> &nbsp;');    
+                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn10">df2/dx0</button> &nbsp;');    
                     if(data.ins > 1) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn11">$\\partial f_2 \\space / \\space \\partial x_1$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn11">df2/dx1</button> &nbsp;');
                     }
                     if(data.ins > 2) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn12">$\\partial f_2 \\space / \\space \\partial x_2$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn12">df2/dx2</button> &nbsp;');
                     }                    
                     if(data.ins > 3) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn13">$\\partial f_2 \\space / \\space \\partial x_3$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn13">df2/dx3</button> &nbsp;');
                     }
                     if(data.ins > 4) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn14">$\\partial f_2 \\space / \\space \\partial x_4$</button>');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn14">df2/dx4</button>');
                     }
                 };
 
 
                 if(data.visfunc == 2) {
-                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn20">$\\partial f_3 \\space / \\space \\partial x_0$</button> &nbsp;');    
+                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn20">df3/dx0</button> &nbsp;');    
                     if(data.ins > 1) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn21">$\\partial f_3 \\space / \\space \\partial x_1$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn21">df3/dx1</button> &nbsp;');
                     }
                     if(data.ins > 2) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn22">$\\partial f_3 \\space / \\space \\partial x_2$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn22">df3/dx2</button> &nbsp;');
                     }                    
                     if(data.ins > 3) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn23">$\\partial f_3 \\space / \\space \\partial x_3$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn23">df3/dx3</button> &nbsp;');
                     }
                     if(data.ins > 4) {
-                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn24">$\\partial f_3 \\space / \\space \\partial x_4$</button> &nbsp;');
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn24">df3/dx4</button> &nbsp;');
                     }
                 };
 
                 
 
                 $('form[name="partial-der"]').append(partialDerButtons);
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub, "myDiv"]);
+                // MathJax.Hub.Queue(["Typeset", MathJax.Hub, "myDiv"]);
                 
                 // hide prev/next buttons if they exist 
                 $('form[name="navigate-steps"]').empty();
