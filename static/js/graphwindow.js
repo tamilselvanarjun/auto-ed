@@ -1,28 +1,237 @@
-// $(document).ready(function() {
-//     // when add form is submitted
-//     $(document).on('submit', function(event) {
-//         // prevent form POST request from going to a different page
-//         event.preventDefault();
+MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 
-//         // send ajax request
-//         $.ajax({
-//             type:'POST',
-//             url:"./graphwindow",
-//             data:$(this).serialize(),
 
-//             // when ajax request is successful
-//             success:function(data) {
+$(document).ready(function() {
 
-//                 //
-//             }
 
-//         });
+
+    // when function to visualize is selected
+    $(document).on('submit', 'form[name="select-func-viz"]', function(event) {
+        // prevent POST request from refreshing
+        event.preventDefault();
+
+        // select which function button was triggered
+        var $btn = $(document.activeElement);
+
+        // send ajax request
+        $.ajax({
+            type:'POST',
+            url:"select-func-viz",
+            data:{
+                action: $btn.val(),
+            },
+
+            // when ajax request is successful
+            success:function(data) {
+
+                // highlight selected function
+                $('.active', 'form[name="select-func-viz"]').removeClass('active');
+                $btn.addClass('active');
+
+
+                /* update contents in graphbox */
+                
+                //update computational graph
+                var compGraph = document.createElement('img');
+                compGraph.src = "data:image/svg+xml;base64," + data.comp_graph;
+                compGraph.alt = 'computational graph'
+                $('#computational-graph').empty().append(compGraph);
+                $('#computational-graph').append('<br><br>');
+
+                // update evaluation table
+                $('#evaluation-table').empty().append(data.table);
+
+                // update reverse graph
+                var revGraph = document.createElement('img');
+                revGraph.src = "data:image/svg+xml;base64," + data.rev_graph;
+                revGraph.alt = 'reverse graph'
+                $('#reverse-graph').empty().append(revGraph);
+                $('#reverse-graph').append('<br><br>');
+
+                // update dynamic reverse graph
+                var revDynamic = document.createElement('img');
+                revDynamic.src = "data:image/svg+xml;base64," + data.rev_dynamic_graph;
+                revDynamic.alt = 'dynvis'
+                $('#reverse-dynamic').empty().append(revDynamic);
+            
+                
+                // appropriately refresh partial derivative buttons
+                $('form[name="partial-der"]').empty();
+                
+                var partialDerButtons = document.createElement('p');
+
+                if(data.visfunc == 0) {
+                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn00">$\\partial f_1 \\space / \\space \\partial x_0$</button> &nbsp;');    
+                    if(data.ins > 1) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn01">$\\partial f_1 \\space / \\space \\partial x_1$</button> &nbsp;');
+                    }
+                    if(data.ins > 2) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn02">$\\partial f_1 \\space / \\space \\partial x_2$</button> &nbsp;');
+                    }                    
+                    if(data.ins > 3) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn03">$\\partial f_1 \\space / \\space \\partial x_3$</button> &nbsp;');
+                    }
+                    if(data.ins > 4) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn04">$\\partial f_1 \\space / \\space \\partial x_4$</button>');
+                    }
+                };
+
+                if(data.visfunc == 1) {
+                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn10">$\\partial f_2 \\space / \\space \\partial x_0$</button> &nbsp;');    
+                    if(data.ins > 1) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn11">$\\partial f_2 \\space / \\space \\partial x_1$</button> &nbsp;');
+                    }
+                    if(data.ins > 2) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn12">$\\partial f_2 \\space / \\space \\partial x_2$</button> &nbsp;');
+                    }                    
+                    if(data.ins > 3) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn13">$\\partial f_2 \\space / \\space \\partial x_3$</button> &nbsp;');
+                    }
+                    if(data.ins > 4) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn14">$\\partial f_2 \\space / \\space \\partial x_4$</button>');
+                    }
+                };
+
+
+                if(data.visfunc == 2) {
+                    partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn20">$\\partial f_3 \\space / \\space \\partial x_0$</button> &nbsp;');    
+                    if(data.ins > 1) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn21">$\\partial f_3 \\space / \\space \\partial x_1$</button> &nbsp;');
+                    }
+                    if(data.ins > 2) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn22">$\\partial f_3 \\space / \\space \\partial x_2$</button> &nbsp;');
+                    }                    
+                    if(data.ins > 3) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn23">$\\partial f_3 \\space / \\space \\partial x_3$</button> &nbsp;');
+                    }
+                    if(data.ins > 4) {
+                        partialDerButtons.innerHTML += ('<button id="derbutton" class="btn btn-outline-info" type="submit" name="action" value="dyn24">$\\partial f_3 \\space / \\space \\partial x_4$</button> &nbsp;');
+                    }
+                };
+
+                
+
+                $('form[name="partial-der"]').append(partialDerButtons);
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, "myDiv"]);
+                
+                // hide prev/next buttons if they exist 
+                $('form[name="navigate-steps"]').empty();
+                
+                // display graphbox
+                $('#graphbox').removeClass('hidden');
+
+            }
+
+        });
         
-//       return false;
+      return false;
 
-//     });
-
-
+    });
 
 
-// });
+    // when partial derivative is selected
+    $(document).on('submit', 'form[name="partial-der"]', function(event) {
+        // prevent POST request from refreshing
+        event.preventDefault();
+
+        // select which function button was triggered
+        var $btn = $(document.activeElement);
+        console.log($btn.val())
+
+        // send ajax request
+        $.ajax({
+            type:'POST',
+            url:"partial-der",
+            data:{
+                action: $btn.val(),
+            },
+
+            // when ajax request is successful
+            success:function(data) {
+
+                // highlight selected partial derivative
+                $('.active', 'form[name="partial-der"]').removeClass('active');
+                $btn.addClass('active');
+
+
+                // update dynamic reverse graph
+                var revDynamic = document.createElement('img');
+                revDynamic.src = "data:image/svg+xml;base64," + data.rev_dynamic_graph;
+                revDynamic.alt = 'dynvis'
+                $('#reverse-dynamic').empty().append(revDynamic);
+
+                // add previous and next step buttons
+                $('form[name="navigate-steps"]').empty();
+
+                var navigateButtons = document.createElement('p');
+                navigateButtons.innerHTML+= '<br>';
+
+
+                navigateButtons.innerHTML += ('<button id="textbutton" class="btn btn-danger" type="submit" name="action" value="prev" disabled>Previous Step</button> &nbsp;'); 
+                if(data.no_steps == true) { // if function is simple so there is only one step, disable both prev/next buttons
+                    navigateButtons.innerHTML += ('<button id="textbutton" class="btn btn-success" type="submit" name="action" value="next" disabled>Next Step</button>'); 
+                } else {
+                    navigateButtons.innerHTML += ('<button id="textbutton" class="btn btn-success" type="submit" name="action" value="next">Next Step</button>');
+                }
+                 
+            
+                $('form[name="navigate-steps"]').append(navigateButtons);
+
+            }
+
+        });
+        
+      return false;
+
+    });
+
+    // when user navigates visualization steps: Previous or Next
+    $(document).on('submit', 'form[name="navigate-steps"]', function(event) {
+        // prevent POST request from refreshing
+        event.preventDefault();
+
+        // select which function button was triggered
+        var $btn = $(document.activeElement);
+        console.log($btn.val())
+
+        // send ajax request
+        $.ajax({
+            type:'POST',
+            url:"navigate-steps",
+            data:{
+                action: $btn.val(),
+            },
+
+            // when ajax request is successful
+            success:function(data) {
+
+                // update dynamic reverse graph
+                var revDynamic = document.createElement('img');
+                revDynamic.src = "data:image/svg+xml;base64," + data.rev_dynamic_graph;
+                revDynamic.alt = 'dynvis'
+                $('#reverse-dynamic').empty().append(revDynamic);
+
+                // disable buttons if not appropriate
+                if(data.reached_max == true) { 
+                    $('button[value="next"]').prop('disabled', true); // if reached final step, disable "next"
+                } else {
+                    $('button[value="next"]').prop('disabled', false);
+                };
+
+                if(data.curr_idx > 0) {
+                    $('button[value="prev"]').prop('disabled', false);
+                } else { 
+                    $('button[value="prev"]').prop('disabled', true); // if back to first step, disable "previous"
+                }
+
+            }
+
+        });
+        
+      return false;
+
+    });
+
+
+
+});
