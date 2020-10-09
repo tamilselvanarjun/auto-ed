@@ -502,7 +502,7 @@ def back_space():
     back_func()
 
 def backstep(text):
-    if len(text) == 0:
+    if len(text) == 0 or len(text)== 1:
         return ""
     if text[-1]=='(' and text[-2] in ['n', 't', 'p', 's', 'g', '*', 'h', 'u']:
         if text[-2] == 't':
@@ -518,8 +518,8 @@ def backstep(text):
 
 def back_func():
     content = session['func_content'][session['editing']]
-    if len(content)==0:
-        content=content
+    if len(content)==0 or len(content)==1:
+        content=''
     elif content[-2] == 'x':
         content = content[:-2]
     elif content[-1]=='(' and content[-2] in ['t', 'n', 'w', 's', 'p', 'g', '^', 'h', 'u']:
