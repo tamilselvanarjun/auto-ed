@@ -1,14 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, Response, session, jsonify
 from flask_session import Session
 
-#set up for flask app
-app = Flask(__name__)
-sess = Session()
-app.secret_key = 'gaeirogrioghogjfi'
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['PERMANENT_SESSION_LIFETIME']= 60 * 60 * 2 # 2hr
-sess.init_app(app)
-
 import io, sympy
 from sympy import latex, sympify
 import numpy as np
@@ -17,8 +9,16 @@ from matplotlib.backends.backend_svg import FigureCanvasSVG
 from ADnum import ADnum
 import ADmath
 import ADgraph
-
 from base64 import b64encode
+
+
+#set up for flask app
+app = Flask(__name__)
+sess = Session()
+app.secret_key = 'gaeirogrioghogjfi'
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['PERMANENT_SESSION_LIFETIME']= 20 * 60 * 1 # 1hr (Heroku is run for 1hr)
+sess.init_app(app)
 
 
 # python functions for jinja template
@@ -231,7 +231,7 @@ def graphwindow():
         session['refresh_message'] = 'Your session has expired, please start again!'
         return redirect(url_for('startup'))
 
-    # also redirect to start page if user erraneously moved back and forth on web ex. graph -> click previous arrow back to main main -> attempt to click forward arrow back to graph
+    # also redirect to start page if user erraneously moved back and forth on web ex. graph -> click previous arrow back to main -> attempt to click forward arrow back to graph
     if any(session['func_content']) == False: # if all function contents are empty
         session['refresh_message'] = 'Your session has expired, please start again!'
         return redirect(url_for('startup'))

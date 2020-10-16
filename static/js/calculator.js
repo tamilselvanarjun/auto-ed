@@ -45,6 +45,9 @@ $(document).ready(function() {
                 // update display function
                 $(`input[type=text][name=f${data.editing+1}]`).attr('value',`${data.func_content[data.editing]}`);
 
+            },
+            error:function() {
+                alert("Your session has expired, please start again from homepage.")
             }
 
         });
@@ -75,6 +78,9 @@ $(document).ready(function() {
                 // update display function
                 $(`input[type=text][name=f${data.editing+1}]`).attr('value',`${data.func_content[data.editing]}`);
 
+            },
+            error:function() {
+                alert("Your session has expired, please start again from homepage.")
             }
 
         });

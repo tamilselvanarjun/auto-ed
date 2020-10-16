@@ -120,6 +120,9 @@ $(document).ready(function() {
                 // display graphbox
                 $('#graphbox').removeClass('hidden');
 
+            },
+            error:function() {
+                alert("Your session has expired, please start again from homepage.")
             }
 
         });
@@ -178,8 +181,9 @@ $(document).ready(function() {
                 $('form[name="navigate-steps"]').append(navigateButtons);
 
             },
-            error: function(data) {
-                alert("Visualization not available. This happens when: (1) your function is too simple for graph visualization, or (2) the selected variable does not exist in your function.")
+            // when ajax request is not successful
+            error:function() {
+                alert("Visualization not available. This happens when: (1) your function is too simple for graph visualization, (2) the selected variable does not exist in your function, or (3) your session expired (please start again from homepage.")
             }
 
         });
@@ -227,6 +231,10 @@ $(document).ready(function() {
                     $('button[value="prev"]').prop('disabled', true); // if back to first step, disable "previous"
                 }
 
+            },
+            // when ajax request is not successful
+            error:function() {
+                alert("Your session has expired, please start again from homepage.")
             }
 
         });
