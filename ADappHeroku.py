@@ -1,14 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, Response, session, jsonify
 from flask_session import Session
 
-#set up for flask app
-app = Flask(__name__)
-sess = Session()
-app.secret_key = 'adappsecretkey'
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['PERMANENT_SESSION_LIFETIME']=600
-sess.init_app(app)
-
 import io, sympy
 from sympy import latex, sympify
 import numpy as np
@@ -17,6 +9,16 @@ from matplotlib.backends.backend_svg import FigureCanvasSVG
 from ADnum import ADnum
 import ADmath
 import ADgraph
+from base64 import b64encode
+
+
+#set up for flask app
+app = Flask(__name__)
+sess = Session()
+app.secret_key = 'gaeirogrioghogjfi'
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['PERMANENT_SESSION_LIFETIME']= 20 * 60 * 1 # 1hr (Heroku is run for 1hr)
+sess.init_app(app)
 
 
 # python functions for jinja template
@@ -24,7 +26,7 @@ import ADgraph
 @app.context_processor
 def my_utility_processor():
     def convert_latex(string):
-        return latex(sympify(string))
+        return latex(sympify(string, evaluate=False))
 
     def wrap_brackets(string):
         if string[-1] != ')':
@@ -51,7 +53,14 @@ def my_utility_processor():
 
 @app.route('/', methods = ["GET", "POST"])
 def startup():
-    errors = ""
+    
+    errors = ''
+    # if redirected from other pages due to expired session
+    if session.get('refresh_message') != None:
+        errors = session.get('refresh_message')
+        session.pop('refresh_message')
+
+
     #global func_content
     #global function_expression
     #global function_output
@@ -108,6 +117,13 @@ def startup():
 @app.route('/calculate', methods = ["GET", "POST"])
 def calculate():
     errors = ""
+
+    # redirect to start page if session expired
+    if 'master_ins' not in session:
+        session['refresh_message'] = 'Your session has expired, please start again!'
+        return redirect(url_for('startup'))
+
+
     if request.method == "POST": # when "Calculate" button pressed!
         try:
             if session['master_outs']>0: #for i in range(session['master_outs']):
@@ -175,6 +191,7 @@ def calculate():
 
 @app.route('/clear-function-calculator', methods=["POST"])
 def clear_function_calculator():
+
     clear_all()
     data = {'func_content': session['func_content'], 'editing': session['editing']}
     return jsonify(data)
@@ -182,7 +199,7 @@ def clear_function_calculator():
 
 @app.route('/press-calculator', methods = ["POST"])
 def press_calculator():
-    
+
     button_value = request.form.get("action")
 
     # if backspace
@@ -200,11 +217,25 @@ def press_calculator():
 
 
 
+
+
+
 @app.route('/graphwindow', methods = ["GET", "POST"])
 def graphwindow():
     #global show_table
     #global visfunc
     errors = ""
+
+    # redirect to start page if session expired
+    if ('master_ins' not in session):
+        session['refresh_message'] = 'Your session has expired, please start again!'
+        return redirect(url_for('startup'))
+
+    # also redirect to start page if user erraneously moved back and forth on web ex. graph -> click previous arrow back to main -> attempt to click forward arrow back to graph
+    if any(session['func_content']) == False: # if all function contents are empty
+        session['refresh_message'] = 'Your session has expired, please start again!'
+        return redirect(url_for('startup'))
+
 
     if request.method == "POST":
         
@@ -254,101 +285,118 @@ def graphwindow():
             except:
                 errors += "Please enter numeric values for all of the inputs."
         
-        else:
-            #global curr_idx
-            global rev_dyn_set
-            if request.form["action"] == "f1":
-                session['visfunc'] = 0
-                session['curr_idx'] = 0
-                session['rev_dyn_set'] = []
-            if request.form["action"] == "f2":
-                session['visfunc'] = 1
-                session['curr_idx'] = 0
-                session['rev_dyn_set'] = []
-            if request.form["action"] == "f3":
-                session['visfunc']  = 2
-                session['curr_idx'] = 0
-                session['rev_dyn_set'] = []
-            table = get_table()
-            if request.form["action"][0] == 'd':
-                session['curr_idx'] = 0
-                action = request.form["action"]
-                i = int(action[-2])
-                var = session['varlist'][int(action[-1])]
-                session['rev_dyn_set'] = ADgraph.get_rev_dynamic_outs(session['out_num'][i], var[i].revder(session['out_num'][i])[1], session['G'][i], session['edge_labs'][i], session['pos'][i], session['labs'][i], var[i].revder(session['out_num'][i])[0])
-            if request.form["action"] == "prev":
-                session['curr_idx'] = session['curr_idx']-1
-            if request.form["action"] == "next":
-                session['curr_idx'] = session['curr_idx']+1
-            return render_template('graph2.html', visfunc=session['visfunc'], ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der=session['disp_der'], func_select=True, table=table)
-        #if action[0]=="g":
-        #if request.form["action"]=="Computational Graph":
-         #   comp_graph(int(action[-1]))
-          #  if show_table:
-           #     df = ADgraph.gen_table(out_num[int(action[-1])])
-            #    table = df.to_html(index=False)
-            #ADgraph.draw_graph2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
-            #else:
-             #   table = 0
-            #return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table, tables=table)
-            #comp_graph(int(action[-1]))
-        #if action[0]=="t":
-         #   df = ADgraph.gen_table(out_num[int(action[-1])])
-          #  table = df.to_html(index=False)
-           # show_table = True
-            #return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table = show_table, tables=table)
-        #if action[0]=='r':
-        #if request.form["action"]=="Reverse Graph":
-         #   rev_graph(int(action[-1]))
-            #ADgraph.draw_graph_rev2(out_num[0], G[0], edge_labs[0], pos[0], labs[0])
-          #  return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
-        #if action[0]=='d':
-        #if request.form["action"]=="Rev Dynamic":
-         #   rev_dynamic(int(action[-2]), varlist[int(action[-1])])
-            #ADgraph.draw_graph_rev_dynamic(out_num[0], x[0].revder(out_num[0])[1], G[0], edge_labs[0], pos[0], labs[0], x[0].revder(out_num[0])[0])
-            #return render_template('graph.html', ins=master_ins, outs=master_outs, errors=errors, var_strs=var_strs, flabels=flabels, func_content=func_content, full=True, val=disp_val, der=disp_der, show_table=show_table)
+        # else:
+        #     #global curr_idx
+        #     # global rev_dyn_set
+
+        #     if request.form["action"] == "prev":
+        #         session['curr_idx'] = session['curr_idx']-1
+        #     if request.form["action"] == "next":
+        #         session['curr_idx'] = session['curr_idx']+1
+        #     return render_template('graph2.html', visfunc=session['visfunc'], ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der=session['disp_der'], func_select=True, table=table)
+
+    
     return render_template('graph2.html', ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels = session['flabels'], func_content=session['func_content'], full=False, show_table=False, func_select=False)
 
 
 
+@app.route('/select-func-viz', methods = ["POST"])
+def select_func_viz():
+    
+    # get selected function information
+    selected_function = request.form.get("action")
+
+    if selected_function == "f1":
+        session['visfunc'] = 0
+    elif selected_function == "f2":
+        session['visfunc'] = 1
+    elif selected_function == "f3":
+        session['visfunc']  = 2
+
+    # set initial vars
+    session['curr_idx'] = 0
+    session['rev_dyn_set'] = []
+    
+    # generate evaluation table
+    table = get_table()
+
+
+    # get appropriate graphs. Initial dynamic reverse graph is same as reverse graph
+    comp_graph_raw = ADgraph.draw_graph2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
+    comp_graph = b64encode(comp_graph_raw.getvalue()).decode('ascii')
+
+    rev_graph_raw = ADgraph.draw_graph_rev2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
+    rev_graph = b64encode(rev_graph_raw.getvalue()).decode('ascii')
+
+   
+    data = {'visfunc': session['visfunc'], 'ins': session['master_ins'], 'table': table, 'comp_graph': comp_graph, 'rev_graph': rev_graph, 'rev_dynamic_graph': rev_graph}
+    return jsonify(data)
+
+
+@app.route('/partial-der', methods = ["POST"])
+def partial_der():
+
+    no_steps = False
+     # get selected partial derivative option
+    action = request.form.get("action")
+
+    session['curr_idx'] = 0
+    i = int(action[-2])
+    var = session['varlist'][int(action[-1])]
+    session['rev_dyn_set'] = ADgraph.get_rev_dynamic_outs(session['out_num'][i], var[i].revder(session['out_num'][i])[1], session['G'][i], session['edge_labs'][i], session['pos'][i], session['labs'][i], var[i].revder(session['out_num'][i])[0])
+
+
+    if session['curr_idx'] == len(session['rev_dyn_set'])-1: # if no steps available
+        no_steps = True
+
+
+    print(session['var_strs'])
+    print(session['func_content'])
+    print(session['varlist'])
+    print(session['rev_dyn_set']) #[]
+    print(session['curr_idx'])
+
+     # get initial dynamic reverse calculation graph
+
+    rev_dynamic_raw = session['rev_dyn_set'][session['curr_idx']] #ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
+    rev_dynamic_graph = b64encode(rev_dynamic_raw.getvalue()).decode('ascii')
+
+
+    data = {'partial_der': action, 'no_steps': no_steps, 'curr_idx': session['curr_idx'], 'rev_dynamic_graph': rev_dynamic_graph}
+    return jsonify(data)
 
 
 
+@app.route('/navigate-steps', methods = ["POST"])
+def navigate_steps():
+    
+    reached_max = False
+    
+    action = request.form.get("action")
+    if action == "prev":
+        session['curr_idx'] = session['curr_idx']-1
+    if action == "next":
+        session['curr_idx'] = session['curr_idx']+1
+
+    # check if current idx position has reached the max idx
+    if session['curr_idx'] == len(session['rev_dyn_set'])-1:
+        reached_max = True
+
+    # fix idx going beyond limits
+    # if session['curr_idx'] < 0:
+    #     session['curr_idx'] = 0
+    # if session['curr_idx'] > len(session['rev_dyn_set'])-1:
+    #     session['curr_idx'] = len(session['rev_dyn_set'])-1
+    
+    # get appropriate dynamic rev graph
+    rev_dynamic_raw = session['rev_dyn_set'][session['curr_idx']]
+    rev_dynamic_graph = b64encode(rev_dynamic_raw.getvalue()).decode('ascii')
+
+    data = {'step': action, 'reached_max': reached_max, 'curr_idx': session['curr_idx'], 'rev_dynamic_graph': rev_dynamic_graph}
+    return jsonify(data)
 
 
 
-
-
-
-#global curr_idx
-#session['curr_idx'] = 0
-
-#global rev_dyn_set
-#session['rev_dyn_set'] = []
-
-
-#global flabels
-#flabels = ['', 'x', 'x,y', 'x,y,z', 'x,y,z,u', 'x,y,z,u,v'] 
-#session['flabels'] = ['', 'x0', 'x0, x1', 'x0, x1, x2', 'x0, x1, x2, x3', 'x0, x1, x2, x3, x4']
-
-#global dispval
-#session['dispval'] = ''
-
-#global function_expression, function_output, func_content
-#session['func_content'] = ["", "", ""]
-#session['function_expression'] = ["", "", ""]
-#session['function_output'] = [None]*3
-
-#global editing
-#session['editing'] = 0
-
-#global var_strs
-#session['var_strs'] = {}
-#session['var_strs']["x"] = ""
-#session['var_strs']["y"] = ""
-#session['var_strs']["z"] = ""
-#session['var_strs']["u"] = ""
-#session['var_strs']["v"] = ""
 
 def f0(x):
     return eval(session['function_expression'][0])
@@ -436,41 +484,12 @@ def build_function():
         except AttributeError:
             pass
 
-#global visfunc
-#session['visfunc'] = 0
-
-@app.route('/comp_graph')
-def comp_graph_embed():
-    output = ADgraph.draw_graph2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
-    print('entered function')
-    #output = io.BytesIO()
-    #FigureCanvasSVG(fig).print_svg(output)
-    return Response(output.getvalue(), mimetype='image/svg+xml')
-
-@app.route('/rev_graph')
-def rev_graph_embed():
-    output = ADgraph.draw_graph_rev2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
-    return Response(output.getvalue(), mimetype='image/svg+xml')
-
-@app.route('/rev_dynamic')
-def rev_dynamic():
-    #global curr_idx
-    if len(session['rev_dyn_set']) == 0:
-        out = ADgraph.draw_graph_rev2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
-        return Response(out.getvalue(), mimetype = 'image/svg+xml')
-    if session['curr_idx'] < 0:
-        #global curr_idx
-        session['curr_idx'] = 0
-    if session['curr_idx'] > len(session['rev_dyn_set'])-1:
-        #global curr_idx
-        session['curr_idx'] = len(session['rev_dyn_set'])-1
-    output = session['rev_dyn_set'][session['curr_idx']] #ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
-    return Response(output.getvalue(), mimetype='image/svg+xml')
 
 
 def get_table():
     df = ADgraph.gen_table(session['out_num'][session['visfunc']])
     return df.to_html(index=False)
+
 
 def comp_graph(i):
     ADgraph.draw_graph2(session['out_num'][i], session['G'][i], session['edge_labs'][i], session['pos'][i], session['labs'][i]) 

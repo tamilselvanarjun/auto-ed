@@ -2,9 +2,9 @@
 
 
 
-	<!-- {% block script %} 
-	<script src="{{ url_for('static', filename='js/graphwindow.js') }}">></script>
-	{% endblock %} -->
+	{% block script %} 
+	<script src="{{ url_for('static', filename='js/graphwindow.js') }}"></script>
+	{% endblock %}
 	
 	{% block heading %}
 	Automatic Differentiation Visualization Tool<br><small style="font-size:38px;">Function Visualization</small>
@@ -57,7 +57,7 @@
 			</td>
 			{% if ins>1 %}
 			<td>
-				$x_1$ = <input name="y" size="7" value = {{var_strs['y']}}>
+				$x_1$ = <input name="y" size="7" value = {{var_strs['y']}}> &nbsp;
 			</td>
 			{% endif %}
 			{% if ins>2 %}
@@ -67,7 +67,7 @@
 			{% endif %}
 			{% if ins>3 %}
 			<td>
-				$x_3$ = <input name="u" size="7"  value = {{var_strs['u']}}>
+				$x_3$ = <input name="u" size="7"  value = {{var_strs['u']}}> &nbsp;
 			</td>
 			{% endif %}
 			{% if ins>4 %}
@@ -94,168 +94,87 @@
 	</p>
 
 
-
-	<!-- <form id='function-to-viz' method="post" action="./graphwindow">
-	<div class="btn-group btn-group-toggle" data-toggle="buttons">
-		<label class="btn btn-lg btn-info active">
-		  <input type="radio" name="action" id="f1" autocomplete="off" value='f1' checked>f1
-		</label>
-		{% if outs>1 %}
-		<label class="btn btn-lg btn-info">
-		  <input type="radio" name="action" id="f2" autocomplete="off" value='f2'>f2
-		</label>
-		{% endif %}
-		{% if outs>2 %}
-		<label class="btn btn-lg btn-info">
-		  <input type="radio" name="action" id="f3" autocomplete="off" value='f3'>f3
-		</label>
-		{% endif %}
-	  </div> -->
-
-
-	<form method="post" action="./graphwindow">
+	<form name='select-func-viz' method="post" action="{{ url_for('select_func_viz') }}">
 		<p> 
 		Select a function to visualize:
-		{% if visfunc == 0 %}
-			<input id='textbutton' class="btn btn-lg btn-outline-info active" aria-pressed="true" type='submit' name='action' value='f1'>
-		{% else %}
 			<input id='textbutton' class="btn btn-lg btn-outline-info" type='submit' name='action' value='f1'>
-		{% endif %}
-		
-
 		{% if outs>1 %}
-			{% if visfunc == 1 %}
-				<input id='textbutton' class="btn btn-lg btn-outline-info active" type='submit' aria-pressed='true' name='action' value='f2'>
-			{% else %}
-				<input id='textbutton' class="btn btn-lg btn-outline-info" type='submit' name='action' value='f2'>
-			{% endif %}
+			<input id='textbutton' class="btn btn-lg btn-outline-info" type='submit' name='action' value='f2'>
 		{% endif %}
-		
 		{% if outs>2 %}
-			{% if visfunc == 2 %}
-				<input id='textbutton' class="btn btn-lg btn-outline-info active" aria-pressed='true' type='submit' name='action' value='f3'> 
-			{% else %}
-				<input id='textbutton' class="btn btn-lg btn-outline-info" type='submit' name='action' value='f3'>
-			{% endif %}
+			<input id='textbutton' class="btn btn-lg btn-outline-info" type='submit' name='action' value='f3'>
 		{% endif %}
 		</p>
+	</form>
+
+
 
 
 		<br><br>
-	{% if func_select %}
-		<div id="container">
-			<!-- {% if visfunc == 0 or visfunc == 1 or visfunc == 2 %} -->
-			<!-- <h1 style="color:black;">Visualizing: F{{ visfunc + 1 }}</h1> -->
-			<!-- {% endif %} -->	
-		<div id="forward">
+		<div id="graphbox" class='container hidden'>
+		
+				<div class="row">
+				
+					<div class="col" id='forward'>
+						<h2>FORWARD MODE</h2>
+						<h3>Computational Graph</h3>
+							<div id='computational-graph'></div>
+				 	</div>
 
-	
-			<h2>FORWARD MODE</h2>
-			<h3>Computational Graph</h3>
-			<img src='/comp_graph' alt='computational graph'><br><br>
-			<!--
-			<p>
-				<button type="submit" name="action" value="graph0">f1</button>
-				{% if outs>1 %}
-				<button type="submit" name="action" value="graph1">f2</button>
-				{% endif %}
-				{% if outs>2 %}
-				<button type="submit" name="action" value="graph2">f3</button>
-				{% endif %}
-			</p>
-			-->
-			<h3>Evaluation Table</h3>
-			<!--
-			<p>
-				<button type="submit" name="action" value="table0">f1</button>
-				{% if outs>1 %}
-				<button type="submit" name="action" value="table1">f2</button>
-				{% endif %}
-				{% if outs>2 %}
-				<button type="submit" name="action" value="table2">f3</button>
-				{% endif %}
-			</p>i
-			-->
-			{{table|safe}}
-		</div>
-		<div id="reverse">
-			<h2>REVERSE MODE</h2>
-			<h3>Reverse Graph</h3>
-			<img src='/rev_graph' alt='reversegraph'><br><br>
-			<!--
-			<p>
-				<button type="submit" name="action" value="rgraph0">f1</button>
-				{% if outs>1 %}
-				<button type="submit" name="action" value="rgraph1">f2</button>
-				{% endif %}
-				{% if outs>2 %}
-				<button type="submit" name="action" value="rgraph2">f3</button>
-				{% endif %}
-			</p>
-			-->
-			<h3>Visualize Reverse Calculations</h3>
-		
-			{% if visfunc==0 %}
-			<p>
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn00">$\partial f_1 \space / \space \partial x_0$</button>
-				{% if ins>1 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn01">$\partial f_1 \space / \space \partial x_1$</button>
-				{% endif %}
-				{% if ins>2 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn02">$\partial f_1 \space / \space \partial x_2$</button>
-				{% endif %}
-				{% if ins>3 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn03">$\partial f_1 \space / \space \partial x_3$</button>
-				{% endif %}
-				{% if ins>4 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn04">$\partial f_1 \space / \space \partial x_4$</button>
-				{% endif %}
-			</p>
-			{% endif %}
-			{% if visfunc==1 %}
-			<p>
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn10">$\partial f_2 \space / \space \partial x_0$</button>
-				{% if ins>1 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn11">$\partial f_2 \space / \space \partial x_1$</button>
-				{% endif %}
-				{% if ins>2 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn12">$\partial f_2 \space / \space \partial x_2$</button>
-				{% endif %}
-				{% if ins>3 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn13">$\partial f_2 \space / \space \partial x_3$</button>
-				{% endif %}
-				{% if ins>4 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn14">$\partial f_2 \space / \space \partial x_4$</button>
-				{% endif %}
-			</p>
-			{% endif %}
-			{% if visfunc==2 %}
-			<p>
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn20">$\partial f_3 \space / \space \partial x_0$</button>
-				{% if ins>1 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn21">$\partial f_3 \space / \space \partial x_1$</button>
-				{% endif %}
-				{% if ins>2 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn22">$\partial f_3 \space / \space \partial x_2$</button>
-				{% endif %}
-				{% if ins>3 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn23">$\partial f_3 \space / \space \partial x_3$</button>
-				{% endif %}
-				{% if ins>4 %}
-				<button id='derbutton' class='btn btn-info' type="submit" name="action" value="dyn24">$\partial f_3 \space / \space \partial x_4$</button>
-				{% endif %}
-			</p>
-			{% endif %}
-			<img src='/rev_dynamic' alt='dynvis'>
-			<p><br>
-			<button id='textbutton' class='btn btn-danger' type='submit' name="action" value='prev'>Previous Step</button>
-			<button id='textbutton' class='btn btn-success' type='submit' name='action' value='next'>Next Step</button>
-			</p>
-		</div>
-	</div>
-		
-	</form>
-	{% endif %}
+					<div class="col" id='reverse'>
+						<h2>REVERSE MODE</h2>
+						<h3>Reverse Graph</h3>
+						<div id='reverse-graph'></div>
+					</div>
+				
+				</div>
+				<div class="row">
+				
+					<div class="col">				
+						<h3>Evaluation Table</h3>
+						<div id='evaluation-table'></div>
+				  	</div>
+				
+				  	<div class="col">
+						<h3>Visualize Reverse Calculations</h3>
+						<form name='partial-der' method="post" action="{{ url_for('partial_der') }}"></form>
+						<div id='reverse-dynamic'></div>	
+
+						<form name='navigate-steps' method="post" action="{{ url_for('navigate_steps') }}"></form>
+				  	</div>
+				
+				</div>
+			  </div>
+			
+
+
+		<!-- <br><br>
+		<div id="graphbox" class='hidden'>
+
+			<div id="forward">
+				<h2>FORWARD MODE</h2>
+				<h3>Computational Graph</h3>
+					<div id='computational-graph'></div>
+				<h3>Evaluation Table</h3>
+					<div id='evaluation-table'></div>
+			</div>
+
+			<div id="reverse">
+				<h2>REVERSE MODE</h2>
+				<h3>Reverse Graph</h3>
+				<div id='reverse-graph'></div>
+
+				<h3>Visualize Reverse Calculations</h3>
+				<form name='partial-der' method="post" action="{{ url_for('partial_der') }}"></form>
+				<div id='reverse-dynamic'></div>	
+
+				<form name='navigate-steps' method="post" action="{{ url_for('navigate_steps') }}"></form>
+			
+			</div>
+		</div> -->
+
+
+
 	{% endif %}
 
 	{% endblock %}

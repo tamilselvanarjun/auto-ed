@@ -116,7 +116,7 @@ img {
 	margin-bottom: 15px;
 }
 
-
+/* 
 #forward {
 	float: left;
 	width: 50%;
@@ -126,13 +126,20 @@ img {
 	float: left;
 	width: 50%;
 }
+ */
 
-.function-formula {
-
-}
 
 .tooltip-inner {
 	max-width: 450px !important;
 	font-size: 16px;
 	text-align: left;
 }
+
+
+.hidden { 
+	display:none;
+}
+
+/* th, td, tr {
+	padding:10px;
+} */
