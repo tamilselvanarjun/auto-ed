@@ -6,7 +6,7 @@ app = Flask(__name__)
 sess = Session()
 app.secret_key = 'gaeirogrioghogjfi'
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['PERMANENT_SESSION_LIFETIME']= 60  * 60 * 2 # 2hr
+app.config['PERMANENT_SESSION_LIFETIME']= 60 * 60 * 2 # 2hr
 sess.init_app(app)
 
 import io, sympy
@@ -26,7 +26,7 @@ from base64 import b64encode
 @app.context_processor
 def my_utility_processor():
     def convert_latex(string):
-        return latex(sympify(string))
+        return latex(sympify(string, evaluate=False))
 
     def wrap_brackets(string):
         if string[-1] != ')':
@@ -329,8 +329,6 @@ def select_func_viz():
     rev_graph = b64encode(rev_graph_raw.getvalue()).decode('ascii')
 
    
-
-
     data = {'visfunc': session['visfunc'], 'ins': session['master_ins'], 'table': table, 'comp_graph': comp_graph, 'rev_graph': rev_graph, 'rev_dynamic_graph': rev_graph}
     return jsonify(data)
 
@@ -351,8 +349,15 @@ def partial_der():
     if session['curr_idx'] == len(session['rev_dyn_set'])-1: # if no steps available
         no_steps = True
 
-    print(session['rev_dyn_set'])
+
+    print(session['var_strs'])
+    print(session['func_content'])
+    print(session['varlist'])
+    print(session['rev_dyn_set']) #[]
+    print(session['curr_idx'])
+
      # get initial dynamic reverse calculation graph
+
     rev_dynamic_raw = session['rev_dyn_set'][session['curr_idx']] #ADgraph.draw_graph_rev2(out_num[visfunc], G[visfunc], edge_labs[visfunc], pos[visfunc], labs[visfunc])
     rev_dynamic_graph = b64encode(rev_dynamic_raw.getvalue()).decode('ascii')
 

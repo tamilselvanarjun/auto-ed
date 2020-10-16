@@ -177,6 +177,9 @@ $(document).ready(function() {
             
                 $('form[name="navigate-steps"]').append(navigateButtons);
 
+            },
+            error: function(data) {
+                alert("Visualization not available. This happens when: (1) your function is too simple for graph visualization, or (2) the selected variable does not exist in your function.")
             }
 
         });
