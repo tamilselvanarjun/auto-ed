@@ -1,13 +1,16 @@
 $(document).ready(function() {
     // when add form is submitted
 
-
     // when calculator buttons are pressed (except Calculate & Clear Function)
     $(document).on('submit', 'form[name="calculator"]', function(event) {
         // prevent POST request from refreshing
+        
+        
         event.preventDefault();
 
         // select which button was triggered
+        // Safari does not capture button's active element
+        // https://stackoverflow.com/questions/46036196/document-activeelement-not-returning-the-active-element-in-safari
         var $btn = $(document.activeElement);
 
         // send ajax request

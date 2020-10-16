@@ -107,7 +107,48 @@
 		</p>
 	</form>
 
+
+
+
 		<br><br>
+		<div id="graphbox" class='container hidden'>
+		
+				<div class="row">
+				
+					<div class="col" id='forward'>
+						<h2>FORWARD MODE</h2>
+						<h3>Computational Graph</h3>
+							<div id='computational-graph'></div>
+				 	</div>
+
+					<div class="col" id='reverse'>
+						<h2>REVERSE MODE</h2>
+						<h3>Reverse Graph</h3>
+						<div id='reverse-graph'></div>
+					</div>
+				
+				</div>
+				<div class="row">
+				
+					<div class="col">				
+						<h3>Evaluation Table</h3>
+						<div id='evaluation-table'></div>
+				  	</div>
+				
+				  	<div class="col">
+						<h3>Visualize Reverse Calculations</h3>
+						<form name='partial-der' method="post" action="{{ url_for('partial_der') }}"></form>
+						<div id='reverse-dynamic'></div>	
+
+						<form name='navigate-steps' method="post" action="{{ url_for('navigate_steps') }}"></form>
+				  	</div>
+				
+				</div>
+			  </div>
+			
+
+
+		<!-- <br><br>
 		<div id="graphbox" class='hidden'>
 
 			<div id="forward">
@@ -122,16 +163,17 @@
 				<h2>REVERSE MODE</h2>
 				<h3>Reverse Graph</h3>
 				<div id='reverse-graph'></div>
+
 				<h3>Visualize Reverse Calculations</h3>
-	
 				<form name='partial-der' method="post" action="{{ url_for('partial_der') }}"></form>
 				<div id='reverse-dynamic'></div>	
 
-				<form name='navigate-steps' method="post" action="{{ url_for('navigate_steps') }}">
-				</form>
+				<form name='navigate-steps' method="post" action="{{ url_for('navigate_steps') }}"></form>
 			
 			</div>
-		</div>
+		</div> -->
+
+
 
 	{% endif %}
 
