@@ -1,6 +1,17 @@
 // MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 
 
+// for web compatibility: chrome and edge already works, and with this code firefox and safari will also work.  
+// document.addEventListener('click', function (event) {
+//     if (event.target.matches('input')) {
+//       event.target.focus()
+//     }
+//     if (event.target.matches('button')) {
+//         event.target.focus()
+//       }
+//   })
+
+
 $(document).ready(function() {
 
 
