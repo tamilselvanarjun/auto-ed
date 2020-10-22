@@ -528,10 +528,10 @@ def backstep(text):
             return text[:-12]
         elif text[-2]=='h' or text[-2]=='u':
             return text[:-12]
-        elif (text[-2] == '*' and text[-2]=='*'):
+        elif (text[-2] == '*' and text[-3]=='*'):
             return text[:-3]
         else:
-            return text[:-12]
+            return text[:-11]
     else:
         return text[:-1]
 
