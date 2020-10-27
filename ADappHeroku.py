@@ -314,9 +314,10 @@ def select_func_viz():
     elif selected_function == "f3":
         session['visfunc']  = 2
 
-    if session['constant_fs'][session['visfunc']]:
-        data = {'show_vis' : False}
-        return jsonify(data)
+    #Attempts that did not work to pass to visualization portion
+    #if session['constant_fs'][session['visfunc']]:
+        #data = {'show_vis' : False}
+        #return jsonify(data)
         #show_vis = False
         #return redirect(url_for('graphwindow'))
         #session['refresh_message'] = 'TEST'
