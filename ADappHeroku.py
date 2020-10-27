@@ -68,6 +68,7 @@ def startup():
     session['func_content'] = ["", "", ""]
     session['function_expression'] = ["", "", ""]
     session['function_output'] = [None]*3
+    session['constant_fs'] = [0]*3
     session['var_strs'] = {}
     session['curr_idx'] = 0
     session['flabels'] = ['', 'x0', 'x0, x1', 'x0, x1, x2', 'x0, x1, x2, x3', 'x0, x1, x2, x3, x4']
@@ -231,7 +232,7 @@ def graphwindow():
         session['refresh_message'] = 'Your session has expired, please start again!'
         return redirect(url_for('startup'))
 
-    # also redirect to start page if user erraneously moved back and forth on web ex. graph -> click previous arrow back to main -> attempt to click forward arrow back to graph
+    # also redirect to start page if user erroneously moved back and forth on web ex. graph -> click previous arrow back to main -> attempt to click forward arrow back to graph
     if any(session['func_content']) == False: # if all function contents are empty
         session['refresh_message'] = 'Your session has expired, please start again!'
         return redirect(url_for('startup'))
@@ -281,7 +282,7 @@ def graphwindow():
                     session['varlist'].append(session['v'])
                 build_function()    
                 
-                return render_template('graph2.html', ins=session['master_ins'], outs = session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der = session['disp_der'], show_table=False, func_select=False)
+                return render_template('graph2.html', ins=session['master_ins'], outs = session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, show_vis=True, val=session['disp_val'], der = session['disp_der'], show_table=False, func_select=False, constants=session['constant_fs'])
             except:
                 errors += "Please enter numeric values for all of the inputs."
         
@@ -296,7 +297,7 @@ def graphwindow():
         #     return render_template('graph2.html', visfunc=session['visfunc'], ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full=True, val=session['disp_val'], der=session['disp_der'], func_select=True, table=table)
 
     
-    return render_template('graph2.html', ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels = session['flabels'], func_content=session['func_content'], full=False, show_table=False, func_select=False)
+    return render_template('graph2.html', ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels = session['flabels'], func_content=session['func_content'], full=False, show_vis = False, show_table=False, func_select=False, constants=session['constant_fs'])
 
 
 
@@ -313,6 +314,17 @@ def select_func_viz():
     elif selected_function == "f3":
         session['visfunc']  = 2
 
+    if session['constant_fs'][session['visfunc']]:
+        data = {'show_vis' : False}
+        return jsonify(data)
+        #show_vis = False
+        #return redirect(url_for('graphwindow'))
+        #session['refresh_message'] = 'TEST'
+        #errors = 'The function you are trying to visualize is a constant, so visualizing with a graph and table is not needed for computing the derivative.'
+        #data = {'show_vis' : False, 'errors' : errors}
+        #return jsonify(data)
+        #return render_template('graph2.html', ins=session['master_ins'], outs=session['master_outs'], errors=errors, var_strs=session['var_strs'], flabels=session['flabels'], func_content=session['func_content'], full= True, show_vis = False, val=session['disp_val'], der = session['disp_der'], show_table=False, func_select=False, constants=session['constant_fs'])
+    
     # set initial vars
     session['curr_idx'] = 0
     session['rev_dyn_set'] = []
@@ -329,7 +341,7 @@ def select_func_viz():
     rev_graph = b64encode(rev_graph_raw.getvalue()).decode('ascii')
 
    
-    data = {'visfunc': session['visfunc'], 'ins': session['master_ins'], 'table': table, 'comp_graph': comp_graph, 'rev_graph': rev_graph, 'rev_dynamic_graph': rev_graph}
+    data = {'visfunc': session['visfunc'], 'ins': session['master_ins'], 'table': table, 'comp_graph': comp_graph, 'rev_graph': rev_graph, 'rev_dynamic_graph': rev_graph, 'show_vis' : True}
     return jsonify(data)
 
 
@@ -446,6 +458,7 @@ def h4(x, y, z, u, v):
 def build_function():
     #global out_num
     session['out_num'] = [None]*session['master_outs']
+    #session['constant_fs'] = [0]*session['master_outs']
     for i in range(session['master_outs']):
         if session['master_ins'] == 1:
             session['out_num'][i] = session['function_output'][i](session['x'][i])
@@ -460,7 +473,7 @@ def build_function():
     #global disp_val, disp_der
     session['disp_val'] = '['
     session['disp_der'] = '['
-    for out in session['out_num']:
+    for i, out in enumerate(session['out_num']):
         #disp_val = str(np.round(out.val, 2))
         #disp_der = str(np.round(out.der, 2))
         try:
@@ -468,7 +481,8 @@ def build_function():
             session['disp_der'] += str(np.round(out.der, 2))
         except:
             session['disp_val'] += str(np.round(out, 2))
-            session['disp_der'] ++ str([0]*session['master_ins'])
+            session['disp_der'] += str([0]*session['master_ins'])
+            session['constant_fs'][i] = 1
         session['disp_val'] += ',\n'
         session['disp_der'] +=',\n'
     session['disp_val'] = session['disp_val'][:-2]+']'
@@ -481,7 +495,7 @@ def build_function():
     for i, out in enumerate(session['out_num']):
         try:
             session['G'][i], session['edge_labs'][i], session['pos'][i], session['labs'][i] = ADgraph.get_graph_setup(out)
-        except AttributeError:
+        except:
             pass
 
 

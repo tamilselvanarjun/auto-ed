@@ -94,6 +94,7 @@
 	</p>
 
 
+
 	<form name='select-func-viz' method="post" action="{{ url_for('select_func_viz') }}">
 		<p> 
 		Select a function to visualize:
@@ -107,12 +108,11 @@
 		</p>
 	</form>
 
-
-
-
+	
 		<br><br>
 		<div id="graphbox" class='container hidden'>
-		
+			{% if not constants[0] %}
+				
 				<div class="row">
 				
 					<div class="col" id='forward'>
@@ -144,6 +144,13 @@
 				  	</div>
 				
 				</div>
+				{% endif %}
+			{% if constants[0] %}
+			<div class="alert alert-danger" role="alert">
+				The function you've selected is a constant.  Computing the derivative does not require a computational graph or table.
+			</div>
+			
+			{% endif %}
 			  </div>
 			
 
@@ -172,7 +179,6 @@
 			
 			</div>
 		</div> -->
-
 
 
 	{% endif %}
