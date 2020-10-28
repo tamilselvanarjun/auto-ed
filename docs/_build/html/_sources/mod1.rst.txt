@@ -23,7 +23,7 @@ Let's consider the function :math:`x-\exp(-2\sin^2(4x))`.  Using our basic diffe
 
 .. math::
 
-        \frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x)
+        \frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x).
 
 Let's write code to calculate derivatives using the finite difference method for this function.
 
@@ -61,7 +61,7 @@ Let's write code to calculate derivatives using the finite difference method for
         ax.tick_params(labelsize=24)
         plt.tight_layout()
 
-The code producing the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.
+The code above produces the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.
 
 .. image::
         hEffect.png
@@ -74,7 +74,9 @@ See Exercise 1 for another example motivating the use of automatic differentiati
 
 *Symbolic differentiation* computes exact expressions for derivatives using expression trees.  As seen in the function in Demo 1, exact expressions for derivatives can quickly become complex, making computing derivatives in this manner computationally inefficient.
 
-* Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an expression for the derivative by employing the ideas of the chain rule to decompose complex functions into elementary functions for which we can compute the derivative exactly.
+* Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an
+expression for the derivative. It relies on application of the ideas of the chain rule to decompose complex functions into 
+elementary functions for which we can compute the derivative exactly.
 
 Automatic differentiation may perform this process through two different modes, forward and reverse, both allowing for efficient and accurate computation of derivatives.  These properties make automatic differentiation useful in a variety of applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic inference.  In the rest of this module, we will explore the underlying theory that allows automatic differentiation to be applied in such a wide variety of applications.
 

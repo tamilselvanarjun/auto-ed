@@ -49,7 +49,7 @@
 <h3>Demo 1: Errors in The Finite Difference Method<a class="headerlink" href="#demo-1-errors-in-the-finite-difference-method" title="Permalink to this headline">¶</a></h3>
 <p>Let’s consider the function <span class="math notranslate nohighlight">\(x-\exp(-2\sin^2(4x))\)</span>.  Using our basic differentiation rules, we can compute the derivative symbolically,</p>
 <div class="math notranslate nohighlight">
-\[\frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x)\]</div>
+\[\frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x).\]</div>
 <p>Let’s write code to calculate derivatives using the finite difference method for this function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#define our function</span>
 <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -84,7 +84,7 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The code producing the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.</p>
+<p>The code above produces the following plot, showing the effects of the choice of h on the accuracy of the finite difference method.</p>
 <img alt="_images/hEffect.png" src="_images/hEffect.png" />
 <p>In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h too large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.</p>
 <p>See Exercise 1 for another example motivating the use of automatic differentiation.</p>
@@ -93,8 +93,10 @@
 </ul>
 <p><em>Symbolic differentiation</em> computes exact expressions for derivatives using expression trees.  As seen in the function in Demo 1, exact expressions for derivatives can quickly become complex, making computing derivatives in this manner computationally inefficient.</p>
 <ul class="simple">
-<li><p>Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an expression for the derivative by employing the ideas of the chain rule to decompose complex functions into elementary functions for which we can compute the derivative exactly.</p></li>
+<li><p>Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an</p></li>
 </ul>
+<p>expression for the derivative. It relies on application of the ideas of the chain rule to decompose complex functions into
+elementary functions for which we can compute the derivative exactly.</p>
 <p>Automatic differentiation may perform this process through two different modes, forward and reverse, both allowing for efficient and accurate computation of derivatives.  These properties make automatic differentiation useful in a variety of applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic inference.  In the rest of this module, we will explore the underlying theory that allows automatic differentiation to be applied in such a wide variety of applications.</p>
 </div>
 </div>
