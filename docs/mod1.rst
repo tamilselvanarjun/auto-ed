@@ -78,26 +78,42 @@ See Exercise 1 for another example motivating the use of automatic differentiati
 expression for the derivative. It relies on application of the ideas of the chain rule to decompose complex functions into 
 elementary functions for which we can compute the derivative exactly.
 
-Automatic differentiation may perform this process through two different modes, forward and reverse, both allowing for efficient and accurate computation of derivatives.  These properties make automatic differentiation useful in a variety of applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic inference.  In the rest of this module, we will explore the underlying theory that allows automatic differentiation to be applied in such a wide variety of applications.
+Automatic differentiation can be split into two primary "modes": forward and reverse Both modes allow for efficient and
+accurate computation of derivatives. Advances approaches exist for combining forward and reverse mode into a hybrid, but
+these are beyond the scope of this course. The properties of automatic differentiation make it useful for a variety of
+applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic
+inference. In the rest of this module, we will begin to explore the mechanics of automatic differentiation.
 
 The Basics of Forward Mode
 --------------------------
-The major theoretical concept underlying automatic differentiation is *the chain rule*.  Recall from calculus that the chain rule states that to find the derivative of composition of functions, we multiply a series of derivatives; let f(t) = g(h(t)).  We have
+The major concept underlying automatic differentiation is *the chain rule*. Recall from calculus that the chain rule states
+that to find the derivative of composition of functions, we multiply a series of derivatives. For illustration, let f(t) =
+g(h(t)).  We have
 
 .. math::
 
         \frac{df}{dt} = \frac{dg}{dh}\frac{dh}{dt}
 
-This can be generalized to functions of multiple inputs, which we will discuss in more detail in Unit 2.
+This can be generalized to functions of multiple inputs, which we will discuss in more detail in Unit 2. 
 
 
 Elementary Functions
 ^^^^^^^^^^^^^^^^^^^^
-Every function can be decomposed into a series of binary elementary operations or unary functions.  These elementary operations include addition, subtraction, multiplication, division, and exponentiation.  Elementary functions include the natrual exponential and natural logarithm, trigonometric functions, and hyperbolic trigonometric functions.  From basic calculus, we know closed form differentiation rules for these elementary functions.  This means that we can compose these functions to form more complex functions and find the derivative of these more complex functions using the chain rule.  To understand this composition from elementary functions, we can think of the composition of functions as having an underlying graph structure.
+Every function can be decomposed into a set of binary elementary operations or unary operators acting on elementary
+functions. These elementary operations include addition, subtraction, multiplication, division, and exponentiation.
+Elementary functions include the natural exponential and natural logarithm, trigonometric functions, polynomials, and
+hyperbolic trigonometric functions. From basic calculus, we know closed form differentiation rules for these elementary
+functions.  This means that we can compose these functions to form more complex functions and find the derivative of these
+more complex functions using the chain rule. To understand this composition of elementary functions, we can think of the
+composition of functions as having an underlying graph structure. You will learn much more about this graph structure in Unit
+2, including a way to build it by hand. For now, you will practice visualizing the graph with a special tool.
 
 A Tool for Visualizing Automatic Differentiation
 ------------------------------------------------
-The Auto-eD tool is a pedagogical tool to help visualize the processes underlying automatic differentiation.  In particular, this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.  In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each node of the graph which will be discussed in more detail in Unit 2.
+The Auto-eD tool is a pedagogical tool to help visualize the processes underlying automatic differentiation. In particular,
+this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.
+In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each
+node of the graph which will be discussed in more detail in Unit 2.
 
 Installation
 ^^^^^^^^^^^^
@@ -105,7 +121,8 @@ The tool can be downloaded by  TO DO: FIND CUTE WAY TO LAUNCH
 
 Developer Instructions
 ^^^^^^^^^^^^^^^^^^^^^^
-To run the tool with the ability to modify and contribute to the code, you may choose to clone the github repo to have direct access to the code for the web app and access to the underlying package.  From the terminal,
+To run the tool with the ability to modify and contribute to the code, you may choose to clone the Github repo to have direct
+access to the code for the web app and access to the underlying package. From the terminal,
 
 1. Clone the repo: git clone https:github.com/lindseysbrown/Auto-eD
 
@@ -113,9 +130,17 @@ To run the tool with the ability to modify and contribute to the code, you may c
 
 3. Launch the web app from the terminal: python ADapp.py
 
-4. Go to the local host in your browser to use the tool.
+4. Go to the local host in your browser to use the tool
 
-If you would like to contirbute to this project, you can do so by making a pull request and the developers will respond to you.
+We welcome improvements and contributions! If you would like to contribute to this project, please follow these steps:
+
+1. Clone the repo
+
+2. Create a new branch with an informative branch name
+
+3. Make sure all your updates are on the new branch
+
+4. Make a pull request to master and wait for the core developers to respond!
 
 A First Demo of Automatic Differentiation
 -----------------------------------------
@@ -148,7 +173,8 @@ Let's use the tool to visualize the function from our first demo.
 Some Key Takeaways
 ^^^^^^^^^^^^^^^^^^
 * Our function was decomposed into a series of elementary operations
-* These operations include both basic binary operations (addition, subtraction, multiplication, and division) and unary operations (exponential functions, trigonometric functions)
+* These operations include both basic binary operations (addition, subtraction, multiplication, and division), unary
+operations (negation), and elementary functions (exponential functions, trigonometric functions)
 * Using this graph to compute the derivative is the same process as using the chain rule to compute the derivative, allowing the derivative to be computed to machine precision
 
 Exercises
