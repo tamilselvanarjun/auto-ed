@@ -12,7 +12,7 @@ Differentiation is fundamental to computational science and is important in many
 
 .. math::
 
-        \frac{df(x)}{dx} = \lim_{h \rightarrow 0} \frac{f(x+h)-f(x)}{h}
+        \frac{df(x)}{dx} \approx \frac{f(x+h)-f(x)}{h}
 
 Such methods are limited in precision due to truncation and roundoff errors as accuracy depends on choosing an appropriately sized h.  Let's consider a basic example.
 
