@@ -1,18 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
     <title>Module 1: The Basics of Forward Mode &#8212; Auto-eD  documentation</title>
+    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Module 2: Deeper Into Forward Mode" href="mod2.html" />
@@ -23,14 +35,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head><body>
+  </head>
+  <body role="document">
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="module-1-the-basics-of-forward-mode">
@@ -39,19 +50,19 @@
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Differentiation is fundamental to computational science and is important in many applications, including optimization, sensitivity analysis, and solving differential equations. To be useful in these applications, derivatives must be computed both precisely and efficiently.  <strong>Automatic differentiation</strong>, sometimes also called algorithmic differentiation or computational differentiation, is able to do both, distinguishing it from both numerical differentiation and symbolic differentiation.</p>
 <ul class="simple">
-<li><p>Automatic differentiation is not numerical differentiation.</p></li>
+<li>Automatic differentiation is not numerical differentiation.</li>
 </ul>
 <p><em>Numerical differentiation</em> refers to a class of methods that computes derivatives through finite difference formulae based on the definition of the derivative,</p>
-<div class="math notranslate nohighlight">
+<div class="math">
 \[\frac{df(x)}{dx} \approx \frac{f(x+h)-f(x)}{h}\]</div>
-<p>Such methods are limited in precision due to truncation and roundoff errors as accuracy depends on choosing an appropriately sized h.  Let’s consider a basic example.</p>
+<p>Such methods are limited in precision due to truncation and roundoff errors as accuracy depends on choosing an appropriately sized h.  Let&#8217;s consider a basic example.</p>
 <div class="section" id="demo-1-errors-in-the-finite-difference-method">
 <h3>Demo 1: Errors in The Finite Difference Method<a class="headerlink" href="#demo-1-errors-in-the-finite-difference-method" title="Permalink to this headline">¶</a></h3>
-<p>Let’s consider the function <span class="math notranslate nohighlight">\(x-\exp(-2\sin^2(4x))\)</span>.  Using our basic differentiation rules, we can compute the derivative symbolically,</p>
-<div class="math notranslate nohighlight">
+<p>Let&#8217;s consider the function <span class="math">\(x-\exp(-2\sin^2(4x))\)</span>.  Using our basic differentiation rules, we can compute the derivative symbolically,</p>
+<div class="math">
 \[\frac{df}{dx} = 1 + 16\exp(-2\sin^2(4x))\sin(4x)\cos(4x).\]</div>
-<p>Let’s write code to calculate derivatives using the finite difference method for this function.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#define our function</span>
+<p>Let&#8217;s write code to calculate derivatives using the finite difference method for this function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#define our function</span>
 <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
@@ -89,15 +100,15 @@
 <p>In the above, we see that the accuracy of the derivative calculation is highly dependent on our choice of h.  When we choose h too large, the numerical approximation is no longer accurate, but for h too small, we begin to see round off errors from limitations in machine precision.</p>
 <p>See Exercise 1 for another example motivating the use of automatic differentiation.</p>
 <ul class="simple">
-<li><p>Automatic differentiation is not symbolic differentiation.</p></li>
+<li>Automatic differentiation is not symbolic differentiation.</li>
 </ul>
 <p><em>Symbolic differentiation</em> computes exact expressions for derivatives using expression trees.  As seen in the function in Demo 1, exact expressions for derivatives can quickly become complex, making computing derivatives in this manner computationally inefficient.</p>
 <ul class="simple">
-<li><p>Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an</p></li>
+<li>Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an</li>
 </ul>
 <p>expression for the derivative. It relies on application of the ideas of the chain rule to decompose complex functions into
 elementary functions for which we can compute the derivative exactly.</p>
-<p>Automatic differentiation can be split into two primary “modes”: forward and reverse Both modes allow for efficient and
+<p>Automatic differentiation can be split into two primary &#8220;modes&#8221;: forward and reverse Both modes allow for efficient and
 accurate computation of derivatives. Advances approaches exist for combining forward and reverse mode into a hybrid, but
 these are beyond the scope of this course. The properties of automatic differentiation make it useful for a variety of
 applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic
@@ -109,7 +120,7 @@ inference. In the rest of this module, we will begin to explore the mechanics of
 <p>The major concept underlying automatic differentiation is <em>the chain rule</em>. Recall from calculus that the chain rule states
 that to find the derivative of composition of functions, we multiply a series of derivatives. For illustration, let f(t) =
 g(h(t)).  We have</p>
-<div class="math notranslate nohighlight">
+<div class="math">
 \[\frac{df}{dt} = \frac{dg}{dh}\frac{dh}{dt}\]</div>
 <p>This can be generalized to functions of multiple inputs, which we will discuss in more detail in Unit 2.</p>
 <div class="section" id="elementary-functions">
@@ -139,51 +150,51 @@ node of the graph which will be discussed in more detail in Unit 2.</p>
 <p>To run the tool with the ability to modify and contribute to the code, you may choose to clone the Github repo to have direct
 access to the code for the web app and access to the underlying package. From the terminal,</p>
 <ol class="arabic simple">
-<li><p>Clone the repo: git clone <a class="reference external" href="https:github.com/lindseysbrown/Auto-eD">https:github.com/lindseysbrown/Auto-eD</a></p></li>
-<li><p>Install the dependencies: pip install -r requirements.txt</p></li>
-<li><p>Launch the web app from the terminal: python ADapp.py</p></li>
-<li><p>Go to the local host in your browser to use the tool</p></li>
+<li>Clone the repo: git clone <a class="reference external" href="https:github.com/lindseysbrown/Auto-eD">https:github.com/lindseysbrown/Auto-eD</a></li>
+<li>Install the dependencies: pip install -r requirements.txt</li>
+<li>Launch the web app from the terminal: python ADapp.py</li>
+<li>Go to the local host in your browser to use the tool</li>
 </ol>
 <p>We welcome improvements and contributions! If you would like to contribute to this project, please follow these steps:</p>
 <ol class="arabic simple">
-<li><p>Clone the repo</p></li>
-<li><p>Create a new branch with an informative branch name</p></li>
-<li><p>Make sure all your updates are on the new branch</p></li>
-<li><p>Make a pull request to master and wait for the core developers to respond!</p></li>
+<li>Clone the repo</li>
+<li>Create a new branch with an informative branch name</li>
+<li>Make sure all your updates are on the new branch</li>
+<li>Make a pull request to master and wait for the core developers to respond!</li>
 </ol>
 </div>
 </div>
 <div class="section" id="a-first-demo-of-automatic-differentiation">
 <h2>A First Demo of Automatic Differentiation<a class="headerlink" href="#a-first-demo-of-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
-<p>Let’s use the tool to visualize the function from our first demo.</p>
+<p>Let&#8217;s use the tool to visualize the function from our first demo.</p>
 <ol class="arabic simple">
-<li><p>The function has a single input variable, x, so we enter that our function has 1 input into the tool.</p></li>
-<li><p>Our function is scalar valued so we enter that our function has 1 output.</p></li>
+<li>The function has a single input variable, x, so we enter that our function has 1 input into the tool.</li>
+<li>Our function is scalar valued so we enter that our function has 1 output.</li>
 </ol>
 <img alt="_images/Step1.PNG" src="_images/Step1.PNG" />
 <ol class="arabic simple" start="3">
-<li><p>We use the calculator interface to enter our function.  (Note that we can use the backspace key or the “Clear All” button to correct the function if we make a mistake when entering it.)</p></li>
+<li>We use the calculator interface to enter our function.  (Note that we can use the backspace key or the &#8220;Clear All&#8221; button to correct the function if we make a mistake when entering it.)</li>
 </ol>
 <img alt="_images/Step2.PNG" src="_images/Step2.PNG" />
 <ol class="arabic simple" start="4">
-<li><p>Press the “Calculate” button.  This will move you to a new screen with options to help you visualize both the forward and reverse mode of automatic differentiation.</p></li>
-<li><p>Enter the value for x at which you’d like to evaluate the function.  For the purposes of this demo, we’ll choose x=4.  Hit the “Set Input Values” button.</p></li>
-<li><p>You’ll see the values for the function and derivative appear below the input values you selected.</p></li>
+<li>Press the &#8220;Calculate&#8221; button.  This will move you to a new screen with options to help you visualize both the forward and reverse mode of automatic differentiation.</li>
+<li>Enter the value for x at which you&#8217;d like to evaluate the function.  For the purposes of this demo, we&#8217;ll choose x=4.  Hit the &#8220;Set Input Values&#8221; button.</li>
+<li>You&#8217;ll see the values for the function and derivative appear below the input values you selected.</li>
 </ol>
 <img alt="_images/Step3.PNG" src="_images/Step3.PNG" />
 <ol class="arabic simple" start="7">
-<li><p>Below this, you’ll see buttons for which function you’d like to visualize.  In this example, we only have a single function, so press f1.</p></li>
-<li><p>This will generate the computational graph for both forward and reverse mode as well as the computational table.  We’ll talk more about the computational table and reverse mode in the next units, so for now let’s just focus on the computational graph in forward mode.</p></li>
+<li>Below this, you&#8217;ll see buttons for which function you&#8217;d like to visualize.  In this example, we only have a single function, so press f1.</li>
+<li>This will generate the computational graph for both forward and reverse mode as well as the computational table.  We&#8217;ll talk more about the computational table and reverse mode in the next units, so for now let&#8217;s just focus on the computational graph in forward mode.</li>
 </ol>
 <img alt="_images/Step4.PNG" src="_images/Step4.PNG" />
 <ol class="arabic simple" start="9">
-<li><p>Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: Occasionally the graphs may be difficult to read depending on the complexity of the function that you are visualizing.  You can try running the tool a second time to get a different configuration of the nodes.  Alternatively, for large functions, you can use the underlying package which will generate graphs that you can maximize to resize the edges.)</p></li>
+<li>Notice that there is a single magenta node, representing our single input to the function, and a single green output node, the output value of our function.  The red nodes represent intermediate function values.  Notice that all of the nodes are connected by elementary operations on the labelled edges.  (Hint: Occasionally the graphs may be difficult to read depending on the complexity of the function that you are visualizing.  You can try running the tool a second time to get a different configuration of the nodes.  Alternatively, for large functions, you can use the underlying package which will generate graphs that you can maximize to resize the edges.)</li>
 </ol>
 <div class="section" id="some-key-takeaways">
 <h3>Some Key Takeaways<a class="headerlink" href="#some-key-takeaways" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Our function was decomposed into a series of elementary operations</p></li>
-<li><p>These operations include both basic binary operations (addition, subtraction, multiplication, and division), unary</p></li>
+<li>Our function was decomposed into a series of elementary operations</li>
+<li>These operations include both basic binary operations (addition, subtraction, multiplication, and division), unary</li>
 </ul>
 <p>operations (negation), and elementary functions (exponential functions, trigonometric functions)
 * Using this graph to compute the derivative is the same process as using the chain rule to compute the derivative, allowing the derivative to be computed to machine precision</p>
@@ -194,63 +205,65 @@ access to the code for the web app and access to the underlying package. From th
 <div class="section" id="exercise-1-motivating-automatic-differentiation">
 <h3>Exercise 1: Motivating Automatic Differentiation<a class="headerlink" href="#exercise-1-motivating-automatic-differentiation" title="Permalink to this headline">¶</a></h3>
 <ol class="upperalpha simple">
-<li><p>Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x and computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)</p></li>
-<li><p>Let <span class="math notranslate nohighlight">\(f(x) = ln(x)\)</span>.  For <span class="math notranslate nohighlight">\(0.2\leq x \leq 0.4\)</span>, make a plot comparing the numerically estimated derivative for h=1e-1, h=1e-7, and h=1e-15 to the analytic derivative (which should be used explicitly).</p></li>
-<li><p>Answer the following questions:</p></li>
+<li>Write a function that takes as inputs a function (of a single variable) and a value of h and returns a function which takes as input a value of x and computes the numerical approximation of the derivative of f with stepsize h at x.  (For those coding in python, this function can be written as a closure.)</li>
+<li>Let <span class="math">\(f(x) = ln(x)\)</span>.  For <span class="math">\(0.2\leq x \leq 0.4\)</span>, make a plot comparing the numerically estimated derivative for h=1e-1, h=1e-7, and h=1e-15 to the analytic derivative (which should be used explicitly).</li>
+<li>Answer the following questions:</li>
 </ol>
 <ul class="simple">
-<li><p>Which value of h most closely approximates the true derivative?  What happens for values of h that are too small?  What happens for values of h that are too large?</p></li>
-<li><p>How does automatic differentiation address these problems?</p></li>
+<li>Which value of h most closely approximates the true derivative?  What happens for values of h that are too small?  What happens for values of h that are too large?</li>
+<li>How does automatic differentiation address these problems?</li>
 </ul>
 </div>
 <div class="section" id="exercise-2-basic-graph-structure-of-calculations">
 <h3>Exercise 2: Basic Graph Structure of Calculations<a class="headerlink" href="#exercise-2-basic-graph-structure-of-calculations" title="Permalink to this headline">¶</a></h3>
-<p>Consider the function <span class="math notranslate nohighlight">\(f(x)= \tan(x^2+3)+x\)</span>.</p>
+<p>Consider the function <span class="math">\(f(x)= \tan(x^2+3)+x\)</span>.</p>
 <p>Try drawing the graph by hand.  Compare results to that using the visualization tool.</p>
 </div>
 <div class="section" id="exercise-3-looking-toward-multiple-inputs">
 <h3>Exercise 3: Looking Toward Multiple Inputs<a class="headerlink" href="#exercise-3-looking-toward-multiple-inputs" title="Permalink to this headline">¶</a></h3>
 <p>We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function,</p>
-<div class="math notranslate nohighlight">
+<div class="math">
 \[f(x,y)=\exp(-(\sin(x)-\cos(y))^2)\]</div>
-<p>Practice drawing the computational graph for this function.  We’ll discuss the theory behind functions of multiple inputs in the next unit.</p>
+<p>Practice drawing the computational graph for this function.  We&#8217;ll discuss the theory behind functions of multiple inputs in the next unit.</p>
 </div>
 </div>
 </div>
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Auto-eD</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Module 1: The Basics of Forward Mode</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-basics-of-forward-mode">The Basics of Forward Mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#a-tool-for-visualizing-automatic-differentiation">A Tool for Visualizing Automatic Differentiation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#a-first-demo-of-automatic-differentiation">A First Demo of Automatic Differentiation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module 1: The Basics of Forward Mode</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#demo-1-errors-in-the-finite-difference-method">Demo 1: Errors in The Finite Difference Method</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="mod2.html">Module 2: Deeper Into Forward Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mod3.html">Module 3: The Reverse Mode of Automatic Differentiation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mod4.html">Beyond the Basics: Extensions and Software Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="refs.html">Referernces and Additional Resources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sols.html">Solutions to Exercises</a></li>
+<li><a class="reference internal" href="#the-basics-of-forward-mode">The Basics of Forward Mode</a><ul>
+<li><a class="reference internal" href="#elementary-functions">Elementary Functions</a></li>
 </ul>
-
+</li>
+<li><a class="reference internal" href="#a-tool-for-visualizing-automatic-differentiation">A Tool for Visualizing Automatic Differentiation</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#developer-instructions">Developer Instructions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-first-demo-of-automatic-differentiation">A First Demo of Automatic Differentiation</a><ul>
+<li><a class="reference internal" href="#some-key-takeaways">Some Key Takeaways</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercises">Exercises</a><ul>
+<li><a class="reference internal" href="#exercise-1-motivating-automatic-differentiation">Exercise 1: Motivating Automatic Differentiation</a></li>
+<li><a class="reference internal" href="#exercise-2-basic-graph-structure-of-calculations">Exercise 2: Basic Graph Structure of Calculations</a></li>
+<li><a class="reference internal" href="#exercise-3-looking-toward-multiple-inputs">Exercise 3: Looking Toward Multiple Inputs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -260,24 +273,23 @@ access to the code for the web app and access to the underlying package. From th
   </ul></li>
 </ul>
 </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mod1.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
+  <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
@@ -286,8 +298,8 @@ access to the code for the web app and access to the underlying package. From th
       &copy;2019, Lindsey Brown and David Sondak.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="_sources/mod1.rst.txt"

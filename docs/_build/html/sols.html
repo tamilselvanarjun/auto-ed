@@ -1,18 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
     <title>Solutions to Exercises &#8212; Auto-eD  documentation</title>
+    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Referernces and Additional Resources" href="refs.html" />
@@ -22,14 +34,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head><body>
+  </head>
+  <body role="document">
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="solutions-to-exercises">
@@ -39,7 +50,7 @@
 <p>Exercise 1: Motivating Automatic Differentiation</p>
 <p>A. The python code is given by:
 .. highlight</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="k">def</span> <span class="nf">numerical_diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
@@ -63,11 +74,11 @@
 </pre></div>
 </div>
 <ol class="upperalpha simple" start="2">
-<li><p>The corresponding graph output is:</p></li>
+<li>The corresponding graph output is:</li>
 </ol>
 <img alt="_images/Mod1Ex1Sol.PNG" src="_images/Mod1Ex1Sol.PNG" />
 <ol class="upperalpha simple" start="3">
-<li><p>The numerical differentiation performs best for h=1e-7.  For h too small, we encounter round off errors as a result of limited machine precision.  For h too large, the numerical approximation is not exact.  Automatic differentiation addresses this by evaluating derivatives exactly to machine precision without taking numerical estimates.</p></li>
+<li>The numerical differentiation performs best for h=1e-7.  For h too small, we encounter round off errors as a result of limited machine precision.  For h too large, the numerical approximation is not exact.  Automatic differentiation addresses this by evaluating derivatives exactly to machine precision without taking numerical estimates.</li>
 </ol>
 <p>Exercise 2: Basic Graph Structure of Calculations
 .. image:: Mod1Ex2Sol.PNG
@@ -81,224 +92,224 @@ You should notice that while your labelling of the nodes may be different, the o
 The corresponding computational graph is given by:
 .. image:: Mod2Ex1Sol.PNG</p>
 <p>The table corresponding to this graph is given by:</p>
-<table class="colwidths-given docutils align-default">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
-<col style="width: 5%" />
-<col style="width: 19%" />
-<col style="width: 19%" />
-<col style="width: 19%" />
-<col style="width: 19%" />
-<col style="width: 19%" />
+<col width="5%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Trace</p></th>
-<th class="head"><p>Elementary Function</p></th>
-<th class="head"><p>Current Value</p></th>
-<th class="head"><p>Elementary Function Derivative</p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\nabla_x\)</span> Evaluated at (x,y)</p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\nabla_y\)</span> Evaluated at (x,y)</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Trace</th>
+<th class="head">Elementary Function</th>
+<th class="head">Current Value</th>
+<th class="head">Elementary Function Derivative</th>
+<th class="head"><span class="math">\(\nabla_x\)</span> Evaluated at (x,y)</th>
+<th class="head"><span class="math">\(\nabla_y\)</span> Evaluated at (x,y)</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
-<td><p>0</p></td>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math">\(x_1\)</span></td>
+<td><span class="math">\(x\)</span></td>
+<td><span class="math">\(x\)</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_2\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(y\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(y\)</span></p></td>
-<td><p>1</p></td>
-<td><p>0</p></td>
-<td><p>1</p></td>
+<tr class="row-odd"><td><span class="math">\(x_2\)</span></td>
+<td><span class="math">\(y\)</span></td>
+<td><span class="math">\(y\)</span></td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_3\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{11} \times x_1\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{11}x\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{11}\dot{x_1}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{11}\)</span></p></td>
-<td><p>0</p></td>
+<tr class="row-even"><td><span class="math">\(x_3\)</span></td>
+<td><span class="math">\(w_{11} \times x_1\)</span></td>
+<td><span class="math">\(w_{11}x\)</span></td>
+<td><span class="math">\(w_{11}\dot{x_1}\)</span></td>
+<td><span class="math">\(w_{11}\)</span></td>
+<td>0</td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_4\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{21} \times x_1\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{21}x\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{21}\dot{x_1}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{21}\)</span></p></td>
-<td><p>0</p></td>
+<tr class="row-odd"><td><span class="math">\(x_4\)</span></td>
+<td><span class="math">\(w_{21} \times x_1\)</span></td>
+<td><span class="math">\(w_{21}x\)</span></td>
+<td><span class="math">\(w_{21}\dot{x_1}\)</span></td>
+<td><span class="math">\(w_{21}\)</span></td>
+<td>0</td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_5\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{12} \times x_2\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{12}y\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{12}\dot{x_2}\)</span></p></td>
-<td><p>0</p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{12}\)</span></p></td>
+<tr class="row-even"><td><span class="math">\(x_5\)</span></td>
+<td><span class="math">\(w_{12} \times x_2\)</span></td>
+<td><span class="math">\(w_{12}y\)</span></td>
+<td><span class="math">\(w_{12}\dot{x_2}\)</span></td>
+<td>0</td>
+<td><span class="math">\(w_{12}\)</span></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_6\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{22} \times x_2\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{22}y\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{22}\dot{x_2}\)</span></p></td>
-<td><p>0</p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{22}\)</span></p></td>
+<tr class="row-odd"><td><span class="math">\(x_6\)</span></td>
+<td><span class="math">\(w_{22} \times x_2\)</span></td>
+<td><span class="math">\(w_{22}y\)</span></td>
+<td><span class="math">\(w_{22}\dot{x_2}\)</span></td>
+<td>0</td>
+<td><span class="math">\(w_{22}\)</span></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_7\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(x_3+x_5\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{11}x+w_{12}y\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\dot{x_3}+\dot{x_5}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{11}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{12}\)</span></p></td>
+<tr class="row-even"><td><span class="math">\(x_7\)</span></td>
+<td><span class="math">\(x_3+x_5\)</span></td>
+<td><span class="math">\(w_{11}x+w_{12}y\)</span></td>
+<td><span class="math">\(\dot{x_3}+\dot{x_5}\)</span></td>
+<td><span class="math">\(w_{11}\)</span></td>
+<td><span class="math">\(w_{12}\)</span></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_8\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(x_4+x_6\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{21}x+w_{22}y\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\dot{x_4}+\dot{x_6}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{21}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{22}\)</span></p></td>
+<tr class="row-odd"><td><span class="math">\(x_8\)</span></td>
+<td><span class="math">\(x_4+x_6\)</span></td>
+<td><span class="math">\(w_{21}x+w_{22}y\)</span></td>
+<td><span class="math">\(\dot{x_4}+\dot{x_6}\)</span></td>
+<td><span class="math">\(w_{21}\)</span></td>
+<td><span class="math">\(w_{22}\)</span></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_9\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z(x_7)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z(w_{11}x+w_{12}y)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z^\prime (x_7)\dot{x_7}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z^\prime (w_{11}x+w_{12}y)w_{11}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z^\prime (w_{11}x+w_{12}y)w_{12}\)</span></p></td>
+<tr class="row-even"><td><span class="math">\(x_9\)</span></td>
+<td><span class="math">\(z(x_7)\)</span></td>
+<td><span class="math">\(z(w_{11}x+w_{12}y)\)</span></td>
+<td><span class="math">\(z^\prime (x_7)\dot{x_7}\)</span></td>
+<td><span class="math">\(z^\prime (w_{11}x+w_{12}y)w_{11}\)</span></td>
+<td><span class="math">\(z^\prime (w_{11}x+w_{12}y)w_{12}\)</span></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_{10}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z(x_8)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z(w_{21}x+w_{22}y)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z^\prime (x_8)\dot{x_8}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></p></td>
+<tr class="row-odd"><td><span class="math">\(x_{10}\)</span></td>
+<td><span class="math">\(z(x_8)\)</span></td>
+<td><span class="math">\(z(w_{21}x+w_{22}y)\)</span></td>
+<td><span class="math">\(z^\prime (x_8)\dot{x_8}\)</span></td>
+<td><span class="math">\(z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_{11}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,1}\times x_9\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,1}z(w_{11}x+w_{12}y)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out, 1}\dot{x_9}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{11}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{12}\)</span></p></td>
+<tr class="row-even"><td><span class="math">\(x_{11}\)</span></td>
+<td><span class="math">\(w_{out,1}\times x_9\)</span></td>
+<td><span class="math">\(w_{out,1}z(w_{11}x+w_{12}y)\)</span></td>
+<td><span class="math">\(w_{out, 1}\dot{x_9}\)</span></td>
+<td><span class="math">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{11}\)</span></td>
+<td><span class="math">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{12}\)</span></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_{12}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,2}\times x_{10}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,2}z(w_{21}x+w_{22}y)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out, 2}\dot{x_{10}}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></p></td>
+<tr class="row-odd"><td><span class="math">\(x_{12}\)</span></td>
+<td><span class="math">\(w_{out,2}\times x_{10}\)</span></td>
+<td><span class="math">\(w_{out,2}z(w_{21}x+w_{22}y)\)</span></td>
+<td><span class="math">\(w_{out, 2}\dot{x_{10}}\)</span></td>
+<td><span class="math">\(w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_{13}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(x_{11}+x_{12}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,1}z(w_{11}x+w_{12}y)+w_{out,2}z(w_{21}x+w_{22}y)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\dot{x_{11}}+\dot{x_{12}}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{11}+w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{12}+w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></p></td>
+<tr class="row-even"><td><span class="math">\(x_{13}\)</span></td>
+<td><span class="math">\(x_{11}+x_{12}\)</span></td>
+<td><span class="math">\(w_{out,1}z(w_{11}x+w_{12}y)+w_{out,2}z(w_{21}x+w_{22}y)\)</span></td>
+<td><span class="math">\(\dot{x_{11}}+\dot{x_{12}}\)</span></td>
+<td><span class="math">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{11}+w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{21}\)</span></td>
+<td><span class="math">\(w_{out,1}z^\prime (w_{11}x+w_{12}y)w_{12}+w_{out,2}z^\prime (w_{21}x+w_{22}y)w_{22}\)</span></td>
 </tr>
 </tbody>
 </table>
 <p>Exercise 2: Operation Count Problem
-Computing the derivative at the six nodes <span class="math notranslate nohighlight">\(x_3, x_4, x_5, x_6, x_{11}, x_{12}\)</span> requires one multiplication in each of the 2 components, contributing <span class="math notranslate nohighlight">\(6 \times 1 \times 2 = 12\)</span> operations.</p>
-<p>Computing the derivative at the 3 nodes <span class="math notranslate nohighlight">\(x_7, x_8, x_{13}\)</span> requires one addition in each of the 2 components, contributing <span class="math notranslate nohighlight">\(3\times 1 \times 2 = 6\)</span> operations.</p>
-<p>Computing the derivative at the nodes <span class="math notranslate nohighlight">\(x_9, x_{10}\)</span> requires 2 operations (an elementary function evaluation of <span class="math notranslate nohighlight">\(z^\prime\)</span> and a multiplication) in each of the 2 components, contributing <span class="math notranslate nohighlight">\(2\times 2 \times 2 = 8\)</span> operations.</p>
+Computing the derivative at the six nodes <span class="math">\(x_3, x_4, x_5, x_6, x_{11}, x_{12}\)</span> requires one multiplication in each of the 2 components, contributing <span class="math">\(6 \times 1 \times 2 = 12\)</span> operations.</p>
+<p>Computing the derivative at the 3 nodes <span class="math">\(x_7, x_8, x_{13}\)</span> requires one addition in each of the 2 components, contributing <span class="math">\(3\times 1 \times 2 = 6\)</span> operations.</p>
+<p>Computing the derivative at the nodes <span class="math">\(x_9, x_{10}\)</span> requires 2 operations (an elementary function evaluation of <span class="math">\(z^\prime\)</span> and a multiplication) in each of the 2 components, contributing <span class="math">\(2\times 2 \times 2 = 8\)</span> operations.</p>
 <p>This gives us a total of 26 operations.</p>
 </div>
 <div class="section" id="module-3-exercise-solutions">
 <h2>Module 3 Exercise Solutions<a class="headerlink" href="#module-3-exercise-solutions" title="Permalink to this headline">¶</a></h2>
 <p>Exercise 1: Reverse Mode Computational Table and Derivatives</p>
 <p>The reverse computational table is given by:</p>
-<table class="colwidths-given docutils align-default">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
-<col style="width: 8%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
+<col width="8%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Node</p></th>
-<th class="head"><p>Current Value</p></th>
-<th class="head"><p>Numerical Value</p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\partial_1\)</span></p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\partial_1\)</span> Value</p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\partial_2\)</span></p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\partial_2\)</span> Value</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Node</th>
+<th class="head">Current Value</th>
+<th class="head">Numerical Value</th>
+<th class="head"><span class="math">\(\partial_1\)</span></th>
+<th class="head"><span class="math">\(\partial_1\)</span> Value</th>
+<th class="head"><span class="math">\(\partial_2\)</span></th>
+<th class="head"><span class="math">\(\partial_2\)</span> Value</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
+<tbody valign="top">
+<tr class="row-even"><td><span class="math">\(x_1\)</span></td>
+<td><span class="math">\(x\)</span></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_2\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(y\)</span></p></td>
-<td><p>2</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
+<tr class="row-odd"><td><span class="math">\(x_2\)</span></td>
+<td><span class="math">\(y\)</span></td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_3\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(x_1x_2\)</span></p></td>
-<td><p>2</p></td>
-<td><p><span class="math notranslate nohighlight">\(x_2\)</span></p></td>
-<td><p>2</p></td>
-<td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
-<td><p>1</p></td>
+<tr class="row-even"><td><span class="math">\(x_3\)</span></td>
+<td><span class="math">\(x_1x_2\)</span></td>
+<td>2</td>
+<td><span class="math">\(x_2\)</span></td>
+<td>2</td>
+<td><span class="math">\(x_1\)</span></td>
+<td>1</td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(x_4\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\exp(x_3)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(e^2\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\exp(x_3)\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(e^2\)</span></p></td>
-<td><ul class="simple">
+<tr class="row-odd"><td><span class="math">\(x_4\)</span></td>
+<td><span class="math">\(\exp(x_3)\)</span></td>
+<td><span class="math">\(e^2\)</span></td>
+<td><span class="math">\(\exp(x_3)\)</span></td>
+<td><span class="math">\(e^2\)</span></td>
+<td><ul class="first last simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="simple">
+<td><ul class="first last simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_5\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(x_3+x_4\)</span></p></td>
-<td><p>2+:math:<cite>e^2</cite></p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
+<tr class="row-even"><td><span class="math">\(x_5\)</span></td>
+<td><span class="math">\(x_3+x_4\)</span></td>
+<td>2+:math:<cite>e^2</cite></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
 <p>We can now trace back through the table to find the adjoints.</p>
-<div class="math notranslate nohighlight">
+<div class="math">
 \[\bar{x_5} = \frac{\partial f}{\partial x_5} = 1
 \bar{x_4} = \frac{\partial f}{\partial x_5}\frac{\partial x_5}{\partial x_4} = 1 \cdot 1 = 1
 \bar{x_3} = \frac{\partial f}{\partial x_4}\frac{\partial x_4}{\partial x_5}+\frac{\partial f}{\partial x_5}\frac{\partial x_5}{\partial x_3} = 1\cdot e^2 + 1\cdot 1 = 1+e^2
 \bar{x_2} = \frac{\partial f}{\partial x_3}\frac{\partial x_3}{\partial x_2} = (1+e^2)x_1 = 1+e^2
 \bar{x_1} = \frac{\partial f}{\partial x_3}\frac{\partial x_3}{\partial x_1} = (1+e^2)x_2 = 2+2e^2\]</div>
-<p>We note that in our bar notation we have <span class="math notranslate nohighlight">\(\bar{x_1} = \frac{\partial f}{\partial x}\)</span> and <span class="math notranslate nohighlight">\(\bar{x_2} = \frac{\partial f}{\partial y}\)</span>.</p>
+<p>We note that in our bar notation we have <span class="math">\(\bar{x_1} = \frac{\partial f}{\partial x}\)</span> and <span class="math">\(\bar{x_2} = \frac{\partial f}{\partial y}\)</span>.</p>
 </div>
 <div class="section" id="beyond-the-basics-exercise-solutions">
 <h2>Beyond the Basics Exercise Solutions<a class="headerlink" href="#beyond-the-basics-exercise-solutions" title="Permalink to this headline">¶</a></h2>
 <p>Exercise 1: Dual Numbers
-To find the derivative, we look to the dual part when we replace x with <span class="math notranslate nohighlight">\(a+b\epsilon\)</span>.  For our function,</p>
-<div class="math notranslate nohighlight">
+To find the derivative, we look to the dual part when we replace x with <span class="math">\(a+b\epsilon\)</span>.  For our function,</p>
+<div class="math">
 \[y= e^{(a+b\epsilon)^2}
 = e^{a^2}e^{2ab\epsilon}e^{\b^2\epsilon^2}\]</div>
-<p>Since <span class="math notranslate nohighlight">\(\epsilon^2=0\)</span>,</p>
-<div class="math notranslate nohighlight">
+<p>Since <span class="math">\(\epsilon^2=0\)</span>,</p>
+<div class="math">
 \[=e^{a^2}e^{2ab\epsilon}\]</div>
-<p>Expanding <span class="math notranslate nohighlight">\(e^{2ab\epsilon}\)</span> using a Taylor series,</p>
-<div class="math notranslate nohighlight">
+<p>Expanding <span class="math">\(e^{2ab\epsilon}\)</span> using a Taylor series,</p>
+<div class="math">
 \[= e^{a^2}\left( 1+ 2ab\epsilon + \frac{(2ab\epsilon)^2}{2} + \cdots \right)
 = e^{a^2}+2ae^{a^2}b\epsilon\]</div>
-<p>So we have that the derivative evaluated at a is <span class="math notranslate nohighlight">\(2ae^{a^2}\)</span>.</p>
+<p>So we have that the derivative evaluated at a is <span class="math">\(2ae^{a^2}\)</span>.</p>
 <p>Exercise 2: Toy AD Example
 .. highlight:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoDiffToy</span><span class="p">():</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoDiffToy</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; Creates an object for autodifferentiation</span>
 
 <span class="sd">    ATTRIBUTES</span>
@@ -345,36 +356,20 @@ To find the derivative, we look to the dual part when we replace x with <span cl
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Auto-eD</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="mod1.html">Module 1: The Basics of Forward Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mod2.html">Module 2: Deeper Into Forward Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mod3.html">Module 3: The Reverse Mode of Automatic Differentiation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mod4.html">Beyond the Basics: Extensions and Software Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="refs.html">Referernces and Additional Resources</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Solutions to Exercises</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-1-exercise-solutions">Module 1 Exercise Solutions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-2-exercise-solutions">Module 2 Exercise Solutions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-3-exercise-solutions">Module 3 Exercise Solutions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#beyond-the-basics-exercise-solutions">Beyond the Basics Exercise Solutions</a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Solutions to Exercises</a><ul>
+<li><a class="reference internal" href="#module-1-exercise-solutions">Module 1 Exercise Solutions</a></li>
+<li><a class="reference internal" href="#module-2-exercise-solutions">Module 2 Exercise Solutions</a></li>
+<li><a class="reference internal" href="#module-3-exercise-solutions">Module 3 Exercise Solutions</a></li>
+<li><a class="reference internal" href="#beyond-the-basics-exercise-solutions">Beyond the Basics Exercise Solutions</a></li>
 </ul>
 </li>
 </ul>
-
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -383,24 +378,23 @@ To find the derivative, we look to the dual part when we replace x with <span cl
   </ul></li>
 </ul>
 </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/sols.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
+  <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
@@ -409,8 +403,8 @@ To find the derivative, we look to the dual part when we replace x with <span cl
       &copy;2019, Lindsey Brown and David Sondak.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="_sources/sols.rst.txt"
