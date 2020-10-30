@@ -67,10 +67,12 @@ the repo and launching `ADapp.py` CHECK FINAL NAMES.
 
 For more advanced users and developers interested in further modifications of the package, the Github repository can also be
 cloned. Full details for use of the package outside of the web app are available in the Developer Documentation Jupyter
-notebook. [DLS: What about the ReadTheDocs?]
+notebook.
+
+For users interested in learning more about the underlying theory of automatic differentiation, the software is complemented by an accompanying automatic differentiation unit.
 
 ## Accompanying Automatic Differentiation Unit
-This software package is accompanied by a series of modules available on Read the Docs [DLS: Link to this?] to help students
+This software package is accompanied by a series of modules available on [Read the Docs](https://auto-ed.readthedocs.io/en/latest) to help students
 understand the theory behind automatic differentiation that is performed and visualized by the package. In the first module,
 we motivate the need for automatic differentiation as opposed to numeric or symbolic differentiation and introduce the basics
 of forward mode for a single input single output function. In the second module, we expand on the first modeule to include
