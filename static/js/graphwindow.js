@@ -1,9 +1,19 @@
 // MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 
 
+// for web compatibility: chrome and edge already works, and with this code firefox and safari will also work.  
+// help from: https://zellwk.com/blog/inconsistent-button-behavior/
+document.addEventListener('click', function (event) {
+    if (event.target.matches('input')) {
+      event.target.focus()
+    }
+    else if (event.target.matches('button')) {
+        event.target.focus()
+      }
+  })
+
+
 $(document).ready(function() {
-
-
 
     // when function to visualize is selected
     $(document).on('submit', 'form[name="select-func-viz"]', function(event) {
