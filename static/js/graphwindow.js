@@ -41,10 +41,10 @@ $(document).ready(function() {
 
 
                 // if selected function is a constant, provide error
-                if (data.is_constant[data.visfunc] == true) {
-                    alert("The function you've selected is a constant. The graph and derivative are trivial so are not displayed here.")
-                // hide graphbox display
-                $('#graphbox').addClass('hidden');
+                if (data.is_constant[data.visfunc] == 1) {
+                    alert("The function you've selected is a constant. The graph and derivative are trivial so are not displayed here.");
+                    // hide graphbox display
+                    $('#graphbox').addClass('hidden');
                     return;
                 }
             
