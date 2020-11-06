@@ -10,6 +10,7 @@ from ADnum import ADnum
 import ADmath
 import ADgraph
 from base64 import b64encode
+from datetime import timedelta
 
 
 #set up for flask app
@@ -17,7 +18,7 @@ app = Flask(__name__)
 sess = Session()
 app.secret_key = 'gaeirogrioghogjfi'
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['PERMANENT_SESSION_LIFETIME']= 20 * 60 * 1 # 1hr (Heroku is run for 1hr)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30) # Heroku dyno sleeps after 30 minutes of inactivity, and its ephemeral filesystem is discarded.
 sess.init_app(app)
 
 
