@@ -233,7 +233,8 @@ def graphwindow():
         session['refresh_message'] = 'Your session has expired, please start again!'
         return redirect(url_for('startup'))
 
-    # also redirect to start page if user erroneously moved back and forth on web ex. graph -> click previous arrow back to main -> attempt to click forward arrow back to graph
+    # also redirect to start page, if user erroneously moved back and forth on web
+    # ex. graph page -> click previous arrow back to main -> attempt to click forward arrow back to graph
     if any(session['func_content']) == False: # if all function contents are empty
         session['refresh_message'] = 'Your session has expired, please start again!'
         return redirect(url_for('startup'))
@@ -331,19 +332,24 @@ def select_func_viz():
     session['curr_idx'] = 0
     session['rev_dyn_set'] = []
     
-    # generate evaluation table
-    table = get_table()
+    try:
+        # generate evaluation table
+        table = get_table()
 
+        # get appropriate graphs. Initial dynamic reverse graph is same as reverse graph
+        comp_graph_raw = ADgraph.draw_graph2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
+        comp_graph = b64encode(comp_graph_raw.getvalue()).decode('ascii')
 
-    # get appropriate graphs. Initial dynamic reverse graph is same as reverse graph
-    comp_graph_raw = ADgraph.draw_graph2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
-    comp_graph = b64encode(comp_graph_raw.getvalue()).decode('ascii')
+        rev_graph_raw = ADgraph.draw_graph_rev2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
+        rev_graph = b64encode(rev_graph_raw.getvalue()).decode('ascii')
 
-    rev_graph_raw = ADgraph.draw_graph_rev2(session['out_num'][session['visfunc']], session['G'][session['visfunc']], session['edge_labs'][session['visfunc']], session['pos'][session['visfunc']], session['labs'][session['visfunc']])
-    rev_graph = b64encode(rev_graph_raw.getvalue()).decode('ascii')
+    
+        data = {'is_constant': session['constant_fs'], 'visfunc': session['visfunc'], 'ins': session['master_ins'], 'table': table, 'comp_graph': comp_graph, 'rev_graph': rev_graph, 'rev_dynamic_graph': rev_graph, 'show_vis' : True}
+    
+    # catch when selected function to visualize is a constant function
+    except AttributeError:
+        data = {'is_constant': session['constant_fs'], 'visfunc': session['visfunc']}
 
-   
-    data = {'visfunc': session['visfunc'], 'ins': session['master_ins'], 'table': table, 'comp_graph': comp_graph, 'rev_graph': rev_graph, 'rev_dynamic_graph': rev_graph, 'show_vis' : True}
     return jsonify(data)
 
 

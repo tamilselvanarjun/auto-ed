@@ -111,7 +111,6 @@
 	
 		<br><br>
 		<div id="graphbox" class='container hidden'>
-			{% if not constants[0] %}
 				
 				<div class="row">
 				
@@ -144,40 +143,10 @@
 				  	</div>
 				
 				</div>
-				{% endif %}
-			{% if constants[0] %}
-			<div class="alert alert-danger" role="alert">
-				The function you've selected is a constant.  Computing the derivative does not require a computational graph or table.
-			</div>
-			
-			{% endif %}
+
 			  </div>
 			
-
-		<!-- <br><br>
-		<div id="graphbox" class='hidden'>
-
-			<div id="forward">
-				<h2>FORWARD MODE</h2>
-				<h3>Computational Graph</h3>
-					<div id='computational-graph'></div>
-				<h3>Evaluation Table</h3>
-					<div id='evaluation-table'></div>
-			</div>
-
-			<div id="reverse">
-				<h2>REVERSE MODE</h2>
-				<h3>Reverse Graph</h3>
-				<div id='reverse-graph'></div>
-
-				<h3>Visualize Reverse Calculations</h3>
-				<form name='partial-der' method="post" action="{{ url_for('partial_der') }}"></form>
-				<div id='reverse-dynamic'></div>	
-
-				<form name='navigate-steps' method="post" action="{{ url_for('navigate_steps') }}"></form>
-			
-			</div>
-		</div> -->
+	<br><br><br><br>
 
 	{% endif %}
 
