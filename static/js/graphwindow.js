@@ -42,7 +42,7 @@ $(document).ready(function() {
 
                 // if selected function is a constant, provide error
                 if (data.is_constant[data.visfunc] == true) {
-                    alert("The function you've selected is a constant. Computing the derivative does not require a computational graph or table.")
+                    alert("The function you've selected is a constant. The graph and derivative are trivial so are not displayed here.")
                 // hide graphbox display
                 $('#graphbox').addClass('hidden');
                     return;
