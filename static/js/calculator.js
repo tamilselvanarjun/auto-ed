@@ -36,7 +36,7 @@ $(document).ready(function() {
 
             // when ajax request is successful
             success:function(data) {
-                // update button style if "Edit F" button is pressed
+                // highlight input box if "Edit F" button is pressed
                 if ($btn.val() == 'Edit f1') {
                     $('input[type=text][name="f1"]').css('background-color','#87ceeb');
                     $('input[type=text][name="f2"]').css('background-color', 'white');
