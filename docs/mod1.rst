@@ -115,9 +115,9 @@ this tool allows us to visualize the underlying graph structure of a calculation
 In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each
 node of the graph which will be discussed in more detail in Unit 2.
 
-Installation
-^^^^^^^^^^^^
-The tool can be downloaded by  TO DO: FIND CUTE WAY TO LAUNCH
+Auto-eD Web Application
+^^^^^^^^^^^^^^^^^^^^^^^
+The tool can be accessed directly through a web browser (currently only compatible with Google Chrome and Microsoft Edge) by visiting https://autoed.herokuapp.com.
 
 Developer Instructions
 ^^^^^^^^^^^^^^^^^^^^^^
