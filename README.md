@@ -1,5 +1,5 @@
 # Auto-eD
-![Example](docs/Step4.PNG)
+![Example](AutoEdCover.png)
 
 Auto-eD is a web application to help students learn the basics behind automatic differentiation by helping them to visualize the computational graph structure which underlies these computations in forward and reverse mode.
 
