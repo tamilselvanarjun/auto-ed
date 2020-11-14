@@ -143,3 +143,19 @@ img {
 /* th, td, tr {
 	padding:10px;
 } */
+
+
+/*
+ * Footer
+ */
+ .blog-footer {
+	padding: 1.8rem 0;
+	color: #575a5c;
+	text-align: center;
+	background-color: #e7f3fb;
+	/* border-top: .05rem solid #e5e5e5; */
+  }
+  .blog-footer p:last-child {
+	margin-bottom: 0;
+	font-size: 14px;
+  }
