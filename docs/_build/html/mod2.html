@@ -35,13 +35,149 @@
             
   <div class="section" id="module-2-deeper-into-forward-mode">
 <h1>Module 2: Deeper Into Forward Mode<a class="headerlink" href="#module-2-deeper-into-forward-mode" title="Permalink to this headline">¶</a></h1>
-<p>As we introduced in Module 1, the forward mode of automatic differentiation computes derviatives by decomposing functions into a series of elementary operations.  We can explicitly compute the derivative of each of these elementary operations, allowing us to combine them using the chain rule to accurately compute the derivative of our function.  As we have seen, in the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the elementary operations that join these nodes.  The inputs to our functions become the first nodes in our graph.  For each subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the computation as a series of elementary traces.</p>
+<p>As we introduced in Module 1, the forward mode of automatic differentiation computes derviatives by decomposing functions
+into a series of elementary operations.  We can explicitly compute the derivative of each of these elementary operations,
+allowing us to combine them using the chain rule to accurately compute the derivative of our function.  As we have seen, in
+the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the
+elementary operations that join these nodes.  The inputs to our functions become the first nodes in our graph.  For each
+subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the
+computation as a series of elementary traces.</p>
 <div class="section" id="the-computational-trace-and-practice-with-the-visualization-tool">
 <h2>The Computational Trace and Practice with the Visualization Tool<a class="headerlink" href="#the-computational-trace-and-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
-<p>At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule, we compute the derivative at a particular node from the elementary operation that created that node and the value and derivative of the input node to that elementary operation.  Let’s return to our example from our first demo.</p>
+<p>At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule,
+we compute the derivative at a particular node from the elementary operation that created that node and the value and
+derivative of the input node to that elementary operation.  We’ll return to our example from the first demo in a moment. For
+now, let’s work with a simpler function so we can see example how everything works out.</p>
+<div class="section" id="a-basic-example">
+<h3>A Basic Example<a class="headerlink" href="#a-basic-example" title="Permalink to this headline">¶</a></h3>
+<p>We worked with a fairly involved function in module 1. Now we want to understand how the graph is created an how derivatives
+are really computed using automatic differentiation. A very friendly function to start with is,</p>
 <div class="math notranslate nohighlight">
-\[f(x) = -\exp(-2\sin^2(4x))\]</div>
-<p>In module 1, we formed the corresponding computational graph.  Now let’s use that graph to write the computational table.  Each node in the table is the output of an elmentary function, whose derivative we can compute explicitly.</p>
+\[f(x) = \sin(2x)\]</div>
+<div class="section" id="evaluating-the-function">
+<h4>Evaluating the Function<a class="headerlink" href="#evaluating-the-function" title="Permalink to this headline">¶</a></h4>
+<p>We want to evaluate <span class="math notranslate nohighlight">\(f(x)\)</span> at a specific point. We will choose the point <cite>a=2</cite>. Throughout this documentation, we will
+refer to a specific point with the name <cite>a</cite>. It should be assumed that <cite>a</cite> has a specific value (e.g. <cite>2</cite>). How do we
+evaluate this function?</p>
+<ol class="arabic simple">
+<li><p>Replace <cite>x</cite> with the value <cite>2</cite>.</p></li>
+<li><p>Multiply: <span class="math notranslate nohighlight">\(2\times 2 = 4\)</span>.</p></li>
+<li><p>Apply the sine function: <span class="math notranslate nohighlight">\(\sin(4)\)</span></p></li>
+<li><p>Return the value of f: <span class="math notranslate nohighlight">\(f = \sin(4)\)</span>.</p></li>
+</ol>
+</div>
+<div class="section" id="visualizing-the-evaluation">
+<h4>Visualizing the Evaluation<a class="headerlink" href="#visualizing-the-evaluation" title="Permalink to this headline">¶</a></h4>
+<p>We can visualize this evaluation in a graph. Each node of the graph will represent a stage in evaluation of the function. The
+nodes are connected together with edges. The parent value of a given node is the input to that node. The input to the entire
+function will be dentoed by <span class="math notranslate nohighlight">\(x_{0}\)</span>. Intermediate values will be denoted by <span class="math notranslate nohighlight">\(v_{i}\)</span>. The evaluation graph of our
+simple function is show in the figure below.</p>
+<img alt="_images/simple_graph.PNG" src="_images/simple_graph.PNG" />
+<p>We can convert this graph picture into a trace table, which “traces” out the computational steps. The trace table for this
+function is shown in the following table.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 42%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Trace</p></th>
+<th class="head"><p>Elementary Function</p></th>
+<th class="head"><p>Current Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
+<td><p>x, input</p></td>
+<td><p><span class="math notranslate nohighlight">\(2\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(v_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2x_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(4\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(v_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\sin(v_1)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\sin(4)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>This table makes a connection between the evaluation that we normally do and the graph that we used to help us visualize the
+function evaluation. So far there is nothing much new. These calculations are done almost automatically by our brains and by
+the computer. All we’ve done so far is laid things out more algorithmically.</p>
+</div>
+<div class="section" id="introducing-derivatives">
+<h4>Introducing Derivatives<a class="headerlink" href="#introducing-derivatives" title="Permalink to this headline">¶</a></h4>
+<p>Let’s add one more wrinkle. We can actually compute the derivatives as we go along at each step. The way we do this is by
+applying the chain rule at each step. We’ll had two more columns to the table. The first new column will represent the
+elementary function derivative at that step. The second new column will represent the value of the derivative at that step.</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Trace</p></th>
+<th class="head"><p>Elementary Function</p></th>
+<th class="head"><p>Current Value</p></th>
+<th class="head"><p>Elementary Function Derivative</p></th>
+<th class="head"><p>Current Derivative Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_1\)</span></p></td>
+<td><p>x, input</p></td>
+<td><p><span class="math notranslate nohighlight">\(2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(v_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2x_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2\dot{x}_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(v_2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\sin(v_1)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\sin(4)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\cos(v_1)\dot{v}_{1}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\cos(4)\cdot 2\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>The first thing to observe is that the derivative value of the output is precisely what we would expect it to be. The
+derivative of our function is <span class="math notranslate nohighlight">\(f^{\prime} = 2\cos(2x)\)</span>. Evaluated at our chosen point, this is <span class="math notranslate nohighlight">\(f^{\prime} =
+2\cos(4)\)</span>. So whatever we did in the table seemed to have worked.</p>
+<p>We introduced some new notation: we denoted a derivative with the overdot notation. This is the common notation in
+forward mode. Therefore, the derivative of <span class="math notranslate nohighlight">\(2x_{1}\)</span> is simply <span class="math notranslate nohighlight">\(2\dot{x}_{1}\)</span>. The dot should be interpreted as a
+derivative with respect to the independent variable. In the 1D case that we’re doing here, the dot means a derivative with
+respect to <cite>x</cite>.</p>
+<p>We used the chain rule at each step. This is most apparent in the last step where we took the derivative of <span class="math notranslate nohighlight">\(v_{2}\)</span> to get
+<span class="math notranslate nohighlight">\(\dot{v}_{2}\)</span>, which is just <span class="math notranslate nohighlight">\(f^{\prime}\)</span> in this case.</p>
+<p>Finally, there is something interesting about how we set the initial derivative in the first step. What we have done is
+“seeded” the derivative. Intuitively, it may help to think that in the first step we are taking the derivative of the input
+with respect to itself. Since <span class="math notranslate nohighlight">\(dx/dx=1\)</span>, the derivative in the first step should just be one. However, we will see
+later that this is actually not necessary. If we want to get the true derivative, then it is good to seed the derivative in
+this way. However, automatic differentiation is more powerful than this and choosing different seed values can give valuable
+information. Stay tuned.</p>
+<p>For this simple example, we can draw an accompanying graph to the original computational graph, which helps us visualize the
+way derivatives are carried through.</p>
+<img alt="_images/simple_deriv_graph.PNG" src="_images/simple_deriv_graph.PNG" />
+<p>The new graph shadows the original graph. Each node in the shadow graph represents the derivative at that step. Note that the
+edges representing the elementary functions (in this case sine) have been differentiated. Note too how the derivatives from
+the previous node feed <em>forward</em> to the next node.</p>
+</div>
+</div>
+<div class="section" id="the-original-demo">
+<h3>The Original Demo<a class="headerlink" href="#the-original-demo" title="Permalink to this headline">¶</a></h3>
+<p>Now we return to the original demo from the first module.</p>
+<div class="math notranslate nohighlight">
+\[f(x) = x - \exp(-2\sin^2(4x))\]</div>
+<p>In module 1, we formed the corresponding computational graph. Now let’s use that graph to write the computational table. Each
+node in the table is the output of an elmentary function, whose derivative we can compute explicitly.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 9%" />
@@ -109,25 +245,46 @@
 </tr>
 </tbody>
 </table>
-<p>The visualization tool which we installed in the first unit also computes the computational table.  Input the function and compare the forward mode graph to the forward model table.</p>
-<p>Notice how the computational trace corresponds to the nodes on the graph and the edges linking these nodes.  Note that the choices of labels for the traces might be different than the table we wrote by hand - compare the labels for the nodes in the graph.</p>
-<p>Now let’s consider an example with multiple inputs.  Observe that the computed derivative is now the gradient vector.  Instead of maintaining an evaluation trace of a scalar derivative for a single input, we instead have  a trace of the gradient for multiple inputs.</p>
+<p>The visualization tool which we installed in the first unit also computes the computational table. Input the function and
+compare the forward mode graph to the forward model table.</p>
+<p>Notice how the computational trace corresponds to the nodes on the graph and the edges linking these nodes. Note that the
+choices of labels for the traces might be different than the table we wrote by hand - compare the labels for the nodes in the
+graph.</p>
+</div>
+<div class="section" id="multiple-inputs">
+<h3>Multiple Inputs<a class="headerlink" href="#multiple-inputs" title="Permalink to this headline">¶</a></h3>
+<p>Now let’s consider an example with multiple inputs. The computed derivative is now the gradient vector. Instead of
+maintaining an evaluation trace of a scalar derivative for a single input, we instead have a trace of the gradient for
+multiple inputs.</p>
 <p>In the exercises in the previous module, we practiced drawing the graph for the function</p>
 <div class="math notranslate nohighlight">
-\[f(x,y) = \exp(-(\sin(x)-\cos(y))^2)\]</div>
-<p>The graph you drew should have the same structure as this graph produced with the visualization tool (with the exception of possibly interchanging some of the labels).</p>
+\[f(x,y) = \exp(-(\sin(x)-\cos(y))^2).\]</div>
+<p>Try to draw the graph by hand. The graph you drew should have the same structure as the graph below, which was produced with
+the visualization tool (with the exception of possibly interchanging some of the labels).</p>
 <img alt="_images/Mod1Ex3Sol.PNG" src="_images/Mod1Ex3Sol.PNG" />
-<p>We can also use the visualization tool to see the computational table which corresponds to the graph.  Observe that the derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative with respect to one of our inputs.</p>
+<p>We can also use the visualization tool to see the computational table which corresponds to the graph. Observe that the
+derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative
+with respect to one of our inputs. Also notice that this table does not include the columns for the elementary function or
+its derivative. Those columns are useful for learning how things work, but ultimately automatic differentiation does not need
+to store them; it only needs to store the value. Note too that the interpretation of <span class="math notranslate nohighlight">\(\dot{x}\)</span> must be generalized. The
+dot now represents a derivative with respect to one or the other input depending on the context. Lastly, the table does not
+include any symbolic numbers. Instead, it presents values with as much precision as the computer allows to emphasize that
+automatic differentiation computes derivatives to machine precision.</p>
 <img alt="_images/Mod2Table.PNG" src="_images/Mod2Table.PNG" />
-<p>Note that computing the gradient for this multivariate function is done by assigning a seed vector to each input, where to find the gradient we use the standard basis vectors as seeds.  We’ll discuss more about what this means automatic differentiation is computing in the next section.</p>
+<p>Note that computing the gradient for this multivariate function is done by assigning a seed vector to each input, where to
+find the gradient we use the standard basis vectors as seeds.  We’ll discuss more about what this means automatic
+differentiation is computing in the next section.</p>
+</div>
 </div>
 <div class="section" id="more-theory">
 <h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="the-multivariate-chain-rule">
 <h3>The Multivariate Chain Rule<a class="headerlink" href="#the-multivariate-chain-rule" title="Permalink to this headline">¶</a></h3>
-<p>As we saw in the example above, we can also use automatic differentiation to find the gradient of functions with multiple inputs.  From our multivariate calculus class, recall that we can find the derivative of a function with multiple inputs also using the chain rule.  Let g(t) = h(u(t), v(t)).</p>
+<p>As we saw in the example above, we can use automatic differentiation to find the gradient of functions with multiple inputs.
+From multivariate calculus, recall that we can find the derivative of a function with multiple inputs also using the chain
+rule.  Let <span class="math notranslate nohighlight">\(g(t) = h(u(t), v(t))\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[\frac{dg}{dt} = \frac{dh}{du}\frac{du}{dt} + \frac{dh}{dv}\frac{dv}{dt}\]</div>
+\[\frac{dg}{dt} = \frac{dh}{du}\frac{du}{dt} + \frac{dh}{dv}\frac{dv}{dt}.\]</div>
 <p>We can write this in general form as</p>
 <div class="math notranslate nohighlight">
 \[\nabla_x h = \sum_{i=1}^n \frac{\partial h}{\partial y_i}\nabla_x y_i\]</div>
