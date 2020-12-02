@@ -4,17 +4,24 @@ Module 1: The Basics of Forward Mode
 Introduction
 ------------
 
-Differentiation is fundamental to computational science and is important in many applications, including optimization, sensitivity analysis, and solving differential equations. To be useful in these applications, derivatives must be computed both precisely and efficiently.  **Automatic differentiation**, sometimes also called algorithmic differentiation or computational differentiation, is able to do both, distinguishing it from both numerical differentiation and symbolic differentiation.
+Differentiation is fundamental to computational science and is important in many applications, including optimization,
+sensitivity analysis, and solving differential equations. To be useful in these applications, derivatives must be computed
+both precisely and efficiently.  **Automatic differentiation**, sometimes also called algorithmic differentiation or
+computational differentiation, can efficiently compute derivatives to machine precision, distinguishing it from both
+numerical differentiation and symbolic differentiation. We will discuss the differences between automatic differentiation and
+numerical and symbolic differentiation.
 
 * Automatic differentiation is not numerical differentiation.
 
-*Numerical differentiation* refers to a class of methods that computes derivatives through finite difference formulae based on the definition of the derivative,
+*Numerical differentiation* refers to a class of methods that computes derivatives through finite difference formulae based
+on the definition of the derivative,
 
 .. math::
 
-        \frac{df(x)}{dx} \approx \frac{f(x+h)-f(x)}{h}
+        \frac{df(x)}{dx} \approx \frac{f(x+h)-f(x)}{h}.
 
-Such methods are limited in precision due to truncation and roundoff errors as accuracy depends on choosing an appropriately sized h.  Let's consider a basic example.
+Such methods are limited in precision due to truncation and roundoff errors because  accuracy depends on choosing an
+appropriately sized `h`. Let's consider a basic example.
 
 Demo 1: Errors in The Finite Difference Method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
