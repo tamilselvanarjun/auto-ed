@@ -1,14 +1,22 @@
 Module 2: Deeper Into Forward Mode
 ==================================
 
-As we introduced in Module 1, the forward mode of automatic differentiation computes derviatives by decomposing functions into a series of elementary operations.  We can explicitly compute the derivative of each of these elementary operations, allowing us to combine them using the chain rule to accurately compute the derivative of our function.  As we have seen, in the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the elementary operations that join these nodes.  The inputs to our functions become the first nodes in our graph.  For each subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the computation as a series of elementary traces.
+As we introduced in Module 1, the forward mode of automatic differentiation computes derviatives by decomposing functions
+into a series of elementary operations.  We can explicitly compute the derivative of each of these elementary operations,
+allowing us to combine them using the chain rule to accurately compute the derivative of our function.  As we have seen, in
+the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the
+elementary operations that join these nodes.  The inputs to our functions become the first nodes in our graph.  For each
+subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the
+computation as a series of elementary traces.
 
 The Computational Trace and Practice with the Visualization Tool
 ----------------------------------------------------------------
-At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule, we compute the derivative at a particular node from the elementary operation that created that node and the value and derivative of the input node to that elementary operation.  Let's return to our example from our first demo.  
+At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule,
+we compute the derivative at a particular node from the elementary operation that created that node and the value and
+derivative of the input node to that elementary operation.  We'll return to our example from the first demo in a moment.Let's return to our example from our first demo. 
 
 .. math::
-        f(x) = -\exp(-2\sin^2(4x))
+        f(x) = x - \exp(-2\sin^2(4x))
 
 In module 1, we formed the corresponding computational graph.  Now let's use that graph to write the computational table.  Each node in the table is the output of an elmentary function, whose derivative we can compute explicitly.
 
