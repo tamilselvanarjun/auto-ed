@@ -278,22 +278,93 @@ differentiation is computing in the next section.</p>
 </div>
 <div class="section" id="more-theory">
 <h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="the-multivariate-chain-rule">
-<h3>The Multivariate Chain Rule<a class="headerlink" href="#the-multivariate-chain-rule" title="Permalink to this headline">¶</a></h3>
-<p>As we saw in the example above, we can use automatic differentiation to find the gradient of functions with multiple inputs.
-From multivariate calculus, recall that we can find the derivative of a function with multiple inputs also using the chain
-rule.  Let <span class="math notranslate nohighlight">\(g(t) = h(u(t), v(t))\)</span>.</p>
+<div class="section" id="review-of-the-chain-rule">
+<h3>Review of the Chain Rule<a class="headerlink" href="#review-of-the-chain-rule" title="Permalink to this headline">¶</a></h3>
+<p>We already saw the chain rule in one dimension and we even saw it in action in the trace table examples. Here, we build up to
+a more general chain rule.</p>
+<div class="section" id="back-to-the-beginning">
+<h4>Back to the Beginning<a class="headerlink" href="#back-to-the-beginning" title="Permalink to this headline">¶</a></h4>
+<p>Suppose we have a function <span class="math notranslate nohighlight">\(h(u(t))\)</span> and we want the derivative of <cite>h</cite> with respect to <cite>t</cite>. The chain rule gives,</p>
 <div class="math notranslate nohighlight">
-\[\frac{dg}{dt} = \frac{dh}{du}\frac{du}{dt} + \frac{dh}{dv}\frac{dv}{dt}.\]</div>
-<p>We can write this in general form as</p>
+\[\dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t}.\]</div>
+<p>For example, consider <cite>h(u(t)) = sin(4t)</cite>. Then <cite>h(u) = sin(u)</cite> and <cite>u = 4t</cite>. So</p>
 <div class="math notranslate nohighlight">
-\[\nabla_x h = \sum_{i=1}^n \frac{\partial h}{\partial y_i}\nabla_x y_i\]</div>
-<p>Using this formula allows us to compute the partial derivatives for each input as we saw in the evaluation trace in our multivariate example.</p>
+\[\dfrac{\partial h}{\partial u} = \cos(u), \quad \dfrac{\partial u}{\partial t} = 4 \quad \Rightarrow \quad
+\dfrac{\partial h}{\partial t} = 4\cos(4t).\]</div>
+</div>
+<div class="section" id="adding-an-argument">
+<h4>Adding an Argument<a class="headerlink" href="#adding-an-argument" title="Permalink to this headline">¶</a></h4>
+<p>Now suppose that <cite>h</cite> has another argument so that we have <span class="math notranslate nohighlight">\(h(u(t), v(t))\)</span>. Once again, we want the derivative of <cite>h</cite>
+with respect to <cite>t</cite>. Applying the chain rule in this case gives,</p>
+<div class="math notranslate nohighlight">
+\[\dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t} + \dfrac{\partial
+h}{\partial v}\dfrac{\partial v}{\partial t}.\]</div>
+</div>
+<div class="section" id="accounting-for-multiple-inputs">
+<h4>Accounting for Multiple Inputs<a class="headerlink" href="#accounting-for-multiple-inputs" title="Permalink to this headline">¶</a></h4>
+<p>What if we replace <cite>t</cite> by a vector <span class="math notranslate nohighlight">\(x\in\mathbb{R}^{m}\)</span>? Now what we really want is the <em>gradient</em> of <cite>h</cite> with respect to
+<cite>x</cite>. We write <span class="math notranslate nohighlight">\(h = h(u(x), v(x))\)</span> and the derivative is now,</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{x}h = \dfrac{\partial h}{\partial u}\nabla u + \dfrac{\partial h}{\partial v}\nabla v,\]</div>
+<p>where we have written <span class="math notranslate nohighlight">\(\nabla_{x}\)</span> on the left hand size to avoid any confusion with arguments. The gradient operator on the
+right hand size is clearly with respect to <cite>x</cite> since <cite>u</cite> and <cite>v</cite> have no other arguments.</p>
+<p>As an example, consider <span class="math notranslate nohighlight">\(h = \sin(x_{1}x_{2})\cos(x_{1} + x_{2})\)</span>. Let’s say <span class="math notranslate nohighlight">\(u(x) = u(x_{1}, x_{2}) =
+x_{1}x_{2}\)</span> and <span class="math notranslate nohighlight">\(v(x) = v(x_{1}, x_{2}) = x_{1} + x_{2}\)</span>. We can re-write <cite>h</cite> as <span class="math notranslate nohighlight">\(h = \sin(u(x))\cos(v(x))\)</span>.
+Then,</p>
+<div class="math notranslate nohighlight">
+\[\dfrac{\partial h}{\partial u} = \cos(u)\cos(v), \quad \dfrac{\partial h}{\partial v} = -\sin(u)\sin(v),\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\nabla u = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla v = \begin{bmatrix} 1 \\ 1 \end{bmatrix}\end{split}\]</div>
+<p>so</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\nabla_{x}h = \cos(x_{1}x_{2})\cos(x_{1} + x_{2})\begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix} - \sin(x_{1} +
+x_{2})\sin(x_{1} + x_{2})\begin{bmatrix} 1 \\ 1 \end{bmatrix}.\end{split}\]</div>
+</div>
+<div class="section" id="the-almost-general-rule">
+<h4>The (Almost) General Rule<a class="headerlink" href="#the-almost-general-rule" title="Permalink to this headline">¶</a></h4>
+<p>More generally, <span class="math notranslate nohighlight">\(h = h(y(x))\)</span> where <span class="math notranslate nohighlight">\(y \in \mathbb{R}^{n}\)</span> and <span class="math notranslate nohighlight">\(x \in \mathbb{R}^{m}\)</span>. Now <cite>h</cite> is a
+function of possibly <cite>n</cite> other functions, themselves a function of <cite>m</cite> variables. The gradient of <cite>h</cite> is now given by,</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{x}h = \sum_{i=1}^{n}{\dfrac{\partial h}{\partial y_{i}}\nabla y_{i}(x)}.\]</div>
+<p>We can repeat the example from the previous section to help reinforce notation. This time, say <span class="math notranslate nohighlight">\(y_{1} = x_{1}x_{2}\)</span> and
+<span class="math notranslate nohighlight">\(y_{2} = x_{1} + x_{2}\)</span>. Then,</p>
+<div class="math notranslate nohighlight">
+\[\dfrac{\partial h}{\partial y_{1}} = \cos(y_{1})\cos(y_{2}), \quad \dfrac{\partial h}{\partial y_{2}} =
+-\sin(y_{1})\sin(y_{2}),\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\nabla y_{1} = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla y_{2} = \begin{bmatrix} 1 \\ 1
+\end{bmatrix}.\end{split}\]</div>
+<p>Putting everything together gives the same result as in the previous section.</p>
+<p>The chain rule is more general than even this case. We could have nested compositions of functions, which would lead to a
+more involved formula of products. We’ll stop here for now and simply comment that automatic differentiation can handle
+nested compositions of functions as deep as we want for arbitraryly large inputs.</p>
+</div>
 </div>
 <div class="section" id="what-does-forward-mode-compute">
 <h3>What Does Forward Mode Compute?<a class="headerlink" href="#what-does-forward-mode-compute" title="Permalink to this headline">¶</a></h3>
-<p>At each evaluation step, the forward mode propagates the derivative to the next node using the chain rule to evaluate the derivative from the previous node and the elementary operation.  Notice that we do not need to store all of the values at each node in memory, but instead, we only need to store value and derivative values until all of the children of a node have been evaluated.</p>
-<p>If we consider the most general case, we are interested in computing Jacobians of vector valued functions of multiple variables.  To compute these individual gradients, we started our evaluation table with a seed vector, p.  This allows us to consider directional derivatives, <span class="math notranslate nohighlight">\(D_p x_k = \sum dx_3/dx_j p_j\)</span>, so we find that forward mode actually computes directional derivatives and when we choose our seed vectors to be standard unit vectors, we attain the standard gradient.  Extending this to vector valued functions, we have that forward mode computes <span class="math notranslate nohighlight">\(Jp\)</span>, a Jacobian vector product.</p>
+<p>By now you must be wondering what forward mode <em>actually</em> computes. Sure, it gives us the numerical value of the derivative
+at a specific evaluation point of a function. But it can do even more than that.</p>
+<p>In the most general case, we are interested in computing Jacobians of vector valued functions of multiple variables. To
+compute these individual gradients, we started our evaluation table with a seed vector, <cite>p</cite>. One way to think about this is
+through the directional derivative, defined to be,</p>
+<div class="math notranslate nohighlight">
+\[D_{p}f = \nabla f \cdot p\]</div>
+<p>where <span class="math notranslate nohighlight">\(D_{p}\)</span> is the directional derivative in the direction of <cite>p</cite> and <cite>f</cite> is the function we want to differentiate.
+In two dimensions, we have <span class="math notranslate nohighlight">\(f = f(x_{1},x_{2})\)</span> and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\nabla f = \begin{bmatrix} \dfrac{\partial f}{\partial x} \\ \dfrac{\partial f}{\partial y}\end{bmatrix}.\end{split}\]</div>
+<p>The seed vector (or “direction”) is <span class="math notranslate nohighlight">\(p = (p_{1}, p_{2})\)</span>. Carrying out the dot product in the directional derivative
+gives,</p>
+<div class="math notranslate nohighlight">
+\[D_{p}f = \dfrac{\partial f}{\partial x}p_{1} + \dfrac{\partial f}{\partial y}p_{2}.\]</div>
+<p>Now here comes the cool part. <em>We can choose</em> <cite>p</cite>. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> then we get the partial with respect to <cite>x</cite>.
+If we choose <cite>p=(0,1)</cite> then we get the partial with respect to <cite>y</cite>. This is really powerful! For arbitrary choices of <cite>p</cite>, we
+get a linear combination of the partial derivatives representing the gradient in the direction of <cite>p</cite>.</p>
+<div class="section" id="exercise">
+<h4>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h4>
+</div>
 </div>
 <div class="section" id="how-efficient-is-forward-mode">
 <h3>How Efficient is Forward Mode?<a class="headerlink" href="#how-efficient-is-forward-mode" title="Permalink to this headline">¶</a></h3>

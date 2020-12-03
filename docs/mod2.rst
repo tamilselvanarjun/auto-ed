@@ -235,31 +235,121 @@ differentiation is computing in the next section.
 
 More Theory
 -----------
-The Multivariate Chain Rule
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-As we saw in the example above, we can use automatic differentiation to find the gradient of functions with multiple inputs.
-From multivariate calculus, recall that we can find the derivative of a function with multiple inputs also using the chain
-rule.  Let :math:`g(t) = h(u(t), v(t))`.
+Review of the Chain Rule
+^^^^^^^^^^^^^^^^^^^^^^^^
+We already saw the chain rule in one dimension and we even saw it in action in the trace table examples. Here, we build up to
+a more general chain rule.
+
+Back to the Beginning
+"""""""""""""""""""""
+Suppose we have a function :math:`h(u(t))` and we want the derivative of `h` with respect to `t`. The chain rule gives,
 
 .. math::
+        \dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t}.
 
-        \frac{dg}{dt} = \frac{dh}{du}\frac{du}{dt} + \frac{dh}{dv}\frac{dv}{dt}.
-
-
-We can write this in general form as
+For example, consider `h(u(t)) = \sin(4t)`. Then `h(u) = \sin(u)` and `u = 4t`. So 
 
 .. math::
-        
-        \nabla_x h = \sum_{i=1}^n \frac{\partial h}{\partial y_i}\nabla_x y_i
+        \dfrac{\partial h}{\partial u} = \cos(u), \quad \dfrac{\partial u}{\partial t} = 4 \quad \Rightarrow \quad
+        \dfrac{\partial h}{\partial t} = 4\cos(4t).
 
-Using this formula allows us to compute the partial derivatives for each input as we saw in the evaluation trace in our multivariate example. 
+Adding an Argument
+""""""""""""""""""
+Now suppose that `h` has another argument so that we have :math:`h(u(t), v(t))`. Once again, we want the derivative of `h`
+with respect to `t`. Applying the chain rule in this case gives,
+
+.. math::
+        \dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t} + \dfrac{\partial
+        h}{\partial v}\dfrac{\partial v}{\partial t}.
+
+Accounting for Multiple Inputs
+""""""""""""""""""""""""""""""
+What if we replace `t` by a vector :math:`x\in\mathbb{R}^{m}`? Now what we really want is the *gradient* of `h` with respect to
+`x`. We write :math:`h = h(u(x), v(x))` and the derivative is now,
+
+.. math::
+        \nabla_{x}h = \dfrac{\partial h}{\partial u}\nabla u + \dfrac{\partial h}{\partial v}\nabla v, 
+
+where we have written :math:`\nabla_{x}` on the left hand size to avoid any confusion with arguments. The gradient operator on the
+right hand size is clearly with respect to `x` since `u` and `v` have no other arguments.
+
+As an example, consider :math:`h = \sin(x_{1}x_{2})\cos(x_{1} + x_{2})`. Let's say :math:`u(x) = u(x_{1}, x_{2}) =
+x_{1}x_{2}` and :math:`v(x) = v(x_{1}, x_{2}) = x_{1} + x_{2}`. We can re-write `h` as :math:`h = \sin(u(x))\cos(v(x))`.
+Then,
+
+.. math::
+        \dfrac{\partial h}{\partial u} = \cos(u)\cos(v), \quad \dfrac{\partial h}{\partial v} = -\sin(u)\sin(v),
+
+and
+
+.. math::
+        \nabla u = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla v = \begin{bmatrix} 1 \\ 1 \end{bmatrix} 
+
+so 
+
+.. math::
+        \nabla_{x}h = \cos(x_{1}x_{2})\cos(x_{1} + x_{2})\begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix} - \sin(x_{1} +
+        x_{2})\sin(x_{1} + x_{2})\begin{bmatrix} 1 \\ 1 \end{bmatrix}.
+
+The (Almost) General Rule
+"""""""""""""""""""""""""
+More generally, :math:`h = h(y(x))` where :math:`y \in \mathbb{R}^{n}` and :math:`x \in \mathbb{R}^{m}`. Now `h` is a
+function of possibly `n` other functions, themselves a function of `m` variables. The gradient of `h` is now given by,
+
+.. math::
+        \nabla_{x}h = \sum_{i=1}^{n}{\dfrac{\partial h}{\partial y_{i}}\nabla y_{i}(x)}.
+
+We can repeat the example from the previous section to help reinforce notation. This time, say :math:`y_{1} = x_{1}x_{2}` and
+:math:`y_{2} = x_{1} + x_{2}`. Then,
+
+.. math::
+        \dfrac{\partial h}{\partial y_{1}} = \cos(y_{1})\cos(y_{2}), \quad \dfrac{\partial h}{\partial y_{2}} =
+        -\sin(y_{1})\sin(y_{2}),
+
+and
+
+.. math::
+        \nabla y_{1} = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla y_{2} = \begin{bmatrix} 1 \\ 1
+        \end{bmatrix}.
+
+Putting everything together gives the same result as in the previous section.
+
+The chain rule is more general than even this case. We could have nested compositions of functions, which would lead to a
+more involved formula of products. We'll stop here for now and simply comment that automatic differentiation can handle
+nested compositions of functions as deep as we want for arbitraryly large inputs.
 
      
 What Does Forward Mode Compute?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-At each evaluation step, the forward mode propagates the derivative to the next node using the chain rule to evaluate the derivative from the previous node and the elementary operation.  Notice that we do not need to store all of the values at each node in memory, but instead, we only need to store value and derivative values until all of the children of a node have been evaluated.
+By now you must be wondering what forward mode *actually* computes. Sure, it gives us the numerical value of the derivative
+at a specific evaluation point of a function. But it can do even more than that.
 
-If we consider the most general case, we are interested in computing Jacobians of vector valued functions of multiple variables.  To compute these individual gradients, we started our evaluation table with a seed vector, p.  This allows us to consider directional derivatives, :math:`D_p x_k = \sum dx_3/dx_j p_j`, so we find that forward mode actually computes directional derivatives and when we choose our seed vectors to be standard unit vectors, we attain the standard gradient.  Extending this to vector valued functions, we have that forward mode computes :math:`Jp`, a Jacobian vector product.
+In the most general case, we are interested in computing Jacobians of vector valued functions of multiple variables. To
+compute these individual gradients, we started our evaluation table with a seed vector, `p`. One way to think about this is
+through the directional derivative, defined to be, 
+
+.. math::
+        D_{p}f = \nabla f \cdot p
+
+where :math:`D_{p}` is the directional derivative in the direction of `p` and `f` is the function we want to differentiate.
+In two dimensions, we have :math:`f = f(x_{1},x_{2})` and 
+
+.. math::
+        \nabla f = \begin{bmatrix} \dfrac{\partial f}{\partial x} \\ \dfrac{\partial f}{\partial y}\end{bmatrix}.
+
+The seed vector (or "direction") is :math:`p = (p_{1}, p_{2})`. Carrying out the dot product in the directional derivative
+gives, 
+
+.. math::
+        D_{p}f = \dfrac{\partial f}{\partial x}p_{1} + \dfrac{\partial f}{\partial y}p_{2}.
+
+Now here comes the cool part. *We can choose* `p`. If we choose :math:`p=(1,0)` then we get the partial with respect to `x`.
+If we choose `p=(0,1)` then we get the partial with respect to `y`. This is really powerful! For arbitrary choices of `p`, we
+get a linear combination of the partial derivatives representing the gradient in the direction of `p`.
+
+
+Exercise
+""""""""
 
 
 How Efficient is Forward Mode?
