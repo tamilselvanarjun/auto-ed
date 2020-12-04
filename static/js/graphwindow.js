@@ -203,7 +203,7 @@ $(document).ready(function() {
             },
             // when ajax request is not successful
             error:function() {
-                alert("Visualization not available. This happens when: (1) your function is too simple for graph visualization, (2) the selected variable does not exist in your function, or (3) your session expired (please start again from homepage.")
+                alert("Visualization not available. This happens when: (1) the computational graph of the function consists of only one node, (2) the function does not have any dependence on the selected input variable, or (3) your session expired (please start again from homepage).")
             }
 
         });
