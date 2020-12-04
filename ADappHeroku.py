@@ -98,10 +98,10 @@ def startup():
             errors += "Please enter a positive integer number of outputs."
             return render_template('welcome.html', errors=errors)
         if ins>5:
-            errors += "More than 5 inputs is not supported in the web app environment.  Please either use the AD?? package or experiment with a fewer number of variables."
+            errors += "More than 5 inputs is not supported in the web app environment.  Please either use the Auto-eD package or experiment with a fewer number of variables."
             return render_template('welcome.html', errors=errors)
         if outs>3:
-            errors += "More than 3 outputs is not supported in the web app environmnent.  Please either use the AD?? package or experiment with a fewer number of functions."
+            errors += "More than 3 outputs is not supported in the web app environmnent.  Please either use the Auto-eD package or experiment with a fewer number of functions."
             return render_template('welcome.html', errors=errors)
         #global master_ins
         session['master_ins'] = ins
