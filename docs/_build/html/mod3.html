@@ -123,13 +123,72 @@ previously, it is sometimes called the adjoint variable.</p>
 <p>Note that in our notation <span class="math notranslate nohighlight">\(u_{i}\)</span> could be an input variable (e.g. <span class="math notranslate nohighlight">\(x_{i}\)</span>) or an intermediate variable (e.g.
 <span class="math notranslate nohighlight">\(v_{i}\)</span>).</p>
 </div>
+<div class="section" id="an-example-for-intuition">
+<h2>An Example for Intuition<a class="headerlink" href="#an-example-for-intuition" title="Permalink to this headline">¶</a></h2>
+<p>Let’s try to evaluate the function</p>
+<div class="math notranslate nohighlight">
+\[f(x,y) = xy + \exp(xy)\]</div>
+<p>and its gradient at the point <span class="math notranslate nohighlight">\((1,2)\)</span>. We’ll use reverse mode this time. Here is a picture of the computational graph,</p>
+<img alt="_images/Reverse-Example.PNG" src="_images/Reverse-Example.PNG" />
+<p>and the corresponding table,</p>
+<img alt="_images/Reverse-Example-Table.PNG" src="_images/Reverse-Example-Table.PNG" />
+<div class="section" id="step-1">
+<h3>Step 1<a class="headerlink" href="#step-1" title="Permalink to this headline">¶</a></h3>
+<p>The first step is to generate the forward trace and calculate the partial derivatives of a node with respect to it’s
+children. Note that this time we must save the graph.</p>
+</div>
+<div class="section" id="step-2">
+<h3>Step 2<a class="headerlink" href="#step-2" title="Permalink to this headline">¶</a></h3>
+<p>Next, we start at <span class="math notranslate nohighlight">\(v_{3}\)</span> and start calculating the chain rule. We have</p>
+<div class="math notranslate nohighlight">
+\[\overline{v}_{3} = \dfrac{\partial f}{\partial v_{3}} = 1.\]</div>
+<img alt="_images/v3.PNG" src="_images/v3.PNG" />
+</div>
+<div class="section" id="step-3">
+<h3>Step 3<a class="headerlink" href="#step-3" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\overline{v}_{2} = \dfrac{\partial f}{\partial v_{3}}\dfrac{\partial v_{3}}{\partial v_{2}} = 1 \cdot 1 = 1.\]</div>
+<img alt="_images/v2.PNG" src="_images/v2.PNG" />
+</div>
+<div class="section" id="step-4">
+<h3>Step 4<a class="headerlink" href="#step-4" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\overline{v}_{1} = \dfrac{\partial f}{\partial v_{3}}\dfrac{\partial v_{3}}{\partial v_{1}} + \dfrac{\partial
+  f}{\partial v_{2}}\dfrac{\partial v_{2}}{\partial v_{1}}= 1 \cdot 1 + 1 \cdot e^{2} = 1 + e^{2}.\]</div>
+<p>Note that we had to do a sum over the childen this time!</p>
+<img alt="_images/v1.PNG" src="_images/v1.PNG" />
+</div>
+<div class="section" id="step-5">
+<h3>Step 5<a class="headerlink" href="#step-5" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\overline{x}_{2} = \dfrac{\partial f}{\partial v_{1}}\dfrac{\partial v_{1}}{\partial x_{2}} = (1 + e^{2})x_{1} = 1 +
+ e^{2} = \dfrac{\partial f}{\partial y}.\]</div>
+<img alt="_images/x2.PNG" src="_images/x2.PNG" />
+</div>
+<div class="section" id="step-6">
+<h3>Step 6<a class="headerlink" href="#step-6" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\overline{x}_{1} = \dfrac{\partial f}{\partial v_{1}}\dfrac{\partial v_{1}}{\partial x_{1}} = (1 + e^{2})x_{2} = 2 +
+ 2e^{2} = \dfrac{\partial f}{\partial x}.\]</div>
+<img alt="_images/x1.PNG" src="_images/x1.PNG" />
+<p>You should check that these results match those from taking the symbolic derivative and evaluating it at the desired point.</p>
+</div>
+</div>
 <div class="section" id="practice-with-the-visualization-tool">
 <h2>Practice with the Visualization Tool<a class="headerlink" href="#practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
-<p>Let’s revisit our typical example.  As with forward mode, we input the function into the interface in the same way and can compute the function value and derivative, but now we know a little bit about what reverse mode computes.  Let’s start with the same example we analyzed for forward mode, <span class="math notranslate nohighlight">\(f(x) = x-\exp(-2\sin(4x)^2)\)</span>.  Input it into the visualization tool in the same way that you did in the first module.</p>
-<p>Let’s focus on the right half of the screen.  In the top right, you’ll see a graph that looks very similar to the one produced in forward mode.  Notice that the only difference is the direction of the arrows, representing the fact that derivatives are propagated in different directions.</p>
+<p>Let’s revisit our typical example. As with forward mode, we input the function into the interface in the same way and can
+compute the function value and derivative, but now we know a little bit about what reverse mode computes. Let’s start with
+the same example we analyzed for forward mode, <span class="math notranslate nohighlight">\(f(x) = x-\exp(-2\sin(4x)^2)\)</span>. Input it into the visualization tool in
+the same way that you did in the first module.</p>
+<p>Focus on the right half of the screen this time. In the top right, you’ll see a graph that looks very similar to the one
+produced in forward mode. Notice that the only difference is the direction of the arrows, representing the fact that
+derivatives are propagated in different directions.</p>
 <img alt="_images/Step4.PNG" src="_images/Step4.PNG" />
-<p>Now let’s dynamically visualize the process of reverse mode.  In the bottom right, press the df/dx button.  Use the ‘Next’ button to step through the process of reverse mode.  At each step you’ll see the edge that the computation traverses being highlighted.</p>
-<p>Let’s consider another example but with multiple inputs, <span class="math notranslate nohighlight">\(f(x,y) = xy+\exp(xy)\)</span>.  Observe that this function also has a branch in its underlying graph structure.  This time when dynamically visualizing the reverse mode, you should see that the computation has to trace through both branches to pick up the stored partial derivatives for the computation of the derivatives.</p>
+<p>Now let’s dynamically visualize the process of reverse mode. In the bottom right, press the ‘df/dx’ button. Use the ‘Next’
+button to step through the process of reverse mode. At each step the edge that the computation traverses is highlighted.</p>
+<p>Try the example with multiple inputs, <span class="math notranslate nohighlight">\(f(x,y) = xy+\exp(xy)\)</span>. Recall that this function has a branch in its underlying
+graph structure. This time when dynamically visualizing the reverse mode, you should see that the computation has to trace
+through both branches to pick up the stored partial derivatives for the computation of the derivatives.</p>
 <p><strong>Key Takeaways</strong></p>
 <ul class="simple">
 <li><p>Reverse mode and forward mode propagate the derivative in different directions.</p></li>
@@ -139,16 +198,27 @@ previously, it is sometimes called the adjoint variable.</p>
 </div>
 <div class="section" id="more-theory">
 <h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
-<p>In the previous module, we demonstrated that forward mode computes the Jacobian vector product Jp.  (depends on number of input variables)</p>
-<p>In contrast, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span> which is independent of the number of inputs.</p>
-<p>This difference can result in different operation counts, accounting for the popularity of the backpropagation algorithm.  Backpropagation is a just a special case of the reverse mode of automatic differentiation where the function of which we are interested in taking derivatives is a scalar objective function that represents the error between the output and the true value.</p>
+<p>In the previous module, we demonstrated that forward mode computes the Jacobian vector product <span class="math notranslate nohighlight">\(Jp\)</span>. In contrast,
+reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span> where <span class="math notranslate nohighlight">\(J^{T}\)</span> is the transpose of the Jacobian. This seemingly small difference can
+result in different operation counts for different kinds of problems.</p>
+<div class="section" id="comment">
+<h3>Comment<a class="headerlink" href="#comment" title="Permalink to this headline">¶</a></h3>
+<p>Backpropagation is a special case of the reverse mode of automatic differentiation where the function in which we are
+interested in taking derivatives is a scalar function that represents the error between the output and the true value.</p>
+</div>
 </div>
 <div class="section" id="a-comparison-of-forward-and-reverse-mode">
 <h2>A Comparison of Forward and Reverse Mode<a class="headerlink" href="#a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h2>
-<p>As the names suggest, the primary difference between forward and reverse mode is the direciton in which the computational graph is traversed, as we saw in the direction of the errors of the visualization tool.  This has implications for the computational efficiency of the two approaches.</p>
-<p>As we just showed, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span>, while in module 2, we learned that forward mode computes <span class="math notranslate nohighlight">\(Jp\)</span>.  This means that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.  Let’s consider an example of this.</p>
-<p><strong>Demo: A Comparison of Forward and Reverse Mode</strong>
-Let’s consider the function <span class="math notranslate nohighlight">\(f(w_1, w_2, w_3, w_4, w_5) = w_1w_2w_3w_4w_5\)</span>.  We want to compare the process of computing the partial derivatives in forward and reverse mode at the point (2, 1, 1, 1, 1).  Let’s start with using reverse mode, where we do not store the results of the chain rule but just the values of the partial derivatives at each step.</p>
+<p>As the names suggest, the primary difference between forward and reverse mode is the direciton in which the computational
+graph is traversed, as we saw with the visualization tool. This has implications for the computational efficiency of the two
+approaches.</p>
+<p>As we just stated, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span>, while in module 2, we learned that forward mode computes <span class="math notranslate nohighlight">\(Jp\)</span>.
+Although we didn’t go deep into it, the implication of this difference is that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.</p>
+<div class="section" id="demo-a-comparison-of-forward-and-reverse-mode">
+<h3>Demo: A Comparison of Forward and Reverse Mode<a class="headerlink" href="#demo-a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h3>
+<p>Consider the function <span class="math notranslate nohighlight">\(f(w_1, w_2, w_3, w_4, w_5) = w_1w_2w_3w_4w_5\)</span>. We want to compare the process of computing the
+partial derivatives in forward and reverse mode at the point <span class="math notranslate nohighlight">\((2, 1, 1, 1, 1)\)</span>.  Let’s start with reverse mode, where
+we do not store the results of the chain rule but just the values of the partial derivatives at each step.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 14%" />
@@ -274,10 +344,12 @@ Let’s consider the function <span class="math notranslate nohighlight">\(f(w_1
 </tr>
 </tbody>
 </table>
-<p>To compute the derivatives, we will now traverse through the graph, picking up the partial derivatives, using our update equations.  You can visualize this graph traversal by using the dynamic visualization tool.</p>
+<p>To compute the derivatives, we will now traverse through the graph, picking up the partial derivatives, using our update
+equations.  You can visualize this graph traversal by using the dynamic visualization tool.</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\bar{x_9} = \frac{\partial f}{\partial x_9} = 1\\\bar{x_8} = \frac{\partial f}{\partial x_9}\frac{\partial x_9}{\partial x_8} = 1 \cdot 2 = 2\\\bar{x_7} = \frac{\partial f}{\partial x_8}\frac{\partial x_8}{\partial x_7} = 2 \cdot 1 = 2\\\bar{x_6} = \frac{\partial f}{\partial x_7}\frac{\partial x_7}{\partial x_6} = 2 \cdot 1 = 2\\\bar{x_5} = \frac{\partial f}{\partial x_6}\frac{\partial x_6}{\partial x_5} = 2 \cdot 1 = 2\\\bar{x_4} = \frac{\partial f}{\partial x_6}\frac{\partial x_6}{\partial x_4} = 2 \cdot 1 = 2\\\bar{x_3} = \frac{\partial f}{\partial x_7}\frac{\partial x_7}{\partial x_3} = 2 \cdot 1 = 2\\\bar{x_2} = \frac{\partial f}{\partial x_8}\frac{\partial x_8}{\partial x_2} = 2 \cdot 1 = 2\\\bar{x_1} = \frac{\partial f}{\partial x_9}\frac{\partial x_9}{\partial x_1} = 1 \cdot 1 = 1\end{aligned}\end{align} \]</div>
-<p>In this way traversing the graph backwards, we compute all the partial derivatives.  As we learned in the previous unit, we could have used forward mode to compute the same values.  We know that we can use the samme graph structure for both directions, so let’s compare the computational table for forward mode.</p>
+\[ \begin{align}\begin{aligned}\bar{x_9} &amp;= \frac{\partial f}{\partial x_9} = 1\\\bar{x_8} &amp;= \frac{\partial f}{\partial x_9}\frac{\partial x_9}{\partial x_8} = 1 \cdot 2 = 2\\\bar{x_7} &amp;= \frac{\partial f}{\partial x_8}\frac{\partial x_8}{\partial x_7} = 2 \cdot 1 = 2\\\bar{x_6} &amp;= \frac{\partial f}{\partial x_7}\frac{\partial x_7}{\partial x_6} = 2 \cdot 1 = 2\\\bar{x_5} &amp;= \frac{\partial f}{\partial x_6}\frac{\partial x_6}{\partial x_5} = 2 \cdot 1 = 2\\\bar{x_4} &amp;= \frac{\partial f}{\partial x_6}\frac{\partial x_6}{\partial x_4} = 2 \cdot 1 = 2\\\bar{x_3} &amp;= \frac{\partial f}{\partial x_7}\frac{\partial x_7}{\partial x_3} = 2 \cdot 1 = 2\\\bar{x_2} &amp;= \frac{\partial f}{\partial x_8}\frac{\partial x_8}{\partial x_2} = 2 \cdot 1 = 2\\\bar{x_1} &amp;= \frac{\partial f}{\partial x_9}\frac{\partial x_9}{\partial x_1} = 1 \cdot 1 = 1\end{aligned}\end{align} \]</div>
+<p>As we learned in the previous module, we could have used forward mode to compute the same values. We know that we can use the
+same graph structure for both directions, so let’s compare the computational table for forward mode.</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 8%" />
@@ -395,27 +467,30 @@ Let’s consider the function <span class="math notranslate nohighlight">\(f(w_1
 </tr>
 </tbody>
 </table>
-<p>In this example, we can see why reverse mode is advantageous for many applicaations by couting the operations used to compute the derivatives in each of these directions.  To compute the product, both processes require 4 multiplication steps.  Let’s consider the operations to compute the partial derivatives.</p>
+<p>Both methods require 4 multiplication steps. Now consider the operations to compute the partial derivatives.</p>
 <ul class="simple">
-<li><p>Reverse mode required a single multiplication step (the product of the two partial derivatives) at nodes 1-8, for a total of 8 operations.</p></li>
-<li><p>At nodes 6-9 (4 nodes), we use the product rule to compute the derivative (requiring 3 operations, 2 multiplications and 1 addition) for each of the 5 inputs, for a total of <span class="math notranslate nohighlight">\(4\cdot 3 \cdot 5 = 60\)</span> operations</p></li>
+<li><p>Reverse mode: Required a single multiplication step (the product of the two partial derivatives) at nodes 1-8, for a total of 8 operations.</p></li>
+<li><p>Forward mode: At nodes 6-9 (4 nodes), we use the product rule to compute the derivative (requiring 3 operations, 2 multiplications and 1
+addition) for each of the 5 inputs, for a total of <span class="math notranslate nohighlight">\(4\cdot 3 \cdot 5 = 60\)</span> operations</p></li>
 </ul>
-<p>From this example, we see that in cases with many inputs and few outputs, reverse mode is much more computationally efficient than forward mode.</p>
+<p>This example demonstrates that in cases with many inputs and few outputs, reverse mode is more computationally efficient than forward mode.</p>
+</div>
 </div>
 <div class="section" id="going-forward">
 <h2>Going Forward<a class="headerlink" href="#going-forward" title="Permalink to this headline">¶</a></h2>
-<p>In the next unit, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider questions of implementation in software.</p>
-<p>Other extensions for further reading include automatic differentiation for higher order derivatives, including computing Hessians, and algorithmic differentiation of computer programs.  We can also consider the efficiency of the algorithms in terms of memory and efficient graph storage, access, and traversal.  Such efficiency may be better achieved in cases where the Jacobian and Hessian are sparse.  Other work has explored using a mixture of forward and reverse mode for computations.</p>
+<p>In the next unit, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
+questions of implementation in software.</p>
+<p>Other extensions for further reading include automatic differentiation for higher order derivatives, including computing
+Hessians, and algorithmic differentiation of computer programs. We can also consider the efficiency of the algorithms in
+terms of memory and efficient graph storage, access, and traversal. Such efficiency may be better achieved in cases where the
+Jacobian and Hessian are sparse. Other work has explored using a mixture of forward and reverse mode for computations.</p>
 </div>
-<div class="section" id="exercises">
-<h2>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="exercise-1-reverse-computational-table-and-derivatives">
-<h3>Exercise 1: Reverse Computational Table and Derivatives<a class="headerlink" href="#exercise-1-reverse-computational-table-and-derivatives" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="exercise">
+<h2>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
 <p>Return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.</p>
 <div class="math notranslate nohighlight">
 \[f(x, y) = xy + \exp(xy)\]</div>
 <p>Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point (1,2).  You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.</p>
-</div>
 </div>
 </div>
 
@@ -443,11 +518,12 @@ Let’s consider the function <span class="math notranslate nohighlight">\(f(w_1
 <li class="toctree-l2"><a class="reference internal" href="#the-basics-of-reverse-mode">The Basics of Reverse Mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#summary-sketch-of-reverse-mode">Summary Sketch of Reverse Mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-basic-equations">The Basic Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#an-example-for-intuition">An Example for Intuition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#practice-with-the-visualization-tool">Practice with the Visualization Tool</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#more-theory">More Theory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#a-comparison-of-forward-and-reverse-mode">A Comparison of Forward and Reverse Mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#going-forward">Going Forward</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise">Exercise</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mod4.html">Beyond the Basics: Extensions and Software Development</a></li>
