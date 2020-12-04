@@ -348,13 +348,66 @@ If we choose `p=(0,1)` then we get the partial with respect to `y`. This is real
 get a linear combination of the partial derivatives representing the gradient in the direction of `p`.
 
 
-Exercise
-""""""""
+Simple Demo
+"""""""""""
+To see this in action, let's consider the function :math:`f(x,y) = xy`. The figure below shows the graph and the trace table
+evaluating the function at the point :math:`(a,b)`. The difference between the previous versions of the table is the
+introduction of an arbitrary seed vector :math:`p = (p_{1},p_{2}`. Notice that the result is :math:`ap_{2} + bp_{1}` and make
+sure you verify this. If we choose :math:`p=(1,0)` we simply get `b`, which is just :math:`\dfrac{\partial f}{\partial x}`.
+Depending on how we choose the vector `p` we can evaluate the the gradient in any direction.
 
+.. image::
+         fxy_seed.PNG
 
-How Efficient is Forward Mode?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-From this analysis of what forward mode computes, we see that the efficiency of forward mode depends on the number of input variables.  Thus, forward mode will be less efficient when we have a large number of input variables.
+Now, you have likely noticed that choosing `p=(0,1)` will give `a`, which is :math:`\dfrac{\partial f}{\partial y}`. So even
+though it's really cool that we can get the directional derivative, we might just want the regular gradient. This can be
+accomplished by first selecting the seed `p=(1,0)` and then selecting `p=(0,1)`, but of course this is too much work. We
+don't want to rebuild the graph for every new seed if we don't have to. Another option is to just define as many seeds as we
+want and carry them along at each step. The next figure shows what this could look like for two seeds. Observe that using
+`p=(1,0)` and `q=(0,1)` gives the actual gradient.
+
+.. image::
+         fxy_all_seeds.PNG
+
+Two-Dimensional Demo
+""""""""""""""""""""
+Here's another example to show that the forward mode calculates :math:`Jp`, the Jacobian-vector product. Consider the
+following function,
+
+.. math::
+        f(x,y) = \begin{bmatrix} x^{2} + y^{2} \\ e^{x+y} \end{bmatrix}.
+
+We can calcuate the Jacobian by hand just to have it in our back pocket for comparison purposes.
+
+.. math::
+        J = \begin{bmatrix} 2x & 2y \\ e^{x+y} & e^{x+y} \end{bmatrix}.
+
+The Jacobian-vector product with a vector `p` (our seed) is,
+
+.. math::
+        Jp = \begin{bmatrix} 2x & 2y \\ e^{x+y} & e^{x+y} \end{bmatrix} \begin{bmatrix} p_{1} \\ p_{2} \end{bmatrix} =
+             \begin{bmatrix} 2x p_{1} + 2y p_{2} \\ e^{x+y} p_{1} + e^{x+y} p_{2} \end{bmatrix}.
+
+Before we launch into our manual automatic differentiation, let's say we want to evaluate all of this at the point `(1,1)`.
+Then,
+
+.. math::
+        f(1,1) &= \begin{bmatrix} 2 \\ e^{2} \end{bmatrix} \\
+        J &= \begin{bmatrix} 2 & 2 \\ e^{2} & e^{2} \end{bmatrix} \\
+        Jp &= \begin{bmatrix} 2p_{1} + 2p_{2} \\ e^{2}p_{1} + e^{2}p_{2} \end{bmatrix}.
+
+The next figure shows a table representing the computational trace for this function using an arbitrary seed. The result is
+precisely the Jacobian-vector product.
+
+.. image::
+         jac_prod_seed.PNG
+
+Similarly, the figure below depicts the same table using two arbitrary seeds. Make note of what happens when :math:`p=(1,0)`
+and :math:`q=(0,1)`.
+
+.. image::
+         jac_prod_all_seeds.PNG
+
 
 
 Exercises
@@ -398,4 +451,5 @@ Note that in practical applications the biases play a key role.  However, we hav
 
 Operation Count Problem
 ^^^^^^^^^^^^^^^^^^^^^^^
-Count the number of operations required to compute the derivatives in the neural network using forward mode.
+Count the number of operations required to compute the derivatives in the Simple Demo and the Two-Dimensional Demo above. For
+each demo, only keep track of the additions and multiplications.

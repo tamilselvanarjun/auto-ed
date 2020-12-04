@@ -362,13 +362,48 @@ gives,</p>
 <p>Now here comes the cool part. <em>We can choose</em> <cite>p</cite>. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> then we get the partial with respect to <cite>x</cite>.
 If we choose <cite>p=(0,1)</cite> then we get the partial with respect to <cite>y</cite>. This is really powerful! For arbitrary choices of <cite>p</cite>, we
 get a linear combination of the partial derivatives representing the gradient in the direction of <cite>p</cite>.</p>
-<div class="section" id="exercise">
-<h4>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="simple-demo">
+<h4>Simple Demo<a class="headerlink" href="#simple-demo" title="Permalink to this headline">¶</a></h4>
+<p>To see this in action, let’s consider the function <span class="math notranslate nohighlight">\(f(x,y) = xy\)</span>. The figure below shows the graph and the trace table
+evaluating the function at the point <span class="math notranslate nohighlight">\((a,b)\)</span>. The difference between the previous versions of the table is the
+introduction of an arbitrary seed vector <span class="math notranslate nohighlight">\(p = (p_{1},p_{2}\)</span>. Notice that the result is <span class="math notranslate nohighlight">\(ap_{2} + bp_{1}\)</span> and make
+sure you verify this. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> we simply get <cite>b</cite>, which is just <span class="math notranslate nohighlight">\(\dfrac{\partial f}{\partial x}\)</span>.
+Depending on how we choose the vector <cite>p</cite> we can evaluate the the gradient in any direction.</p>
+<img alt="_images/fxy_seed.PNG" src="_images/fxy_seed.PNG" />
+<p>Now, you have likely noticed that choosing <cite>p=(0,1)</cite> will give <cite>a</cite>, which is <span class="math notranslate nohighlight">\(\dfrac{\partial f}{\partial y}\)</span>. So even
+though it’s really cool that we can get the directional derivative, we might just want the regular gradient. This can be
+accomplished by first selecting the seed <cite>p=(1,0)</cite> and then selecting <cite>p=(0,1)</cite>, but of course this is too much work. We
+don’t want to rebuild the graph for every new seed if we don’t have to. Another option is to just define as many seeds as we
+want and carry them along at each step. The next figure shows what this could look like for two seeds. Observe that using
+<cite>p=(1,0)</cite> and <cite>q=(0,1)</cite> gives the actual gradient.</p>
+<img alt="_images/fxy_all_seeds.PNG" src="_images/fxy_all_seeds.PNG" />
 </div>
+<div class="section" id="two-dimensional-demo">
+<h4>Two-Dimensional Demo<a class="headerlink" href="#two-dimensional-demo" title="Permalink to this headline">¶</a></h4>
+<p>Here’s another example to show that the forward mode calculates <span class="math notranslate nohighlight">\(Jp\)</span>, the Jacobian-vector product. Consider the
+following function,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(x,y) = \begin{bmatrix} x^{2} + y^{2} \\ e^{x+y} \end{bmatrix}.\end{split}\]</div>
+<p>We can calcuate the Jacobian by hand just to have it in our back pocket for comparison purposes.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}J = \begin{bmatrix} 2x &amp; 2y \\ e^{x+y} &amp; e^{x+y} \end{bmatrix}.\end{split}\]</div>
+<p>The Jacobian-vector product with a vector <cite>p</cite> (our seed) is,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}Jp = \begin{bmatrix} 2x &amp; 2y \\ e^{x+y} &amp; e^{x+y} \end{bmatrix} \begin{bmatrix} p_{1} \\ p_{2} \end{bmatrix} =
+     \begin{bmatrix} 2x p_{1} + 2y p_{2} \\ e^{x+y} p_{1} + e^{x+y} p_{2} \end{bmatrix}.\end{split}\]</div>
+<p>Before we launch into our manual automatic differentiation, let’s say we want to evaluate all of this at the point <cite>(1,1)</cite>.
+Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(1,1) &amp;= \begin{bmatrix} 2 \\ e^{2} \end{bmatrix} \\
+J &amp;= \begin{bmatrix} 2 &amp; 2 \\ e^{2} &amp; e^{2} \end{bmatrix} \\
+Jp &amp;= \begin{bmatrix} 2p_{1} + 2p_{2} \\ e^{2}p_{1} + e^{2}p_{2} \end{bmatrix}.\end{split}\]</div>
+<p>The next figure shows a table representing the computational trace for this function using an arbitrary seed. The result is
+precisely the Jacobian-vector product.</p>
+<img alt="_images/jac_prod_seed.PNG" src="_images/jac_prod_seed.PNG" />
+<p>Similarly, the figure below depicts the same table using two arbitrary seeds. Make note of what happens when <span class="math notranslate nohighlight">\(p=(1,0)\)</span>
+and <span class="math notranslate nohighlight">\(q=(0,1)\)</span>.</p>
+<img alt="_images/jac_prod_all_seeds.PNG" src="_images/jac_prod_all_seeds.PNG" />
 </div>
-<div class="section" id="how-efficient-is-forward-mode">
-<h3>How Efficient is Forward Mode?<a class="headerlink" href="#how-efficient-is-forward-mode" title="Permalink to this headline">¶</a></h3>
-<p>From this analysis of what forward mode computes, we see that the efficiency of forward mode depends on the number of input variables.  Thus, forward mode will be less efficient when we have a large number of input variables.</p>
 </div>
 </div>
 <div class="section" id="exercises">
@@ -400,7 +435,8 @@ In this part, you will completely neglect the biases.  The mathematical form is 
 </div>
 <div class="section" id="operation-count-problem">
 <h3>Operation Count Problem<a class="headerlink" href="#operation-count-problem" title="Permalink to this headline">¶</a></h3>
-<p>Count the number of operations required to compute the derivatives in the neural network using forward mode.</p>
+<p>Count the number of operations required to compute the derivatives in the Simple Demo and the Two-Dimensional Demo above. For
+each demo, only keep track of the additions and multiplications.</p>
 </div>
 </div>
 </div>
