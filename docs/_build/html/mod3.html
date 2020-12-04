@@ -35,17 +35,93 @@
             
   <div class="section" id="module-3-the-reverse-mode-of-automatic-differentiation">
 <h1>Module 3: The Reverse Mode of Automatic Differentiation<a class="headerlink" href="#module-3-the-reverse-mode-of-automatic-differentiation" title="Permalink to this headline">¶</a></h1>
-<p>So far we have considered one mode of automatic differentiation, forward mode.  In forward mode, we carried derivatives along as we traversed the graph so that  the graph itself did not need to be explicitly stored in memory.  In reverse mode, we build the graph and store partial derivative information at each node but do not compute the full derivative with the chain rule until the backward pass of the graph.  We will see that this approach can have computational advantages over forward mode and hence is commonly used, most well known in the backpropagation algorithm.</p>
+<p>So far we have considered one mode of automatic differentiation, forward mode.  In forward mode, we carried derivatives along
+as we traversed the graph so that the graph itself did not need to be explicitly stored in memory. In reverse mode, we build
+the graph and store partial derivative information at each node but do not compute the full derivative with the chain rule
+until the backward pass of the graph. We will see that both approaches have computational advantages over each other for
+different types of problems.</p>
 <div class="section" id="the-basics-of-reverse-mode">
 <h2>The Basics of Reverse Mode<a class="headerlink" href="#the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
-<p>As in forward mode, reverse mode still relies on the underlying computational graph structure of functions.  As we will see using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative information is propagated changes.  Recall that in forward mode we passed derivative information forward to store the derivative at each node.</p>
-<p>In reverse mode, instead of storing full derivative information at each node, only the partial derivatives of nodes relative to its children are stored.  For example, if node <span class="math notranslate nohighlight">\(x_3\)</span> has inputs nodes <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>, only the partial derivatives <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_1}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_2}\)</span> are stored.  (Contrast this with forward mode, where for a function with inputs x and y, this node would store <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial y}\)</span>.)</p>
-<p>The reverse mode consists of two passes.  The forward pass first builds the computational graph while storing just the partial derivative information.  The reverse pass then starts at the output node and traverses the graph in the reverse direction to find the full partial derivatives.</p>
-<p>We introduce the bar notation to denote our backward pass tangents, <span class="math notranslate nohighlight">\(\bar{x_i} = \frac{\partial f}{\partial x_i}\)</span>, which are sometimes also called the adjoint variable.  At the final node, <span class="math notranslate nohighlight">\(f = x_N\)</span>, we have <span class="math notranslate nohighlight">\(\bar{x_N} = \frac{\partial f}{\partial x_N} = 1\)</span>.  We then traverse backward through the graph to construct the partial derivative from the chain rule.  <span class="math notranslate nohighlight">\(\bar{x_{N-1}}  = \bar{x_N}\frac{\partial x_N}{\partial x_{N-1}}\)</span>.  Note that the partial derivative is exactly the value that has already been stored by the forward pass of the graph.</p>
-<p>We see that this process is relatively straightforward for nodes with only one child.  When we encounter nodes with multiple children, we must perform a summation over the children, which follows directly from the multivariate chain rule.</p>
+<p>As in forward mode, reverse mode still relies on the underlying computational graph structure of functions. As we will see
+using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative
+information is propagated changes. Recall that in forward mode we passed derivative information forward to store the
+derivative at each node.</p>
+<p>In reverse mode, instead of storing full derivative information at each node, <em>only the partial derivatives of nodes relative
+to its children are stored</em>.  For example, if node <span class="math notranslate nohighlight">\(x_3\)</span> has inputs nodes <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>, only the partial
+derivatives <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_1}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_2}\)</span> are stored. Contrast
+this with forward mode, where for a function with inputs x and y, this node would store <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial
+x}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial y}\)</span> via the chain rule.</p>
+<p>The reverse mode consists of two passes through the graph. The forward pass first builds the computational graph while
+storing just the partial derivative information. The reverse pass then starts at the output node and traverses the graph in
+the reverse direction to find the full partial derivatives.</p>
+<p>The “bar notation” is commonly used to denote our backward pass tangents, <span class="math notranslate nohighlight">\(\bar{x_i} = \frac{\partial f}{\partial
+x_i}\)</span>. These are sometimes also called the adjoint variable.  At the final node in the graph, <span class="math notranslate nohighlight">\(f = x_N\)</span>, we have
+<span class="math notranslate nohighlight">\(\bar{x_N} = \frac{\partial f}{\partial x_N} = 1\)</span>. We then traverse backward through the graph to construct the partial
+derivative from the chain rule. <span class="math notranslate nohighlight">\(\bar{x_{N-1}}  = \bar{x_N}\frac{\partial x_N}{\partial x_{N-1}}\)</span>. Note that the
+partial derivative is exactly the value that has already been stored by the forward pass of the graph.</p>
+<p>This process is relatively straightforward for nodes with only one child. When we encounter nodes with multiple children, we
+must perform a summation over the children, which follows directly from the multivariate chain rule.</p>
 <p>For <span class="math notranslate nohighlight">\(x_i\)</span> with children <span class="math notranslate nohighlight">\(x_j\)</span> and <span class="math notranslate nohighlight">\(x_k\)</span>, we have</p>
 <div class="math notranslate nohighlight">
 \[\bar{x_i} = \bar{x_j}\frac{\partial x_j}{\partial x_i} + \bar{x_k}\frac{\partial x_k}{\partial x_i}.\]</div>
+</div>
+<div class="section" id="summary-sketch-of-reverse-mode">
+<h2>Summary Sketch of Reverse Mode<a class="headerlink" href="#summary-sketch-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Create the evaluation graph</p></li>
+<li><p>The forward pass does function evaluations</p></li>
+<li><dl class="simple">
+<dt>The forward pass also saves the partial derivatives of the elementary function at each step</dt><dd><ul class="simple">
+<li><p><strong>It does not do the chain rule!</strong></p></li>
+<li><p>It only stores the partial derivatives</p></li>
+<li><dl class="simple">
+<dt>Examples:</dt><dd><ul>
+<li><p>If <span class="math notranslate nohighlight">\(v_3 = v_1 v_2\)</span> is a node, then we store <span class="math notranslate nohighlight">\(\dfrac{\partial v_3}{\partial v_1}\)</span> and
+<span class="math notranslate nohighlight">\(\dfrac{\partial v_3}{\partial v_2}\)</span>. That’s it.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(v_3 = \sin(v_2)\)</span> is a node, then we store <span class="math notranslate nohighlight">\(\cos(v_2)\)</span>. Notice that there is no <span class="math notranslate nohighlight">\(\dot{v}_{2}\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>The reverse pass starts with <span class="math notranslate nohighlight">\(\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1\)</span> (since <cite>f</cite> is <span class="math notranslate nohighlight">\(v_{N}\)</span>.</p></li>
+<li><p>Next, the reverse pass gets <span class="math notranslate nohighlight">\(\overline{v}_{N-1} = \dfrac{\partial f}{\partial v_{N}}\dfrac{\partial v_{N}}{\partial
+v_{N-1}}\)</span></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Note:</strong> <span class="math notranslate nohighlight">\(\dfrac{\partial v_{N}}{\partial v_{N-1}}\)</span> is already stored from the forward pass.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>The only trick occurs when we get to a branch in the graph. That is, when the node we’re on has more than one child. In
+that case, we sum the two paths. For example, if v3 has v4 and v5 as children, then we do</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\overline{v}_{3} = \dfrac{\partial f}{\partial v_{3}} = \dfrac{\partial f}{\partial v_{4}}\dfrac{\partial
+v_{4}}{\partial v_{3}} + \dfrac{\partial f}{\partial v_{5}}\dfrac{\partial v_{5}}{\partial v_{3}}\]</div>
+<ul class="simple">
+<li><p><strong>Note:</strong> This summation is a manifestation of the chain rule.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="the-basic-equations">
+<h2>The Basic Equations<a class="headerlink" href="#the-basic-equations" title="Permalink to this headline">¶</a></h2>
+<p>The partial derivative of <cite>f</cite> with respect to <cite>u_i</cite> can be written as (see Nocedal and Wright, pg. 180)</p>
+<div class="math notranslate nohighlight">
+\[\dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
+u_{j}}{\partial u_{i}}}.\]</div>
+<p>At each node <cite>i</cite> we compute</p>
+<div class="math notranslate nohighlight">
+\[\overline{u}_{i} += \dfrac{\partial f}{\partial u_{j}}\dfrac{\partial u_{j}}{\partial u_{i}}.\]</div>
+<p>The <span class="math notranslate nohighlight">\(\overline{u}_{i}\)</span> variable stores the current value of the partial derivative at node <cite>i</cite>. As mentioned
+previously, it is sometimes called the adjoint variable.</p>
+<p>Note that in our notation <span class="math notranslate nohighlight">\(u_{i}\)</span> could be an input variable (e.g. <span class="math notranslate nohighlight">\(x_{i}\)</span>) or an intermediate variable (e.g.
+<span class="math notranslate nohighlight">\(v_{i}\)</span>).</p>
 </div>
 <div class="section" id="practice-with-the-visualization-tool">
 <h2>Practice with the Visualization Tool<a class="headerlink" href="#practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
@@ -365,6 +441,8 @@ Let’s consider the function <span class="math notranslate nohighlight">\(f(w_1
 <li class="toctree-l1"><a class="reference internal" href="mod2.html">Module 2: Deeper Into Forward Mode</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Module 3: The Reverse Mode of Automatic Differentiation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-basics-of-reverse-mode">The Basics of Reverse Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary-sketch-of-reverse-mode">Summary Sketch of Reverse Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-basic-equations">The Basic Equations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#practice-with-the-visualization-tool">Practice with the Visualization Tool</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#more-theory">More Theory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#a-comparison-of-forward-and-reverse-mode">A Comparison of Forward and Reverse Mode</a></li>
