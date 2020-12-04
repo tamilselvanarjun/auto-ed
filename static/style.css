@@ -157,5 +157,6 @@ img {
   }
   .blog-footer p:last-child {
 	margin-bottom: 0;
-	font-size: 14px;
+	color: #989898;
+	font-size: 12px;
   }
