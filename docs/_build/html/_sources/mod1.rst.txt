@@ -6,10 +6,10 @@ Introduction
 
 Differentiation is fundamental to computational science and is important in many applications, including optimization,
 sensitivity analysis, and solving differential equations. To be useful in these applications, derivatives must be computed
-both precisely and efficiently.  **Automatic differentiation**, sometimes also called algorithmic differentiation or
+both precisely and efficiently. **Automatic differentiation**, sometimes also called algorithmic differentiation or
 computational differentiation, can efficiently compute derivatives to machine precision, distinguishing it from both
-numerical differentiation and symbolic differentiation. We will discuss the differences between automatic differentiation and
-numerical and symbolic differentiation.
+numerical differentiation and symbolic differentiation. To kick things off, we will discuss the differences between automatic
+differentiation and numerical and symbolic differentiation.
 
 * Automatic differentiation is not numerical differentiation.
 
@@ -106,6 +106,14 @@ inference. In the rest of this module, we will begin to explore the mechanics of
 
 The Basics of Forward Mode
 --------------------------
+Automatic differentiation is something of a compromise between numerical differentiation and symbolic differentiation.
+Automatic differentiation provides numerical values of the derivatives of a function. These numerical values are correct to
+machine precision and are not influenced by any kind of "step size" like in numerical differentiation. Even though automatic
+differentiation provides derivatives to machine precision, it does not require evaluation of a symbolic derivative. One other
+thing to keep in mind about automatic differentation is that we usually think of it as yielding the derivative of a function
+evaluated at a specific point. This should be borne in mind throughout this unit. We will evaluate a function at a specific
+point and we will automatically get its derivative at that same point.
+
 The major concept underlying automatic differentiation is *the chain rule*. Recall from calculus that the chain rule states
 that to find the derivative of a composition of functions, we multiply a series of derivatives. For illustration, let
 :math:`f(t) = g(h(t))`. We have
