@@ -23,7 +23,7 @@ bibliography: paper.bib
 # Summary
 Most fields of scientific inquiry require the evaluation of derivatives to calculate and optimize quantities of interest.
 Automatic differentiation is a set of techniques that allow the differentiation of computer programs to machine precision
-without requiring full symbolic derivatives [@griewank1989automatic, @baydin2017automatic]. The great success of machine learning algorithms, and neural networks in
+without requiring full symbolic derivatives `[@griewank1989automatic; @baydin2017automatic]`. The great success of machine learning algorithms, and neural networks in
 particular, was partly enabled by the celebrated backpropagation algorithm, which is a special case of automatic
 differentiation. Given the rapidly increasing interest in algorithms that rely on automatic differentiation, and the
 evolution towards differential programming paradigms, it is important that students be taught the basics of this key family
