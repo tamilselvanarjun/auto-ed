@@ -73,6 +73,16 @@ that these known derivatives are coded as part of the function.  We can do this 
 operated on.  This can be done easily in Python by redefining the dunder methods for basic operations (i.e., __add__,
 __radd__, __pow__, __rpow__, etc.) for a class of automatic differentiation objects.</p>
 <p>We can see an example of operator overloading in rewriting addition for a class defined for complex numbers.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Complex</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="c1">#real part</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="c1">#imaginary part</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c1">#overload addition, addition for complex numbers is component-wise</span>
+        <span class="k">return</span> <span class="n">Complex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>In our computational tables, we saw that each node of the graph in foward mode had a function evaluation and a derivative
 component, similar to the dual numbers.  We can use operator overloading to specify how the different elementary operations
 and functions act on these two components to produce a new node with a function evaluation and derivative.</p>
@@ -88,21 +98,31 @@ and functions act on these two components to produce a new node with a function 
 <p>Write a forward mode automatic differentiation class capable of handling functions composed of addition and multiplication
 operations.  The class AutoDiffToy should return the value and derivative of functions of the form <span class="math notranslate nohighlight">\(f(x)=\alpha
 x+\beta\)</span> for <span class="math notranslate nohighlight">\(\alpha , \beta\)</span> real constants.</p>
-<p>Some thoughts on implementation:
-* The constructor should set the value of the function and the derivative.  This is similar to the first row in the</p>
-<blockquote>
-<div><p>computational tables.</p>
-</div></blockquote>
+<p>Some thoughts on implementation:</p>
 <ul class="simple">
+<li><p>The constructor should set the value of the function and the derivative.  This is similar to the first row in the
+computational tables.</p></li>
 <li><p>Overload operations as appropriate.  Note that Python’s __add__(self, other) and __mul__(self, other) methods are meant to
 be defined for objects of the same type, so your implementation should not assume that other is a real number but be robust
 enough to handle the case where it is.</p></li>
 <li><p>Handle exceptions appropriately.  You may want to use duck-typing, where ratehr than checking if an argument to a special
 method is an instance of the object, you instead use a try-except blcok and catch an AttributeError.</p></li>
-<li><p>Make your implementation robust encough to handle functions written as <span class="math notranslate nohighlight">\(f = alpha*x+beta, f=x*alpha+beta,
-f=beta+alpha*x, f=beta+x*alpha\)</span>.</p></li>
+<li><p>Make your implementation robust encough to handle functions written as <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">alpha*x+beta,</span> <span class="pre">f=x*alpha+beta,</span>
+<span class="pre">f=beta+alpha*x,</span> <span class="pre">f=beta+x*alpha</span></code>.</p></li>
 </ul>
 <p>Example Use Case:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="c1">#value to evaluate at</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">alpha</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">beta</span> <span class="c1">#define function</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">7.0</span> <span class="mf">2.0</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>

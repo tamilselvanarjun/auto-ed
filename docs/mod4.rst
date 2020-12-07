@@ -51,7 +51,7 @@ __radd__, __pow__, __rpow__, etc.) for a class of automatic differentiation obje
 
 We can see an example of operator overloading in rewriting addition for a class defined for complex numbers.
 
-.. highlight::
+.. code-block:: py
 
         class Complex():
             def __init__(self, a, b):
@@ -79,6 +79,7 @@ operations.  The class AutoDiffToy should return the value and derivative of fun
 x+\beta` for :math:`\alpha , \beta` real constants.
 
 Some thoughts on implementation:
+
 * The constructor should set the value of the function and the derivative.  This is similar to the first row in the
   computational tables.
 * Overload operations as appropriate.  Note that Python's __add__(self, other) and __mul__(self, other) methods are meant to
@@ -86,12 +87,12 @@ Some thoughts on implementation:
   enough to handle the case where it is.
 * Handle exceptions appropriately.  You may want to use duck-typing, where ratehr than checking if an argument to a special
   method is an instance of the object, you instead use a try-except blcok and catch an AttributeError.
-* Make your implementation robust encough to handle functions written as :math:`f = alpha*x+beta, f=x*alpha+beta,
-  f=beta+alpha*x, f=beta+x*alpha`.
+* Make your implementation robust encough to handle functions written as ``f = alpha*x+beta, f=x*alpha+beta,
+  f=beta+alpha*x, f=beta+x*alpha``.
 
 Example Use Case:
 
-.. highlight::
+.. code-block:: py
 
         a = 2.0 #value to evaluate at
         x = AutoDiffToy(a)
