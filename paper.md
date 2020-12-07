@@ -23,14 +23,15 @@ bibliography: paper.bib
 # Summary
 Most fields of scientific inquiry require the evaluation of derivatives to calculate and optimize quantities of interest.
 Automatic differentiation is a set of techniques that allow the differentiation of computer programs to machine precision
-without requiring full symbolic derivatives. The great success of machine learning algorithms, and neural networks in
+without requiring full symbolic derivatives [@griewank1989automatic, @baydin2017automatic]. The great success of machine learning algorithms, and neural networks in
 particular, was partly enabled by the celebrated backpropagation algorithm, which is a special case of automatic
 differentiation. Given the rapidly increasing interest in algorithms that rely on automatic differentiation, and the
 evolution towards differential programming paradigms, it is important that students be taught the basics of this key family
-of algorithms. 
-<!--Recent research has shown the growing power of machine learning to analyze data, build models, and predict outcomes,
-particularly through the use of neural networks.  Automatic differentiation is the basic concept underlying the
-backpropagation algorithm, typically employed to fit these neural networks.  However, automatic differentiation is not
+of algorithms.
+
+<!--Recent research has shown the growing power of machine learning to analyze data, build models, and
+predict outcomes, particularly through the use of neural networks.  Automatic differentiation is the basic concept underlying
+the backpropagation algorithm, typically employed to fit these neural networks.  However, automatic differentiation is not
 limited to this application but is a powerful computational tool for a range of applications, making it important for
 students to understand the basics of automatic differentiation.-->
 
@@ -69,18 +70,20 @@ For more advanced users and developers interested in further modifications of th
 cloned. Full details for use of the package outside of the web app are available in the Developer Documentation Jupyter
 notebook.
 
-For users interested in learning more about the underlying theory of automatic differentiation, the software is complemented by an accompanying automatic differentiation unit.
+For users interested in learning more about the underlying theory of automatic differentiation, the software is complemented
+by an accompanying automatic differentiation unit.
 
 ## Accompanying Automatic Differentiation Unit
-This software package is accompanied by a series of modules available on [Read the Docs](https://auto-ed.readthedocs.io/en/latest) to help students
-understand the theory behind automatic differentiation that is performed and visualized by the package. In the first module,
-we motivate the need for automatic differentiation as opposed to numeric or symbolic differentiation and introduce the basics
-of forward mode for a single input single output function. In the second module, we expand on the first modeule to include
-more of the theory underlying the forward mode, including a consideration of multiple input variables. The third module
-introduces the reverse mode of automatic differentiation and connects it to the famous backpropagation algorithm. The fourth
-module concludes with a series of possible extensions and a discussion of how automatic differentiation might be performed in
-software. The fourth module has been used to help students focus their final software development project. Each module is
-accompanied by a series of exercises.
+This software package is accompanied by a series of modules available on [Read the
+Docs](https://auto-ed.readthedocs.io/en/latest) to help students understand the theory behind automatic differentiation that
+is performed and visualized by the package. In the first module, we motivate the need for automatic differentiation as
+opposed to numeric or symbolic differentiation and introduce the basics of forward mode for a single input single output
+function. In the second module, we expand on the first modeule to include more of the theory underlying the forward mode,
+including a consideration of multiple input variables. The third module introduces the reverse mode of automatic
+differentiation and connects it to the famous backpropagation algorithm. The fourth module concludes with a series of
+possible extensions and a discussion of how automatic differentiation might be performed in software. The fourth module has
+been used to help students focus their final software development project. Each module is accompanied by a series of
+exercises.
 
 ## Experience of Use
 A similar structure of course modules has been used to teach these concepts in the CS207 class at the Institute for Applied
@@ -97,6 +100,7 @@ Upon completion of this unit, students should be able to:
 
 
 # Acknowledgements
-The authors thank Xinyue Wang and Kevin Yoon, who contributed to the original code base developed for forward mode for the Harvard CS 207 course project in Fall 2018.
+The authors thank Xinyue Wang and Kevin Yoon, who contributed to the original code base developed for forward mode for the
+Harvard CS 207 course project in Fall 2018.
 
 # References
