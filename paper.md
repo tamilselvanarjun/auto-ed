@@ -23,11 +23,11 @@ bibliography: paper.bib
 # Summary
 Most fields of scientific inquiry require the evaluation of derivatives to calculate and optimize quantities of interest.
 Automatic differentiation is a set of techniques that allow the differentiation of computer programs to machine precision
-without requiring full symbolic derivatives [@griewank1989automatic; @baydin2017automatic]. The great success of machine learning algorithms, and neural networks in
-particular, was partly enabled by the celebrated backpropagation algorithm, which is a special case of automatic
-differentiation. Given the rapidly increasing interest in algorithms that rely on automatic differentiation, and the
-evolution towards differential programming paradigms, it is important that students be taught the basics of this key family
-of algorithms.
+without requiring full symbolic derivatives [@griewank1989automatic; @baydin2017automatic]. The great success of machine
+learning algorithms, and neural networks in particular, was partly enabled by the celebrated backpropagation algorithm
+[@werbos1990backpropagation], which is a special case of automatic differentiation. Given the rapidly increasing interest in
+algorithms that rely on automatic differentiation, and the evolution towards differential programming paradigms
+[@innes2019differentiable], it is important that students be taught the basics of this key family of algorithms.
 
 <!--Recent research has shown the growing power of machine learning to analyze data, build models, and
 predict outcomes, particularly through the use of neural networks.  Automatic differentiation is the basic concept underlying
@@ -36,19 +36,20 @@ limited to this application but is a powerful computational tool for a range of 
 students to understand the basics of automatic differentiation.-->
 
 Automatic differentiation is a method of computing derivatives to machine precision based on the decomposition of functions
-into a series of elementary operations. These operations can be conceptualized as forming a graph structure, which allows us
-to perform automatic differentiation in either the forward or reverse mode, depending on the direction of the traversal of
-the graph. The goal of `Auto-eD` software and the accompanying lecture modules is to enhance students' understanding of
-automatic differentiation by helping them to visualize the underlying graph structure of the computations.
+into a series of elementary operations. These operations can be conceptualized as forming a graph structure. This graph can
+be traversed in the forward or reverse direction, giving rise to the two primary modes in automatic differentiation. The goal
+of the `Auto-eD` software and the accompanying lecture modules is to enhance students' understanding of automatic
+differentiation by helping them to visualize the underlying graph structure of the computations.
 
 # Statement of Need
 While most students encountering automatic differentiation will be familiar with the chain rule from multivariable calculus,
 far fewer students understand how to relate the chain rule to methods for computing derivatives in software. The fundamental
 step to this understanding is the ability to decompose a function into elementary operations and traverse the resulting graph
 structure. The `Auto-eD` software and lecture modules provide a framework for educators to help teach students how to relate
-functions to an underlying graph and use that graph to compute derivatives. As a result, students gain a better understanding
-of the process of automatic differentiation and hence are better equipped to understand its use in a wide range of
-applications.
+functions to an underlying graph and use that graph to compute derivatives. Using `Auto-eD`, students are able to visualize
+the forward and reverse graph and an accompanying computational trace table. As a result, students gain a better
+understanding of the process of automatic differentiation and hence are better equipped to understand its use in a wide range
+of applications.
 
 # Content
 The content available in the [Auto-eD package](https://github.com/lindseysbrown/Auto-eD) contains a software package capable
@@ -57,14 +58,17 @@ the `Auto-eD` package content contains a learning unit for teaching automatic di
 web application based on this software.
 
 ## Auto-eD Visualization Software
-The code available in the modules `ADnum.py`, `ADmath.py`, and `ADgraph.py` allows a user to perform automatic
-differentiation while visualizing the underlying graphs and computations. These modules provide the functionality to
-visualize the graphs underlying forward and reverse mode as well as dynamically visualize the traceback of reverse mode
-through the graph. 
+The `Auto-eD` package can be accessed using two different methods. For students more familiar with Python and coding, the
+code available in the modules `ADnum.py`, `ADmath.py`, and `ADgraph.py` allows a user to perform automatic differentiation
+while visualizing the underlying graphs and computations. These modules provide the functionality to visualize the graphs
+underlying forward and reverse mode as well as dynamically visualize the traceback of reverse mode through the graph. Each of
+these scripts can be run from the command line. The resulting graphs and tables can be resized for enhanced interactivity.
 
-For ease of instructional use for students less familiar with Python and coding, this resource is available as a [web
-application](https://autoed.herokuapp.com). Alternatively, the code can be downloaded from Github and run locally by cloning
-the repo and launching `ADapp.py` CHECK FINAL NAMES.
+For ease of instructional use for students less familiar with Python and coding, `Auto-eD` is available as a [web
+application](https://autoed.herokuapp.com). If the web application is slow to load, it can alternative be run locally by
+downloading the code from Github and launching `ADapp.py` from the command line. To make sure this final option is still
+accessible to students with limiting coding experience, the code documentation provides detailed steps on how to launch
+locally. CHECK FINAL NAMES.
 
 For more advanced users and developers interested in further modifications of the package, the Github repository can also be
 cloned. Full details for use of the package outside of the web app are available in the Developer Documentation Jupyter
@@ -76,20 +80,22 @@ by an accompanying automatic differentiation unit.
 ## Accompanying Automatic Differentiation Unit
 This software package is accompanied by a series of modules available on [Read the
 Docs](https://auto-ed.readthedocs.io/en/latest) to help students understand the theory behind automatic differentiation that
-is performed and visualized by the package. In the first module, we motivate the need for automatic differentiation as
-opposed to numeric or symbolic differentiation and introduce the basics of forward mode for a single input single output
+is performed and visualized by the package. In the first module, we motivate the need for automatic differentiation, contrast
+it with numeric and symbolic differentiation, and introduce the basics of forward mode for a single input single output
 function. In the second module, we expand on the first modeule to include more of the theory underlying the forward mode,
-including a consideration of multiple input variables. The third module introduces the reverse mode of automatic
+including a consideration of multiple input variables. We also emphasize the computational table and the graph structure in
+more detail. Manual exercises are complemented with `Auto-e`. The third module introduces the reverse mode of automatic
 differentiation and connects it to the famous backpropagation algorithm. The fourth module concludes with a series of
 possible extensions and a discussion of how automatic differentiation might be performed in software. The fourth module has
 been used to help students focus their final software development project. Each module is accompanied by a series of
 exercises.
 
 ## Experience of Use
-A similar structure of course modules has been used to teach these concepts in the CS207 class at the Institute for Applied
-Computational Science at Harvard since Fall 2018. In Fall 2019, the course introduced a GUI based on portions of this
-software to help students with the graph visualization, which received positive feedback from students taking the course.
-This GUI has since been refactored for the web interface, making it more accessible across different operating systems.
+A similar structure of course modules has been used to teach these concepts in the CS107/CS207/AC207 class at the Institute
+for Applied Computational Science at Harvard since Fall 2018. In Fall 2019, the course introduced a GUI based on portions of
+this software to help students with the graph visualization, which received positive feedback from students taking the
+course.  This GUI has since been refactored for the web interface, making it more accessible across different operating
+systems.
 
 ## Learning Objectives
 Upon completion of this unit, students should be able to:
@@ -101,6 +107,6 @@ Upon completion of this unit, students should be able to:
 
 # Acknowledgements
 The authors thank Xinyue Wang and Kevin Yoon, who contributed to the original code base developed for forward mode for the
-Harvard CS 207 course project in Fall 2018.
+Harvard CS207 course project in Fall 2018.
 
 # References
