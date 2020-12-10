@@ -69,7 +69,7 @@ in both forward and reverse mode alongside the computational table.  This makes 
 the table and the graph as well as compare the differences in graph traversal of the forward and reverse mode.  An example output
 from the web application is below.
 
-[AutoEdDemo.PNG]
+[demo](AutoEdDemo.PNG)
 
 
 For ease of instructional use for students less familiar with Python and coding, `Auto-eD` is available as a [web
@@ -118,3 +118,4 @@ The authors thank Xinyue Wang and Kevin Yoon, who contributed to the original co
 Harvard CS207 course project in Fall 2018.
 
 # References
+(LSB: should these be compiling?)
