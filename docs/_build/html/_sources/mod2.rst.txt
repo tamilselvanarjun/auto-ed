@@ -155,40 +155,40 @@ node in the table is the output of an elmentary function, whose derivative we ca
           - :math:`\frac{\pi}{16}`
           - 1
           - 1
-        * - :math:`x_2`
+        * - :math:`v_1`
           - :math:`4x_1`
           - :math:`\frac{\pi}{4}`
           - :math:`4\dot{x_1}`
           - 4
-        * - :math:`x_3`
-          - :math:`\sin(x_2)`
+        * - :math:`v_2`
+          - :math:`\sin(v_1)`
           - :math:`\frac{\sqrt{2}}{2}`
-          - :math:`\cos(x_2)\dot{x_2}`
+          - :math:`\cos(v_1)\dot{v_1}`
           - :math:`2\sqrt{2}`
-        * - :math:`x_4`
-          - :math:`x_3^2`
+        * - :math:`v_3`
+          - :math:`v_2^2`
           - :math:`\frac{1}{2}`
-          - :math:`2x_3\dot{x_3}`
+          - :math:`2v_2\dot{v_2}`
           - 4
-        * - :math:`x_5`
-          - :math:`-2x_4`
+        * - :math:`v_4`
+          - :math:`-2v_3`
           - 1
-          - :math:`-2\dot{x_4}`
+          - :math:`-2\dot{v_3}`
           - -8
-        * - :math:`x_6`
-          - :math:`exp(x_5)`
+        * - :math:`v_5`
+          - :math:`exp(v_4)`
           - :math:`\frac{1}{e}`
-          - :math:`exp(x_5)\dot{x_5}`
+          - :math:`exp(v_4)\dot{v_4}`
           - :math:`\frac{-8}{e}`
-        * - :math:`x_7`
-          - :math:`-x_6`
+        * - :math:`v_6`
+          - :math:`-v_5`
           - :math:`\frac{-1}{e}`
-          - :math:`-\dot{x_6}`
+          - :math:`-\dot{v_5}`
           - :math:`\frac{8}{e}`
-        * - :math:`x_8`
-          - :math:`x_1 + x_7`
+        * - :math:`v_7`
+          - :math:`x_1 + v_6`
           - :math:`\frac{\pi}{16}-\frac{1}{e}`
-          - :math:`\dot{x_1}+\dot{x_7}`
+          - :math:`\dot{x_1}+\dot{v_6}`
           - :math:`1+\frac{8}{e}`
         
           
