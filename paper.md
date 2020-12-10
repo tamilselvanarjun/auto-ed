@@ -61,30 +61,38 @@ web application based on this software.
 The `Auto-eD` package can be accessed using two different methods. For students more familiar with Python and coding, the
 code available in the modules `ADnum.py`, `ADmath.py`, and `ADgraph.py` allows a user to perform automatic differentiation
 while visualizing the underlying graphs and computations. These modules provide the functionality to visualize the graphs
-underlying forward and reverse mode as well as dynamically visualize the traceback of reverse mode through the graph. Each of
-these scripts can be run from the command line. The resulting graphs and tables can be resized for enhanced interactivity.
+underlying forward and reverse mode (LSB: not sure this section is still accurate: as well as dynamically visualize the traceback of reverse mode through the graph. Each of
+these scripts can be run from the command line. The resulting graphs and tables can be resized for enhanced interactivity.)
+
+(LSB: new) This software and associated web application are valuable pedagogical tools because they allow students to view the computational graph 
+in both forward and reverse mode alongside the computational table.  This makes it easy for students to relate 
+the table and the graph as well as compare the differences in graph traversal of the forward and reverse mode.  An example output
+from the web application is below.
+
+[AutoEdDemo.PNG]
+
 
 For ease of instructional use for students less familiar with Python and coding, `Auto-eD` is available as a [web
-application](https://autoed.herokuapp.com). If the web application is slow to load, it can alternative be run locally by
+application](https://autoed.herokuapp.com). If the web application is slow to load, it can alternatively be run locally by
 downloading the code from Github and launching `ADapp.py` from the command line. To make sure this final option is still
-accessible to students with limiting coding experience, the code documentation provides detailed steps on how to launch
-locally. CHECK FINAL NAMES.
+accessible to students with limited coding experience, the code documentation, contained in `DeveloperDocumentation.ipynb` provides detailed steps on how to launch
+locally.
 
 For more advanced users and developers interested in further modifications of the package, the Github repository can also be
-cloned. Full details for use of the package outside of the web app are available in the Developer Documentation Jupyter
-notebook.
+cloned. Full details for use of the package outside of the web app are also available in `DeveloperDocumentation.ipynb`.
+
 
 For users interested in learning more about the underlying theory of automatic differentiation, the software is complemented
 by an accompanying automatic differentiation unit.
 
 ## Accompanying Automatic Differentiation Unit
-This software package is accompanied by a series of modules available on [Read the
+This software package is accompanied by a series of learning modules available on [Read the
 Docs](https://auto-ed.readthedocs.io/en/latest) to help students understand the theory behind automatic differentiation that
 is performed and visualized by the package. In the first module, we motivate the need for automatic differentiation, contrast
 it with numeric and symbolic differentiation, and introduce the basics of forward mode for a single input single output
 function. In the second module, we expand on the first modeule to include more of the theory underlying the forward mode,
 including a consideration of multiple input variables. We also emphasize the computational table and the graph structure in
-more detail. Manual exercises are complemented with `Auto-e`. The third module introduces the reverse mode of automatic
+more detail. Manual exercises are complemented with the `Auto-eD` web application. The third module introduces the reverse mode of automatic
 differentiation and connects it to the famous backpropagation algorithm. The fourth module concludes with a series of
 possible extensions and a discussion of how automatic differentiation might be performed in software. The fourth module has
 been used to help students focus their final software development project. Each module is accompanied by a series of
@@ -102,7 +110,7 @@ Upon completion of this unit, students should be able to:
 - Explain why automatic differentiation is a valuable computational tool
 - Decompose a function into a series of elementary operations and write out the associated graph structure
 - Perform automatic differentiation for functions of single and multiple variables in the forward and reverse mode
-- Start thinking about how to implement the forward mode of automatic differentiation
+- Start thinking about how to implement the forward mode of automatic differentiation in software
 
 
 # Acknowledgements
