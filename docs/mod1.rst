@@ -111,7 +111,7 @@ Automatic differentiation provides numerical values of the derivatives of a func
 machine precision and are not influenced by any kind of "step size" like in numerical differentiation. Even though automatic
 differentiation provides derivatives to machine precision, it does not require evaluation of a symbolic derivative. One other
 thing to keep in mind about automatic differentation is that we usually think of it as yielding the derivative of a function
-evaluated at a specific point. This should be borne in mind throughout this unit. We will evaluate a function at a specific
+evaluated at a specific point. This should be borne in mind throughout this module. We will evaluate a function at a specific
 point and we will automatically get its derivative at that same point.
 
 The major concept underlying automatic differentiation is *the chain rule*. Recall from calculus that the chain rule states
@@ -161,11 +161,11 @@ Auto-eD is open source. You are free to check out the code and even contribute i
 to modify and contribute to the code, you may choose to clone the Github repo to have direct access to the code for the web
 app and access to the underlying package. From the terminal,
 
-1. Clone the repo: git clone https:github.com/lindseysbrown/Auto-eD
+1. Clone the repo:: git clone https:github.com/lindseysbrown/Auto-eD
 
-2. Install the dependencies: pip install -r requirements.txt
+2. Install the dependencies:: pip install -r requirements.txt
 
-3. Launch the web app from the terminal: python ADappHeroku.py
+3. Launch the web app from the terminal:: python ADapp.py
 
 4. Go to the local host in your browser to use the tool
 
@@ -274,4 +274,4 @@ We can use the same process to compute derivatives for functions of multiple inp
         f(x,y)=\exp(-(\sin(x)-\cos(y))^2)
 
 Practice drawing the computational graph for this function using the visualization tool. We'll discuss the theory behind
-functions of multiple inputs in the next unit.
+functions of multiple inputs in the next module.
