@@ -176,7 +176,7 @@ app and access to the underlying package. From the terminal,
 :: 
         python ADapp.py
 
-4. Go to the local host in your browser to use the tool.
+4. Visit http://0.0.0.0:5000 to use the tool with your local server.
 
 We welcome improvements and contributions! You can find more details about the underlying package in the DeveloperDocumentation jupyter notebook.  If you would like to contribute to this project, please follow these steps:
 
