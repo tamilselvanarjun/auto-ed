@@ -1,1 +1,1 @@
-web: gunicorn ADappHeroku:app
+web: gunicorn ADapp:app
