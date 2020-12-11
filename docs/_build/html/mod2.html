@@ -1,30 +1,19 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Module 2: Deeper Into Forward Mode &#8212; Auto-eD  documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Module 3: The Reverse Mode of Automatic Differentiation" href="mod3.html" />
@@ -35,13 +24,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-2-deeper-into-forward-mode">
@@ -57,34 +47,34 @@ computation as a series of elementary traces.</p>
 <h2>The Computational Trace and Practice with the Visualization Tool<a class="headerlink" href="#the-computational-trace-and-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
 <p>At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule,
 we compute the derivative at a particular node from the elementary operation that created that node and the value and
-derivative of the input node to that elementary operation.  We&#8217;ll return to our example from the first demo in a moment. For
-now, let&#8217;s work with a simpler function so we can see example how everything works out.</p>
+derivative of the input node to that elementary operation.  We’ll return to our example from the first demo in a moment. For
+now, let’s work with a simpler function so we can see example how everything works out.</p>
 <div class="section" id="a-basic-example">
 <h3>A Basic Example<a class="headerlink" href="#a-basic-example" title="Permalink to this headline">¶</a></h3>
 <p>We worked with a fairly involved function in module 1. Now we want to understand how the graph is created an how derivatives
 are really computed using automatic differentiation. A very friendly function to start with is,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[f(x) = \sin(2x)\]</div>
 <div class="section" id="evaluating-the-function">
 <h4>Evaluating the Function<a class="headerlink" href="#evaluating-the-function" title="Permalink to this headline">¶</a></h4>
-<p>We want to evaluate <span class="math">\(f(x)\)</span> at a specific point. We will choose the point <cite>a=2</cite>. Throughout this documentation, we will
+<p>We want to evaluate <span class="math notranslate nohighlight">\(f(x)\)</span> at a specific point. We will choose the point <cite>a=2</cite>. Throughout this documentation, we will
 refer to a specific point with the name <cite>a</cite>. It should be assumed that <cite>a</cite> has a specific value (e.g. <cite>2</cite>). How do we
 evaluate this function?</p>
 <ol class="arabic simple">
 <li>Replace <cite>x</cite> with the value <cite>2</cite>.</li>
-<li>Multiply: <span class="math">\(2\times 2 = 4\)</span>.</li>
-<li>Apply the sine function: <span class="math">\(\sin(4)\)</span></li>
-<li>Return the value of f: <span class="math">\(f = \sin(4)\)</span>.</li>
+<li>Multiply: <span class="math notranslate nohighlight">\(2\times 2 = 4\)</span>.</li>
+<li>Apply the sine function: <span class="math notranslate nohighlight">\(\sin(4)\)</span></li>
+<li>Return the value of f: <span class="math notranslate nohighlight">\(f = \sin(4)\)</span>.</li>
 </ol>
 </div>
 <div class="section" id="visualizing-the-evaluation">
 <h4>Visualizing the Evaluation<a class="headerlink" href="#visualizing-the-evaluation" title="Permalink to this headline">¶</a></h4>
 <p>We can visualize this evaluation in a graph. Each node of the graph will represent a stage in evaluation of the function. The
 nodes are connected together with edges. The parent value of a given node is the input to that node. The input to the entire
-function will be dentoed by <span class="math">\(x_{0}\)</span>. Intermediate values will be denoted by <span class="math">\(v_{i}\)</span>. The evaluation graph of our
+function will be dentoed by <span class="math notranslate nohighlight">\(x_{0}\)</span>. Intermediate values will be denoted by <span class="math notranslate nohighlight">\(v_{i}\)</span>. The evaluation graph of our
 simple function is show in the figure below.</p>
 <img alt="_images/simple_graph.PNG" src="_images/simple_graph.PNG" />
-<p>We can convert this graph picture into a trace table, which &#8220;traces&#8221; out the computational steps. The trace table for this
+<p>We can convert this graph picture into a trace table, which “traces” out the computational steps. The trace table for this
 function is shown in the following table.</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
@@ -99,28 +89,28 @@ function is shown in the following table.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><span class="math">\(x_1\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(x_1\)</span></td>
 <td>x, input</td>
-<td><span class="math">\(2\)</span></td>
+<td><span class="math notranslate nohighlight">\(2\)</span></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(v_1\)</span></td>
-<td><span class="math">\(2x_1\)</span></td>
-<td><span class="math">\(4\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(v_1\)</span></td>
+<td><span class="math notranslate nohighlight">\(2x_1\)</span></td>
+<td><span class="math notranslate nohighlight">\(4\)</span></td>
 </tr>
-<tr class="row-even"><td><span class="math">\(v_2\)</span></td>
-<td><span class="math">\(\sin(v_1)\)</span></td>
-<td><span class="math">\(\sin(4)\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(v_2\)</span></td>
+<td><span class="math notranslate nohighlight">\(\sin(v_1)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\sin(4)\)</span></td>
 </tr>
 </tbody>
 </table>
 <p>This table makes a connection between the evaluation that we normally do and the graph that we used to help us visualize the
 function evaluation. So far there is nothing much new. These calculations are done almost automatically by our brains and by
-the computer. All we&#8217;ve done so far is laid things out more algorithmically.</p>
+the computer. All we’ve done so far is laid things out more algorithmically.</p>
 </div>
 <div class="section" id="introducing-derivatives">
 <h4>Introducing Derivatives<a class="headerlink" href="#introducing-derivatives" title="Permalink to this headline">¶</a></h4>
-<p>Let&#8217;s add one more wrinkle. We can actually compute the derivatives as we go along at each step. The way we do this is by
-applying the chain rule at each step. We&#8217;ll had two more columns to the table. The first new column will represent the
+<p>Let’s add one more wrinkle. We can actually compute the derivatives as we go along at each step. The way we do this is by
+applying the chain rule at each step. We’ll had two more columns to the table. The first new column will represent the
 elementary function derivative at that step. The second new column will represent the value of the derivative at that step.</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
@@ -139,38 +129,38 @@ elementary function derivative at that step. The second new column will represen
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><span class="math">\(x_1\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(x_1\)</span></td>
 <td>x, input</td>
-<td><span class="math">\(2\)</span></td>
-<td><span class="math">\(1\)</span></td>
-<td><span class="math">\(1\)</span></td>
+<td><span class="math notranslate nohighlight">\(2\)</span></td>
+<td><span class="math notranslate nohighlight">\(1\)</span></td>
+<td><span class="math notranslate nohighlight">\(1\)</span></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(v_1\)</span></td>
-<td><span class="math">\(2x_1\)</span></td>
-<td><span class="math">\(4\)</span></td>
-<td><span class="math">\(2\dot{x}_1\)</span></td>
-<td><span class="math">\(2\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(v_1\)</span></td>
+<td><span class="math notranslate nohighlight">\(2x_1\)</span></td>
+<td><span class="math notranslate nohighlight">\(4\)</span></td>
+<td><span class="math notranslate nohighlight">\(2\dot{x}_1\)</span></td>
+<td><span class="math notranslate nohighlight">\(2\)</span></td>
 </tr>
-<tr class="row-even"><td><span class="math">\(v_2\)</span></td>
-<td><span class="math">\(\sin(v_1)\)</span></td>
-<td><span class="math">\(\sin(4)\)</span></td>
-<td><span class="math">\(\cos(v_1)\dot{v}_{1}\)</span></td>
-<td><span class="math">\(\cos(4)\cdot 2\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(v_2\)</span></td>
+<td><span class="math notranslate nohighlight">\(\sin(v_1)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\sin(4)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\cos(v_1)\dot{v}_{1}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\cos(4)\cdot 2\)</span></td>
 </tr>
 </tbody>
 </table>
 <p>The first thing to observe is that the derivative value of the output is precisely what we would expect it to be. The
-derivative of our function is <span class="math">\(f^{\prime} = 2\cos(2x)\)</span>. Evaluated at our chosen point, this is <span class="math">\(f^{\prime} =
+derivative of our function is <span class="math notranslate nohighlight">\(f^{\prime} = 2\cos(2x)\)</span>. Evaluated at our chosen point, this is <span class="math notranslate nohighlight">\(f^{\prime} =
 2\cos(4)\)</span>. So whatever we did in the table seems to have worked.</p>
 <p>We introduced some new notation: we denoted a derivative with the overdot notation. This is the common notation in
-forward mode. Therefore, the derivative of <span class="math">\(2x_{1}\)</span> is simply <span class="math">\(2\dot{x}_{1}\)</span>. The dot should be interpreted as a
-derivative with respect to the independent variable. In the 1D case that we&#8217;re doing here, the dot means a derivative with
+forward mode. Therefore, the derivative of <span class="math notranslate nohighlight">\(2x_{1}\)</span> is simply <span class="math notranslate nohighlight">\(2\dot{x}_{1}\)</span>. The dot should be interpreted as a
+derivative with respect to the independent variable. In the 1D case that we’re doing here, the dot means a derivative with
 respect to <cite>x</cite>.</p>
-<p>We used the chain rule at each step. This is most apparent in the last step where we took the derivative of <span class="math">\(v_{2}\)</span> to get
-<span class="math">\(\dot{v}_{2}\)</span>, which is just <span class="math">\(f^{\prime}\)</span> in this case.</p>
+<p>We used the chain rule at each step. This is most apparent in the last step where we took the derivative of <span class="math notranslate nohighlight">\(v_{2}\)</span> to get
+<span class="math notranslate nohighlight">\(\dot{v}_{2}\)</span>, which is just <span class="math notranslate nohighlight">\(f^{\prime}\)</span> in this case.</p>
 <p>Finally, there is something interesting about how we set the initial derivative in the first step. What we have done is
-&#8220;seeded&#8221; the derivative. Intuitively, it may help to think that in the first step we are taking the derivative of the input
-with respect to itself. Since <span class="math">\(dx/dx=1\)</span>, the derivative in the first step should just be one. However, we will see
+“seeded” the derivative. Intuitively, it may help to think that in the first step we are taking the derivative of the input
+with respect to itself. Since <span class="math notranslate nohighlight">\(dx/dx=1\)</span>, the derivative in the first step should just be one. However, we will see
 later that this is actually not necessary. If we want to get the true derivative, then it is good to seed the derivative in
 this way. However, automatic differentiation is more powerful than this and choosing different seed values can give valuable
 information. Stay tuned.</p>
@@ -185,9 +175,9 @@ the previous node feed <em>forward</em> to the next node.</p>
 <div class="section" id="the-original-demo">
 <h3>The Original Demo<a class="headerlink" href="#the-original-demo" title="Permalink to this headline">¶</a></h3>
 <p>Now we return to the original demo from the first module.</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[f(x) = x - \exp(-2\sin^2(4x))\]</div>
-<p>In module 1, we formed the corresponding computational graph. Now let&#8217;s use that graph to write the computational table. Each
+<p>In module 1, we formed the corresponding computational graph. Now let’s use that graph to write the computational table. Each
 node in the table is the output of an elmentary function, whose derivative we can compute explicitly.</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
@@ -206,53 +196,53 @@ node in the table is the output of an elmentary function, whose derivative we ca
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><span class="math">\(x_1\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(x_1\)</span></td>
 <td>x, input</td>
-<td><span class="math">\(\frac{\pi}{16}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{\pi}{16}\)</span></td>
 <td>1</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(v_1\)</span></td>
-<td><span class="math">\(4x_1\)</span></td>
-<td><span class="math">\(\frac{\pi}{4}\)</span></td>
-<td><span class="math">\(4\dot{x_1}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(v_1\)</span></td>
+<td><span class="math notranslate nohighlight">\(4x_1\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{\pi}{4}\)</span></td>
+<td><span class="math notranslate nohighlight">\(4\dot{x_1}\)</span></td>
 <td>4</td>
 </tr>
-<tr class="row-even"><td><span class="math">\(v_2\)</span></td>
-<td><span class="math">\(\sin(v_1)\)</span></td>
-<td><span class="math">\(\frac{\sqrt{2}}{2}\)</span></td>
-<td><span class="math">\(\cos(v_1)\dot{v_1}\)</span></td>
-<td><span class="math">\(2\sqrt{2}\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(v_2\)</span></td>
+<td><span class="math notranslate nohighlight">\(\sin(v_1)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{\sqrt{2}}{2}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\cos(v_1)\dot{v_1}\)</span></td>
+<td><span class="math notranslate nohighlight">\(2\sqrt{2}\)</span></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(v_3\)</span></td>
-<td><span class="math">\(v_2^2\)</span></td>
-<td><span class="math">\(\frac{1}{2}\)</span></td>
-<td><span class="math">\(2v_2\dot{v_2}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(v_3\)</span></td>
+<td><span class="math notranslate nohighlight">\(v_2^2\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{1}{2}\)</span></td>
+<td><span class="math notranslate nohighlight">\(2v_2\dot{v_2}\)</span></td>
 <td>4</td>
 </tr>
-<tr class="row-even"><td><span class="math">\(v_4\)</span></td>
-<td><span class="math">\(-2v_3\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(v_4\)</span></td>
+<td><span class="math notranslate nohighlight">\(-2v_3\)</span></td>
 <td>1</td>
-<td><span class="math">\(-2\dot{v_3}\)</span></td>
+<td><span class="math notranslate nohighlight">\(-2\dot{v_3}\)</span></td>
 <td>-8</td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(v_5\)</span></td>
-<td><span class="math">\(exp(v_4)\)</span></td>
-<td><span class="math">\(\frac{1}{e}\)</span></td>
-<td><span class="math">\(exp(v_4)\dot{v_4}\)</span></td>
-<td><span class="math">\(\frac{-8}{e}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(v_5\)</span></td>
+<td><span class="math notranslate nohighlight">\(exp(v_4)\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{1}{e}\)</span></td>
+<td><span class="math notranslate nohighlight">\(exp(v_4)\dot{v_4}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{-8}{e}\)</span></td>
 </tr>
-<tr class="row-even"><td><span class="math">\(v_6\)</span></td>
-<td><span class="math">\(-v_5\)</span></td>
-<td><span class="math">\(\frac{-1}{e}\)</span></td>
-<td><span class="math">\(-\dot{v_5}\)</span></td>
-<td><span class="math">\(\frac{8}{e}\)</span></td>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(v_6\)</span></td>
+<td><span class="math notranslate nohighlight">\(-v_5\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{-1}{e}\)</span></td>
+<td><span class="math notranslate nohighlight">\(-\dot{v_5}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{8}{e}\)</span></td>
 </tr>
-<tr class="row-odd"><td><span class="math">\(v_7\)</span></td>
-<td><span class="math">\(x_1 + v_6\)</span></td>
-<td><span class="math">\(\frac{\pi}{16}-\frac{1}{e}\)</span></td>
-<td><span class="math">\(\dot{x_1}+\dot{v_6}\)</span></td>
-<td><span class="math">\(1+\frac{8}{e}\)</span></td>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(v_7\)</span></td>
+<td><span class="math notranslate nohighlight">\(x_1 + v_6\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{\pi}{16}-\frac{1}{e}\)</span></td>
+<td><span class="math notranslate nohighlight">\(\dot{x_1}+\dot{v_6}\)</span></td>
+<td><span class="math notranslate nohighlight">\(1+\frac{8}{e}\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -264,11 +254,11 @@ graph.</p>
 </div>
 <div class="section" id="multiple-inputs">
 <h3>Multiple Inputs<a class="headerlink" href="#multiple-inputs" title="Permalink to this headline">¶</a></h3>
-<p>Now let&#8217;s consider an example with multiple inputs. The computed derivative is now the gradient vector. Instead of
+<p>Now let’s consider an example with multiple inputs. The computed derivative is now the gradient vector. Instead of
 maintaining an evaluation trace of a scalar derivative for a single input, we instead have a trace of the gradient for
 multiple inputs.</p>
 <p>In the exercises in the previous module, we practiced drawing the graph for the function</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[f(x,y) = \exp(-(\sin(x)-\cos(y))^2).\]</div>
 <p>Try to draw the graph by hand. The graph you drew should have the same structure as the graph below, which was produced with
 the visualization tool (with the exception of possibly interchanging some of the labels).</p>
@@ -277,13 +267,13 @@ the visualization tool (with the exception of possibly interchanging some of the
 derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative
 with respect to one of our inputs. Also notice that this table does not include the columns for the elementary function or
 its derivative. Those columns are useful for learning how things work, but ultimately automatic differentiation does not need
-to store them; it only needs to store the value. Note too that the interpretation of <span class="math">\(\dot{x}\)</span> must be generalized. The
+to store them; it only needs to store the value. Note too that the interpretation of <span class="math notranslate nohighlight">\(\dot{x}\)</span> must be generalized. The
 dot now represents a derivative with respect to one or the other input depending on the context. Lastly, the table does not
 include any symbolic numbers. Instead, it presents values with as much precision as the computer allows to emphasize that
 automatic differentiation computes derivatives to machine precision.</p>
 <img alt="_images/Mod2Table.PNG" src="_images/Mod2Table.PNG" />
 <p>Note that computing the gradient for this multivariate function is done by assigning a seed vector to each input, where to
-find the gradient we use the standard basis vectors as seeds.  We&#8217;ll discuss more about what this means automatic
+find the gradient we use the standard basis vectors as seeds.  We’ll discuss more about what this means automatic
 differentiation is computing in the next section.</p>
 </div>
 </div>
@@ -295,61 +285,61 @@ differentiation is computing in the next section.</p>
 a more general chain rule.</p>
 <div class="section" id="back-to-the-beginning">
 <h4>Back to the Beginning<a class="headerlink" href="#back-to-the-beginning" title="Permalink to this headline">¶</a></h4>
-<p>Suppose we have a function <span class="math">\(h(u(t))\)</span> and we want the derivative of <cite>h</cite> with respect to <cite>t</cite>. The chain rule gives,</p>
-<div class="math">
+<p>Suppose we have a function <span class="math notranslate nohighlight">\(h(u(t))\)</span> and we want the derivative of <cite>h</cite> with respect to <cite>t</cite>. The chain rule gives,</p>
+<div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t}.\]</div>
 <p>For example, consider <cite>h(u(t)) = sin(4t)</cite>. Then <cite>h(u) = sin(u)</cite> and <cite>u = 4t</cite>. So</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial u} = \cos(u), \quad \dfrac{\partial u}{\partial t} = 4 \quad \Rightarrow \quad
 \dfrac{\partial h}{\partial t} = 4\cos(4t).\]</div>
 </div>
 <div class="section" id="adding-an-argument">
 <h4>Adding an Argument<a class="headerlink" href="#adding-an-argument" title="Permalink to this headline">¶</a></h4>
-<p>Now suppose that <cite>h</cite> has another argument so that we have <span class="math">\(h(u(t), v(t))\)</span>. Once again, we want the derivative of <cite>h</cite>
+<p>Now suppose that <cite>h</cite> has another argument so that we have <span class="math notranslate nohighlight">\(h(u(t), v(t))\)</span>. Once again, we want the derivative of <cite>h</cite>
 with respect to <cite>t</cite>. Applying the chain rule in this case gives,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t} + \dfrac{\partial
 h}{\partial v}\dfrac{\partial v}{\partial t}.\]</div>
 </div>
 <div class="section" id="accounting-for-multiple-inputs">
 <h4>Accounting for Multiple Inputs<a class="headerlink" href="#accounting-for-multiple-inputs" title="Permalink to this headline">¶</a></h4>
-<p>What if we replace <cite>t</cite> by a vector <span class="math">\(x\in\mathbb{R}^{m}\)</span>? Now what we really want is the <em>gradient</em> of <cite>h</cite> with respect to
-<cite>x</cite>. We write <span class="math">\(h = h(u(x), v(x))\)</span> and the derivative is now,</p>
-<div class="math">
+<p>What if we replace <cite>t</cite> by a vector <span class="math notranslate nohighlight">\(x\in\mathbb{R}^{m}\)</span>? Now what we really want is the <em>gradient</em> of <cite>h</cite> with respect to
+<cite>x</cite>. We write <span class="math notranslate nohighlight">\(h = h(u(x), v(x))\)</span> and the derivative is now,</p>
+<div class="math notranslate nohighlight">
 \[\nabla_{x}h = \dfrac{\partial h}{\partial u}\nabla u + \dfrac{\partial h}{\partial v}\nabla v,\]</div>
-<p>where we have written <span class="math">\(\nabla_{x}\)</span> on the left hand size to avoid any confusion with arguments. The gradient operator on the
+<p>where we have written <span class="math notranslate nohighlight">\(\nabla_{x}\)</span> on the left hand size to avoid any confusion with arguments. The gradient operator on the
 right hand size is clearly with respect to <cite>x</cite> since <cite>u</cite> and <cite>v</cite> have no other arguments.</p>
-<p>As an example, consider <span class="math">\(h = \sin(x_{1}x_{2})\cos(x_{1} + x_{2})\)</span>. Let&#8217;s say <span class="math">\(u(x) = u(x_{1}, x_{2}) =
-x_{1}x_{2}\)</span> and <span class="math">\(v(x) = v(x_{1}, x_{2}) = x_{1} + x_{2}\)</span>. We can re-write <cite>h</cite> as <span class="math">\(h = \sin(u(x))\cos(v(x))\)</span>.
+<p>As an example, consider <span class="math notranslate nohighlight">\(h = \sin(x_{1}x_{2})\cos(x_{1} + x_{2})\)</span>. Let’s say <span class="math notranslate nohighlight">\(u(x) = u(x_{1}, x_{2}) =
+x_{1}x_{2}\)</span> and <span class="math notranslate nohighlight">\(v(x) = v(x_{1}, x_{2}) = x_{1} + x_{2}\)</span>. We can re-write <cite>h</cite> as <span class="math notranslate nohighlight">\(h = \sin(u(x))\cos(v(x))\)</span>.
 Then,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial u} = \cos(u)\cos(v), \quad \dfrac{\partial h}{\partial v} = -\sin(u)\sin(v),\]</div>
 <p>and</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\nabla u = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla v = \begin{bmatrix} 1 \\ 1 \end{bmatrix}\end{split}\]</div>
 <p>so</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\nabla_{x}h = \cos(x_{1}x_{2})\cos(x_{1} + x_{2})\begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix} - \sin(x_{1} +
 x_{2})\sin(x_{1} + x_{2})\begin{bmatrix} 1 \\ 1 \end{bmatrix}.\end{split}\]</div>
 </div>
 <div class="section" id="the-almost-general-rule">
 <h4>The (Almost) General Rule<a class="headerlink" href="#the-almost-general-rule" title="Permalink to this headline">¶</a></h4>
-<p>More generally, <span class="math">\(h = h(y(x))\)</span> where <span class="math">\(y \in \mathbb{R}^{n}\)</span> and <span class="math">\(x \in \mathbb{R}^{m}\)</span>. Now <cite>h</cite> is a
+<p>More generally, <span class="math notranslate nohighlight">\(h = h(y(x))\)</span> where <span class="math notranslate nohighlight">\(y \in \mathbb{R}^{n}\)</span> and <span class="math notranslate nohighlight">\(x \in \mathbb{R}^{m}\)</span>. Now <cite>h</cite> is a
 function of possibly <cite>n</cite> other functions, themselves a function of <cite>m</cite> variables. The gradient of <cite>h</cite> is now given by,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\nabla_{x}h = \sum_{i=1}^{n}{\dfrac{\partial h}{\partial y_{i}}\nabla y_{i}(x)}.\]</div>
-<p>We can repeat the example from the previous section to help reinforce notation. This time, say <span class="math">\(y_{1} = x_{1}x_{2}\)</span> and
-<span class="math">\(y_{2} = x_{1} + x_{2}\)</span>. Then,</p>
-<div class="math">
+<p>We can repeat the example from the previous section to help reinforce notation. This time, say <span class="math notranslate nohighlight">\(y_{1} = x_{1}x_{2}\)</span> and
+<span class="math notranslate nohighlight">\(y_{2} = x_{1} + x_{2}\)</span>. Then,</p>
+<div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial y_{1}} = \cos(y_{1})\cos(y_{2}), \quad \dfrac{\partial h}{\partial y_{2}} =
 -\sin(y_{1})\sin(y_{2}),\]</div>
 <p>and</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\nabla y_{1} = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla y_{2} = \begin{bmatrix} 1 \\ 1
 \end{bmatrix}.\end{split}\]</div>
 <p>Putting everything together gives the same result as in the previous section.</p>
 <p>The chain rule is more general than even this case. We could have nested compositions of functions, which would lead to a
-more involved formula of products. We&#8217;ll stop here for now and simply comment that automatic differentiation can handle
+more involved formula of products. We’ll stop here for now and simply comment that automatic differentiation can handle
 nested compositions of functions as deep as we want for arbitrarily large inputs.</p>
 </div>
 </div>
@@ -360,59 +350,59 @@ at a specific evaluation point of a function. But it can do even more than that.
 <p>In the most general case, we are interested in computing Jacobians of vector valued functions of multiple variables. To
 compute these individual gradients, we started our evaluation table with a seed vector, <cite>p</cite>. One way to think about this is
 through the directional derivative, defined to be,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[D_{p}f = \nabla f \cdot p\]</div>
-<p>where <span class="math">\(D_{p}\)</span> is the directional derivative in the direction of <cite>p</cite> and <cite>f</cite> is the function we want to differentiate.
-In two dimensions, we have <span class="math">\(f = f(x_{1},x_{2})\)</span> and</p>
-<div class="math">
+<p>where <span class="math notranslate nohighlight">\(D_{p}\)</span> is the directional derivative in the direction of <cite>p</cite> and <cite>f</cite> is the function we want to differentiate.
+In two dimensions, we have <span class="math notranslate nohighlight">\(f = f(x_{1},x_{2})\)</span> and</p>
+<div class="math notranslate nohighlight">
 \[\begin{split}\nabla f = \begin{bmatrix} \dfrac{\partial f}{\partial x} \\ \dfrac{\partial f}{\partial y}\end{bmatrix}.\end{split}\]</div>
-<p>The seed vector (or &#8220;direction&#8221;) is <span class="math">\(p = (p_{1}, p_{2})\)</span>. Carrying out the dot product in the directional derivative
+<p>The seed vector (or “direction”) is <span class="math notranslate nohighlight">\(p = (p_{1}, p_{2})\)</span>. Carrying out the dot product in the directional derivative
 gives,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[D_{p}f = \dfrac{\partial f}{\partial x}p_{1} + \dfrac{\partial f}{\partial y}p_{2}.\]</div>
-<p>Now here comes the cool part. <em>We can choose</em> <cite>p</cite>. If we choose <span class="math">\(p=(1,0)\)</span> then we get the partial with respect to <cite>x</cite>.
+<p>Now here comes the cool part. <em>We can choose</em> <cite>p</cite>. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> then we get the partial with respect to <cite>x</cite>.
 If we choose <cite>p=(0,1)</cite> then we get the partial with respect to <cite>y</cite>. This is really powerful! For arbitrary choices of <cite>p</cite>, we
 get a linear combination of the partial derivatives representing the gradient in the direction of <cite>p</cite>.</p>
 <div class="section" id="simple-demo">
 <h4>Simple Demo<a class="headerlink" href="#simple-demo" title="Permalink to this headline">¶</a></h4>
-<p>To see this in action, let&#8217;s consider the function <span class="math">\(f(x,y) = xy\)</span>. The figure below shows the graph and the trace table
-evaluating the function at the point <span class="math">\((a,b)\)</span>. The difference between the previous versions of the table is the
-introduction of an arbitrary seed vector <span class="math">\(p = (p_{1},p_{2}\)</span>. Notice that the result is <span class="math">\(ap_{2} + bp_{1}\)</span> and make
-sure you verify this. If we choose <span class="math">\(p=(1,0)\)</span> we simply get <cite>b</cite>, which is just <span class="math">\(\dfrac{\partial f}{\partial x}\)</span>.
+<p>To see this in action, let’s consider the function <span class="math notranslate nohighlight">\(f(x,y) = xy\)</span>. The figure below shows the graph and the trace table
+evaluating the function at the point <span class="math notranslate nohighlight">\((a,b)\)</span>. The difference between the previous versions of the table is the
+introduction of an arbitrary seed vector <span class="math notranslate nohighlight">\(p = (p_{1},p_{2}\)</span>. Notice that the result is <span class="math notranslate nohighlight">\(ap_{2} + bp_{1}\)</span> and make
+sure you verify this. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> we simply get <cite>b</cite>, which is just <span class="math notranslate nohighlight">\(\dfrac{\partial f}{\partial x}\)</span>.
 Depending on how we choose the vector <cite>p</cite> we can evaluate the the gradient in any direction.</p>
 <img alt="_images/fxy_seed.PNG" src="_images/fxy_seed.PNG" />
-<p>Now, you have likely noticed that choosing <cite>p=(0,1)</cite> will give <cite>a</cite>, which is <span class="math">\(\dfrac{\partial f}{\partial y}\)</span>. So even
-though it&#8217;s really cool that we can get the directional derivative, we might just want the regular gradient. This can be
+<p>Now, you have likely noticed that choosing <cite>p=(0,1)</cite> will give <cite>a</cite>, which is <span class="math notranslate nohighlight">\(\dfrac{\partial f}{\partial y}\)</span>. So even
+though it’s really cool that we can get the directional derivative, we might just want the regular gradient. This can be
 accomplished by first selecting the seed <cite>p=(1,0)</cite> and then selecting <cite>p=(0,1)</cite>, but of course this is too much work. We
-don&#8217;t want to rebuild the graph for every new seed if we don&#8217;t have to. Another option is to just define as many seeds as we
+don’t want to rebuild the graph for every new seed if we don’t have to. Another option is to just define as many seeds as we
 want and carry them along at each step. The next figure shows what this could look like for two seeds. Observe that using
 <cite>p=(1,0)</cite> and <cite>q=(0,1)</cite> gives the actual gradient.</p>
 <img alt="_images/fxy_all_seeds.PNG" src="_images/fxy_all_seeds.PNG" />
 </div>
 <div class="section" id="two-dimensional-demo">
 <h4>Two-Dimensional Demo<a class="headerlink" href="#two-dimensional-demo" title="Permalink to this headline">¶</a></h4>
-<p>Here&#8217;s another example to show that the forward mode calculates <span class="math">\(Jp\)</span>, the Jacobian-vector product. Consider the
+<p>Here’s another example to show that the forward mode calculates <span class="math notranslate nohighlight">\(Jp\)</span>, the Jacobian-vector product. Consider the
 following function,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}f(x,y) = \begin{bmatrix} x^{2} + y^{2} \\ e^{x+y} \end{bmatrix}.\end{split}\]</div>
 <p>We can calcuate the Jacobian by hand just to have it in our back pocket for comparison purposes.</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}J = \begin{bmatrix} 2x &amp; 2y \\ e^{x+y} &amp; e^{x+y} \end{bmatrix}.\end{split}\]</div>
 <p>The Jacobian-vector product with a vector <cite>p</cite> (our seed) is,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}Jp = \begin{bmatrix} 2x &amp; 2y \\ e^{x+y} &amp; e^{x+y} \end{bmatrix} \begin{bmatrix} p_{1} \\ p_{2} \end{bmatrix} =
      \begin{bmatrix} 2x p_{1} + 2y p_{2} \\ e^{x+y} p_{1} + e^{x+y} p_{2} \end{bmatrix}.\end{split}\]</div>
-<p>Before we launch into our manual automatic differentiation, let&#8217;s say we want to evaluate all of this at the point <cite>(1,1)</cite>.
+<p>Before we launch into our manual automatic differentiation, let’s say we want to evaluate all of this at the point <cite>(1,1)</cite>.
 Then,</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}f(1,1) &amp;= \begin{bmatrix} 2 \\ e^{2} \end{bmatrix} \\
 J &amp;= \begin{bmatrix} 2 &amp; 2 \\ e^{2} &amp; e^{2} \end{bmatrix} \\
 Jp &amp;= \begin{bmatrix} 2p_{1} + 2p_{2} \\ e^{2}p_{1} + e^{2}p_{2} \end{bmatrix}.\end{split}\]</div>
 <p>The next figure shows a table representing the computational trace for this function using an arbitrary seed. The result is
 precisely the Jacobian-vector product.</p>
 <img alt="_images/jac_prod_seed.PNG" src="_images/jac_prod_seed.PNG" />
-<p>Similarly, the figure below depicts the same table using two arbitrary seeds. Make note of what happens when <span class="math">\(p=(1,0)\)</span>
-and <span class="math">\(q=(0,1)\)</span>.</p>
+<p>Similarly, the figure below depicts the same table using two arbitrary seeds. Make note of what happens when <span class="math notranslate nohighlight">\(p=(1,0)\)</span>
+and <span class="math notranslate nohighlight">\(q=(0,1)\)</span>.</p>
 <img alt="_images/jac_prod_all_seeds.PNG" src="_images/jac_prod_all_seeds.PNG" />
 </div>
 </div>
@@ -424,23 +414,23 @@ and <span class="math">\(q=(0,1)\)</span>.</p>
 <p>Artificial neural networks take as input the values of an input layer of neurons and combine these inputs in a series of layers to compute an output.  A small network with a single hidden layer is drawn below.</p>
 <img alt="_images/NNFigNoPhi.png" src="_images/NNFigNoPhi.png" />
 <p>The network can be expressed in matrix notation as</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}f(x,y) = w_{out}^Tz\left(W\begin{bmatrix} x \\ y \end{bmatrix} + \begin{bmatrix}b_1 \\ b_2 \end{bmatrix}\right)+b_{out}\end{split}\]</div>
 <p>where</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}W = \begin{bmatrix} w_{11} &amp; w_{12} \\ w_{21} &amp; w_{22}\end{bmatrix}\end{split}\]</div>
 <p>is a (real) matrix of weights, and</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}w_{out} = \begin{bmatrix}w_{out,1} \\ w_{out,2}\end{bmatrix}\end{split}\]</div>
-<p>is a vector representing output weights, <span class="math">\(b_i\)</span> are bias terms and <span class="math">\(z\)</span> is a nonlinear function that acts component wise.</p>
-<p>The above graph helps us visualize the computation in different layers.  This visualization hides many of the underlying operations which occur in the computation of <span class="math">\(f\)</span> (e.g. it does not explicitly express the elementary operations).</p>
+<p>is a vector representing output weights, <span class="math notranslate nohighlight">\(b_i\)</span> are bias terms and <span class="math notranslate nohighlight">\(z\)</span> is a nonlinear function that acts component wise.</p>
+<p>The above graph helps us visualize the computation in different layers.  This visualization hides many of the underlying operations which occur in the computation of <span class="math notranslate nohighlight">\(f\)</span> (e.g. it does not explicitly express the elementary operations).</p>
 <p>Your tasks:
 In this part, you will completely neglect the biases.  The mathematical form is therefore</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}f(x,y) = w_{out}^Tz\left(W\begin{bmatrix}x \\ y \end{bmatrix}\right)\end{split}\]</div>
 <p>Note that in practical applications the biases play a key role.  However, we have elected to neglect them in this problem so that your results are more readable.  You will complete the two steps below while neglecting the bias terms.</p>
 <ol class="arabic simple">
-<li>Draw the complete forward computational graph.  You may treat <span class="math">\(z\)</span> as a single elementary operation.  You should explicitly show the multiplications and additions that are masked in the schematic of the network above.</li>
+<li>Draw the complete forward computational graph.  You may treat <span class="math notranslate nohighlight">\(z\)</span> as a single elementary operation.  You should explicitly show the multiplications and additions that are masked in the schematic of the network above.</li>
 <li>Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.</li>
 </ol>
 </div>
@@ -454,47 +444,35 @@ each demo, only keep track of the additions and multiplications.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Module 2: Deeper Into Forward Mode</a><ul>
-<li><a class="reference internal" href="#the-computational-trace-and-practice-with-the-visualization-tool">The Computational Trace and Practice with the Visualization Tool</a><ul>
-<li><a class="reference internal" href="#a-basic-example">A Basic Example</a><ul>
-<li><a class="reference internal" href="#evaluating-the-function">Evaluating the Function</a></li>
-<li><a class="reference internal" href="#visualizing-the-evaluation">Visualizing the Evaluation</a></li>
-<li><a class="reference internal" href="#introducing-derivatives">Introducing Derivatives</a></li>
+<h1 class="logo"><a href="index.html">Auto-eD</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="mod1.html">Module 1: The Basics of Forward Mode</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Module 2: Deeper Into Forward Mode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-computational-trace-and-practice-with-the-visualization-tool">The Computational Trace and Practice with the Visualization Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-theory">More Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#the-original-demo">The Original Demo</a></li>
-<li><a class="reference internal" href="#multiple-inputs">Multiple Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mod3.html">Module 3: The Reverse Mode of Automatic Differentiation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mod4.html">Beyond the Basics: Extensions and Software Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="refs.html">References and Additional Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sols.html">Solutions to Exercises</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#more-theory">More Theory</a><ul>
-<li><a class="reference internal" href="#review-of-the-chain-rule">Review of the Chain Rule</a><ul>
-<li><a class="reference internal" href="#back-to-the-beginning">Back to the Beginning</a></li>
-<li><a class="reference internal" href="#adding-an-argument">Adding an Argument</a></li>
-<li><a class="reference internal" href="#accounting-for-multiple-inputs">Accounting for Multiple Inputs</a></li>
-<li><a class="reference internal" href="#the-almost-general-rule">The (Almost) General Rule</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#what-does-forward-mode-compute">What Does Forward Mode Compute?</a><ul>
-<li><a class="reference internal" href="#simple-demo">Simple Demo</a></li>
-<li><a class="reference internal" href="#two-dimensional-demo">Two-Dimensional Demo</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#exercises">Exercises</a><ul>
-<li><a class="reference internal" href="#neural-network-problem">Neural Network Problem</a></li>
-<li><a class="reference internal" href="#operation-count-problem">Operation Count Problem</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -504,23 +482,26 @@ each demo, only keep track of the additions and multiplications.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/mod2.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -529,8 +510,8 @@ each demo, only keep track of the additions and multiplications.</p>
       &copy;2019, Lindsey Brown and David Sondak.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/mod2.rst.txt"
