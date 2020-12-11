@@ -104,7 +104,7 @@ elementary function derivative at that step. The second new column will represen
 
 The first thing to observe is that the derivative value of the output is precisely what we would expect it to be. The
 derivative of our function is :math:`f^{\prime} = 2\cos(2x)`. Evaluated at our chosen point, this is :math:`f^{\prime} =
-2\cos(4)`. So whatever we did in the table seemed to have worked.
+2\cos(4)`. So whatever we did in the table seems to have worked.
 
 We introduced some new notation: we denoted a derivative with the overdot notation. This is the common notation in
 forward mode. Therefore, the derivative of :math:`2x_{1}` is simply :math:`2\dot{x}_{1}`. The dot should be interpreted as a
@@ -193,7 +193,7 @@ node in the table is the output of an elmentary function, whose derivative we ca
         
           
 
-The visualization tool which we installed in the first unit also computes the computational table. Input the function and
+The visualization tool which we installed in the first module also computes the computational table. Input the function and
 compare the forward mode graph to the forward model table.
 
 Notice how the computational trace corresponds to the nodes on the graph and the edges linking these nodes. Note that the
@@ -316,7 +316,7 @@ Putting everything together gives the same result as in the previous section.
 
 The chain rule is more general than even this case. We could have nested compositions of functions, which would lead to a
 more involved formula of products. We'll stop here for now and simply comment that automatic differentiation can handle
-nested compositions of functions as deep as we want for arbitraryly large inputs.
+nested compositions of functions as deep as we want for arbitrarily large inputs.
 
      
 What Does Forward Mode Compute?

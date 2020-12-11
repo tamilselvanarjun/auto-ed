@@ -49,7 +49,7 @@ Summary Sketch of Reverse Mode
         * If :math:`v_3 = v_1 v_2` is a node, then we store :math:`\dfrac{\partial v_3}{\partial v_1}` and
           :math:`\dfrac{\partial v_3}{\partial v_2}`. That's it.
         * If :math:`v_3 = \sin(v_2)` is a node, then we store :math:`\cos(v_2)`. Notice that there is no :math:`\dot{v}_{2}`.
-* The reverse pass starts with :math:`\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1` (since `f` is :math:`v_{N}`.
+* The reverse pass starts with :math:`\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1` (since `f` is :math:`v_{N}`).
 * Next, the reverse pass gets :math:`\overline{v}_{N-1} = \dfrac{\partial f}{\partial v_{N}}\dfrac{\partial v_{N}}{\partial
   v_{N-1}}`
     - **Note:** :math:`\dfrac{\partial v_{N}}{\partial v_{N-1}}` is already stored from the forward pass.
@@ -65,7 +65,7 @@ Summary Sketch of Reverse Mode
 The Basic Equations
 -------------------
 
-The partial derivative of `f` with respect to `u_i` can be written as (see Nocedal and Wright, pg. 180)
+The partial derivative of `f` with respect to :math:`u_i` can be written as (see Nocedal and Wright, pg. 180)
 
 .. math::
         \dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
@@ -426,7 +426,7 @@ This example demonstrates that in cases with many inputs and few outputs, revers
 
 Going Forward
 -------------
-In the next unit, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
+In the next module, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
 questions of implementation in software.
 
 Other extensions for further reading include automatic differentiation for higher order derivatives, including computing

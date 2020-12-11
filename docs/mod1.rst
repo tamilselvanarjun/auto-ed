@@ -21,7 +21,7 @@ on the definition of the derivative,
         \frac{df(x)}{dx} \approx \frac{f(x+h)-f(x)}{h}.
 
 Such methods are limited in precision due to truncation and roundoff errors because  accuracy depends on choosing an
-appropriately step size `h`. Let's consider a basic example.
+appropriate step size `h`. Let's consider a basic example.
 
 Demo 1: Errors in The Finite Difference Method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -94,13 +94,13 @@ Now let's discuss symbolic differentiation.
 1, exact expressions for derivatives can quickly become complex, which can somtimes make computing derivatives in this manner
 computationally inefficient.
 
-* Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an
+* **Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an
   expression for the derivative. It relies on application of the ideas of the chain rule to decompose complex functions into 
-  elementary functions for which we can compute the derivative exactly.
+  elementary functions for which we can compute the derivative exactly.**
 
 Automatic differentiation can be split into two primary "modes": forward and reverse. Both modes allow for efficient and
 accurate computation of derivatives. Advanced approaches exist for combining forward and reverse mode into a hybrid, but
-these are beyond the scope of this course. The properties of automatic differentiation make it useful for a variety of
+these are beyond the scope of these introductory modules. The properties of automatic differentiation make it useful for a variety of
 applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic
 inference. In the rest of this module, we will begin to explore the mechanics of automatic differentiation.
 
@@ -122,12 +122,12 @@ that to find the derivative of a composition of functions, we multiply a series 
 
         \frac{df}{dt} = \frac{dg}{dh}\frac{dh}{dt}
 
-This can be generalized to functions of multiple inputs, which we will discuss in more detail in Unit 2. 
+This can be generalized to functions of multiple inputs, which we will discuss in more detail in Module 2. 
 
 
 Elementary Functions
 ^^^^^^^^^^^^^^^^^^^^
-Every function can be decomposed into a set of binary elementary operations or unary operators acting on elementary
+Every function can be decomposed into a set of binary elementary operations or unary elementary
 functions. Elementary operations include addition, subtraction, multiplication, division, and exponentiation. Elementary
 functions include the natural exponential and natural logarithm, trigonometric functions, and polynomials. The sigmoid
 function and the hyperbolic trig functions can also be considered elementary functions, though they can be formed from the
@@ -140,7 +140,7 @@ functions are composed of elementary functions. The chain rule provides a route 
 are composed of other functions.
 
 To understand this composition of elementary functions, we can think of the composition of functions as having an underlying
-graph structure. You will learn much more about this graph structure in Unit 2, including a way to build it by hand. For now,
+graph structure. You will learn much more about this graph structure in Module 2, including a way to build it by hand. For now,
 you will practice visualizing the graph with a special tool.
 
 A Tool for Visualizing Automatic Differentiation
@@ -148,7 +148,7 @@ A Tool for Visualizing Automatic Differentiation
 The Auto-eD tool is a pedagogical tool to help visualize the processes underlying automatic differentiation. In particular,
 this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.
 In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each
-node of the graph. These ideas will be discussed much more in Unit 2.
+node of the graph. These ideas will be discussed much more in Module 2.
 
 Auto-eD Web Application
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -165,11 +165,11 @@ app and access to the underlying package. From the terminal,
 
 2. Install the dependencies: pip install -r requirements.txt
 
-3. Launch the web app from the terminal: python ADapp.py
+3. Launch the web app from the terminal: python ADappHeroku.py
 
 4. Go to the local host in your browser to use the tool
 
-We welcome improvements and contributions! If you would like to contribute to this project, please follow these steps:
+We welcome improvements and contributions! You can find more details about the underlying package in the DeveloperDocumentation jupyter notebook.  If you would like to contribute to this project, please follow these steps:
 
 1. Clone the repo
 
@@ -198,11 +198,12 @@ the calculator rather than entering them from the keyboard.
         
 4. Press the "Calculate" button.  This will move you to a new screen with options to help you visualize both the forward and
 reverse mode of automatic differentiation.
+
 5. Enter the value for x at which you'd like to evaluate the function. For the purposes of this demo, we'll choose `x=4`.
 Click  the "Set Input Values" button.
     * Note that automatic differentiation yields the *value* of the derivative at a specific point. It does not compute a
       symbolic expression for the derivative.
-6. You'll see the values for the function and derivative appear below the input values you selected.
+6. You'll see the values for the function and derivative appear beside your function and input values you selected.
 
 .. image:: Step3.PNG
 
@@ -210,7 +211,7 @@ Click  the "Set Input Values" button.
 function, so click on f1.
 
 8. This will generate the computational graph for both forward and reverse mode as well as the computational trace table.
-We'll talk more about the computational table and reverse mode in the next units, so for now let's just focus on the
+We'll talk more about the computational table and reverse mode in the next modules, so for now let's just focus on the
 computational graph in forward mode.
 
 .. image:: Step4.PNG
@@ -242,15 +243,15 @@ Exercises
 Exercise 1: Motivating Automatic Differentiation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 A. Write a Python function that takes two inputs: 1. a function (of a single variable) and 2. a value of `h`. This function
-   should return a function which has a single input: a value of `x`.  This inner function should computes the numerical
+   should return a function which has a single input: a value of `x`.  This inner function should compute the numerical
    approximation of the derivative of `f` with stepsize `h` at `x`.
        * Note: This part of the exercise is meant to be implemented as a closure in Python. It consists of an outer function and
          an inner function.
 
 B.  Let :math:`f(x) = ln(x)`. For :math:`0.2\leq x \leq 0.4`, make a plot comparing the numerically estimated derivative for
     :math:`h=10^{-1}, h=10^{-7}`, and :math:`h=10^{-15}` to the analytic derivative (which should be used explicitly).
-        * Note: All plots should be on the same figure. This means there should be 4 plots, three for the different values of `h`
-          and one for the true solution. Make sure to include a legend and that the different plots are distinguishable.
+        * Note: All plots should be on the same figure. This means there should be 4 lines, three for the different values of `h`
+          and one for the true solution. Make sure to include a legend and that the different lines are distinguishable.
 
 C.  Answer the following questions:
 

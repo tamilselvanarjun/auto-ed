@@ -102,7 +102,7 @@ must perform a summation over the children, which follows directly from the mult
 </dd>
 </dl>
 </li>
-<li><p class="first">The reverse pass starts with <span class="math">\(\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1\)</span> (since <cite>f</cite> is <span class="math">\(v_{N}\)</span>.</p>
+<li><p class="first">The reverse pass starts with <span class="math">\(\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1\)</span> (since <cite>f</cite> is <span class="math">\(v_{N}\)</span>).</p>
 </li>
 <li><p class="first">Next, the reverse pass gets <span class="math">\(\overline{v}_{N-1} = \dfrac{\partial f}{\partial v_{N}}\dfrac{\partial v_{N}}{\partial
 v_{N-1}}\)</span></p>
@@ -127,7 +127,7 @@ v_{4}}{\partial v_{3}} + \dfrac{\partial f}{\partial v_{5}}\dfrac{\partial v_{5}
 </div>
 <div class="section" id="the-basic-equations">
 <h2>The Basic Equations<a class="headerlink" href="#the-basic-equations" title="Permalink to this headline">¶</a></h2>
-<p>The partial derivative of <cite>f</cite> with respect to <cite>u_i</cite> can be written as (see Nocedal and Wright, pg. 180)</p>
+<p>The partial derivative of <cite>f</cite> with respect to <span class="math">\(u_i\)</span> can be written as (see Nocedal and Wright, pg. 180)</p>
 <div class="math">
 \[\dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
 u_{j}}{\partial u_{i}}}.\]</div>
@@ -494,7 +494,7 @@ addition) for each of the 5 inputs, for a total of <span class="math">\(4\cdot 3
 </div>
 <div class="section" id="going-forward">
 <h2>Going Forward<a class="headerlink" href="#going-forward" title="Permalink to this headline">¶</a></h2>
-<p>In the next unit, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
+<p>In the next module, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
 questions of implementation in software.</p>
 <p>Other extensions for further reading include automatic differentiation for higher order derivatives, including computing
 Hessians, and algorithmic differentiation of computer programs. We can also consider the efficiency of the algorithms in
