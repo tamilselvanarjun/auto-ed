@@ -65,7 +65,7 @@ Summary Sketch of Reverse Mode
 The Basic Equations
 -------------------
 
-The partial derivative of `f` with respect to :math:`u_i` can be written as (see Nocedal and Wright, pg. 180)
+The partial derivative of `f` with respect to :math:`u_{i}` can be written as (see Nocedal and Wright, pg. 180)
 
 .. math::
         \dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
@@ -103,7 +103,7 @@ and the corresponding table,
 Step 1
 """"""
 
-The first step is to generate the forward trace and calculate the partial derivatives of a node with respect to it's
+The first step is to generate the forward trace and calculate the partial derivatives of a node with respect to its
 children. Note that this time we must save the graph.
 
 Step 2

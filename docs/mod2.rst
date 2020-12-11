@@ -42,7 +42,7 @@ Visualizing the Evaluation
 """"""""""""""""""""""""""
 We can visualize this evaluation in a graph. Each node of the graph will represent a stage in evaluation of the function. The
 nodes are connected together with edges. The parent value of a given node is the input to that node. The input to the entire
-function will be dentoed by :math:`x_{0}`. Intermediate values will be denoted by :math:`v_{i}`. The evaluation graph of our
+function will be denoted by :math:`x_{0}`. Intermediate values will be denoted by :math:`v_{i}`. The evaluation graph of our
 simple function is show in the figure below.
 
 .. image:: simple_graph.PNG

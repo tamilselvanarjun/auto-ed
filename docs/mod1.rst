@@ -152,8 +152,11 @@ node of the graph. These ideas will be discussed much more in Module 2.
 
 Auto-eD Web Application
 ^^^^^^^^^^^^^^^^^^^^^^^
-The tool can be accessed directly through a web browser by visiting https://autoed.herokuapp.com. This option is good for
-people who want to explore automatic differentiation.
+The tool can be accessed directly through a web browser:
+
+https://autoed.herokuapp.com
+
+This option is good for people who want to explore automatic differentiation.
 
 Developer Instructions
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -161,13 +164,19 @@ Auto-eD is open source. You are free to check out the code and even contribute i
 to modify and contribute to the code, you may choose to clone the Github repo to have direct access to the code for the web
 app and access to the underlying package. From the terminal,
 
-1. Clone the repo:: git clone https:github.com/lindseysbrown/Auto-eD
+1. Clone the repo:
+::
+        git clone https:github.com/lindseysbrown/Auto-eD
 
-2. Install the dependencies:: pip install -r requirements.txt
+2. Install the dependencies:
+::
+        pip install -r requirements.txt
 
-3. Launch the web app from the terminal:: python ADapp.py
+3. Launch the web app from the terminal:
+:: 
+        python ADapp.py
 
-4. Go to the local host in your browser to use the tool
+4. Go to the local host in your browser to use the tool.
 
 We welcome improvements and contributions! You can find more details about the underlying package in the DeveloperDocumentation jupyter notebook.  If you would like to contribute to this project, please follow these steps:
 
@@ -189,9 +198,9 @@ Let's use the tool to visualize the function from our first demo. The example be
 .. image:: 
         Step1.PNG
 
-3. We use the calculator interface to enter our function. (Use the backspace key or the "Clear All" button
-to correct the function if we make a mistake when entering it.) With the current release, you must click on the functions on
-the calculator rather than entering them from the keyboard.
+3. Use the calculator interface to enter our function. (Click on the "<-" button or the "Clear All" button
+to correct the function if you make a mistake.) With the current release, you must click on the function buttons on
+the calculator rather than typing them from the keyboard.
 
 .. image:: 
         Step2.PNG

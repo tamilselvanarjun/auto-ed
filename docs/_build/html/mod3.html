@@ -117,7 +117,7 @@ v_{4}}{\partial v_{3}} + \dfrac{\partial f}{\partial v_{5}}\dfrac{\partial v_{5}
 </div>
 <div class="section" id="the-basic-equations">
 <h2>The Basic Equations<a class="headerlink" href="#the-basic-equations" title="Permalink to this headline">¶</a></h2>
-<p>The partial derivative of <cite>f</cite> with respect to <span class="math notranslate nohighlight">\(u_i\)</span> can be written as (see Nocedal and Wright, pg. 180)</p>
+<p>The partial derivative of <cite>f</cite> with respect to <span class="math notranslate nohighlight">\(u_{i}\)</span> can be written as (see Nocedal and Wright, pg. 180)</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
 u_{j}}{\partial u_{i}}}.\]</div>
@@ -140,7 +140,7 @@ previously, it is sometimes called the adjoint variable.</p>
 <img alt="_images/Reverse-Example-Table.PNG" src="_images/Reverse-Example-Table.PNG" />
 <div class="section" id="step-1">
 <h3>Step 1<a class="headerlink" href="#step-1" title="Permalink to this headline">¶</a></h3>
-<p>The first step is to generate the forward trace and calculate the partial derivatives of a node with respect to it’s
+<p>The first step is to generate the forward trace and calculate the partial derivatives of a node with respect to its
 children. Note that this time we must save the graph.</p>
 </div>
 <div class="section" id="step-2">

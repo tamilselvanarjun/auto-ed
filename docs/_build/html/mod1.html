@@ -164,19 +164,29 @@ In addition to helping to visualize this graph, the tool can also be used to vie
 node of the graph. These ideas will be discussed much more in Module 2.</p>
 <div class="section" id="auto-ed-web-application">
 <h3>Auto-eD Web Application<a class="headerlink" href="#auto-ed-web-application" title="Permalink to this headline">¶</a></h3>
-<p>The tool can be accessed directly through a web browser by visiting <a class="reference external" href="https://autoed.herokuapp.com">https://autoed.herokuapp.com</a>. This option is good for
-people who want to explore automatic differentiation.</p>
+<p>The tool can be accessed directly through a web browser:</p>
+<p><a class="reference external" href="https://autoed.herokuapp.com">https://autoed.herokuapp.com</a></p>
+<p>This option is good for people who want to explore automatic differentiation.</p>
 </div>
 <div class="section" id="developer-instructions">
 <h3>Developer Instructions<a class="headerlink" href="#developer-instructions" title="Permalink to this headline">¶</a></h3>
 <p>Auto-eD is open source. You are free to check out the code and even contribute improvements. To run the tool with the ability
 to modify and contribute to the code, you may choose to clone the Github repo to have direct access to the code for the web
 app and access to the underlying package. From the terminal,</p>
-<ol class="arabic simple">
-<li>Clone the repo:: git clone <a class="reference external" href="https:github.com/lindseysbrown/Auto-eD">https:github.com/lindseysbrown/Auto-eD</a></li>
-<li>Install the dependencies:: pip install -r requirements.txt</li>
-<li>Launch the web app from the terminal:: python ADapp.py</li>
-<li>Go to the local host in your browser to use the tool</li>
+<p>1. Clone the repo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">lindseysbrown</span><span class="o">/</span><span class="n">Auto</span><span class="o">-</span><span class="n">eD</span>
+</pre></div>
+</div>
+<p>2. Install the dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>3. Launch the web app from the terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">ADapp</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Go to the local host in your browser to use the tool.</li>
 </ol>
 <p>We welcome improvements and contributions! You can find more details about the underlying package in the DeveloperDocumentation jupyter notebook.  If you would like to contribute to this project, please follow these steps:</p>
 <ol class="arabic simple">
@@ -195,9 +205,9 @@ app and access to the underlying package. From the terminal,</p>
 <li>Our function is scalar valued so we enter that our function has 1 output.</li>
 </ol>
 <img alt="_images/Step1.PNG" src="_images/Step1.PNG" />
-<p>3. We use the calculator interface to enter our function. (Use the backspace key or the “Clear All” button
-to correct the function if we make a mistake when entering it.) With the current release, you must click on the functions on
-the calculator rather than entering them from the keyboard.</p>
+<p>3. Use the calculator interface to enter our function. (Click on the “&lt;-” button or the “Clear All” button
+to correct the function if you make a mistake.) With the current release, you must click on the function buttons on
+the calculator rather than typing them from the keyboard.</p>
 <img alt="_images/Step2.PNG" src="_images/Step2.PNG" />
 <p>4. Press the “Calculate” button.  This will move you to a new screen with options to help you visualize both the forward and
 reverse mode of automatic differentiation.</p>
