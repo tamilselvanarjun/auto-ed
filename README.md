@@ -1,4 +1,6 @@
 # Auto-eD
+[![Documentation Status](https://readthedocs.org/projects/auto-ed/badge/?version=latest)](https://auto-ed.readthedocs.io/en/latest/?badge=latest)
+
 ![Example](AutoEdCover.png)
 
 Auto-eD (https://autoed.herokuapp.com) is a web application to help students learn the basics behind automatic differentiation by helping them to visualize the computational graph structure which underlies these computations in forward and reverse mode.
