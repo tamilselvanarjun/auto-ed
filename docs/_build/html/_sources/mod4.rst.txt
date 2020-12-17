@@ -19,7 +19,7 @@ Consider the function y=x^2 whose derivative we know to be 2x.  Let's evaluate y
         y = (a+b\epsilon)^2 = a^2+2ab\epsilon+b^2\epsilon^2.  
         
 By the property of :math:`\epsilon`, this is just the dual number :math:`a^2+2ab\epsilon`.  Taking b=1, the real part of the
-dual number y is the function y evaluated at x=a and the dual part of the dual number y is the derivative of y evaluated at
+dual number y is the function y evaluated at x=a, and the dual part of the dual number y is the derivative of y evaluated at
 x=a.
 
 Let's consider a second example.  This time let :math:`y=sin(x)`.  Again, let's evaluate at :math:`x=a+b\epsilon`.  Using the
