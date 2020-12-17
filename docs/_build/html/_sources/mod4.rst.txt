@@ -85,8 +85,8 @@ Some thoughts on implementation:
 * Overload operations as appropriate.  Note that Python's __add__(self, other) and __mul__(self, other) methods are meant to
   be defined for objects of the same type, so your implementation should not assume that other is a real number but be robust
   enough to handle the case where it is.
-* Handle exceptions appropriately.  You may want to use duck-typing, where ratehr than checking if an argument to a special
-  method is an instance of the object, you instead use a try-except blcok and catch an AttributeError.
+* Handle exceptions appropriately.  You may want to use duck-typing, where rather than checking if an argument to a special
+  method is an instance of the object, you instead use a try-except block and catch an AttributeError.
 * Make your implementation robust encough to handle functions written as ``f = alpha*x+beta, f=x*alpha+beta,
   f=beta+alpha*x, f=beta+x*alpha``.
 

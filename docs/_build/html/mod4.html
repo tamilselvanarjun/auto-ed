@@ -106,8 +106,8 @@ computational tables.</li>
 <li>Overload operations as appropriate.  Note that Python’s __add__(self, other) and __mul__(self, other) methods are meant to
 be defined for objects of the same type, so your implementation should not assume that other is a real number but be robust
 enough to handle the case where it is.</li>
-<li>Handle exceptions appropriately.  You may want to use duck-typing, where ratehr than checking if an argument to a special
-method is an instance of the object, you instead use a try-except blcok and catch an AttributeError.</li>
+<li>Handle exceptions appropriately.  You may want to use duck-typing, where rather than checking if an argument to a special
+method is an instance of the object, you instead use a try-except block and catch an AttributeError.</li>
 <li>Make your implementation robust encough to handle functions written as <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">alpha*x+beta,</span> <span class="pre">f=x*alpha+beta,</span>
 <span class="pre">f=beta+alpha*x,</span> <span class="pre">f=beta+x*alpha</span></code>.</li>
 </ul>
