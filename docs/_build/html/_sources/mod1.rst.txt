@@ -14,7 +14,7 @@ numerical differentiation and symbolic differentiation. To kick things off, we w
 differentiation vs. numerical and symbolic differentiation.
 
 Automatic differentiation is not numerical differentiation.
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 *Numerical differentiation* refers to a class of methods that computes derivatives through finite difference formulae based
 on the definition of the derivative,
@@ -92,7 +92,7 @@ See Exercise 1 for another example motivating the use of automatic differentiati
 Now let's discuss symbolic differentiation.
 
 Automatic differentiation is not symbolic differentiation.
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 *Symbolic differentiation* computes exact expressions for derivatives using expression trees. As seen in the function in Demo
 1, exact expressions for derivatives can quickly become complex, which can somtimes make computing derivatives in this manner
