@@ -49,6 +49,7 @@ Module 2 Exercise Solutions
 ---------------------------
 Exercise 1: Neural Network Problem
 The corresponding computational graph is given by:
+
 .. image:: Mod2Ex1Sol.PNG
 
 The table corresponding to this graph is given by:
