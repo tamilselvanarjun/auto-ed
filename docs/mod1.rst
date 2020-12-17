@@ -1,17 +1,20 @@
 Module 1: The Basics of Forward Mode
 ====================================
 
-Introduction
-------------
+I. Introduction
+---------------
 
 Differentiation is fundamental to computational science and is important in many applications, including optimization,
 sensitivity analysis, and solving differential equations. To be useful in these applications, derivatives must be computed
-both precisely and efficiently. **Automatic differentiation**, sometimes also called algorithmic differentiation or
-computational differentiation, can efficiently compute derivatives to machine precision, distinguishing it from both
-numerical differentiation and symbolic differentiation. To kick things off, we will discuss the differences between automatic
-differentiation and numerical and symbolic differentiation.
+both precisely and efficiently. 
 
-* Automatic differentiation is not numerical differentiation.
+**Automatic differentiation**, sometimes also called algorithmic differentiation or
+computational differentiation, can efficiently compute derivatives to machine precision, distinguishing itself from both
+numerical differentiation and symbolic differentiation. To kick things off, we will discuss the differences between automatic
+differentiation vs. numerical and symbolic differentiation.
+
+Automatic differentiation is not numerical differentiation.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 *Numerical differentiation* refers to a class of methods that computes derivatives through finite difference formulae based
 on the definition of the derivative,
@@ -88,7 +91,8 @@ See Exercise 1 for another example motivating the use of automatic differentiati
 
 Now let's discuss symbolic differentiation.
 
-* Automatic differentiation is not symbolic differentiation.
+Automatic differentiation is not symbolic differentiation.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 *Symbolic differentiation* computes exact expressions for derivatives using expression trees. As seen in the function in Demo
 1, exact expressions for derivatives can quickly become complex, which can somtimes make computing derivatives in this manner
@@ -104,8 +108,8 @@ these are beyond the scope of these introductory modules. The properties of auto
 applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic
 inference. In the rest of this module, we will begin to explore the mechanics of automatic differentiation.
 
-The Basics of Forward Mode
---------------------------
+II. The Basics of Forward Mode
+------------------------------
 Automatic differentiation is something of a compromise between numerical differentiation and symbolic differentiation.
 Automatic differentiation provides numerical values of the derivatives of a function. These numerical values are correct to
 machine precision and are not influenced by any kind of "step size" like in numerical differentiation. Even though automatic
@@ -143,8 +147,8 @@ To understand this composition of elementary functions, we can think of the comp
 graph structure. You will learn much more about this graph structure in Module 2, including a way to build it by hand. For now,
 you will practice visualizing the graph with a special tool.
 
-A Tool for Visualizing Automatic Differentiation
-------------------------------------------------
+III. A Tool for Visualizing Automatic Differentiation
+-----------------------------------------------------
 The Auto-eD tool is a pedagogical tool to help visualize the processes underlying automatic differentiation. In particular,
 this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.
 In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each
@@ -188,8 +192,8 @@ We welcome improvements and contributions! You can find more details about the u
 
 4. Make a pull request to master and wait for the core developers to respond!
 
-A First Demo of Automatic Differentiation
------------------------------------------
+IV. A First Demo of Automatic Differentiation
+-----------------------------------------------
 Let's use the tool to visualize the function from our first demo. The example below was done using the web app.
 
 1. The function has a single input variable, `x`, so just enter 1 in the "Number of input variables" field. 
@@ -247,8 +251,8 @@ Some Key Takeaways
   gives the exact value of the derivative at a specified point. The graph displayed by the tool is a representation of the
   function itself and depicts how the function is built up from elementary functions.
 
-Exercises
----------
+V. Exercises
+------------
 Exercise 1: Motivating Automatic Differentiation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 A. Write a Python function that takes two inputs: 1. a function (of a single variable) and 2. a value of `h`. This function

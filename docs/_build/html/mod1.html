@@ -36,17 +36,17 @@
             
   <div class="section" id="module-1-the-basics-of-forward-mode">
 <h1>Module 1: The Basics of Forward Mode<a class="headerlink" href="#module-1-the-basics-of-forward-mode" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="i-introduction">
+<h2>I. Introduction<a class="headerlink" href="#i-introduction" title="Permalink to this headline">¶</a></h2>
 <p>Differentiation is fundamental to computational science and is important in many applications, including optimization,
 sensitivity analysis, and solving differential equations. To be useful in these applications, derivatives must be computed
-both precisely and efficiently. <strong>Automatic differentiation</strong>, sometimes also called algorithmic differentiation or
-computational differentiation, can efficiently compute derivatives to machine precision, distinguishing it from both
+both precisely and efficiently.</p>
+<p><strong>Automatic differentiation</strong>, sometimes also called algorithmic differentiation or
+computational differentiation, can efficiently compute derivatives to machine precision, distinguishing itself from both
 numerical differentiation and symbolic differentiation. To kick things off, we will discuss the differences between automatic
-differentiation and numerical and symbolic differentiation.</p>
-<ul class="simple">
-<li>Automatic differentiation is not numerical differentiation.</li>
-</ul>
+differentiation vs. numerical and symbolic differentiation.</p>
+<div class="section" id="automatic-differentiation-is-not-numerical-differentiation">
+<h3>Automatic differentiation is not numerical differentiation.<a class="headerlink" href="#automatic-differentiation-is-not-numerical-differentiation" title="Permalink to this headline">¶</a></h3>
 <p><em>Numerical differentiation</em> refers to a class of methods that computes derivatives through finite difference formulae based
 on the definition of the derivative,</p>
 <div class="math notranslate nohighlight">
@@ -54,7 +54,7 @@ on the definition of the derivative,</p>
 <p>Such methods are limited in precision due to truncation and roundoff errors because  accuracy depends on choosing an
 appropriate step size <cite>h</cite>. Let’s consider a basic example.</p>
 <div class="section" id="demo-1-errors-in-the-finite-difference-method">
-<h3>Demo 1: Errors in The Finite Difference Method<a class="headerlink" href="#demo-1-errors-in-the-finite-difference-method" title="Permalink to this headline">¶</a></h3>
+<h4>Demo 1: Errors in The Finite Difference Method<a class="headerlink" href="#demo-1-errors-in-the-finite-difference-method" title="Permalink to this headline">¶</a></h4>
 <p>Let’s consider the function <span class="math notranslate nohighlight">\(f(x) = x-\exp(-2\sin^2(4x))\)</span>. Using our basic differentiation rules, we can compute the
 derivative symbolically,</p>
 <div class="math notranslate nohighlight">
@@ -106,9 +106,10 @@ selected <cite>h</cite>, there is an error of <span class="math notranslate nohi
 <cite>h</cite> is too small.</p>
 <p>See Exercise 1 for another example motivating the use of automatic differentiation.</p>
 <p>Now let’s discuss symbolic differentiation.</p>
-<ul class="simple">
-<li>Automatic differentiation is not symbolic differentiation.</li>
-</ul>
+</div>
+</div>
+<div class="section" id="automatic-differentiation-is-not-symbolic-differentiation">
+<h3>Automatic differentiation is not symbolic differentiation.<a class="headerlink" href="#automatic-differentiation-is-not-symbolic-differentiation" title="Permalink to this headline">¶</a></h3>
 <p><em>Symbolic differentiation</em> computes exact expressions for derivatives using expression trees. As seen in the function in Demo
 1, exact expressions for derivatives can quickly become complex, which can somtimes make computing derivatives in this manner
 computationally inefficient.</p>
@@ -124,8 +125,8 @@ applications including machine learning, parameter optimization, sensitivity ana
 inference. In the rest of this module, we will begin to explore the mechanics of automatic differentiation.</p>
 </div>
 </div>
-<div class="section" id="the-basics-of-forward-mode">
-<h2>The Basics of Forward Mode<a class="headerlink" href="#the-basics-of-forward-mode" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ii-the-basics-of-forward-mode">
+<h2>II. The Basics of Forward Mode<a class="headerlink" href="#ii-the-basics-of-forward-mode" title="Permalink to this headline">¶</a></h2>
 <p>Automatic differentiation is something of a compromise between numerical differentiation and symbolic differentiation.
 Automatic differentiation provides numerical values of the derivatives of a function. These numerical values are correct to
 machine precision and are not influenced by any kind of “step size” like in numerical differentiation. Even though automatic
@@ -139,8 +140,6 @@ that to find the derivative of a composition of functions, we multiply a series 
 <div class="math notranslate nohighlight">
 \[\frac{df}{dt} = \frac{dg}{dh}\frac{dh}{dt}\]</div>
 <p>This can be generalized to functions of multiple inputs, which we will discuss in more detail in Module 2.</p>
-<div class="section" id="elementary-functions">
-<h3>Elementary Functions<a class="headerlink" href="#elementary-functions" title="Permalink to this headline">¶</a></h3>
 <p>Every function can be decomposed into a set of binary elementary operations or unary elementary
 functions. Elementary operations include addition, subtraction, multiplication, division, and exponentiation. Elementary
 functions include the natural exponential and natural logarithm, trigonometric functions, and polynomials. The sigmoid
@@ -155,21 +154,15 @@ are composed of other functions.</p>
 graph structure. You will learn much more about this graph structure in Module 2, including a way to build it by hand. For now,
 you will practice visualizing the graph with a special tool.</p>
 </div>
-</div>
-<div class="section" id="a-tool-for-visualizing-automatic-differentiation">
-<h2>A Tool for Visualizing Automatic Differentiation<a class="headerlink" href="#a-tool-for-visualizing-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="iii-a-tool-for-visualizing-automatic-differentiation">
+<h2>III. A Tool for Visualizing Automatic Differentiation<a class="headerlink" href="#iii-a-tool-for-visualizing-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
 <p>The Auto-eD tool is a pedagogical tool to help visualize the processes underlying automatic differentiation. In particular,
 this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.
 In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each
 node of the graph. These ideas will be discussed much more in Module 2.</p>
-<div class="section" id="auto-ed-web-application">
-<h3>Auto-eD Web Application<a class="headerlink" href="#auto-ed-web-application" title="Permalink to this headline">¶</a></h3>
 <p>The tool can be accessed directly through a web browser:</p>
 <p><a class="reference external" href="https://autoed.herokuapp.com">https://autoed.herokuapp.com</a></p>
 <p>This option is good for people who want to explore automatic differentiation.</p>
-</div>
-<div class="section" id="developer-instructions">
-<h3>Developer Instructions<a class="headerlink" href="#developer-instructions" title="Permalink to this headline">¶</a></h3>
 <p>Auto-eD is open source. You are free to check out the code and even contribute improvements. To run the tool with the ability
 to modify and contribute to the code, you may choose to clone the Github repo to have direct access to the code for the web
 app and access to the underlying package. From the terminal,</p>
@@ -196,9 +189,8 @@ app and access to the underlying package. From the terminal,</p>
 <li>Make a pull request to master and wait for the core developers to respond!</li>
 </ol>
 </div>
-</div>
-<div class="section" id="a-first-demo-of-automatic-differentiation">
-<h2>A First Demo of Automatic Differentiation<a class="headerlink" href="#a-first-demo-of-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="iv-a-first-demo-of-automatic-differentiation">
+<h2>IV. A First Demo of Automatic Differentiation<a class="headerlink" href="#iv-a-first-demo-of-automatic-differentiation" title="Permalink to this headline">¶</a></h2>
 <p>Let’s use the tool to visualize the function from our first demo. The example below was done using the web app.</p>
 <ol class="arabic simple">
 <li>The function has a single input variable, <cite>x</cite>, so just enter 1 in the “Number of input variables” field.</li>
@@ -240,8 +232,6 @@ configuration of the nodes. Alternatively, for large functions, you can run the 
 generate graphs that you can maximize to resize the edges.)</li>
 </ul>
 </div></blockquote>
-<div class="section" id="some-key-takeaways">
-<h3>Some Key Takeaways<a class="headerlink" href="#some-key-takeaways" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Our function was decomposed into a series of elementary operations.</li>
 <li>These operations include both basic binary operations (addition, subtraction, multiplication, and division), unary
@@ -253,11 +243,8 @@ gives the exact value of the derivative at a specified point. The graph displaye
 function itself and depicts how the function is built up from elementary functions.</li>
 </ul>
 </div>
-</div>
-<div class="section" id="exercises">
-<h2>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="exercise-1-motivating-automatic-differentiation">
-<h3>Exercise 1: Motivating Automatic Differentiation<a class="headerlink" href="#exercise-1-motivating-automatic-differentiation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="v-exercises">
+<h2>V. Exercises<a class="headerlink" href="#v-exercises" title="Permalink to this headline">¶</a></h2>
 <ol class="upperalpha">
 <li><p class="first">Write a Python function that takes two inputs: 1. a function (of a single variable) and 2. a value of <cite>h</cite>. This function
 should return a function which has a single input: a value of <cite>x</cite>.  This inner function should compute the numerical
@@ -286,20 +273,13 @@ happens for values of <cite>h</cite> that are too large?</li>
 </ul>
 </li>
 </ol>
-</div>
-<div class="section" id="exercise-2-basic-graph-structure-of-calculations">
-<h3>Exercise 2: Basic Graph Structure of Calculations<a class="headerlink" href="#exercise-2-basic-graph-structure-of-calculations" title="Permalink to this headline">¶</a></h3>
 <p>Consider the function <span class="math notranslate nohighlight">\(f(x)= \tan(x^2+3)+x\)</span>.</p>
 <p>Draw the graph with the visualization tool.</p>
-</div>
-<div class="section" id="exercise-3-looking-toward-multiple-inputs">
-<h3>Exercise 3: Looking Toward Multiple Inputs<a class="headerlink" href="#exercise-3-looking-toward-multiple-inputs" title="Permalink to this headline">¶</a></h3>
 <p>We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function,</p>
 <div class="math notranslate nohighlight">
 \[f(x,y)=\exp(-(\sin(x)-\cos(y))^2)\]</div>
 <p>Practice drawing the computational graph for this function using the visualization tool. We’ll discuss the theory behind
 functions of multiple inputs in the next module.</p>
-</div>
 </div>
 </div>
 
@@ -322,11 +302,11 @@ functions of multiple inputs in the next module.</p>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Module 1: The Basics of Forward Mode</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-basics-of-forward-mode">The Basics of Forward Mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#a-tool-for-visualizing-automatic-differentiation">A Tool for Visualizing Automatic Differentiation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#a-first-demo-of-automatic-differentiation">A First Demo of Automatic Differentiation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-introduction">I. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ii-the-basics-of-forward-mode">II. The Basics of Forward Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iii-a-tool-for-visualizing-automatic-differentiation">III. A Tool for Visualizing Automatic Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iv-a-first-demo-of-automatic-differentiation">IV. A First Demo of Automatic Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v-exercises">V. Exercises</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mod2.html">Module 2: Deeper Into Forward Mode</a></li>
