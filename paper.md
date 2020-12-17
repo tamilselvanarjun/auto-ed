@@ -9,13 +9,15 @@ authors:
    affiliation: 1
  - name: Rachel Moon
    orcid: 0000-0002-5906-7192
-   affiliation:
+   affiliation: 2
  - name: David Sondak
    orcid: 0000-0002-2730-9097
    affiliation: 1
 affiliations:
  - name: Harvard John A. Paulson School of Engineering and Applied Sciences
    index: 1
+ - name: Data Innovation Labs
+   index: 2
 date: 11 September 2020
 bibliography: paper.bib
 
@@ -53,7 +55,7 @@ of applications.
 
 # Content
 The content available in the [Auto-eD package](https://github.com/lindseysbrown/Auto-eD) contains a software package capable
-of performing automatic differentiation for a function and visualizing this calculation in a table and graph. Additionally,
+of performing automatic differentiation for a function and visualizing this calculation in a table and graphs. Additionally,
 the `Auto-eD` package content contains a learning unit for teaching automatic differentiation through an easily-accessible
 web application based on this software.
 
@@ -91,7 +93,7 @@ This software package is accompanied by a series of learning modules available o
 Docs](https://auto-ed.readthedocs.io/en/latest) to help students understand the theory behind automatic differentiation that
 is performed and visualized by the package. In the first module, we motivate the need for automatic differentiation, contrast
 it with numeric and symbolic differentiation, and introduce the basics of forward mode for a single input single output
-function. In the second module, we expand on the first modeule to include more of the theory underlying the forward mode,
+function. In the second module, we expand on the first module to include more of the theory underlying the forward mode,
 including a consideration of multiple input variables. We also emphasize the computational table and the graph structure in
 more detail. Manual exercises are complemented with the `Auto-eD` web application. The third module introduces the reverse
 mode of automatic differentiation and connects it to the famous backpropagation algorithm. The fourth module concludes with a

@@ -6,7 +6,7 @@ Module 1 Exercise Solutions
 Exercise 1: Motivating Automatic Differentiation
 
 A. The python code is given by:
-.. highlight ::
+::
         import numpy as np
         import matplotlib.pyplot as plt
 
@@ -36,12 +36,14 @@ B. The corresponding graph output is:
 C.  The numerical differentiation performs best for h=1e-7.  For h too small, we encounter round off errors as a result of limited machine precision.  For h too large, the numerical approximation is not exact.  Automatic differentiation addresses this by evaluating derivatives exactly to machine precision without taking numerical estimates.
 
 Exercise 2: Basic Graph Structure of Calculations
+
 .. image:: Mod1Ex2Sol.PNG
+
 You should notice that while your labelling of the nodes may be different, the overall connectivity structure and edges should be the same.
 
 Exercise 3:
-.. image:: Mod1Ex3Sol.PNG
 
+.. image:: Mod1Ex3Sol.PNG
 
 Module 2 Exercise Solutions
 ---------------------------
@@ -224,7 +226,7 @@ To find the derivative, we look to the dual part when we replace x with :math:`a
 
 .. math::
         y= e^{(a+b\epsilon)^2}
-        = e^{a^2}e^{2ab\epsilon}e^{\b^2\epsilon^2}
+        = e^{a^2}e^{2ab\epsilon}e^{b^2\epsilon^2}
 
 Since :math:`\epsilon^2=0`,
 
@@ -240,7 +242,7 @@ Expanding :math:`e^{2ab\epsilon}` using a Taylor series,
 So we have that the derivative evaluated at a is :math:`2ae^{a^2}`.
 
 Exercise 2: Toy AD Example
-.. highlight::
+::
         class AutoDiffToy():
             """ Creates an object for autodifferentiation
 
