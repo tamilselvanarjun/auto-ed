@@ -38,8 +38,7 @@
 <div class="section" id="module-1-exercise-solutions">
 <h2>Module 1 Exercise Solutions<a class="headerlink" href="#module-1-exercise-solutions" title="Permalink to this headline">¶</a></h2>
 <p>Exercise 1: Motivating Automatic Differentiation</p>
-<p>A. The python code is given by:
-.. highlight</p>
+<p>A. The python code is given by:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
@@ -70,11 +69,11 @@
 <ol class="upperalpha simple" start="3">
 <li>The numerical differentiation performs best for h=1e-7.  For h too small, we encounter round off errors as a result of limited machine precision.  For h too large, the numerical approximation is not exact.  Automatic differentiation addresses this by evaluating derivatives exactly to machine precision without taking numerical estimates.</li>
 </ol>
-<p>Exercise 2: Basic Graph Structure of Calculations
-.. image:: Mod1Ex2Sol.PNG
-You should notice that while your labelling of the nodes may be different, the overall connectivity structure and edges should be the same.</p>
-<p>Exercise 3:
-.. image:: Mod1Ex3Sol.PNG</p>
+<p>Exercise 2: Basic Graph Structure of Calculations</p>
+<img alt="_images/Mod1Ex2Sol.PNG" src="_images/Mod1Ex2Sol.PNG" />
+<p>You should notice that while your labelling of the nodes may be different, the overall connectivity structure and edges should be the same.</p>
+<p>Exercise 3:</p>
+<img alt="_images/Mod1Ex3Sol.PNG" src="_images/Mod1Ex3Sol.PNG" />
 </div>
 <div class="section" id="module-2-exercise-solutions">
 <h2>Module 2 Exercise Solutions<a class="headerlink" href="#module-2-exercise-solutions" title="Permalink to this headline">¶</a></h2>
@@ -288,7 +287,7 @@ Computing the derivative at the six nodes <span class="math notranslate nohighli
 To find the derivative, we look to the dual part when we replace x with <span class="math notranslate nohighlight">\(a+b\epsilon\)</span>.  For our function,</p>
 <div class="math notranslate nohighlight">
 \[y= e^{(a+b\epsilon)^2}
-= e^{a^2}e^{2ab\epsilon}e^{\b^2\epsilon^2}\]</div>
+= e^{a^2}e^{2ab\epsilon}e^{b^2\epsilon^2}\]</div>
 <p>Since <span class="math notranslate nohighlight">\(\epsilon^2=0\)</span>,</p>
 <div class="math notranslate nohighlight">
 \[=e^{a^2}e^{2ab\epsilon}\]</div>
@@ -297,8 +296,7 @@ To find the derivative, we look to the dual part when we replace x with <span cl
 \[= e^{a^2}\left( 1+ 2ab\epsilon + \frac{(2ab\epsilon)^2}{2} + \cdots \right)
 = e^{a^2}+2ae^{a^2}b\epsilon\]</div>
 <p>So we have that the derivative evaluated at a is <span class="math notranslate nohighlight">\(2ae^{a^2}\)</span>.</p>
-<p>Exercise 2: Toy AD Example
-.. highlight:</p>
+<p>Exercise 2: Toy AD Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoDiffToy</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; Creates an object for autodifferentiation</span>
 
