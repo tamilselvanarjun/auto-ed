@@ -87,9 +87,7 @@ difference formula is `f(x + h) - f(x)`. The smallest this difference could be w
 selected `h`, there is an error of :math:`10^{-4}`! This is pretty far away from machine precision and it happened because
 `h` is too small.
 
-See Exercise 1 for another example motivating the use of automatic differentiation.
-
-Now let's discuss symbolic differentiation.
+Check out :Exercise 1:`v-exercises` for another example motivating the use of automatic differentiation.
 
 Automatic differentiation is not symbolic differentiation.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
