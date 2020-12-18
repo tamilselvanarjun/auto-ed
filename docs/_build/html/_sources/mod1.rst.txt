@@ -258,21 +258,21 @@ V. Exercises
 ------------
 Exercise 1: Motivating Automatic Differentiation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A. Write a Python function that takes two inputs: 1. a function (of a single variable) and 2. a value of `h`. This function
-   should return a function which has a single input: a value of `x`.  This inner function should compute the numerical
-   approximation of the derivative of `f` with stepsize `h` at `x`.
+A. Write a Python function that takes two inputs: 1. a function (of a single variable) and 2. a value of :math:`h`. This function
+   should return a function which has a single input: a value of :math:`x`.  This inner function should compute the numerical
+   approximation of the derivative of :math:`f` with stepsize :math:`h` at :math:`x`.
        * Note: This part of the exercise is meant to be implemented as a closure in Python. It consists of an outer function and
          an inner function.
 
 B.  Let :math:`f(x) = ln(x)`. For :math:`0.2\leq x \leq 0.4`, make a plot comparing the numerically estimated derivative for
     :math:`h=10^{-1}, h=10^{-7}`, and :math:`h=10^{-15}` to the analytic derivative (which should be used explicitly).
-        * Note: All plots should be on the same figure. This means there should be 4 lines, three for the different values of `h`
+        * Note: All plots should be on the same figure. This means there should be 4 lines: three for the different values of :math:`h`
           and one for the true solution. Make sure to include a legend and that the different lines are distinguishable.
 
 C.  Answer the following questions:
 
-    * Which value of `h` most closely approximates the true derivative? What happens for values of `h` that are too small?  What
-      happens for values of `h` that are too large?
+    * Which value of :math:`h` most closely approximates the true derivative? What happens for values of :math:`h` that are too small?  What
+      happens for values of :math:`h` that are too large?
     * How does automatic differentiation address these problems?
 
 
@@ -284,10 +284,10 @@ Draw the graph with the visualization tool.
 
 Exercise 3: Looking Toward Multiple Inputs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function,
+We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function:
 
 .. math::
         f(x,y)=\exp(-(\sin(x)-\cos(y))^2)
 
-Practice drawing the computational graph for this function using the visualization tool. We'll discuss the theory behind
+Practice drawing the computational graph for this function using the Auto-eD visualization tool. We'll discuss the theory behind
 functions of multiple inputs in the next module.

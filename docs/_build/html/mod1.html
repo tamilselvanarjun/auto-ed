@@ -259,9 +259,9 @@ function itself and depicts how the function is built up from elementary functio
 <div class="section" id="exercise-1-motivating-automatic-differentiation">
 <h3>Exercise 1: Motivating Automatic Differentiation<a class="headerlink" href="#exercise-1-motivating-automatic-differentiation" title="Permalink to this headline">¶</a></h3>
 <ol class="upperalpha">
-<li><p class="first">Write a Python function that takes two inputs: 1. a function (of a single variable) and 2. a value of <span class="incremental">h</span>. This function
-should return a function which has a single input: a value of <span class="incremental">x</span>.  This inner function should compute the numerical
-approximation of the derivative of <span class="incremental">f</span> with stepsize <span class="incremental">h</span> at <span class="incremental">x</span>.</p>
+<li><p class="first">Write a Python function that takes two inputs: 1. a function (of a single variable) and 2. a value of <span class="math notranslate nohighlight">\(h\)</span>. This function
+should return a function which has a single input: a value of <span class="math notranslate nohighlight">\(x\)</span>.  This inner function should compute the numerical
+approximation of the derivative of <span class="math notranslate nohighlight">\(f\)</span> with stepsize <span class="math notranslate nohighlight">\(h\)</span> at <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <blockquote>
 <div><ul class="simple">
 <li>Note: This part of the exercise is meant to be implemented as a closure in Python. It consists of an outer function and
@@ -273,15 +273,15 @@ an inner function.</li>
 <span class="math notranslate nohighlight">\(h=10^{-1}, h=10^{-7}\)</span>, and <span class="math notranslate nohighlight">\(h=10^{-15}\)</span> to the analytic derivative (which should be used explicitly).</p>
 <blockquote>
 <div><ul class="simple">
-<li>Note: All plots should be on the same figure. This means there should be 4 lines, three for the different values of <span class="incremental">h</span>
+<li>Note: All plots should be on the same figure. This means there should be 4 lines: three for the different values of <span class="math notranslate nohighlight">\(h\)</span>
 and one for the true solution. Make sure to include a legend and that the different lines are distinguishable.</li>
 </ul>
 </div></blockquote>
 </li>
 <li><p class="first">Answer the following questions:</p>
 <ul class="simple">
-<li>Which value of <span class="incremental">h</span> most closely approximates the true derivative? What happens for values of <span class="incremental">h</span> that are too small?  What
-happens for values of <span class="incremental">h</span> that are too large?</li>
+<li>Which value of <span class="math notranslate nohighlight">\(h\)</span> most closely approximates the true derivative? What happens for values of <span class="math notranslate nohighlight">\(h\)</span> that are too small?  What
+happens for values of <span class="math notranslate nohighlight">\(h\)</span> that are too large?</li>
 <li>How does automatic differentiation address these problems?</li>
 </ul>
 </li>
@@ -294,10 +294,10 @@ happens for values of <span class="incremental">h</span> that are too large?</li
 </div>
 <div class="section" id="exercise-3-looking-toward-multiple-inputs">
 <h3>Exercise 3: Looking Toward Multiple Inputs<a class="headerlink" href="#exercise-3-looking-toward-multiple-inputs" title="Permalink to this headline">¶</a></h3>
-<p>We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function,</p>
+<p>We can use the same process to compute derivatives for functions of multiple inputs.  Consider the function:</p>
 <div class="math notranslate nohighlight">
 \[f(x,y)=\exp(-(\sin(x)-\cos(y))^2)\]</div>
-<p>Practice drawing the computational graph for this function using the visualization tool. We’ll discuss the theory behind
+<p>Practice drawing the computational graph for this function using the Auto-eD visualization tool. We’ll discuss the theory behind
 functions of multiple inputs in the next module.</p>
 </div>
 </div>
