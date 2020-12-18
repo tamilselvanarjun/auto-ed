@@ -1,22 +1,23 @@
 Module 3: The Reverse Mode of Automatic Differentiation
 =======================================================
-So far we have considered one mode of automatic differentiation, forward mode.  In forward mode, we carried derivatives along
-as we traversed the graph so that the graph itself did not need to be explicitly stored in memory. In reverse mode, we build
-the graph and store partial derivative information at each node but do not compute the full derivative with the chain rule
+So far we have considered one mode of automatic differentiation, the forward mode.  In forward mode, we carried derivatives along
+as we traversed the graph so that the graph itself did not need to be explicitly stored in memory. 
+
+In reverse mode, we build the graph and store partial derivative information at each node but do not compute the full derivative with the chain rule
 until the backward pass of the graph. We will see that both approaches have computational advantages over each other for
 different types of problems.
 
 I. The Basics of Reverse Mode
 -----------------------------
 As in forward mode, reverse mode still relies on the underlying computational graph structure of functions. As we will see
-using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative
-information is propagated changes. Recall that in forward mode we passed derivative information forward to store the
+using the visualization tool, the same graph can be used for forward and reverse mode, but what is different is the direction that derivative
+information is propagated. Recall that in forward mode, we passed derivative information forward to store the
 derivative at each node.
 
 In reverse mode, instead of storing full derivative information at each node, *only the partial derivatives of nodes relative
 to its children are stored*.  For example, if node :math:`x_3` has inputs nodes :math:`x_1` and :math:`x_2`, only the partial
 derivatives :math:`\frac{\partial x_3}{\partial x_1}` and :math:`\frac{\partial x_3}{\partial x_2}` are stored. Contrast
-this with forward mode, where for a function with inputs x and y, this node would store :math:`\frac{\partial x_3}{\partial
+this with forward mode, where for a function with inputs :math:`x` and :math:`y`, this node would store :math:`\frac{\partial x_3}{\partial
 x}` and :math:`\frac{\partial x_3}{\partial y}` via the chain rule.
 
 The reverse mode consists of two passes through the graph. The forward pass first builds the computational graph while
@@ -40,21 +41,20 @@ For :math:`x_i` with children :math:`x_j` and :math:`x_k`, we have
 II. Summary Sketch of Reverse Mode
 ----------------------------------
 
-* Create the evaluation graph
-* The forward pass does function evaluations
-* The forward pass also saves the partial derivatives of the elementary function at each step
+1. Create the evaluation graph
+2. The forward pass does function evaluations
+3. The forward pass also saves the partial derivatives of the elementary function at each step
     - **It does not do the chain rule!**
     - It only stores the partial derivatives
     - Examples:
         * If :math:`v_3 = v_1 v_2` is a node, then we store :math:`\dfrac{\partial v_3}{\partial v_1}` and
           :math:`\dfrac{\partial v_3}{\partial v_2}`. That's it.
         * If :math:`v_3 = \sin(v_2)` is a node, then we store :math:`\cos(v_2)`. Notice that there is no :math:`\dot{v}_{2}`.
-* The reverse pass starts with :math:`\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1` (since `f` is :math:`v_{N}`).
-* Next, the reverse pass gets :math:`\overline{v}_{N-1} = \dfrac{\partial f}{\partial v_{N}}\dfrac{\partial v_{N}}{\partial
-  v_{N-1}}`
+4. The reverse pass starts with :math:`\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1` (since :math:`f` is :math:`v_{N}`).
+5. Next, the reverse pass gets :math:`\overline{v}_{N-1} = \dfrac{\partial f}{\partial v_{N}}\dfrac{\partial v_{N}}{\partial v_{N-1}}`.
     - **Note:** :math:`\dfrac{\partial v_{N}}{\partial v_{N-1}}` is already stored from the forward pass.
-* The only trick occurs when we get to a branch in the graph. That is, when the node we're on has more than one child. In
-  that case, we sum the two paths. For example, if v3 has v4 and v5 as children, then we do
+6. The only trick occurs when we get to a branch in the graph. That is, when the node we're on has more than one child. In
+  that case, we sum the two paths. For example, if :math:`v_3` has :math:`v_4` and :math:`v_5` as children, then we do:
 
     .. math::
             \overline{v}_{3} = \dfrac{\partial f}{\partial v_{3}} = \dfrac{\partial f}{\partial v_{4}}\dfrac{\partial
@@ -65,18 +65,18 @@ II. Summary Sketch of Reverse Mode
 III. The Basic Equations
 ------------------------
 
-The partial derivative of `f` with respect to :math:`u_{i}` can be written as (see Nocedal and Wright, pg. 180)
+The partial derivative of :math:`f` with respect to :math:`u_{i}` can be written as (see `Nocedal and Wright <refs.html>`_, pg. 180):
 
 .. math::
         \dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
         u_{j}}{\partial u_{i}}}.
 
-At each node `i` we compute
+At each node :math:`i` we compute
 
 .. math::
         \overline{u}_{i} += \dfrac{\partial f}{\partial u_{j}}\dfrac{\partial u_{j}}{\partial u_{i}}.
 
-The :math:`\overline{u}_{i}` variable stores the current value of the partial derivative at node `i`. As mentioned
+The :math:`\overline{u}_{i}` variable stores the current value of the partial derivative at node :math:`i`. As mentioned
 previously, it is sometimes called the adjoint variable.
 
 Note that in our notation :math:`u_{i}` could be an input variable (e.g. :math:`x_{i}`) or an intermediate variable (e.g.
@@ -167,20 +167,21 @@ You should check that these results match those from taking the symbolic derivat
 V. Practice with the Visualization Tool
 ---------------------------------------
 Let's revisit our typical example. As with forward mode, we input the function into the interface in the same way and can
-compute the function value and derivative, but now we know a little bit about what reverse mode computes. Let's start with
-the same example we analyzed for forward mode, :math:`f(x) = x-\exp(-2\sin(4x)^2)`. Input it into the visualization tool in
-the same way that you did in the first module.
+compute the function value and derivative, but now we know a little bit about what reverse mode computes. 
 
-Focus on the right half of the screen this time. In the top right, you'll see a graph that looks very similar to the one
+Let's start with the same example we analyzed for forward mode, :math:`f(x) = x-\exp(-2\sin(4x)^2)`. Input it into the visualization tool in
+the same way that you did in the `first module <mod1.html#iv-a-first-demo-of-automatic-differentiation>`_.
+
+This time, focus on the right half of the visualization page. At the top right, you'll see a graph that looks very similar to the one
 produced in forward mode. Notice that the only difference is the direction of the arrows, representing the fact that
 derivatives are propagated in different directions.
 
 .. image:: Step4.PNG
 
-Now let's dynamically visualize the process of reverse mode. In the bottom right, press the 'df/dx' button. Use the 'Next'
-button to step through the process of reverse mode. At each step the edge that the computation traverses is highlighted. 
+Now let's dynamically visualize the process of reverse mode. In the bottom right, press the "df/dx" button. Use the "Next"
+button to step through the process of reverse mode. At each step, the edge that the computation traverses is highlighted. 
 
-Try the example with multiple inputs, :math:`f(x,y) = xy+\exp(xy)`. Recall that this function has a branch in its underlying
+Try the example with a function with multiple inputs, :math:`f(x,y) = xy+\exp(xy)`. Recall that this function has a branch in its underlying
 graph structure. This time when dynamically visualizing the reverse mode, you should see that the computation has to trace
 through both branches to pick up the stored partial derivatives for the computation of the derivatives.
 
@@ -208,8 +209,8 @@ As the names suggest, the primary difference between forward and reverse mode is
 graph is traversed, as we saw with the visualization tool. This has implications for the computational efficiency of the two
 approaches.
 
-As we just stated, reverse mode computes :math:`J^Tp`, while in module 2, we learned that forward mode computes :math:`Jp`.
-Although we didn't go deep into it, the implication of this difference is that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.
+As we just stated, reverse mode computes :math:`J^Tp`, while in `Module 2 <mod2.html#what-does-forward-mode-compute>`_, we learned that forward mode computes :math:`Jp`.
+Although we didn't go too deep into it, the implication of this difference is that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.
 
 Demo: A Comparison of Forward and Reverse Mode
 """"""""""""""""""""""""""""""""""""""""""""""
@@ -426,7 +427,7 @@ This example demonstrates that in cases with many inputs and few outputs, revers
 
 VIII. Going Forward
 -------------------
-In the next module, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
+In the `next module <mod4.html>`_, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
 questions of implementation in software.
 
 Other extensions for further reading include automatic differentiation for higher order derivatives, including computing
@@ -437,10 +438,11 @@ Jacobian and Hessian are sparse. Other work has explored using a mixture of forw
 IX. Exercise
 ------------
 
-Return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.
+Let's return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.
 
 .. math::
         f(x, y) = xy + \exp(xy)
 
-Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point (1,2).  You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.
+Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point :math:`(1,2)`.  
+You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.
 

@@ -164,24 +164,24 @@ respect to <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <span class="math notranslate nohighlight">\(\dot{v}_{2}\)</span>, which is just <span class="math notranslate nohighlight">\(f^{\prime}\)</span> in this case.</p>
 <p>Finally, there is something interesting about how we set the initial derivative in the first step. What we have done is
 “seeded” the derivative. Intuitively, it may help to think that in the first step we are taking the derivative of the input
-with respect to itself. Since <span class="math notranslate nohighlight">\(dx/dx=1\)</span>, the derivative in the first step should just be one. However, we will see
+with respect to itself. Since <span class="math notranslate nohighlight">\(dx/dx=1\)</span>, the derivative in the first step should just be <span class="math notranslate nohighlight">\(1\)</span>. However, we will see
 later that this is actually not necessary. If we want to get the true derivative, then it is good to seed the derivative in
-this way. However, automatic differentiation is more powerful than this and choosing different seed values can give valuable
+this way. However, automatic differentiation is more powerful than this, and choosing different seed values can give valuable
 information. Stay tuned.</p>
 <p>For this simple example, we can draw an accompanying graph to the original computational graph, which helps us visualize the
-way derivatives are carried through.</p>
+way the derivatives are carried through.</p>
 <img alt="_images/simple_deriv_graph.PNG" src="_images/simple_deriv_graph.PNG" />
 <p>The new graph shadows the original graph. Each node in the shadow graph represents the derivative at that step. Note that the
-edges representing the elementary functions (in this case sine) have been differentiated. Note too how the derivatives from
+edges representing the elementary functions (in this case sine function) have been differentiated. Note too how the derivatives from
 the previous node feed <em>forward</em> to the next node.</p>
 </div>
 </div>
 <div class="section" id="the-original-demo">
 <h3>The Original Demo<a class="headerlink" href="#the-original-demo" title="Permalink to this headline">¶</a></h3>
-<p>Now we return to the original demo from the first module.</p>
+<p>Now we return to the <a class="reference external" href="mod1.html#demo-1-errors-in-the-finite-difference-method">original demo</a> from the first module.</p>
 <div class="math notranslate nohighlight">
 \[f(x) = x - \exp(-2\sin^2(4x))\]</div>
-<p>In module 1, we formed the corresponding computational graph. Now let’s use that graph to write the computational table. Each
+<p>In <a class="reference external" href="mod1.html">Module 1</a>, we formed the corresponding computational graph. Now let’s use that graph to write the computational table. Each
 node in the table is the output of an elmentary function, whose derivative we can compute explicitly.</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
@@ -267,15 +267,15 @@ multiple inputs.</p>
 <p>Try to draw the graph by hand. The graph you drew should have the same structure as the graph below, which was produced with
 the visualization tool (with the exception of possibly interchanging some of the labels).</p>
 <img alt="_images/Mod1Ex3Sol.PNG" src="_images/Mod1Ex3Sol.PNG" />
-<p>We can also use the visualization tool to see the computational table which corresponds to the graph. Observe that the
-derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative
+<p>We can also use the visualization tool to see the computational table which corresponds to the graph.</p>
+<img alt="_images/Mod2Table.PNG" src="_images/Mod2Table.PNG" />
+<p>Observe that the derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative
 with respect to one of our inputs. Also notice that this table does not include the columns for the elementary function or
 its derivative. Those columns are useful for learning how things work, but ultimately automatic differentiation does not need
 to store them; it only needs to store the value. Note too that the interpretation of <span class="math notranslate nohighlight">\(\dot{x}\)</span> must be generalized. The
 dot now represents a derivative with respect to one or the other input depending on the context. Lastly, the table does not
 include any symbolic numbers. Instead, it presents values with as much precision as the computer allows to emphasize that
 automatic differentiation computes derivatives to machine precision.</p>
-<img alt="_images/Mod2Table.PNG" src="_images/Mod2Table.PNG" />
 <p>Note that computing the gradient for this multivariate function is done by assigning a seed vector to each input, where to
 find the gradient we use the standard basis vectors as seeds.  We’ll discuss more about what this means automatic
 differentiation is computing in the next section.</p>
@@ -289,38 +289,38 @@ differentiation is computing in the next section.</p>
 a more general chain rule.</p>
 <div class="section" id="a-back-to-the-beginning">
 <h4>a. Back to the Beginning<a class="headerlink" href="#a-back-to-the-beginning" title="Permalink to this headline">¶</a></h4>
-<p>Suppose we have a function <span class="math notranslate nohighlight">\(h(u(t))\)</span> and we want the derivative of <span class="incremental">h</span> with respect to <span class="incremental">t</span>. The chain rule gives,</p>
+<p>Suppose we have a function <span class="math notranslate nohighlight">\(h(u(t))\)</span> and we want the derivative of <span class="math notranslate nohighlight">\(h\)</span> with respect to <span class="math notranslate nohighlight">\(t\)</span>. The chain rule gives,</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t}.\]</div>
-<p>For example, consider <span class="incremental">h(u(t)) = sin(4t)</span>. Then <span class="incremental">h(u) = sin(u)</span> and <span class="incremental">u = 4t</span>. So</p>
+<p>For example, consider <span class="math notranslate nohighlight">\(h(u(t)) = \sin(4t)\)</span>. Then <span class="math notranslate nohighlight">\(h(u) = \sin(u)\)</span> and <span class="math notranslate nohighlight">\(u = 4t\)</span>. So</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial u} = \cos(u), \quad \dfrac{\partial u}{\partial t} = 4 \quad \Rightarrow \quad
 \dfrac{\partial h}{\partial t} = 4\cos(4t).\]</div>
 </div>
 <div class="section" id="b-adding-an-argument">
 <h4>b. Adding an Argument<a class="headerlink" href="#b-adding-an-argument" title="Permalink to this headline">¶</a></h4>
-<p>Now suppose that <span class="incremental">h</span> has another argument so that we have <span class="math notranslate nohighlight">\(h(u(t), v(t))\)</span>. Once again, we want the derivative of <span class="incremental">h</span>
-with respect to <span class="incremental">t</span>. Applying the chain rule in this case gives,</p>
+<p>Now suppose that <span class="math notranslate nohighlight">\(h\)</span> has another argument so that we have <span class="math notranslate nohighlight">\(h(u(t), v(t))\)</span>. Once again, we want the derivative of <span class="math notranslate nohighlight">\(h\)</span>
+with respect to <span class="math notranslate nohighlight">\(t\)</span>. Applying the chain rule in this case gives,</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t} + \dfrac{\partial
 h}{\partial v}\dfrac{\partial v}{\partial t}.\]</div>
 </div>
 <div class="section" id="c-accounting-for-multiple-inputs">
 <h4>c. Accounting for Multiple Inputs<a class="headerlink" href="#c-accounting-for-multiple-inputs" title="Permalink to this headline">¶</a></h4>
-<p>What if we replace <span class="incremental">t</span> by a vector <span class="math notranslate nohighlight">\(x\in\mathbb{R}^{m}\)</span>? Now what we really want is the <em>gradient</em> of <span class="incremental">h</span> with respect to
-<span class="incremental">x</span>. We write <span class="math notranslate nohighlight">\(h = h(u(x), v(x))\)</span> and the derivative is now,</p>
+<p>What if we replace <span class="math notranslate nohighlight">\(t\)</span> by a vector <span class="math notranslate nohighlight">\(x\in\mathbb{R}^{m}\)</span>? Now what we really want is the <em>gradient</em> of <span class="math notranslate nohighlight">\(h\)</span> with respect to
+<span class="math notranslate nohighlight">\(x\)</span>. We write <span class="math notranslate nohighlight">\(h = h(u(x), v(x))\)</span> and the derivative is now,</p>
 <div class="math notranslate nohighlight">
 \[\nabla_{x}h = \dfrac{\partial h}{\partial u}\nabla u + \dfrac{\partial h}{\partial v}\nabla v,\]</div>
 <p>where we have written <span class="math notranslate nohighlight">\(\nabla_{x}\)</span> on the left hand size to avoid any confusion with arguments. The gradient operator on the
-right hand size is clearly with respect to <span class="incremental">x</span> since <span class="incremental">u</span> and <span class="incremental">v</span> have no other arguments.</p>
+right hand side is clearly with respect to <span class="math notranslate nohighlight">\(x\)</span> since <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span> have no other arguments.</p>
 <p>As an example, consider <span class="math notranslate nohighlight">\(h = \sin(x_{1}x_{2})\cos(x_{1} + x_{2})\)</span>. Let’s say <span class="math notranslate nohighlight">\(u(x) = u(x_{1}, x_{2}) =
-x_{1}x_{2}\)</span> and <span class="math notranslate nohighlight">\(v(x) = v(x_{1}, x_{2}) = x_{1} + x_{2}\)</span>. We can re-write <span class="incremental">h</span> as <span class="math notranslate nohighlight">\(h = \sin(u(x))\cos(v(x))\)</span>.
+x_{1}x_{2}\)</span> and <span class="math notranslate nohighlight">\(v(x) = v(x_{1}, x_{2}) = x_{1} + x_{2}\)</span>. We can re-write <span class="math notranslate nohighlight">\(h\)</span> as <span class="math notranslate nohighlight">\(h = \sin(u(x))\cos(v(x))\)</span>.
 Then,</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial u} = \cos(u)\cos(v), \quad \dfrac{\partial h}{\partial v} = -\sin(u)\sin(v),\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\nabla u = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla v = \begin{bmatrix} 1 \\ 1 \end{bmatrix}\end{split}\]</div>
+\[\begin{split}\nabla u = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla v = \begin{bmatrix} 1 \\ 1 \end{bmatrix},\end{split}\]</div>
 <p>so</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\nabla_{x}h = \cos(x_{1}x_{2})\cos(x_{1} + x_{2})\begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix} - \sin(x_{1} +
@@ -328,8 +328,8 @@ x_{2})\sin(x_{1} + x_{2})\begin{bmatrix} 1 \\ 1 \end{bmatrix}.\end{split}\]</div
 </div>
 <div class="section" id="d-the-almost-general-rule">
 <h4>d. The (Almost) General Rule<a class="headerlink" href="#d-the-almost-general-rule" title="Permalink to this headline">¶</a></h4>
-<p>More generally, <span class="math notranslate nohighlight">\(h = h(y(x))\)</span> where <span class="math notranslate nohighlight">\(y \in \mathbb{R}^{n}\)</span> and <span class="math notranslate nohighlight">\(x \in \mathbb{R}^{m}\)</span>. Now <span class="incremental">h</span> is a
-function of possibly <span class="incremental">n</span> other functions, themselves a function of <span class="incremental">m</span> variables. The gradient of <span class="incremental">h</span> is now given by,</p>
+<p>More generally, <span class="math notranslate nohighlight">\(h = h(y(x))\)</span> where <span class="math notranslate nohighlight">\(y \in \mathbb{R}^{n}\)</span> and <span class="math notranslate nohighlight">\(x \in \mathbb{R}^{m}\)</span>. Now <span class="math notranslate nohighlight">\(h\)</span> is a
+function of possibly <span class="math notranslate nohighlight">\(n\)</span> other functions, themselves a function of <span class="math notranslate nohighlight">\(m\)</span> variables. The gradient of <span class="math notranslate nohighlight">\(h\)</span> is now given by,</p>
 <div class="math notranslate nohighlight">
 \[\nabla_{x}h = \sum_{i=1}^{n}{\dfrac{\partial h}{\partial y_{i}}\nabla y_{i}(x)}.\]</div>
 <p>We can repeat the example from the previous section to help reinforce notation. This time, say <span class="math notranslate nohighlight">\(y_{1} = x_{1}x_{2}\)</span> and
@@ -352,11 +352,11 @@ nested compositions of functions as deep as we want for arbitrarily large inputs
 <p>By now you must be wondering what forward mode <em>actually</em> computes. Sure, it gives us the numerical value of the derivative
 at a specific evaluation point of a function. But it can do even more than that.</p>
 <p>In the most general case, we are interested in computing Jacobians of vector valued functions of multiple variables. To
-compute these individual gradients, we started our evaluation table with a seed vector, <span class="incremental">p</span>. One way to think about this is
-through the directional derivative, defined to be,</p>
+compute these individual gradients, we started our evaluation table with a seed vector, <span class="math notranslate nohighlight">\(p\)</span>. One way to think about this is
+through the directional derivative, defined as:</p>
 <div class="math notranslate nohighlight">
 \[D_{p}f = \nabla f \cdot p\]</div>
-<p>where <span class="math notranslate nohighlight">\(D_{p}\)</span> is the directional derivative in the direction of <span class="incremental">p</span> and <span class="incremental">f</span> is the function we want to differentiate.
+<p>where <span class="math notranslate nohighlight">\(D_{p}\)</span> is the directional derivative in the direction of <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(f\)</span> is the function we want to differentiate.
 In two dimensions, we have <span class="math notranslate nohighlight">\(f = f(x_{1},x_{2})\)</span> and</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\nabla f = \begin{bmatrix} \dfrac{\partial f}{\partial x} \\ \dfrac{\partial f}{\partial y}\end{bmatrix}.\end{split}\]</div>
@@ -364,23 +364,23 @@ In two dimensions, we have <span class="math notranslate nohighlight">\(f = f(x_
 gives,</p>
 <div class="math notranslate nohighlight">
 \[D_{p}f = \dfrac{\partial f}{\partial x}p_{1} + \dfrac{\partial f}{\partial y}p_{2}.\]</div>
-<p>Now here comes the cool part. <em>We can choose</em> <span class="incremental">p</span>. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> then we get the partial with respect to <span class="incremental">x</span>.
-If we choose <span class="incremental">p=(0,1)</span> then we get the partial with respect to <span class="incremental">y</span>. This is really powerful! For arbitrary choices of <span class="incremental">p</span>, we
-get a linear combination of the partial derivatives representing the gradient in the direction of <span class="incremental">p</span>.</p>
+<p>Now here comes the cool part. <em>We can choose</em> <span class="incremental">p</span>. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> then we get the partial with respect to <span class="math notranslate nohighlight">\(x\)</span>.
+If we choose <span class="math notranslate nohighlight">\(p=(0,1)\)</span> then we get the partial with respect to <span class="math notranslate nohighlight">\(y\)</span>. This is really powerful! For arbitrary choices of <span class="math notranslate nohighlight">\(p\)</span>, we
+get a linear combination of the partial derivatives representing the gradient in the direction of <span class="math notranslate nohighlight">\(p\)</span>.</p>
 <div class="section" id="simple-demo">
 <h4>Simple Demo<a class="headerlink" href="#simple-demo" title="Permalink to this headline">¶</a></h4>
 <p>To see this in action, let’s consider the function <span class="math notranslate nohighlight">\(f(x,y) = xy\)</span>. The figure below shows the graph and the trace table
 evaluating the function at the point <span class="math notranslate nohighlight">\((a,b)\)</span>. The difference between the previous versions of the table is the
 introduction of an arbitrary seed vector <span class="math notranslate nohighlight">\(p = (p_{1},p_{2}\)</span>. Notice that the result is <span class="math notranslate nohighlight">\(ap_{2} + bp_{1}\)</span> and make
-sure you verify this. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> we simply get <span class="incremental">b</span>, which is just <span class="math notranslate nohighlight">\(\dfrac{\partial f}{\partial x}\)</span>.
-Depending on how we choose the vector <span class="incremental">p</span> we can evaluate the the gradient in any direction.</p>
+sure you verify this. If we choose <span class="math notranslate nohighlight">\(p=(1,0)\)</span> we simply get <span class="math notranslate nohighlight">\(b\)</span>, which is just <span class="math notranslate nohighlight">\(\dfrac{\partial f}{\partial x}\)</span>.
+Depending on how we choose the vector <span class="math notranslate nohighlight">\(p\)</span>, we can evaluate the the gradient in any direction.</p>
 <img alt="_images/fxy_seed.PNG" src="_images/fxy_seed.PNG" />
-<p>Now, you have likely noticed that choosing <span class="incremental">p=(0,1)</span> will give <span class="incremental">a</span>, which is <span class="math notranslate nohighlight">\(\dfrac{\partial f}{\partial y}\)</span>. So even
+<p>Now, you have likely noticed that choosing <span class="math notranslate nohighlight">\(p=(0,1)\)</span> will give <span class="math notranslate nohighlight">\(a\)</span>, which is <span class="math notranslate nohighlight">\(\dfrac{\partial f}{\partial y}\)</span>. So even
 though it’s really cool that we can get the directional derivative, we might just want the regular gradient. This can be
-accomplished by first selecting the seed <span class="incremental">p=(1,0)</span> and then selecting <span class="incremental">p=(0,1)</span>, but of course this is too much work. We
+accomplished by first selecting the seed <span class="math notranslate nohighlight">\(p=(1,0)\)</span> and then selecting <span class="math notranslate nohighlight">\(p=(0,1)\)</span>, but of course this is too much work. We
 don’t want to rebuild the graph for every new seed if we don’t have to. Another option is to just define as many seeds as we
 want and carry them along at each step. The next figure shows what this could look like for two seeds. Observe that using
-<span class="incremental">p=(1,0)</span> and <span class="incremental">q=(0,1)</span> gives the actual gradient.</p>
+<span class="math notranslate nohighlight">\(p=(1,0)\)</span> and <span class="math notranslate nohighlight">\(q=(0,1)\)</span> gives the actual gradient.</p>
 <img alt="_images/fxy_all_seeds.PNG" src="_images/fxy_all_seeds.PNG" />
 </div>
 <div class="section" id="two-dimensional-demo">
@@ -392,11 +392,11 @@ following function,</p>
 <p>We can calcuate the Jacobian by hand just to have it in our back pocket for comparison purposes.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}J = \begin{bmatrix} 2x &amp; 2y \\ e^{x+y} &amp; e^{x+y} \end{bmatrix}.\end{split}\]</div>
-<p>The Jacobian-vector product with a vector <span class="incremental">p</span> (our seed) is,</p>
+<p>The Jacobian-vector product with a vector <span class="math notranslate nohighlight">\(p\)</span> (our seed) is,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}Jp = \begin{bmatrix} 2x &amp; 2y \\ e^{x+y} &amp; e^{x+y} \end{bmatrix} \begin{bmatrix} p_{1} \\ p_{2} \end{bmatrix} =
      \begin{bmatrix} 2x p_{1} + 2y p_{2} \\ e^{x+y} p_{1} + e^{x+y} p_{2} \end{bmatrix}.\end{split}\]</div>
-<p>Before we launch into our manual automatic differentiation, let’s say we want to evaluate all of this at the point <span class="incremental">(1,1)</span>.
+<p>Before we launch into our manual automatic differentiation, let’s say we want to evaluate all of this at the point <span class="math notranslate nohighlight">\((1,1)\)</span>.
 Then,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}f(1,1) &amp;= \begin{bmatrix} 2 \\ e^{2} \end{bmatrix} \\
@@ -428,19 +428,19 @@ and <span class="math notranslate nohighlight">\(q=(0,1)\)</span>.</p>
 \[\begin{split}w_{out} = \begin{bmatrix}w_{out,1} \\ w_{out,2}\end{bmatrix}\end{split}\]</div>
 <p>is a vector representing output weights, <span class="math notranslate nohighlight">\(b_i\)</span> are bias terms and <span class="math notranslate nohighlight">\(z\)</span> is a nonlinear function that acts component wise.</p>
 <p>The above graph helps us visualize the computation in different layers.  This visualization hides many of the underlying operations which occur in the computation of <span class="math notranslate nohighlight">\(f\)</span> (e.g. it does not explicitly express the elementary operations).</p>
-<p>Your tasks:
-In this part, you will completely neglect the biases.  The mathematical form is therefore</p>
+<p><strong>Your Tasks</strong></p>
+<p>In this part, you will completely neglect the biases.  The mathematical form is therefore</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}f(x,y) = w_{out}^Tz\left(W\begin{bmatrix}x \\ y \end{bmatrix}\right)\end{split}\]</div>
+\[\begin{split}f(x,y) = w_{out}^Tz\left(W\begin{bmatrix}x \\ y \end{bmatrix}\right).\end{split}\]</div>
 <p>Note that in practical applications the biases play a key role.  However, we have elected to neglect them in this problem so that your results are more readable.  You will complete the two steps below while neglecting the bias terms.</p>
 <ol class="arabic simple">
 <li>Draw the complete forward computational graph.  You may treat <span class="math notranslate nohighlight">\(z\)</span> as a single elementary operation.  You should explicitly show the multiplications and additions that are masked in the schematic of the network above.</li>
-<li>Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.</li>
+<li>Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial <span class="math notranslate nohighlight">\(x\)</span> derivative, and partial <span class="math notranslate nohighlight">\(y\)</span> derivative.</li>
 </ol>
 </div>
 <div class="section" id="exercise-2-operation-count-problem">
 <h3>Exercise 2: Operation Count Problem<a class="headerlink" href="#exercise-2-operation-count-problem" title="Permalink to this headline">¶</a></h3>
-<p>Count the number of operations required to compute the derivatives in the Simple Demo and the Two-Dimensional Demo above. For
+<p>Count the number of operations required to compute the derivatives in the <a class="reference external" href="#simple-demo">Simple Demo</a> and the <a class="reference external" href="#two-dimensional-demo">Two-Dimensional Demo</a> above. For
 each demo, only keep track of the additions and multiplications.</p>
 </div>
 </div>
