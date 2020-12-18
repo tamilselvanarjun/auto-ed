@@ -40,21 +40,21 @@
 <div></div></blockquote>
 <div class="section" id="module-3-the-reverse-mode-of-automatic-differentiation">
 <h1>Module 3: The Reverse Mode of Automatic Differentiation<a class="headerlink" href="#module-3-the-reverse-mode-of-automatic-differentiation" title="Permalink to this headline">¶</a></h1>
-<p>So far we have considered one mode of automatic differentiation, forward mode.  In forward mode, we carried derivatives along
-as we traversed the graph so that the graph itself did not need to be explicitly stored in memory. In reverse mode, we build
-the graph and store partial derivative information at each node but do not compute the full derivative with the chain rule
+<p>So far we have considered one mode of automatic differentiation, the forward mode.  In forward mode, we carried derivatives along
+as we traversed the graph so that the graph itself did not need to be explicitly stored in memory.</p>
+<p>In reverse mode, we build the graph and store partial derivative information at each node but do not compute the full derivative with the chain rule
 until the backward pass of the graph. We will see that both approaches have computational advantages over each other for
 different types of problems.</p>
 <div class="section" id="i-the-basics-of-reverse-mode">
 <h2>I. The Basics of Reverse Mode<a class="headerlink" href="#i-the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <p>As in forward mode, reverse mode still relies on the underlying computational graph structure of functions. As we will see
-using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative
-information is propagated changes. Recall that in forward mode we passed derivative information forward to store the
+using the visualization tool, the same graph can be used for forward and reverse mode, but what is different is the direction that derivative
+information is propagated. Recall that in forward mode, we passed derivative information forward to store the
 derivative at each node.</p>
 <p>In reverse mode, instead of storing full derivative information at each node, <em>only the partial derivatives of nodes relative
 to its children are stored</em>.  For example, if node <span class="math notranslate nohighlight">\(x_3\)</span> has inputs nodes <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>, only the partial
 derivatives <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_1}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial x_2}\)</span> are stored. Contrast
-this with forward mode, where for a function with inputs x and y, this node would store <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial
+this with forward mode, where for a function with inputs <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, this node would store <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial
 x}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial x_3}{\partial y}\)</span> via the chain rule.</p>
 <p>The reverse mode consists of two passes through the graph. The forward pass first builds the computational graph while
 storing just the partial derivative information. The reverse pass then starts at the output node and traverses the graph in
@@ -72,14 +72,12 @@ must perform a summation over the children, which follows directly from the mult
 </div>
 <div class="section" id="ii-summary-sketch-of-reverse-mode">
 <h2>II. Summary Sketch of Reverse Mode<a class="headerlink" href="#ii-summary-sketch-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><p class="first">Create the evaluation graph</p>
-</li>
-<li><p class="first">The forward pass does function evaluations</p>
-</li>
+<ol class="arabic simple">
+<li>Create the evaluation graph</li>
+<li>The forward pass does function evaluations</li>
 <li><dl class="first docutils">
 <dt>The forward pass also saves the partial derivatives of the elementary function at each step</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><strong>It does not do the chain rule!</strong></li>
 <li>It only stores the partial derivatives</li>
 <li><dl class="first docutils">
@@ -96,18 +94,19 @@ must perform a summation over the children, which follows directly from the mult
 </dd>
 </dl>
 </li>
-<li><p class="first">The reverse pass starts with <span class="math notranslate nohighlight">\(\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1\)</span> (since <span class="incremental">f</span> is <span class="math notranslate nohighlight">\(v_{N}\)</span>).</p>
-</li>
-<li><p class="first">Next, the reverse pass gets <span class="math notranslate nohighlight">\(\overline{v}_{N-1} = \dfrac{\partial f}{\partial v_{N}}\dfrac{\partial v_{N}}{\partial
-v_{N-1}}\)</span></p>
-<blockquote>
-<div><ul class="simple">
+<li>The reverse pass starts with <span class="math notranslate nohighlight">\(\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1\)</span> (since <span class="math notranslate nohighlight">\(f\)</span> is <span class="math notranslate nohighlight">\(v_{N}\)</span>).</li>
+<li><dl class="first docutils">
+<dt>Next, the reverse pass gets <span class="math notranslate nohighlight">\(\overline{v}_{N-1} = \dfrac{\partial f}{\partial v_{N}}\dfrac{\partial v_{N}}{\partial v_{N-1}}\)</span>.</dt>
+<dd><ul class="first last">
 <li><strong>Note:</strong> <span class="math notranslate nohighlight">\(\dfrac{\partial v_{N}}{\partial v_{N-1}}\)</span> is already stored from the forward pass.</li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
-<li><p class="first">The only trick occurs when we get to a branch in the graph. That is, when the node we’re on has more than one child. In
-that case, we sum the two paths. For example, if v3 has v4 and v5 as children, then we do</p>
+<li>The only trick occurs when we get to a branch in the graph. That is, when the node we’re on has more than one child. In</li>
+</ol>
+<blockquote>
+<div><p>that case, we sum the two paths. For example, if <span class="math notranslate nohighlight">\(v_3\)</span> has <span class="math notranslate nohighlight">\(v_4\)</span> and <span class="math notranslate nohighlight">\(v_5\)</span> as children, then we do:</p>
 <blockquote>
 <div><div class="math notranslate nohighlight">
 \[\overline{v}_{3} = \dfrac{\partial f}{\partial v_{3}} = \dfrac{\partial f}{\partial v_{4}}\dfrac{\partial
@@ -116,12 +115,11 @@ v_{4}}{\partial v_{3}} + \dfrac{\partial f}{\partial v_{5}}\dfrac{\partial v_{5}
 <li><strong>Note:</strong> This summation is a manifestation of the chain rule.</li>
 </ul>
 </div></blockquote>
-</li>
-</ul>
+</div></blockquote>
 </div>
 <div class="section" id="iii-the-basic-equations">
 <h2>III. The Basic Equations<a class="headerlink" href="#iii-the-basic-equations" title="Permalink to this headline">¶</a></h2>
-<p>The partial derivative of <span class="incremental">f</span> with respect to <span class="math notranslate nohighlight">\(u_{i}\)</span> can be written as (see Nocedal and Wright, pg. 180)</p>
+<p>The partial derivative of <span class="math notranslate nohighlight">\(f\)</span> with respect to <span class="math notranslate nohighlight">\(u_{i}\)</span> can be written as (see <a class="reference external" href="refs.html">Nocedal and Wright</a>, pg. 180):</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
 u_{j}}{\partial u_{i}}}.\]</div>
