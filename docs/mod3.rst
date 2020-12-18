@@ -6,8 +6,8 @@ the graph and store partial derivative information at each node but do not compu
 until the backward pass of the graph. We will see that both approaches have computational advantages over each other for
 different types of problems.
 
-The Basics of Reverse Mode
---------------------------
+I. The Basics of Reverse Mode
+-----------------------------
 As in forward mode, reverse mode still relies on the underlying computational graph structure of functions. As we will see
 using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative
 information is propagated changes. Recall that in forward mode we passed derivative information forward to store the
@@ -37,8 +37,8 @@ For :math:`x_i` with children :math:`x_j` and :math:`x_k`, we have
 .. math::
         \bar{x_i} = \bar{x_j}\frac{\partial x_j}{\partial x_i} + \bar{x_k}\frac{\partial x_k}{\partial x_i}.
 
-Summary Sketch of Reverse Mode
-------------------------------
+II. Summary Sketch of Reverse Mode
+----------------------------------
 
 * Create the evaluation graph
 * The forward pass does function evaluations
@@ -62,8 +62,8 @@ Summary Sketch of Reverse Mode
 
     - **Note:** This summation is a manifestation of the chain rule.
 
-The Basic Equations
--------------------
+III. The Basic Equations
+------------------------
 
 The partial derivative of `f` with respect to :math:`u_{i}` can be written as (see Nocedal and Wright, pg. 180)
 
@@ -82,8 +82,8 @@ previously, it is sometimes called the adjoint variable.
 Note that in our notation :math:`u_{i}` could be an input variable (e.g. :math:`x_{i}`) or an intermediate variable (e.g.
 :math:`v_{i}`).
 
-An Example for Intuition
-------------------------
+IV. An Example for Intuition
+----------------------------
 
 Let's try to evaluate the function 
 
@@ -164,8 +164,8 @@ You should check that these results match those from taking the symbolic derivat
 
 
 
-Practice with the Visualization Tool
-------------------------------------
+V. Practice with the Visualization Tool
+---------------------------------------
 Let's revisit our typical example. As with forward mode, we input the function into the interface in the same way and can
 compute the function value and derivative, but now we know a little bit about what reverse mode computes. Let's start with
 the same example we analyzed for forward mode, :math:`f(x) = x-\exp(-2\sin(4x)^2)`. Input it into the visualization tool in
@@ -191,8 +191,8 @@ through both branches to pick up the stored partial derivatives for the computat
 - Reverse mode computes derivatives by making a backward pass starting at the output.
 
 
-More Theory
------------
+VI. More Theory
+---------------
 In the previous module, we demonstrated that forward mode computes the Jacobian vector product :math:`Jp`. In contrast,
 reverse mode computes :math:`J^Tp` where :math:`J^{T}` is the transpose of the Jacobian. This seemingly small difference can
 result in different operation counts for different kinds of problems.
@@ -202,8 +202,8 @@ Comment
 Backpropagation is a special case of the reverse mode of automatic differentiation where the function in which we are
 interested in taking derivatives is a scalar function that represents the error between the output and the true value.
 
-A Comparison of Forward and Reverse Mode
-----------------------------------------
+VII. A Comparison of Forward and Reverse Mode
+---------------------------------------------
 As the names suggest, the primary difference between forward and reverse mode is the direciton in which the computational
 graph is traversed, as we saw with the visualization tool. This has implications for the computational efficiency of the two
 approaches.
@@ -295,7 +295,7 @@ we do not store the results of the chain rule but just the values of the partial
 
 
 To compute the derivatives, we will now traverse through the graph, picking up the partial derivatives, using our update
-equations.  You can visualize this graph traversal by using the dynamic visualization tool.
+equations. You can visualize this graph traversal by using the dynamic visualization tool.
 
 .. math::
         
@@ -424,8 +424,8 @@ Both methods require 4 multiplication steps. Now consider the operations to comp
 
 This example demonstrates that in cases with many inputs and few outputs, reverse mode is more computationally efficient than forward mode.
 
-Going Forward
--------------
+VIII. Going Forward
+-------------------
 In the next module, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
 questions of implementation in software.
 
@@ -434,8 +434,8 @@ Hessians, and algorithmic differentiation of computer programs. We can also cons
 terms of memory and efficient graph storage, access, and traversal. Such efficiency may be better achieved in cases where the
 Jacobian and Hessian are sparse. Other work has explored using a mixture of forward and reverse mode for computations.
 
-Exercise
----------
+IX. Exercise
+------------
 
 Return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.
 

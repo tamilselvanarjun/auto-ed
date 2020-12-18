@@ -129,7 +129,7 @@ that to find the derivative of a composition of functions, we multiply a series 
 
         \frac{df}{dt} = \frac{dg}{dh}\frac{dh}{dt}.
 
-This can be generalized to functions of multiple inputs, which we will discuss in more detail in Module 2. 
+This can be generalized to functions of multiple inputs, which we will discuss in more detail in `Module 2 <mod2.html>`_. 
 
 
 Elementary Functions

@@ -3,8 +3,9 @@ Module 2: Deeper Into Forward Mode
 
 As we introduced in `Module 1 <mod1.html>`_, the forward mode of automatic differentiation computes derviatives by decomposing functions
 into a series of elementary operations.  We can explicitly compute the derivative of each of these elementary operations,
-allowing us to combine them using the chain rule to accurately compute the derivative of our function.  As we have seen, in
-the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the
+allowing us to combine them using the chain rule to accurately compute the derivative of our function.  
+
+As we have seen, in the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the
 elementary operations that join these nodes.  The inputs to our functions become the first nodes in our graph.  For each
 subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the
 computation as a series of elementary traces.
@@ -12,13 +13,13 @@ computation as a series of elementary traces.
 I. The Computational Trace and Practice with the Visualization Tool
 -------------------------------------------------------------------
 At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule,
-we compute the derivative at a particular node from the elementary operation that created that node and the value and
-derivative of the input node to that elementary operation.  We'll return to our example from the first demo in a moment. For
-now, let's work with a simpler function so we can see example how everything works out. 
+we compute the derivative at a particular node from the elementary operation that created that node as well as the value and
+derivative of the input node to that elementary operation.  We'll return to our example from `Demo 1 <mod1.html#demo-1-errors-in-the-finite-difference-method>`_ 
+in a moment. For now, let's work with a simpler function so we can see example how everything works out. 
 
 A Basic Example
 ^^^^^^^^^^^^^^^
-We worked with a fairly involved function in module 1. Now we want to understand how the graph is created an how derivatives
+We worked with a fairly involved function in `Module 1 <mod1.html>`_. Now we want to understand how the graph is created and how derivatives
 are really computed using automatic differentiation. A very friendly function to start with is,
 
 .. math::
@@ -30,20 +31,20 @@ We want to evaluate :math:`f(x)` at a specific point. We will choose the point `
 refer to a specific point with the name `a`. It should be assumed that `a` has a specific value (e.g. `2`). How do we
 evaluate this function?
 
-1. Replace `x` with the value `2`.
+1. Replace :math:`x` with the value :math:`2`.
 
 2. Multiply: :math:`2\times 2 = 4`.
 
-3. Apply the sine function: :math:`\sin(4)`
+3. Apply the sine function: :math:`\sin(4)`.
 
-4. Return the value of f: :math:`f = \sin(4)`.
+4. Return the value of :math:`f`: :math:`f = \sin(4)`.
 
 b. Visualizing the Evaluation
 """""""""""""""""""""""""""""
 We can visualize this evaluation in a graph. Each node of the graph will represent a stage in evaluation of the function. The
 nodes are connected together with edges. The parent value of a given node is the input to that node. The input to the entire
 function will be denoted by :math:`x_{0}`. Intermediate values will be denoted by :math:`v_{i}`. The evaluation graph of our
-simple function is show in the figure below.
+simple function is shown in the figure below.
 
 .. image:: simple_graph.PNG
 
@@ -58,7 +59,7 @@ function is shown in the following table.
           - Elementary Function
           - Current Value
         * - :math:`x_1`
-          - x, input
+          - :math:`x`, input
           - :math:`2`
         * - :math:`v_1`
           - :math:`2x_1`
@@ -74,7 +75,7 @@ the computer. All we've done so far is laid things out more algorithmically.
 c. Introducing Derivatives
 """"""""""""""""""""""""""
 Let's add one more wrinkle. We can actually compute the derivatives as we go along at each step. The way we do this is by
-applying the chain rule at each step. We'll had two more columns to the table. The first new column will represent the
+applying the chain rule at each step. We'll add two more columns to the table. The first new column will represent the
 elementary function derivative at that step. The second new column will represent the value of the derivative at that step.
 
 .. list-table::
@@ -109,7 +110,7 @@ derivative of our function is :math:`f^{\prime} = 2\cos(2x)`. Evaluated at our c
 We introduced some new notation: we denoted a derivative with the overdot notation. This is the common notation in
 forward mode. Therefore, the derivative of :math:`2x_{1}` is simply :math:`2\dot{x}_{1}`. The dot should be interpreted as a
 derivative with respect to the independent variable. In the 1D case that we're doing here, the dot means a derivative with
-respect to `x`.
+respect to :math:`x`.
 
 We used the chain rule at each step. This is most apparent in the last step where we took the derivative of :math:`v_{2}` to get
 :math:`\dot{v}_{2}`, which is just :math:`f^{\prime}` in this case.

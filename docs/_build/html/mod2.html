@@ -42,20 +42,20 @@
 <h1>Module 2: Deeper Into Forward Mode<a class="headerlink" href="#module-2-deeper-into-forward-mode" title="Permalink to this headline">¶</a></h1>
 <p>As we introduced in <a class="reference external" href="mod1.html">Module 1</a>, the forward mode of automatic differentiation computes derviatives by decomposing functions
 into a series of elementary operations.  We can explicitly compute the derivative of each of these elementary operations,
-allowing us to combine them using the chain rule to accurately compute the derivative of our function.  As we have seen, in
-the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the
+allowing us to combine them using the chain rule to accurately compute the derivative of our function.</p>
+<p>As we have seen, in the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the
 elementary operations that join these nodes.  The inputs to our functions become the first nodes in our graph.  For each
 subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the
 computation as a series of elementary traces.</p>
 <div class="section" id="i-the-computational-trace-and-practice-with-the-visualization-tool">
 <h2>I. The Computational Trace and Practice with the Visualization Tool<a class="headerlink" href="#i-the-computational-trace-and-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
 <p>At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule,
-we compute the derivative at a particular node from the elementary operation that created that node and the value and
-derivative of the input node to that elementary operation.  We’ll return to our example from the first demo in a moment. For
-now, let’s work with a simpler function so we can see example how everything works out.</p>
+we compute the derivative at a particular node from the elementary operation that created that node as well as the value and
+derivative of the input node to that elementary operation.  We’ll return to our example from <a class="reference external" href="mod1.html#demo-1-errors-in-the-finite-difference-method">Demo 1</a>
+in a moment. For now, let’s work with a simpler function so we can see example how everything works out.</p>
 <div class="section" id="a-basic-example">
 <h3>A Basic Example<a class="headerlink" href="#a-basic-example" title="Permalink to this headline">¶</a></h3>
-<p>We worked with a fairly involved function in module 1. Now we want to understand how the graph is created an how derivatives
+<p>We worked with a fairly involved function in <a class="reference external" href="mod1.html">Module 1</a>. Now we want to understand how the graph is created and how derivatives
 are really computed using automatic differentiation. A very friendly function to start with is,</p>
 <div class="math notranslate nohighlight">
 \[f(x) = \sin(2x)\]</div>
@@ -65,10 +65,10 @@ are really computed using automatic differentiation. A very friendly function to
 refer to a specific point with the name <span class="incremental">a</span>. It should be assumed that <span class="incremental">a</span> has a specific value (e.g. <span class="incremental">2</span>). How do we
 evaluate this function?</p>
 <ol class="arabic simple">
-<li>Replace <span class="incremental">x</span> with the value <span class="incremental">2</span>.</li>
+<li>Replace <span class="math notranslate nohighlight">\(x\)</span> with the value <span class="math notranslate nohighlight">\(2\)</span>.</li>
 <li>Multiply: <span class="math notranslate nohighlight">\(2\times 2 = 4\)</span>.</li>
-<li>Apply the sine function: <span class="math notranslate nohighlight">\(\sin(4)\)</span></li>
-<li>Return the value of f: <span class="math notranslate nohighlight">\(f = \sin(4)\)</span>.</li>
+<li>Apply the sine function: <span class="math notranslate nohighlight">\(\sin(4)\)</span>.</li>
+<li>Return the value of <span class="math notranslate nohighlight">\(f\)</span>: <span class="math notranslate nohighlight">\(f = \sin(4)\)</span>.</li>
 </ol>
 </div>
 <div class="section" id="b-visualizing-the-evaluation">
@@ -76,7 +76,7 @@ evaluate this function?</p>
 <p>We can visualize this evaluation in a graph. Each node of the graph will represent a stage in evaluation of the function. The
 nodes are connected together with edges. The parent value of a given node is the input to that node. The input to the entire
 function will be denoted by <span class="math notranslate nohighlight">\(x_{0}\)</span>. Intermediate values will be denoted by <span class="math notranslate nohighlight">\(v_{i}\)</span>. The evaluation graph of our
-simple function is show in the figure below.</p>
+simple function is shown in the figure below.</p>
 <img alt="_images/simple_graph.PNG" src="_images/simple_graph.PNG" />
 <p>We can convert this graph picture into a trace table, which “traces” out the computational steps. The trace table for this
 function is shown in the following table.</p>
@@ -94,7 +94,7 @@ function is shown in the following table.</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><span class="math notranslate nohighlight">\(x_1\)</span></td>
-<td>x, input</td>
+<td><span class="math notranslate nohighlight">\(x\)</span>, input</td>
 <td><span class="math notranslate nohighlight">\(2\)</span></td>
 </tr>
 <tr class="row-odd"><td><span class="math notranslate nohighlight">\(v_1\)</span></td>
@@ -114,7 +114,7 @@ the computer. All we’ve done so far is laid things out more algorithmically.</
 <div class="section" id="c-introducing-derivatives">
 <h4>c. Introducing Derivatives<a class="headerlink" href="#c-introducing-derivatives" title="Permalink to this headline">¶</a></h4>
 <p>Let’s add one more wrinkle. We can actually compute the derivatives as we go along at each step. The way we do this is by
-applying the chain rule at each step. We’ll had two more columns to the table. The first new column will represent the
+applying the chain rule at each step. We’ll add two more columns to the table. The first new column will represent the
 elementary function derivative at that step. The second new column will represent the value of the derivative at that step.</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
@@ -159,7 +159,7 @@ derivative of our function is <span class="math notranslate nohighlight">\(f^{\p
 <p>We introduced some new notation: we denoted a derivative with the overdot notation. This is the common notation in
 forward mode. Therefore, the derivative of <span class="math notranslate nohighlight">\(2x_{1}\)</span> is simply <span class="math notranslate nohighlight">\(2\dot{x}_{1}\)</span>. The dot should be interpreted as a
 derivative with respect to the independent variable. In the 1D case that we’re doing here, the dot means a derivative with
-respect to <span class="incremental">x</span>.</p>
+respect to <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <p>We used the chain rule at each step. This is most apparent in the last step where we took the derivative of <span class="math notranslate nohighlight">\(v_{2}\)</span> to get
 <span class="math notranslate nohighlight">\(\dot{v}_{2}\)</span>, which is just <span class="math notranslate nohighlight">\(f^{\prime}\)</span> in this case.</p>
 <p>Finally, there is something interesting about how we set the initial derivative in the first step. What we have done is

@@ -45,8 +45,8 @@ as we traversed the graph so that the graph itself did not need to be explicitly
 the graph and store partial derivative information at each node but do not compute the full derivative with the chain rule
 until the backward pass of the graph. We will see that both approaches have computational advantages over each other for
 different types of problems.</p>
-<div class="section" id="the-basics-of-reverse-mode">
-<h2>The Basics of Reverse Mode<a class="headerlink" href="#the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="i-the-basics-of-reverse-mode">
+<h2>I. The Basics of Reverse Mode<a class="headerlink" href="#i-the-basics-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <p>As in forward mode, reverse mode still relies on the underlying computational graph structure of functions. As we will see
 using the visualization tool, the same graph can be used for forward and reverse mode, but just the direction that derivative
 information is propagated changes. Recall that in forward mode we passed derivative information forward to store the
@@ -70,8 +70,8 @@ must perform a summation over the children, which follows directly from the mult
 <div class="math notranslate nohighlight">
 \[\bar{x_i} = \bar{x_j}\frac{\partial x_j}{\partial x_i} + \bar{x_k}\frac{\partial x_k}{\partial x_i}.\]</div>
 </div>
-<div class="section" id="summary-sketch-of-reverse-mode">
-<h2>Summary Sketch of Reverse Mode<a class="headerlink" href="#summary-sketch-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ii-summary-sketch-of-reverse-mode">
+<h2>II. Summary Sketch of Reverse Mode<a class="headerlink" href="#ii-summary-sketch-of-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">Create the evaluation graph</p>
 </li>
@@ -119,8 +119,8 @@ v_{4}}{\partial v_{3}} + \dfrac{\partial f}{\partial v_{5}}\dfrac{\partial v_{5}
 </li>
 </ul>
 </div>
-<div class="section" id="the-basic-equations">
-<h2>The Basic Equations<a class="headerlink" href="#the-basic-equations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="iii-the-basic-equations">
+<h2>III. The Basic Equations<a class="headerlink" href="#iii-the-basic-equations" title="Permalink to this headline">¶</a></h2>
 <p>The partial derivative of <span class="incremental">f</span> with respect to <span class="math notranslate nohighlight">\(u_{i}\)</span> can be written as (see Nocedal and Wright, pg. 180)</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
@@ -133,8 +133,8 @@ previously, it is sometimes called the adjoint variable.</p>
 <p>Note that in our notation <span class="math notranslate nohighlight">\(u_{i}\)</span> could be an input variable (e.g. <span class="math notranslate nohighlight">\(x_{i}\)</span>) or an intermediate variable (e.g.
 <span class="math notranslate nohighlight">\(v_{i}\)</span>).</p>
 </div>
-<div class="section" id="an-example-for-intuition">
-<h2>An Example for Intuition<a class="headerlink" href="#an-example-for-intuition" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="iv-an-example-for-intuition">
+<h2>IV. An Example for Intuition<a class="headerlink" href="#iv-an-example-for-intuition" title="Permalink to this headline">¶</a></h2>
 <p>Let’s try to evaluate the function</p>
 <div class="math notranslate nohighlight">
 \[f(x,y) = xy + \exp(xy)\]</div>
@@ -184,8 +184,8 @@ children. Note that this time we must save the graph.</p>
 <p>You should check that these results match those from taking the symbolic derivative and evaluating it at the desired point.</p>
 </div>
 </div>
-<div class="section" id="practice-with-the-visualization-tool">
-<h2>Practice with the Visualization Tool<a class="headerlink" href="#practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="v-practice-with-the-visualization-tool">
+<h2>V. Practice with the Visualization Tool<a class="headerlink" href="#v-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
 <p>Let’s revisit our typical example. As with forward mode, we input the function into the interface in the same way and can
 compute the function value and derivative, but now we know a little bit about what reverse mode computes. Let’s start with
 the same example we analyzed for forward mode, <span class="math notranslate nohighlight">\(f(x) = x-\exp(-2\sin(4x)^2)\)</span>. Input it into the visualization tool in
@@ -206,8 +206,8 @@ through both branches to pick up the stored partial derivatives for the computat
 <li>Reverse mode computes derivatives by making a backward pass starting at the output.</li>
 </ul>
 </div>
-<div class="section" id="more-theory">
-<h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vi-more-theory">
+<h2>VI. More Theory<a class="headerlink" href="#vi-more-theory" title="Permalink to this headline">¶</a></h2>
 <p>In the previous module, we demonstrated that forward mode computes the Jacobian vector product <span class="math notranslate nohighlight">\(Jp\)</span>. In contrast,
 reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span> where <span class="math notranslate nohighlight">\(J^{T}\)</span> is the transpose of the Jacobian. This seemingly small difference can
 result in different operation counts for different kinds of problems.</p>
@@ -217,8 +217,8 @@ result in different operation counts for different kinds of problems.</p>
 interested in taking derivatives is a scalar function that represents the error between the output and the true value.</p>
 </div>
 </div>
-<div class="section" id="a-comparison-of-forward-and-reverse-mode">
-<h2>A Comparison of Forward and Reverse Mode<a class="headerlink" href="#a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vii-a-comparison-of-forward-and-reverse-mode">
+<h2>VII. A Comparison of Forward and Reverse Mode<a class="headerlink" href="#vii-a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h2>
 <p>As the names suggest, the primary difference between forward and reverse mode is the direciton in which the computational
 graph is traversed, as we saw with the visualization tool. This has implications for the computational efficiency of the two
 approaches.</p>
@@ -355,7 +355,7 @@ we do not store the results of the chain rule but just the values of the partial
 </tbody>
 </table>
 <p>To compute the derivatives, we will now traverse through the graph, picking up the partial derivatives, using our update
-equations.  You can visualize this graph traversal by using the dynamic visualization tool.</p>
+equations. You can visualize this graph traversal by using the dynamic visualization tool.</p>
 <div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\bar{x_9} &amp;= \frac{\partial f}{\partial x_9} = 1\\\bar{x_8} &amp;= \frac{\partial f}{\partial x_9}\frac{\partial x_9}{\partial x_8} = 1 \cdot 2 = 2\\\bar{x_7} &amp;= \frac{\partial f}{\partial x_8}\frac{\partial x_8}{\partial x_7} = 2 \cdot 1 = 2\\\bar{x_6} &amp;= \frac{\partial f}{\partial x_7}\frac{\partial x_7}{\partial x_6} = 2 \cdot 1 = 2\\\bar{x_5} &amp;= \frac{\partial f}{\partial x_6}\frac{\partial x_6}{\partial x_5} = 2 \cdot 1 = 2\\\bar{x_4} &amp;= \frac{\partial f}{\partial x_6}\frac{\partial x_6}{\partial x_4} = 2 \cdot 1 = 2\\\bar{x_3} &amp;= \frac{\partial f}{\partial x_7}\frac{\partial x_7}{\partial x_3} = 2 \cdot 1 = 2\\\bar{x_2} &amp;= \frac{\partial f}{\partial x_8}\frac{\partial x_8}{\partial x_2} = 2 \cdot 1 = 2\\\bar{x_1} &amp;= \frac{\partial f}{\partial x_9}\frac{\partial x_9}{\partial x_1} = 1 \cdot 1 = 1\end{aligned}\end{align} \]</div>
 <p>As we learned in the previous module, we could have used forward mode to compute the same values. We know that we can use the
@@ -486,8 +486,8 @@ addition) for each of the 5 inputs, for a total of <span class="math notranslate
 <p>This example demonstrates that in cases with many inputs and few outputs, reverse mode is more computationally efficient than forward mode.</p>
 </div>
 </div>
-<div class="section" id="going-forward">
-<h2>Going Forward<a class="headerlink" href="#going-forward" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="viii-going-forward">
+<h2>VIII. Going Forward<a class="headerlink" href="#viii-going-forward" title="Permalink to this headline">¶</a></h2>
 <p>In the next module, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
 questions of implementation in software.</p>
 <p>Other extensions for further reading include automatic differentiation for higher order derivatives, including computing
@@ -495,8 +495,8 @@ Hessians, and algorithmic differentiation of computer programs. We can also cons
 terms of memory and efficient graph storage, access, and traversal. Such efficiency may be better achieved in cases where the
 Jacobian and Hessian are sparse. Other work has explored using a mixture of forward and reverse mode for computations.</p>
 </div>
-<div class="section" id="exercise">
-<h2>Exercise<a class="headerlink" href="#exercise" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ix-exercise">
+<h2>IX. Exercise<a class="headerlink" href="#ix-exercise" title="Permalink to this headline">¶</a></h2>
 <p>Return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.</p>
 <div class="math notranslate nohighlight">
 \[f(x, y) = xy + \exp(xy)\]</div>
@@ -525,15 +525,15 @@ Jacobian and Hessian are sparse. Other work has explored using a mixture of forw
 <li class="toctree-l1"><a class="reference internal" href="mod1.html">Module 1: The Basics of Forward Mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mod2.html">Module 2: Deeper Into Forward Mode</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Module 3: The Reverse Mode of Automatic Differentiation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-basics-of-reverse-mode">The Basics of Reverse Mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#summary-sketch-of-reverse-mode">Summary Sketch of Reverse Mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-basic-equations">The Basic Equations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#an-example-for-intuition">An Example for Intuition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#practice-with-the-visualization-tool">Practice with the Visualization Tool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#more-theory">More Theory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#a-comparison-of-forward-and-reverse-mode">A Comparison of Forward and Reverse Mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#going-forward">Going Forward</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exercise">Exercise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-the-basics-of-reverse-mode">I. The Basics of Reverse Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ii-summary-sketch-of-reverse-mode">II. Summary Sketch of Reverse Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iii-the-basic-equations">III. The Basic Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iv-an-example-for-intuition">IV. An Example for Intuition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v-practice-with-the-visualization-tool">V. Practice with the Visualization Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vi-more-theory">VI. More Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vii-a-comparison-of-forward-and-reverse-mode">VII. A Comparison of Forward and Reverse Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viii-going-forward">VIII. Going Forward</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ix-exercise">IX. Exercise</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mod4.html">Beyond the Basics: Extensions and Software Development</a></li>
