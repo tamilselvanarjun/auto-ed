@@ -1,5 +1,5 @@
-Beyond the Basics: Extensions and Software Development
-======================================================
+Module 4: Beyond the Basics: Extensions and Software Development
+================================================================
 
 We have presented one way of thinking about automatic differentiation and the graph structure of functions which underly the
 computations in both forward and reverse mode.  This section includes another way of thinking about automatic differentiation

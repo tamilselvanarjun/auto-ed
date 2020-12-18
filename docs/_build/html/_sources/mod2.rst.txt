@@ -27,8 +27,8 @@ are really computed using automatic differentiation. A very friendly function to
 
 a. Evaluating the Function
 """"""""""""""""""""""""""
-We want to evaluate :math:`f(x)` at a specific point. We will choose the point `a=2`. Throughout this documentation, we will
-refer to a specific point with the name `a`. It should be assumed that `a` has a specific value (e.g. `2`). How do we
+We want to evaluate :math:`f(x)` at a specific point. We will choose the point :math:`a=2`. Throughout this documentation, we will
+refer to a specific point with the name :math:`a`. It should be assumed that :math:`a` has a specific value, the point at which the function is being evaluated.  (This specific point is `2` in the example below.) How do we
 evaluate this function?
 
 1. Replace :math:`x` with the value :math:`2`.
@@ -194,8 +194,8 @@ node in the table is the output of an elmentary function, whose derivative we ca
         
           
 
-The visualization tool which we installed in the first module also computes the computational table. Input the function and
-compare the forward mode graph to the forward model table.
+The visualization tool from the first module also computes the computational table. Input the function and
+compare the forward mode graph to the forward mode table.
 
 Notice how the computational trace corresponds to the nodes on the graph and the edges linking these nodes. Note that the
 choices of labels for the traces might be different than the table we wrote by hand - compare the labels for the nodes in the

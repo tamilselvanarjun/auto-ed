@@ -139,7 +139,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'ADVisualization.tex', 'AD Visualization Documentation',
-     'Lindsey Brown and David Sondak', 'manual'),
+     'Lindsey Brown, Rachel Moon, and David Sondak', 'manual'),
 ]
 
 

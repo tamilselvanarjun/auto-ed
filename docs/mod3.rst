@@ -438,7 +438,7 @@ Jacobian and Hessian are sparse. Other work has explored using a mixture of forw
 IX. Exercise
 ------------
 
-Let's return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.
+Let's return to the function that we previously used the visualization tool to dynamically traverse the steps of the reverse mode.
 
 .. math::
         f(x, y) = xy + \exp(xy)
