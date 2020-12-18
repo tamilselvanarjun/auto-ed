@@ -101,6 +101,9 @@ html_theme = 'alabaster'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+def setup(app):
+  app.add_stylesheet( "css/s4defs-roles.css" )
+
 html_css_files = ['css/s4defs-roles.css']
 
 # -- Options for HTMLHelp output ------------------------------------------
