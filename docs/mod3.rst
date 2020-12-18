@@ -71,12 +71,12 @@ The partial derivative of :math:`f` with respect to :math:`u_{i}` can be written
         \dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
         u_{j}}{\partial u_{i}}}.
 
-At each node `i` we compute
+At each node :math:`i` we compute
 
 .. math::
         \overline{u}_{i} += \dfrac{\partial f}{\partial u_{j}}\dfrac{\partial u_{j}}{\partial u_{i}}.
 
-The :math:`\overline{u}_{i}` variable stores the current value of the partial derivative at node `i`. As mentioned
+The :math:`\overline{u}_{i}` variable stores the current value of the partial derivative at node :math:`i`. As mentioned
 previously, it is sometimes called the adjoint variable.
 
 Note that in our notation :math:`u_{i}` could be an input variable (e.g. :math:`x_{i}`) or an intermediate variable (e.g.
@@ -167,20 +167,21 @@ You should check that these results match those from taking the symbolic derivat
 V. Practice with the Visualization Tool
 ---------------------------------------
 Let's revisit our typical example. As with forward mode, we input the function into the interface in the same way and can
-compute the function value and derivative, but now we know a little bit about what reverse mode computes. Let's start with
-the same example we analyzed for forward mode, :math:`f(x) = x-\exp(-2\sin(4x)^2)`. Input it into the visualization tool in
-the same way that you did in the first module.
+compute the function value and derivative, but now we know a little bit about what reverse mode computes. 
 
-Focus on the right half of the screen this time. In the top right, you'll see a graph that looks very similar to the one
+Let's start with the same example we analyzed for forward mode, :math:`f(x) = x-\exp(-2\sin(4x)^2)`. Input it into the visualization tool in
+the same way that you did in the `first module <mod1.html#iv-a-first-demo-of-automatic-differentiation>`_.
+
+This time, focus on the right half of the visualization page. At the top right, you'll see a graph that looks very similar to the one
 produced in forward mode. Notice that the only difference is the direction of the arrows, representing the fact that
 derivatives are propagated in different directions.
 
 .. image:: Step4.PNG
 
-Now let's dynamically visualize the process of reverse mode. In the bottom right, press the 'df/dx' button. Use the 'Next'
-button to step through the process of reverse mode. At each step the edge that the computation traverses is highlighted. 
+Now let's dynamically visualize the process of reverse mode. In the bottom right, press the "df/dx" button. Use the "Next"
+button to step through the process of reverse mode. At each step, the edge that the computation traverses is highlighted. 
 
-Try the example with multiple inputs, :math:`f(x,y) = xy+\exp(xy)`. Recall that this function has a branch in its underlying
+Try the example with a function with multiple inputs, :math:`f(x,y) = xy+\exp(xy)`. Recall that this function has a branch in its underlying
 graph structure. This time when dynamically visualizing the reverse mode, you should see that the computation has to trace
 through both branches to pick up the stored partial derivatives for the computation of the derivatives.
 
@@ -208,8 +209,8 @@ As the names suggest, the primary difference between forward and reverse mode is
 graph is traversed, as we saw with the visualization tool. This has implications for the computational efficiency of the two
 approaches.
 
-As we just stated, reverse mode computes :math:`J^Tp`, while in module 2, we learned that forward mode computes :math:`Jp`.
-Although we didn't go deep into it, the implication of this difference is that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.
+As we just stated, reverse mode computes :math:`J^Tp`, while in `Module 2 <mod2.html#what-does-forward-mode-compute>`_, we learned that forward mode computes :math:`Jp`.
+Although we didn't go too deep into it, the implication of this difference is that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.
 
 Demo: A Comparison of Forward and Reverse Mode
 """"""""""""""""""""""""""""""""""""""""""""""
@@ -426,7 +427,7 @@ This example demonstrates that in cases with many inputs and few outputs, revers
 
 VIII. Going Forward
 -------------------
-In the next module, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
+In the `next module <mod4.html>`_, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
 questions of implementation in software.
 
 Other extensions for further reading include automatic differentiation for higher order derivatives, including computing
@@ -437,10 +438,11 @@ Jacobian and Hessian are sparse. Other work has explored using a mixture of forw
 IX. Exercise
 ------------
 
-Return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.
+Let's return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.
 
 .. math::
         f(x, y) = xy + \exp(xy)
 
-Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point (1,2).  You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.
+Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point :math:`(1,2)`.  
+You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.
 

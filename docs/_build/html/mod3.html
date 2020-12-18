@@ -123,10 +123,10 @@ v_{4}}{\partial v_{3}} + \dfrac{\partial f}{\partial v_{5}}\dfrac{\partial v_{5}
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
 u_{j}}{\partial u_{i}}}.\]</div>
-<p>At each node <span class="incremental">i</span> we compute</p>
+<p>At each node <span class="math notranslate nohighlight">\(i\)</span> we compute</p>
 <div class="math notranslate nohighlight">
 \[\overline{u}_{i} += \dfrac{\partial f}{\partial u_{j}}\dfrac{\partial u_{j}}{\partial u_{i}}.\]</div>
-<p>The <span class="math notranslate nohighlight">\(\overline{u}_{i}\)</span> variable stores the current value of the partial derivative at node <span class="incremental">i</span>. As mentioned
+<p>The <span class="math notranslate nohighlight">\(\overline{u}_{i}\)</span> variable stores the current value of the partial derivative at node <span class="math notranslate nohighlight">\(i\)</span>. As mentioned
 previously, it is sometimes called the adjoint variable.</p>
 <p>Note that in our notation <span class="math notranslate nohighlight">\(u_{i}\)</span> could be an input variable (e.g. <span class="math notranslate nohighlight">\(x_{i}\)</span>) or an intermediate variable (e.g.
 <span class="math notranslate nohighlight">\(v_{i}\)</span>).</p>
@@ -185,16 +185,16 @@ children. Note that this time we must save the graph.</p>
 <div class="section" id="v-practice-with-the-visualization-tool">
 <h2>V. Practice with the Visualization Tool<a class="headerlink" href="#v-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
 <p>Let’s revisit our typical example. As with forward mode, we input the function into the interface in the same way and can
-compute the function value and derivative, but now we know a little bit about what reverse mode computes. Let’s start with
-the same example we analyzed for forward mode, <span class="math notranslate nohighlight">\(f(x) = x-\exp(-2\sin(4x)^2)\)</span>. Input it into the visualization tool in
-the same way that you did in the first module.</p>
-<p>Focus on the right half of the screen this time. In the top right, you’ll see a graph that looks very similar to the one
+compute the function value and derivative, but now we know a little bit about what reverse mode computes.</p>
+<p>Let’s start with the same example we analyzed for forward mode, <span class="math notranslate nohighlight">\(f(x) = x-\exp(-2\sin(4x)^2)\)</span>. Input it into the visualization tool in
+the same way that you did in the <a class="reference external" href="mod1.html#iv-a-first-demo-of-automatic-differentiation">first module</a>.</p>
+<p>This time, focus on the right half of the visualization page. At the top right, you’ll see a graph that looks very similar to the one
 produced in forward mode. Notice that the only difference is the direction of the arrows, representing the fact that
 derivatives are propagated in different directions.</p>
 <img alt="_images/Step4.PNG" src="_images/Step4.PNG" />
-<p>Now let’s dynamically visualize the process of reverse mode. In the bottom right, press the ‘df/dx’ button. Use the ‘Next’
-button to step through the process of reverse mode. At each step the edge that the computation traverses is highlighted.</p>
-<p>Try the example with multiple inputs, <span class="math notranslate nohighlight">\(f(x,y) = xy+\exp(xy)\)</span>. Recall that this function has a branch in its underlying
+<p>Now let’s dynamically visualize the process of reverse mode. In the bottom right, press the “df/dx” button. Use the “Next”
+button to step through the process of reverse mode. At each step, the edge that the computation traverses is highlighted.</p>
+<p>Try the example with a function with multiple inputs, <span class="math notranslate nohighlight">\(f(x,y) = xy+\exp(xy)\)</span>. Recall that this function has a branch in its underlying
 graph structure. This time when dynamically visualizing the reverse mode, you should see that the computation has to trace
 through both branches to pick up the stored partial derivatives for the computation of the derivatives.</p>
 <p><strong>Key Takeaways</strong></p>
@@ -220,8 +220,8 @@ interested in taking derivatives is a scalar function that represents the error 
 <p>As the names suggest, the primary difference between forward and reverse mode is the direciton in which the computational
 graph is traversed, as we saw with the visualization tool. This has implications for the computational efficiency of the two
 approaches.</p>
-<p>As we just stated, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span>, while in module 2, we learned that forward mode computes <span class="math notranslate nohighlight">\(Jp\)</span>.
-Although we didn’t go deep into it, the implication of this difference is that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.</p>
+<p>As we just stated, reverse mode computes <span class="math notranslate nohighlight">\(J^Tp\)</span>, while in <a class="reference external" href="mod2.html#what-does-forward-mode-compute">Module 2</a>, we learned that forward mode computes <span class="math notranslate nohighlight">\(Jp\)</span>.
+Although we didn’t go too deep into it, the implication of this difference is that reverse mode will be more efficient (require fewer operations) for functions with a fewer number of outputs and many inputs, while forward mode will be more efficient for functions with many outputs and fewer inputs.</p>
 <div class="section" id="demo-a-comparison-of-forward-and-reverse-mode">
 <h3>Demo: A Comparison of Forward and Reverse Mode<a class="headerlink" href="#demo-a-comparison-of-forward-and-reverse-mode" title="Permalink to this headline">¶</a></h3>
 <p>Consider the function <span class="math notranslate nohighlight">\(f(w_1, w_2, w_3, w_4, w_5) = w_1w_2w_3w_4w_5\)</span>. We want to compare the process of computing the
@@ -486,7 +486,7 @@ addition) for each of the 5 inputs, for a total of <span class="math notranslate
 </div>
 <div class="section" id="viii-going-forward">
 <h2>VIII. Going Forward<a class="headerlink" href="#viii-going-forward" title="Permalink to this headline">¶</a></h2>
-<p>In the next module, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
+<p>In the <a class="reference external" href="mod4.html">next module</a>, we explore an alternate interpretation of automatic differentiation in terms of dual numbers and consider
 questions of implementation in software.</p>
 <p>Other extensions for further reading include automatic differentiation for higher order derivatives, including computing
 Hessians, and algorithmic differentiation of computer programs. We can also consider the efficiency of the algorithms in
@@ -495,10 +495,11 @@ Jacobian and Hessian are sparse. Other work has explored using a mixture of forw
 </div>
 <div class="section" id="ix-exercise">
 <h2>IX. Exercise<a class="headerlink" href="#ix-exercise" title="Permalink to this headline">¶</a></h2>
-<p>Return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.</p>
+<p>Let’s return to the function that we used the computational tool to dynamically visualize the steps of the reverse mode.</p>
 <div class="math notranslate nohighlight">
 \[f(x, y) = xy + \exp(xy)\]</div>
-<p>Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point (1,2).  You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.</p>
+<p>Write out the reverse mode table, which stores only partial derivative information, and use it to compute the full derivative in reverse mode at the point <span class="math notranslate nohighlight">\((1,2)\)</span>.
+You can return to the dynamic visualization tool to follow the steps that your calculation performs as you traverse the graph from output to input.</p>
 </div>
 </div>
 
