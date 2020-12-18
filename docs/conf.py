@@ -33,6 +33,11 @@
 # ones.
 extensions = ['recommonmark', 'sphinx.ext.mathjax', 'sphinx.ext.autosectionlabel']#['sphinx.ext.imgmath']
 
+
+rst_prolog = """
+ .. include:: <s5defs.txt>
+
+ """
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -96,6 +101,7 @@ html_theme = 'alabaster'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_css_files = ['css/s4defs-roles.css']
 
 # -- Options for HTMLHelp output ------------------------------------------
 

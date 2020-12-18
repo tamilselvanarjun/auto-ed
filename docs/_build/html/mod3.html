@@ -9,6 +9,7 @@
     <title>Module 3: The Reverse Mode of Automatic Differentiation &#8212; Auto-eD  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/s4defs-roles.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -34,7 +35,9 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="module-3-the-reverse-mode-of-automatic-differentiation">
+  <blockquote>
+<div></div></blockquote>
+<div class="section" id="module-3-the-reverse-mode-of-automatic-differentiation">
 <h1>Module 3: The Reverse Mode of Automatic Differentiation<a class="headerlink" href="#module-3-the-reverse-mode-of-automatic-differentiation" title="Permalink to this headline">¶</a></h1>
 <p>So far we have considered one mode of automatic differentiation, forward mode.  In forward mode, we carried derivatives along
 as we traversed the graph so that the graph itself did not need to be explicitly stored in memory. In reverse mode, we build
@@ -92,7 +95,7 @@ must perform a summation over the children, which follows directly from the mult
 </dd>
 </dl>
 </li>
-<li><p class="first">The reverse pass starts with <span class="math notranslate nohighlight">\(\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1\)</span> (since <cite>f</cite> is <span class="math notranslate nohighlight">\(v_{N}\)</span>).</p>
+<li><p class="first">The reverse pass starts with <span class="math notranslate nohighlight">\(\overline{v}_{N} = \dfrac{\partial f}{\partial v_{N}} = 1\)</span> (since <span class="incremental">f</span> is <span class="math notranslate nohighlight">\(v_{N}\)</span>).</p>
 </li>
 <li><p class="first">Next, the reverse pass gets <span class="math notranslate nohighlight">\(\overline{v}_{N-1} = \dfrac{\partial f}{\partial v_{N}}\dfrac{\partial v_{N}}{\partial
 v_{N-1}}\)</span></p>
@@ -117,14 +120,14 @@ v_{4}}{\partial v_{3}} + \dfrac{\partial f}{\partial v_{5}}\dfrac{\partial v_{5}
 </div>
 <div class="section" id="the-basic-equations">
 <h2>The Basic Equations<a class="headerlink" href="#the-basic-equations" title="Permalink to this headline">¶</a></h2>
-<p>The partial derivative of <cite>f</cite> with respect to <span class="math notranslate nohighlight">\(u_{i}\)</span> can be written as (see Nocedal and Wright, pg. 180)</p>
+<p>The partial derivative of <span class="incremental">f</span> with respect to <span class="math notranslate nohighlight">\(u_{i}\)</span> can be written as (see Nocedal and Wright, pg. 180)</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial f}{\partial u_{i}} = \sum_{j\text{ a child of } i}{\dfrac{\partial f}{\partial u_{j}}\dfrac{\partial
 u_{j}}{\partial u_{i}}}.\]</div>
-<p>At each node <cite>i</cite> we compute</p>
+<p>At each node <span class="incremental">i</span> we compute</p>
 <div class="math notranslate nohighlight">
 \[\overline{u}_{i} += \dfrac{\partial f}{\partial u_{j}}\dfrac{\partial u_{j}}{\partial u_{i}}.\]</div>
-<p>The <span class="math notranslate nohighlight">\(\overline{u}_{i}\)</span> variable stores the current value of the partial derivative at node <cite>i</cite>. As mentioned
+<p>The <span class="math notranslate nohighlight">\(\overline{u}_{i}\)</span> variable stores the current value of the partial derivative at node <span class="incremental">i</span>. As mentioned
 previously, it is sometimes called the adjoint variable.</p>
 <p>Note that in our notation <span class="math notranslate nohighlight">\(u_{i}\)</span> could be an input variable (e.g. <span class="math notranslate nohighlight">\(x_{i}\)</span>) or an intermediate variable (e.g.
 <span class="math notranslate nohighlight">\(v_{i}\)</span>).</p>

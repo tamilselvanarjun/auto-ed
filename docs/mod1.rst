@@ -87,14 +87,16 @@ difference formula is `f(x + h) - f(x)`. The smallest this difference could be w
 selected `h`, there is an error of :math:`10^{-4}`! This is pretty far away from machine precision and it happened because
 `h` is too small.
 
-Check out :Exercise 1:`v-exercises` for another example motivating the use of automatic differentiation.
+Check out `Exercise 1 <#v-exercises>`_ for another example motivating the use of automatic differentiation.
 
 Automatic differentiation is not symbolic differentiation.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-*Symbolic differentiation* computes exact expressions for derivatives using expression trees. As seen in the function in Demo
-1, exact expressions for derivatives can quickly become complex, which can somtimes make computing derivatives in this manner
+*Symbolic differentiation* computes exact expressions for derivatives using expression trees. As seen in the function in `Demo
+1 <#demo-1-errors-in-the-finite-difference-method>`_, exact expressions for derivatives can quickly become complex, which can sometimes make computing derivatives in this manner
 computationally inefficient.
+
+Now, to summarize what we have learned so far: 
 
 * **Automatic differentiation is a procedure that computes derivatives to machine precision without explicitly forming an
   expression for the derivative. It relies on application of the ideas of the chain rule to decompose complex functions into 
@@ -102,7 +104,9 @@ computationally inefficient.
 
 Automatic differentiation can be split into two primary "modes": forward and reverse. Both modes allow for efficient and
 accurate computation of derivatives. Advanced approaches exist for combining forward and reverse mode into a hybrid, but
-these are beyond the scope of these introductory modules. The properties of automatic differentiation make it useful for a variety of
+these are beyond the scope of these introductory modules. 
+
+The properties of automatic differentiation make it useful for a variety of
 applications including machine learning, parameter optimization, sensitivity analysis, physical modeling, and probabilistic
 inference. In the rest of this module, we will begin to explore the mechanics of automatic differentiation.
 
@@ -111,8 +115,9 @@ II. The Basics of Forward Mode
 Automatic differentiation is something of a compromise between numerical differentiation and symbolic differentiation.
 Automatic differentiation provides numerical values of the derivatives of a function. These numerical values are correct to
 machine precision and are not influenced by any kind of "step size" like in numerical differentiation. Even though automatic
-differentiation provides derivatives to machine precision, it does not require evaluation of a symbolic derivative. One other
-thing to keep in mind about automatic differentation is that we usually think of it as yielding the derivative of a function
+differentiation provides derivatives to machine precision, it does not require evaluation of a symbolic derivative. 
+
+One other thing to keep in mind about automatic differentation is that we usually think of it as yielding the derivative of a function
 evaluated at a specific point. This should be borne in mind throughout this module. We will evaluate a function at a specific
 point and we will automatically get its derivative at that same point.
 
@@ -122,7 +127,7 @@ that to find the derivative of a composition of functions, we multiply a series 
 
 .. math::
 
-        \frac{df}{dt} = \frac{dg}{dh}\frac{dh}{dt}
+        \frac{df}{dt} = \frac{dg}{dh}\frac{dh}{dt}.
 
 This can be generalized to functions of multiple inputs, which we will discuss in more detail in Module 2. 
 
@@ -132,7 +137,7 @@ Elementary Functions
 Every function can be decomposed into a set of binary elementary operations or unary elementary
 functions. Elementary operations include addition, subtraction, multiplication, division, and exponentiation. Elementary
 functions include the natural exponential and natural logarithm, trigonometric functions, and polynomials. The sigmoid
-function and the hyperbolic trig functions can also be considered elementary functions, though they can be formed from the
+function and the hyperbolic trigonometric functions can also be considered elementary functions, though they can be formed from the
 natural exponential.
 
 Basic calculus provides closed form differentiation rules for these elementary functions. This means that we can compose
@@ -142,7 +147,7 @@ functions are composed of elementary functions. The chain rule provides a route 
 are composed of other functions.
 
 To understand this composition of elementary functions, we can think of the composition of functions as having an underlying
-graph structure. You will learn much more about this graph structure in Module 2, including a way to build it by hand. For now,
+graph structure. You will learn much more about this graph structure in `Module 2 <mod2.html>`_, including a way to build it by hand. For now,
 you will practice visualizing the graph with a special tool.
 
 III. A Tool for Visualizing Automatic Differentiation
@@ -150,7 +155,7 @@ III. A Tool for Visualizing Automatic Differentiation
 The Auto-eD tool is a pedagogical tool to help visualize the processes underlying automatic differentiation. In particular,
 this tool allows us to visualize the underlying graph structure of a calculation when decomposed into elementary functions.
 In addition to helping to visualize this graph, the tool can also be used to view the computational traces that occur at each
-node of the graph. These ideas will be discussed much more in Module 2.
+node of the graph. These ideas will be discussed much more in `Module 2 <mod2.html>`_.
 
 Auto-eD Web Application
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -180,7 +185,7 @@ app and access to the underlying package. From the terminal,
 
 4. Visit http://0.0.0.0:5000 to use the tool through your local server.
 
-We welcome improvements and contributions! You can find more details about the underlying package in the DeveloperDocumentation jupyter notebook.  If you would like to contribute to this project, please follow these steps:
+We welcome improvements and contributions! You can find more details about the underlying package in the `DeveloperDocumentation.ipynb <https://github.com/lindseysbrown/Auto-eD/blob/master/DeveloperDocumentation.ipynb>`__.  If you would like to contribute to this project, please follow these steps:
 
 1. Clone the repo
 
@@ -188,14 +193,14 @@ We welcome improvements and contributions! You can find more details about the u
 
 3. Make sure all your updates are on the new branch
 
-4. Make a pull request to master and wait for the core developers to respond!
+4. Make a pull request to master branch and wait for the core developers to respond!
 
 IV. A First Demo of Automatic Differentiation
 -----------------------------------------------
-Let's use the tool to visualize the function from our first demo. The example below was done using the web app.
+Let's use the Auto-eD web application tool to visualize the function from `Demo 1 <#demo-1-errors-in-the-finite-difference-method>`_. Our function of interest is: :math:`f(x) = x-\exp(-2\sin^2(4x))`.
 
-1. The function has a single input variable, `x`, so just enter 1 in the "Number of input variables" field. 
-2. Our function is scalar valued so we enter that our function has 1 output.
+1. The function has a single input variable (`x`), so just enter 1 in the "Number of input variables" field. 
+2. Our function is scalar valued, so we enter that our function has 1 output.
 
 .. image:: 
         Step1.PNG
@@ -207,7 +212,7 @@ the calculator rather than typing them from the keyboard.
 .. image:: 
         Step2.PNG
         
-4. Press the "Calculate" button.  This will move you to a new screen with options to help you visualize both the forward and
+4. Press the "Calculate" button.  This will bring you to the next page with options to help you visualize both the forward and
 reverse mode of automatic differentiation.
 
 5. Enter the value for x at which you'd like to evaluate the function. For the purposes of this demo, we'll choose `x=4`.
@@ -219,7 +224,7 @@ Click  the "Set Input Values" button.
 .. image:: Step3.PNG
 
 7. Below this, you'll see buttons for which function you'd like to visualize. In this example, we only have a single
-function, so click on f1.
+function, so click on "f1" button.
 
 8. This will generate the computational graph for both forward and reverse mode as well as the computational trace table.
 We'll talk more about the computational table and reverse mode in the next modules, so for now let's just focus on the
@@ -227,13 +232,13 @@ computational graph in forward mode.
 
 .. image:: Step4.PNG
 
-9. The single magenta node represents the input to the function. The single green output node represents the output value of
-our function. The red nodes represent intermediate function values. Notice that all of the nodes are connected by elementary
+9. The single :magenta:`magenta` node represents the input to the function. The single :green:`green` output node represents the output value of
+our function. The :red:`red` nodes represent intermediate function values. Notice that all of the nodes are connected by elementary
 operations on the labelled edges.
-    * (Hint: Occasionally the graphs may be difficult to read depending
-      on the complexity of the function that you are visualizing. You can try running the tool a second time to get a different
-      configuration of the nodes. Alternatively, for large functions, you can run the package from the command line, which will
-      generate graphs that you can maximize to resize the edges.)
+
+(Hint: Occasionally the graphs may be difficult to read depending on the complexity of the function that you are visualizing. 
+You can try running the tool a second time to get a different configuration of the nodes. 
+Alternatively, for large functions, you can run the package from the command line, which will generate graphs that you can maximize to resize the edges.)
 
 Some Key Takeaways
 ^^^^^^^^^^^^^^^^^^
