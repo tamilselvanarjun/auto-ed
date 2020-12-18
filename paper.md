@@ -100,11 +100,11 @@ is performed and visualized by the package. In the first module, we motivate the
 it with numeric and symbolic differentiation, and introduce the basics of forward mode for a single-input, single-output
 function. In the second module, we expand on the first module to include more of the theory underlying the forward mode,
 including a consideration of multiple input variables. We also emphasize the computational table and the graph structure in
-more detail. Manual exercises are complemented with the `Auto-eD` web application. The third module introduces the reverse
+more detail. The third module introduces the reverse
 mode of automatic differentiation and connects it to the famous backpropagation algorithm. The fourth module concludes with a
 series of possible extensions and a discussion of how automatic differentiation might be performed in software. The fourth
 module has been used to help students focus their final software development project. Each module is accompanied by a series
-of exercises.
+of exercises, where manual exercises are complemented with the `Auto-eD` web application.
 
 ## Experience of Use
 A similar structure of course modules has been used to teach these concepts in the CS107/CS207/AC207 class at the Institute
