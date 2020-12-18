@@ -1,7 +1,7 @@
 Module 2: Deeper Into Forward Mode
 ==================================
 
-As we introduced in Module 1, the forward mode of automatic differentiation computes derviatives by decomposing functions
+As we introduced in `Module 1 <mod1.html>`_, the forward mode of automatic differentiation computes derviatives by decomposing functions
 into a series of elementary operations.  We can explicitly compute the derivative of each of these elementary operations,
 allowing us to combine them using the chain rule to accurately compute the derivative of our function.  As we have seen, in
 the computational graph, nodes represent inputs and outputs of elementary operations, and the edges correspond to the
