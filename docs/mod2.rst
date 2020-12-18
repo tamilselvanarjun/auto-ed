@@ -9,8 +9,8 @@ elementary operations that join these nodes.  The inputs to our functions become
 subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the
 computation as a series of elementary traces.
 
-The Computational Trace and Practice with the Visualization Tool
-----------------------------------------------------------------
+I. The Computational Trace and Practice with the Visualization Tool
+-------------------------------------------------------------------
 At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule,
 we compute the derivative at a particular node from the elementary operation that created that node and the value and
 derivative of the input node to that elementary operation.  We'll return to our example from the first demo in a moment. For
@@ -24,8 +24,8 @@ are really computed using automatic differentiation. A very friendly function to
 .. math::
         f(x) = \sin(2x)
 
-Evaluating the Function
-"""""""""""""""""""""""
+a. Evaluating the Function
+""""""""""""""""""""""""""
 We want to evaluate :math:`f(x)` at a specific point. We will choose the point `a=2`. Throughout this documentation, we will
 refer to a specific point with the name `a`. It should be assumed that `a` has a specific value (e.g. `2`). How do we
 evaluate this function?
@@ -38,8 +38,8 @@ evaluate this function?
 
 4. Return the value of f: :math:`f = \sin(4)`.
 
-Visualizing the Evaluation
-""""""""""""""""""""""""""
+b. Visualizing the Evaluation
+"""""""""""""""""""""""""""""
 We can visualize this evaluation in a graph. Each node of the graph will represent a stage in evaluation of the function. The
 nodes are connected together with edges. The parent value of a given node is the input to that node. The input to the entire
 function will be denoted by :math:`x_{0}`. Intermediate values will be denoted by :math:`v_{i}`. The evaluation graph of our
@@ -71,8 +71,8 @@ This table makes a connection between the evaluation that we normally do and the
 function evaluation. So far there is nothing much new. These calculations are done almost automatically by our brains and by
 the computer. All we've done so far is laid things out more algorithmically.
 
-Introducing Derivatives
-"""""""""""""""""""""""
+c. Introducing Derivatives
+""""""""""""""""""""""""""
 Let's add one more wrinkle. We can actually compute the derivatives as we go along at each step. The way we do this is by
 applying the chain rule at each step. We'll had two more columns to the table. The first new column will represent the
 elementary function derivative at that step. The second new column will represent the value of the derivative at that step.
@@ -233,15 +233,15 @@ Note that computing the gradient for this multivariate function is done by assig
 find the gradient we use the standard basis vectors as seeds.  We'll discuss more about what this means automatic
 differentiation is computing in the next section.
 
-More Theory
------------
+II. More Theory
+---------------
 Review of the Chain Rule
 ^^^^^^^^^^^^^^^^^^^^^^^^
 We already saw the chain rule in one dimension and we even saw it in action in the trace table examples. Here, we build up to
 a more general chain rule.
 
-Back to the Beginning
-"""""""""""""""""""""
+a. Back to the Beginning
+""""""""""""""""""""""""
 Suppose we have a function :math:`h(u(t))` and we want the derivative of `h` with respect to `t`. The chain rule gives,
 
 .. math::
@@ -253,8 +253,8 @@ For example, consider `h(u(t)) = \sin(4t)`. Then `h(u) = \sin(u)` and `u = 4t`. 
         \dfrac{\partial h}{\partial u} = \cos(u), \quad \dfrac{\partial u}{\partial t} = 4 \quad \Rightarrow \quad
         \dfrac{\partial h}{\partial t} = 4\cos(4t).
 
-Adding an Argument
-""""""""""""""""""
+b. Adding an Argument
+"""""""""""""""""""""
 Now suppose that `h` has another argument so that we have :math:`h(u(t), v(t))`. Once again, we want the derivative of `h`
 with respect to `t`. Applying the chain rule in this case gives,
 
@@ -262,8 +262,8 @@ with respect to `t`. Applying the chain rule in this case gives,
         \dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t} + \dfrac{\partial
         h}{\partial v}\dfrac{\partial v}{\partial t}.
 
-Accounting for Multiple Inputs
-""""""""""""""""""""""""""""""
+c. Accounting for Multiple Inputs
+"""""""""""""""""""""""""""""""""
 What if we replace `t` by a vector :math:`x\in\mathbb{R}^{m}`? Now what we really want is the *gradient* of `h` with respect to
 `x`. We write :math:`h = h(u(x), v(x))` and the derivative is now,
 
@@ -291,8 +291,8 @@ so
         \nabla_{x}h = \cos(x_{1}x_{2})\cos(x_{1} + x_{2})\begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix} - \sin(x_{1} +
         x_{2})\sin(x_{1} + x_{2})\begin{bmatrix} 1 \\ 1 \end{bmatrix}.
 
-The (Almost) General Rule
-"""""""""""""""""""""""""
+d. The (Almost) General Rule
+""""""""""""""""""""""""""""
 More generally, :math:`h = h(y(x))` where :math:`y \in \mathbb{R}^{n}` and :math:`x \in \mathbb{R}^{m}`. Now `h` is a
 function of possibly `n` other functions, themselves a function of `m` variables. The gradient of `h` is now given by,
 
@@ -410,10 +410,10 @@ and :math:`q=(0,1)`.
 
 
 
-Exercises
----------
-Neural Network Problem
-^^^^^^^^^^^^^^^^^^^^^^
+III. Exercises
+--------------
+Exercise 1: Neural Network Problem
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Artificial neural networks take as input the values of an input layer of neurons and combine these inputs in a series of layers to compute an output.  A small network with a single hidden layer is drawn below.
 
 .. image::
@@ -449,7 +449,7 @@ Note that in practical applications the biases play a key role.  However, we hav
 1. Draw the complete forward computational graph.  You may treat :math:`z` as a single elementary operation.  You should explicitly show the multiplications and additions that are masked in the schematic of the network above.
 2. Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.
 
-Operation Count Problem
-^^^^^^^^^^^^^^^^^^^^^^^
+Exercise 2: Operation Count Problem
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Count the number of operations required to compute the derivatives in the Simple Demo and the Two-Dimensional Demo above. For
 each demo, only keep track of the additions and multiplications.

@@ -9,8 +9,8 @@
     <title>Module 2: Deeper Into Forward Mode &#8212; Auto-eD  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/css/s4defs-roles.css" />
-    <link rel="stylesheet" type="text/css" href="_static/css/s4defs-roles.css" />
+    <link rel="stylesheet" type="text/css" href="_static/s4defs-roles.css" />
+    <link rel="stylesheet" type="text/css" href="_static/s4defs-roles.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -47,8 +47,8 @@ the computational graph, nodes represent inputs and outputs of elementary operat
 elementary operations that join these nodes.  The inputs to our functions become the first nodes in our graph.  For each
 subsequent node, we can consider an evaluation and derivative up to that point in the graph, allowing us to consider the
 computation as a series of elementary traces.</p>
-<div class="section" id="the-computational-trace-and-practice-with-the-visualization-tool">
-<h2>The Computational Trace and Practice with the Visualization Tool<a class="headerlink" href="#the-computational-trace-and-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="i-the-computational-trace-and-practice-with-the-visualization-tool">
+<h2>I. The Computational Trace and Practice with the Visualization Tool<a class="headerlink" href="#i-the-computational-trace-and-practice-with-the-visualization-tool" title="Permalink to this headline">¶</a></h2>
 <p>At each step in the graph, we can consider the current function value and derivative up to that node.  Using the chain rule,
 we compute the derivative at a particular node from the elementary operation that created that node and the value and
 derivative of the input node to that elementary operation.  We’ll return to our example from the first demo in a moment. For
@@ -59,8 +59,8 @@ now, let’s work with a simpler function so we can see example how everything w
 are really computed using automatic differentiation. A very friendly function to start with is,</p>
 <div class="math notranslate nohighlight">
 \[f(x) = \sin(2x)\]</div>
-<div class="section" id="evaluating-the-function">
-<h4>Evaluating the Function<a class="headerlink" href="#evaluating-the-function" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="a-evaluating-the-function">
+<h4>a. Evaluating the Function<a class="headerlink" href="#a-evaluating-the-function" title="Permalink to this headline">¶</a></h4>
 <p>We want to evaluate <span class="math notranslate nohighlight">\(f(x)\)</span> at a specific point. We will choose the point <span class="incremental">a=2</span>. Throughout this documentation, we will
 refer to a specific point with the name <span class="incremental">a</span>. It should be assumed that <span class="incremental">a</span> has a specific value (e.g. <span class="incremental">2</span>). How do we
 evaluate this function?</p>
@@ -71,8 +71,8 @@ evaluate this function?</p>
 <li>Return the value of f: <span class="math notranslate nohighlight">\(f = \sin(4)\)</span>.</li>
 </ol>
 </div>
-<div class="section" id="visualizing-the-evaluation">
-<h4>Visualizing the Evaluation<a class="headerlink" href="#visualizing-the-evaluation" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="b-visualizing-the-evaluation">
+<h4>b. Visualizing the Evaluation<a class="headerlink" href="#b-visualizing-the-evaluation" title="Permalink to this headline">¶</a></h4>
 <p>We can visualize this evaluation in a graph. Each node of the graph will represent a stage in evaluation of the function. The
 nodes are connected together with edges. The parent value of a given node is the input to that node. The input to the entire
 function will be denoted by <span class="math notranslate nohighlight">\(x_{0}\)</span>. Intermediate values will be denoted by <span class="math notranslate nohighlight">\(v_{i}\)</span>. The evaluation graph of our
@@ -111,8 +111,8 @@ function is shown in the following table.</p>
 function evaluation. So far there is nothing much new. These calculations are done almost automatically by our brains and by
 the computer. All we’ve done so far is laid things out more algorithmically.</p>
 </div>
-<div class="section" id="introducing-derivatives">
-<h4>Introducing Derivatives<a class="headerlink" href="#introducing-derivatives" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="c-introducing-derivatives">
+<h4>c. Introducing Derivatives<a class="headerlink" href="#c-introducing-derivatives" title="Permalink to this headline">¶</a></h4>
 <p>Let’s add one more wrinkle. We can actually compute the derivatives as we go along at each step. The way we do this is by
 applying the chain rule at each step. We’ll had two more columns to the table. The first new column will represent the
 elementary function derivative at that step. The second new column will represent the value of the derivative at that step.</p>
@@ -281,14 +281,14 @@ find the gradient we use the standard basis vectors as seeds.  We’ll discuss m
 differentiation is computing in the next section.</p>
 </div>
 </div>
-<div class="section" id="more-theory">
-<h2>More Theory<a class="headerlink" href="#more-theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ii-more-theory">
+<h2>II. More Theory<a class="headerlink" href="#ii-more-theory" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="review-of-the-chain-rule">
 <h3>Review of the Chain Rule<a class="headerlink" href="#review-of-the-chain-rule" title="Permalink to this headline">¶</a></h3>
 <p>We already saw the chain rule in one dimension and we even saw it in action in the trace table examples. Here, we build up to
 a more general chain rule.</p>
-<div class="section" id="back-to-the-beginning">
-<h4>Back to the Beginning<a class="headerlink" href="#back-to-the-beginning" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="a-back-to-the-beginning">
+<h4>a. Back to the Beginning<a class="headerlink" href="#a-back-to-the-beginning" title="Permalink to this headline">¶</a></h4>
 <p>Suppose we have a function <span class="math notranslate nohighlight">\(h(u(t))\)</span> and we want the derivative of <span class="incremental">h</span> with respect to <span class="incremental">t</span>. The chain rule gives,</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t}.\]</div>
@@ -297,16 +297,16 @@ a more general chain rule.</p>
 \[\dfrac{\partial h}{\partial u} = \cos(u), \quad \dfrac{\partial u}{\partial t} = 4 \quad \Rightarrow \quad
 \dfrac{\partial h}{\partial t} = 4\cos(4t).\]</div>
 </div>
-<div class="section" id="adding-an-argument">
-<h4>Adding an Argument<a class="headerlink" href="#adding-an-argument" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="b-adding-an-argument">
+<h4>b. Adding an Argument<a class="headerlink" href="#b-adding-an-argument" title="Permalink to this headline">¶</a></h4>
 <p>Now suppose that <span class="incremental">h</span> has another argument so that we have <span class="math notranslate nohighlight">\(h(u(t), v(t))\)</span>. Once again, we want the derivative of <span class="incremental">h</span>
 with respect to <span class="incremental">t</span>. Applying the chain rule in this case gives,</p>
 <div class="math notranslate nohighlight">
 \[\dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t} + \dfrac{\partial
 h}{\partial v}\dfrac{\partial v}{\partial t}.\]</div>
 </div>
-<div class="section" id="accounting-for-multiple-inputs">
-<h4>Accounting for Multiple Inputs<a class="headerlink" href="#accounting-for-multiple-inputs" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="c-accounting-for-multiple-inputs">
+<h4>c. Accounting for Multiple Inputs<a class="headerlink" href="#c-accounting-for-multiple-inputs" title="Permalink to this headline">¶</a></h4>
 <p>What if we replace <span class="incremental">t</span> by a vector <span class="math notranslate nohighlight">\(x\in\mathbb{R}^{m}\)</span>? Now what we really want is the <em>gradient</em> of <span class="incremental">h</span> with respect to
 <span class="incremental">x</span>. We write <span class="math notranslate nohighlight">\(h = h(u(x), v(x))\)</span> and the derivative is now,</p>
 <div class="math notranslate nohighlight">
@@ -326,8 +326,8 @@ Then,</p>
 \[\begin{split}\nabla_{x}h = \cos(x_{1}x_{2})\cos(x_{1} + x_{2})\begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix} - \sin(x_{1} +
 x_{2})\sin(x_{1} + x_{2})\begin{bmatrix} 1 \\ 1 \end{bmatrix}.\end{split}\]</div>
 </div>
-<div class="section" id="the-almost-general-rule">
-<h4>The (Almost) General Rule<a class="headerlink" href="#the-almost-general-rule" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="d-the-almost-general-rule">
+<h4>d. The (Almost) General Rule<a class="headerlink" href="#d-the-almost-general-rule" title="Permalink to this headline">¶</a></h4>
 <p>More generally, <span class="math notranslate nohighlight">\(h = h(y(x))\)</span> where <span class="math notranslate nohighlight">\(y \in \mathbb{R}^{n}\)</span> and <span class="math notranslate nohighlight">\(x \in \mathbb{R}^{m}\)</span>. Now <span class="incremental">h</span> is a
 function of possibly <span class="incremental">n</span> other functions, themselves a function of <span class="incremental">m</span> variables. The gradient of <span class="incremental">h</span> is now given by,</p>
 <div class="math notranslate nohighlight">
@@ -411,10 +411,10 @@ and <span class="math notranslate nohighlight">\(q=(0,1)\)</span>.</p>
 </div>
 </div>
 </div>
-<div class="section" id="exercises">
-<h2>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="neural-network-problem">
-<h3>Neural Network Problem<a class="headerlink" href="#neural-network-problem" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="iii-exercises">
+<h2>III. Exercises<a class="headerlink" href="#iii-exercises" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercise-1-neural-network-problem">
+<h3>Exercise 1: Neural Network Problem<a class="headerlink" href="#exercise-1-neural-network-problem" title="Permalink to this headline">¶</a></h3>
 <p>Artificial neural networks take as input the values of an input layer of neurons and combine these inputs in a series of layers to compute an output.  A small network with a single hidden layer is drawn below.</p>
 <img alt="_images/NNFigNoPhi.png" src="_images/NNFigNoPhi.png" />
 <p>The network can be expressed in matrix notation as</p>
@@ -438,8 +438,8 @@ In this part, you will completely neglect the biases.  The mathematical form is 
 <li>Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.</li>
 </ol>
 </div>
-<div class="section" id="operation-count-problem">
-<h3>Operation Count Problem<a class="headerlink" href="#operation-count-problem" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="exercise-2-operation-count-problem">
+<h3>Exercise 2: Operation Count Problem<a class="headerlink" href="#exercise-2-operation-count-problem" title="Permalink to this headline">¶</a></h3>
 <p>Count the number of operations required to compute the derivatives in the Simple Demo and the Two-Dimensional Demo above. For
 each demo, only keep track of the additions and multiplications.</p>
 </div>
@@ -466,9 +466,9 @@ each demo, only keep track of the additions and multiplications.</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="mod1.html">Module 1: The Basics of Forward Mode</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Module 2: Deeper Into Forward Mode</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-computational-trace-and-practice-with-the-visualization-tool">The Computational Trace and Practice with the Visualization Tool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#more-theory">More Theory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-the-computational-trace-and-practice-with-the-visualization-tool">I. The Computational Trace and Practice with the Visualization Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ii-more-theory">II. More Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iii-exercises">III. Exercises</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mod3.html">Module 3: The Reverse Mode of Automatic Differentiation</a></li>

@@ -9,7 +9,8 @@
     <title>Solutions to Exercises &#8212; Auto-eD  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/css/s4defs-roles.css" />
+    <link rel="stylesheet" type="text/css" href="_static/s4defs-roles.css" />
+    <link rel="stylesheet" type="text/css" href="_static/s4defs-roles.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -38,9 +39,10 @@
 <div></div></blockquote>
 <div class="section" id="solutions-to-exercises">
 <h1>Solutions to Exercises<a class="headerlink" href="#solutions-to-exercises" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-1-exercise-solutions">
-<h2>Module 1 Exercise Solutions<a class="headerlink" href="#module-1-exercise-solutions" title="Permalink to this headline">¶</a></h2>
-<p>Exercise 1: Motivating Automatic Differentiation</p>
+<div class="section" id="module-1">
+<h2>Module 1<a class="headerlink" href="#module-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercise-1-motivating-automatic-differentiation">
+<h3>Exercise 1: Motivating Automatic differentiation<a class="headerlink" href="#exercise-1-motivating-automatic-differentiation" title="Permalink to this headline">¶</a></h3>
 <p>A. The python code is given by:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -72,16 +74,22 @@
 <ol class="upperalpha simple" start="3">
 <li>The numerical differentiation performs best for h=1e-7.  For h too small, we encounter round off errors as a result of limited machine precision.  For h too large, the numerical approximation is not exact.  Automatic differentiation addresses this by evaluating derivatives exactly to machine precision without taking numerical estimates.</li>
 </ol>
-<p>Exercise 2: Basic Graph Structure of Calculations</p>
+</div>
+<div class="section" id="exercise-2-basic-graph-structure-of-calculations">
+<h3>Exercise 2: Basic Graph Structure of Calculations<a class="headerlink" href="#exercise-2-basic-graph-structure-of-calculations" title="Permalink to this headline">¶</a></h3>
 <img alt="_images/Mod1Ex2Sol.PNG" src="_images/Mod1Ex2Sol.PNG" />
 <p>You should notice that while your labelling of the nodes may be different, the overall connectivity structure and edges should be the same.</p>
-<p>Exercise 3:</p>
+</div>
+<div class="section" id="exercise-3-looking-toward-multiple-inputs">
+<h3>Exercise 3: Looking Toward Multiple Inputs<a class="headerlink" href="#exercise-3-looking-toward-multiple-inputs" title="Permalink to this headline">¶</a></h3>
 <img alt="_images/Mod1Ex3Sol.PNG" src="_images/Mod1Ex3Sol.PNG" />
 </div>
-<div class="section" id="module-2-exercise-solutions">
-<h2>Module 2 Exercise Solutions<a class="headerlink" href="#module-2-exercise-solutions" title="Permalink to this headline">¶</a></h2>
-<p>Exercise 1: Neural Network Problem
-The corresponding computational graph is given by:</p>
+</div>
+<div class="section" id="module-2">
+<h2>Module 2<a class="headerlink" href="#module-2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercise-1-neural-network-problem">
+<h3>Exercise 1: Neural Network Problem<a class="headerlink" href="#exercise-1-neural-network-problem" title="Permalink to this headline">¶</a></h3>
+<p>The corresponding computational graph is given by:</p>
 <img alt="_images/Mod2Ex1Sol.png" src="_images/Mod2Ex1Sol.png" />
 <p>The table corresponding to this graph is given by:</p>
 <table border="1" class="colwidths-given docutils">
@@ -196,15 +204,19 @@ The corresponding computational graph is given by:</p>
 </tr>
 </tbody>
 </table>
-<p>Exercise 2: Operation Count Problem
-Computing the derivative at the six nodes <span class="math notranslate nohighlight">\(x_3, x_4, x_5, x_6, x_{11}, x_{12}\)</span> requires one multiplication in each of the 2 components, contributing <span class="math notranslate nohighlight">\(6 \times 1 \times 2 = 12\)</span> operations.</p>
+</div>
+<div class="section" id="exercise-2-operation-count-problem">
+<h3>Exercise 2: Operation Count Problem<a class="headerlink" href="#exercise-2-operation-count-problem" title="Permalink to this headline">¶</a></h3>
+<p>Computing the derivative at the six nodes <span class="math notranslate nohighlight">\(x_3, x_4, x_5, x_6, x_{11}, x_{12}\)</span> requires one multiplication in each of the 2 components, contributing <span class="math notranslate nohighlight">\(6 \times 1 \times 2 = 12\)</span> operations.</p>
 <p>Computing the derivative at the 3 nodes <span class="math notranslate nohighlight">\(x_7, x_8, x_{13}\)</span> requires one addition in each of the 2 components, contributing <span class="math notranslate nohighlight">\(3\times 1 \times 2 = 6\)</span> operations.</p>
 <p>Computing the derivative at the nodes <span class="math notranslate nohighlight">\(x_9, x_{10}\)</span> requires 2 operations (an elementary function evaluation of <span class="math notranslate nohighlight">\(z^\prime\)</span> and a multiplication) in each of the 2 components, contributing <span class="math notranslate nohighlight">\(2\times 2 \times 2 = 8\)</span> operations.</p>
 <p>This gives us a total of 26 operations.</p>
 </div>
-<div class="section" id="module-3-exercise-solutions">
-<h2>Module 3 Exercise Solutions<a class="headerlink" href="#module-3-exercise-solutions" title="Permalink to this headline">¶</a></h2>
-<p>Exercise 1: Reverse Mode Computational Table and Derivatives</p>
+</div>
+<div class="section" id="module-3">
+<h2>Module 3<a class="headerlink" href="#module-3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercise-1-reverse-mode-computational-table-and-derivatives">
+<h3>Exercise 1: Reverse Mode Computational Table and Derivatives<a class="headerlink" href="#exercise-1-reverse-mode-computational-table-and-derivatives" title="Permalink to this headline">¶</a></h3>
 <p>The reverse computational table is given by:</p>
 <table border="1" class="colwidths-given docutils">
 <colgroup>
@@ -284,10 +296,12 @@ Computing the derivative at the six nodes <span class="math notranslate nohighli
 \bar{x_1} = \frac{\partial f}{\partial x_3}\frac{\partial x_3}{\partial x_1} = (1+e^2)x_2 = 2+2e^2\]</div>
 <p>We note that in our bar notation we have <span class="math notranslate nohighlight">\(\bar{x_1} = \frac{\partial f}{\partial x}\)</span> and <span class="math notranslate nohighlight">\(\bar{x_2} = \frac{\partial f}{\partial y}\)</span>.</p>
 </div>
-<div class="section" id="beyond-the-basics-exercise-solutions">
-<h2>Beyond the Basics Exercise Solutions<a class="headerlink" href="#beyond-the-basics-exercise-solutions" title="Permalink to this headline">¶</a></h2>
-<p>Exercise 1: Dual Numbers
-To find the derivative, we look to the dual part when we replace x with <span class="math notranslate nohighlight">\(a+b\epsilon\)</span>.  For our function,</p>
+</div>
+<div class="section" id="beyond-the-basics">
+<h2>Beyond the Basics<a class="headerlink" href="#beyond-the-basics" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercise-1-dual-numbers">
+<h3>Exercise 1: Dual Numbers<a class="headerlink" href="#exercise-1-dual-numbers" title="Permalink to this headline">¶</a></h3>
+<p>To find the derivative, we look to the dual part when we replace x with <span class="math notranslate nohighlight">\(a+b\epsilon\)</span>.  For our function,</p>
 <div class="math notranslate nohighlight">
 \[y= e^{(a+b\epsilon)^2}
 = e^{a^2}e^{2ab\epsilon}e^{b^2\epsilon^2}\]</div>
@@ -299,48 +313,59 @@ To find the derivative, we look to the dual part when we replace x with <span cl
 \[= e^{a^2}\left( 1+ 2ab\epsilon + \frac{(2ab\epsilon)^2}{2} + \cdots \right)
 = e^{a^2}+2ae^{a^2}b\epsilon\]</div>
 <p>So we have that the derivative evaluated at a is <span class="math notranslate nohighlight">\(2ae^{a^2}\)</span>.</p>
-<p>Exercise 2: Toy AD Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoDiffToy</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Creates an object for autodifferentiation</span>
-
-<span class="sd">    ATTRIBUTES</span>
-<span class="sd">    ==========</span>
-<span class="sd">    val : the value of the object</span>
-<span class="sd">    der : the derivative of the object</span>
-
-<span class="sd">    EXAMPLES</span>
-<span class="sd">    ========</span>
-<span class="sd">    &gt;&gt;&gt; x = AutoDiffToy(4)</span>
-<span class="sd">    &gt;&gt;&gt; x.val</span>
-<span class="sd">    4</span>
-<span class="sd">    &gt;&gt;&gt; x.der</span>
-<span class="sd">    1</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">a</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">=</span> <span class="n">d</span>
-
-    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#overload addition</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="n">other</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># derivative of a constant is zero</span>
-            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#ensure commutativity of addition</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#overload multiplication</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-           <span class="n">other</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-           <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
-
-     <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</div>
+<div class="section" id="exercise-2-toy-ad-example">
+<h3>Exercise 2: Toy AD Example<a class="headerlink" href="#exercise-2-toy-ad-example" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>::</dt>
+<dd><dl class="first last docutils">
+<dt>class AutoDiffToy():</dt>
+<dd><p class="first">“”” Creates an object for autodifferentiation.</p>
+<p>val : the value of the object
+der : the derivative of the object</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">val</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">der</span>
+<span class="go">1</span>
+<span class="go">&quot;&quot;&quot;</span>
 </pre></div>
+</div>
+<dl class="last docutils">
+<dt>def __init__(self, a, d=1.0):</dt>
+<dd>self.val = a
+self.der = d</dd>
+<dt>def __add__(self, other): #overload addition</dt>
+<dd><dl class="first last docutils">
+<dt>try:</dt>
+<dd>return AutoDiffToy(self.val+other.val, self.der+other.der)</dd>
+<dt>except AttributeError:</dt>
+<dd>other = AutoDiffToy(other, 0) # derivative of a constant is zero
+return AutoDiffToy(self.val+other.val, self.der+other.der)</dd>
+</dl>
+</dd>
+<dt>def __radd__(self, other): #ensure commutativity of addition</dt>
+<dd>return self.__add__(other)</dd>
+<dt>def __mul__(self, other): #overload multiplication</dt>
+<dd><blockquote class="first">
+<div><dl class="docutils">
+<dt>try:</dt>
+<dd>return AutoDiffToy(self.val*other.val, self.val*other.der+other.val*self.der)</dd>
+<dt>except AttributeError:</dt>
+<dd>other = AutoDiffToy(other, 0)
+return AutoDiffToy(self.val*other.val, self.val*other.der+other.val*self.der)</dd>
+</dl>
+</div></blockquote>
+<dl class="last docutils">
+<dt>def __rmul__(self, other):</dt>
+<dd>return self.__mul__(other)</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -369,10 +394,10 @@ To find the derivative, we look to the dual part when we replace x with <span cl
 <li class="toctree-l1"><a class="reference internal" href="mod4.html">Beyond the Basics: Extensions and Software Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="refs.html">References and Additional Resources</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Solutions to Exercises</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-1-exercise-solutions">Module 1 Exercise Solutions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-2-exercise-solutions">Module 2 Exercise Solutions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-3-exercise-solutions">Module 3 Exercise Solutions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#beyond-the-basics-exercise-solutions">Beyond the Basics Exercise Solutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-1">Module 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-2">Module 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-3">Module 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#beyond-the-basics">Beyond the Basics</a></li>
 </ul>
 </li>
 </ul>
