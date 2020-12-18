@@ -7,7 +7,7 @@ Module 1
 Exercise 1: Motivating Automatic differentiation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A. The python code is given by:
+A. Here is an example python function:
 ::
         import numpy as np
         import matplotlib.pyplot as plt
@@ -254,7 +254,7 @@ So we have that the derivative evaluated at a is :math:`2ae^{a^2}`.
 Exercise 2: Toy AD Example
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-     
+An example AutoDiffToy class could look like:      
 ::
       class AutoDiffToy():
           """ Creates an object for autodifferentiation.

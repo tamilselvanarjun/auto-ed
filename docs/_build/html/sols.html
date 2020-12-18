@@ -43,7 +43,7 @@
 <h2>Module 1<a class="headerlink" href="#module-1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="exercise-1-motivating-automatic-differentiation">
 <h3>Exercise 1: Motivating Automatic differentiation<a class="headerlink" href="#exercise-1-motivating-automatic-differentiation" title="Permalink to this headline">¶</a></h3>
-<p>A. The python code is given by:</p>
+<p>A. Here is an example python function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
@@ -316,56 +316,49 @@
 </div>
 <div class="section" id="exercise-2-toy-ad-example">
 <h3>Exercise 2: Toy AD Example<a class="headerlink" href="#exercise-2-toy-ad-example" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt>::</dt>
-<dd><dl class="first last docutils">
-<dt>class AutoDiffToy():</dt>
-<dd><p class="first">“”” Creates an object for autodifferentiation.</p>
-<p>val : the value of the object
-der : the derivative of the object</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">val</span>
-<span class="go">4</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">der</span>
-<span class="go">1</span>
-<span class="go">&quot;&quot;&quot;</span>
+<p>An example AutoDiffToy class could look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AutoDiffToy</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Creates an object for autodifferentiation.</span>
+
+<span class="sd">    ATTRIBUTES</span>
+<span class="sd">    ==========</span>
+<span class="sd">    val : the value of the object</span>
+<span class="sd">    der : the derivative of the object</span>
+
+<span class="sd">    EXAMPLES</span>
+<span class="sd">    ========</span>
+<span class="sd">    &gt;&gt;&gt; x = AutoDiffToy(4)</span>
+<span class="sd">    &gt;&gt;&gt; x.val</span>
+<span class="sd">    4</span>
+<span class="sd">    &gt;&gt;&gt; x.der</span>
+<span class="sd">    1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">der</span> <span class="o">=</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#overload addition</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># derivative of a constant is zero</span>
+            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#ensure commutativity of addition</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span> <span class="c1">#overload multiplication</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">AutoDiffToy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">der</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">val</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">der</span><span class="p">)</span>
+
+      <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="last docutils">
-<dt>def __init__(self, a, d=1.0):</dt>
-<dd>self.val = a
-self.der = d</dd>
-<dt>def __add__(self, other): #overload addition</dt>
-<dd><dl class="first last docutils">
-<dt>try:</dt>
-<dd>return AutoDiffToy(self.val+other.val, self.der+other.der)</dd>
-<dt>except AttributeError:</dt>
-<dd>other = AutoDiffToy(other, 0) # derivative of a constant is zero
-return AutoDiffToy(self.val+other.val, self.der+other.der)</dd>
-</dl>
-</dd>
-<dt>def __radd__(self, other): #ensure commutativity of addition</dt>
-<dd>return self.__add__(other)</dd>
-<dt>def __mul__(self, other): #overload multiplication</dt>
-<dd><blockquote class="first">
-<div><dl class="docutils">
-<dt>try:</dt>
-<dd>return AutoDiffToy(self.val*other.val, self.val*other.der+other.val*self.der)</dd>
-<dt>except AttributeError:</dt>
-<dd>other = AutoDiffToy(other, 0)
-return AutoDiffToy(self.val*other.val, self.val*other.der+other.val*self.der)</dd>
-</dl>
-</div></blockquote>
-<dl class="last docutils">
-<dt>def __rmul__(self, other):</dt>
-<dd>return self.__mul__(other)</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
 </div>
 </div>
 </div>
