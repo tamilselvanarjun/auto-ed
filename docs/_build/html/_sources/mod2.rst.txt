@@ -117,29 +117,29 @@ We used the chain rule at each step. This is most apparent in the last step wher
 
 Finally, there is something interesting about how we set the initial derivative in the first step. What we have done is
 "seeded" the derivative. Intuitively, it may help to think that in the first step we are taking the derivative of the input
-with respect to itself. Since :math:`dx/dx=1`, the derivative in the first step should just be one. However, we will see
+with respect to itself. Since :math:`dx/dx=1`, the derivative in the first step should just be :math:`1`. However, we will see
 later that this is actually not necessary. If we want to get the true derivative, then it is good to seed the derivative in
-this way. However, automatic differentiation is more powerful than this and choosing different seed values can give valuable
+this way. However, automatic differentiation is more powerful than this, and choosing different seed values can give valuable
 information. Stay tuned.
 
 For this simple example, we can draw an accompanying graph to the original computational graph, which helps us visualize the
-way derivatives are carried through.
+way the derivatives are carried through.
 
 .. image:: simple_deriv_graph.PNG
 
 The new graph shadows the original graph. Each node in the shadow graph represents the derivative at that step. Note that the
-edges representing the elementary functions (in this case sine) have been differentiated. Note too how the derivatives from
+edges representing the elementary functions (in this case sine function) have been differentiated. Note too how the derivatives from
 the previous node feed *forward* to the next node.
 
 
 The Original Demo
 ^^^^^^^^^^^^^^^^^
-Now we return to the original demo from the first module.
+Now we return to the `original demo <mod1.html#demo-1-errors-in-the-finite-difference-method>`_ from the first module.
 
 .. math::
         f(x) = x - \exp(-2\sin^2(4x))
 
-In module 1, we formed the corresponding computational graph. Now let's use that graph to write the computational table. Each
+In `Module 1 <mod1.html>`_, we formed the corresponding computational graph. Now let's use that graph to write the computational table. Each
 node in the table is the output of an elmentary function, whose derivative we can compute explicitly.
 
 .. list-table::
@@ -218,16 +218,17 @@ the visualization tool (with the exception of possibly interchanging some of the
 
 .. image:: Mod1Ex3Sol.PNG
 
-We can also use the visualization tool to see the computational table which corresponds to the graph. Observe that the
-derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative
+We can also use the visualization tool to see the computational table which corresponds to the graph. 
+
+.. image:: Mod2Table.PNG
+
+Observe that the derivative in our table is now a 2 dimensional vector, corresponding to the gradient, where each component is the derivative
 with respect to one of our inputs. Also notice that this table does not include the columns for the elementary function or
 its derivative. Those columns are useful for learning how things work, but ultimately automatic differentiation does not need
 to store them; it only needs to store the value. Note too that the interpretation of :math:`\dot{x}` must be generalized. The
 dot now represents a derivative with respect to one or the other input depending on the context. Lastly, the table does not
 include any symbolic numbers. Instead, it presents values with as much precision as the computer allows to emphasize that
 automatic differentiation computes derivatives to machine precision.
-
-.. image:: Mod2Table.PNG
 
 
 Note that computing the gradient for this multivariate function is done by assigning a seed vector to each input, where to
@@ -243,12 +244,12 @@ a more general chain rule.
 
 a. Back to the Beginning
 """"""""""""""""""""""""
-Suppose we have a function :math:`h(u(t))` and we want the derivative of `h` with respect to `t`. The chain rule gives,
+Suppose we have a function :math:`h(u(t))` and we want the derivative of :math:`h` with respect to :math:`t`. The chain rule gives,
 
 .. math::
         \dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t}.
 
-For example, consider `h(u(t)) = \sin(4t)`. Then `h(u) = \sin(u)` and `u = 4t`. So 
+For example, consider :math:`h(u(t)) = \sin(4t)`. Then :math:`h(u) = \sin(u)` and :math:`u = 4t`. So 
 
 .. math::
         \dfrac{\partial h}{\partial u} = \cos(u), \quad \dfrac{\partial u}{\partial t} = 4 \quad \Rightarrow \quad
@@ -256,8 +257,8 @@ For example, consider `h(u(t)) = \sin(4t)`. Then `h(u) = \sin(u)` and `u = 4t`. 
 
 b. Adding an Argument
 """""""""""""""""""""
-Now suppose that `h` has another argument so that we have :math:`h(u(t), v(t))`. Once again, we want the derivative of `h`
-with respect to `t`. Applying the chain rule in this case gives,
+Now suppose that :math:`h` has another argument so that we have :math:`h(u(t), v(t))`. Once again, we want the derivative of :math:`h`
+with respect to :math:`t`. Applying the chain rule in this case gives,
 
 .. math::
         \dfrac{\partial h}{\partial t} = \dfrac{\partial h}{\partial u}\dfrac{\partial u}{\partial t} + \dfrac{\partial
@@ -265,17 +266,17 @@ with respect to `t`. Applying the chain rule in this case gives,
 
 c. Accounting for Multiple Inputs
 """""""""""""""""""""""""""""""""
-What if we replace `t` by a vector :math:`x\in\mathbb{R}^{m}`? Now what we really want is the *gradient* of `h` with respect to
-`x`. We write :math:`h = h(u(x), v(x))` and the derivative is now,
+What if we replace :math:`t` by a vector :math:`x\in\mathbb{R}^{m}`? Now what we really want is the *gradient* of :math:`h` with respect to
+:math:`x`. We write :math:`h = h(u(x), v(x))` and the derivative is now,
 
 .. math::
         \nabla_{x}h = \dfrac{\partial h}{\partial u}\nabla u + \dfrac{\partial h}{\partial v}\nabla v, 
 
 where we have written :math:`\nabla_{x}` on the left hand size to avoid any confusion with arguments. The gradient operator on the
-right hand size is clearly with respect to `x` since `u` and `v` have no other arguments.
+right hand side is clearly with respect to :math:`x` since :math:`u` and :math:`v` have no other arguments.
 
 As an example, consider :math:`h = \sin(x_{1}x_{2})\cos(x_{1} + x_{2})`. Let's say :math:`u(x) = u(x_{1}, x_{2}) =
-x_{1}x_{2}` and :math:`v(x) = v(x_{1}, x_{2}) = x_{1} + x_{2}`. We can re-write `h` as :math:`h = \sin(u(x))\cos(v(x))`.
+x_{1}x_{2}` and :math:`v(x) = v(x_{1}, x_{2}) = x_{1} + x_{2}`. We can re-write :math:`h` as :math:`h = \sin(u(x))\cos(v(x))`.
 Then,
 
 .. math::
@@ -284,7 +285,7 @@ Then,
 and
 
 .. math::
-        \nabla u = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla v = \begin{bmatrix} 1 \\ 1 \end{bmatrix} 
+        \nabla u = \begin{bmatrix} x_{2} \\ x_{1} \end{bmatrix}, \quad \nabla v = \begin{bmatrix} 1 \\ 1 \end{bmatrix},
 
 so 
 
@@ -294,8 +295,8 @@ so
 
 d. The (Almost) General Rule
 """"""""""""""""""""""""""""
-More generally, :math:`h = h(y(x))` where :math:`y \in \mathbb{R}^{n}` and :math:`x \in \mathbb{R}^{m}`. Now `h` is a
-function of possibly `n` other functions, themselves a function of `m` variables. The gradient of `h` is now given by,
+More generally, :math:`h = h(y(x))` where :math:`y \in \mathbb{R}^{n}` and :math:`x \in \mathbb{R}^{m}`. Now :math:`h` is a
+function of possibly :math:`n` other functions, themselves a function of :math:`m` variables. The gradient of :math:`h` is now given by,
 
 .. math::
         \nabla_{x}h = \sum_{i=1}^{n}{\dfrac{\partial h}{\partial y_{i}}\nabla y_{i}(x)}.
@@ -326,13 +327,13 @@ By now you must be wondering what forward mode *actually* computes. Sure, it giv
 at a specific evaluation point of a function. But it can do even more than that.
 
 In the most general case, we are interested in computing Jacobians of vector valued functions of multiple variables. To
-compute these individual gradients, we started our evaluation table with a seed vector, `p`. One way to think about this is
-through the directional derivative, defined to be, 
+compute these individual gradients, we started our evaluation table with a seed vector, :math:`p`. One way to think about this is
+through the directional derivative, defined as: 
 
 .. math::
         D_{p}f = \nabla f \cdot p
 
-where :math:`D_{p}` is the directional derivative in the direction of `p` and `f` is the function we want to differentiate.
+where :math:`D_{p}` is the directional derivative in the direction of :math:`p` and :math:`f` is the function we want to differentiate.
 In two dimensions, we have :math:`f = f(x_{1},x_{2})` and 
 
 .. math::
@@ -344,9 +345,9 @@ gives,
 .. math::
         D_{p}f = \dfrac{\partial f}{\partial x}p_{1} + \dfrac{\partial f}{\partial y}p_{2}.
 
-Now here comes the cool part. *We can choose* `p`. If we choose :math:`p=(1,0)` then we get the partial with respect to `x`.
-If we choose `p=(0,1)` then we get the partial with respect to `y`. This is really powerful! For arbitrary choices of `p`, we
-get a linear combination of the partial derivatives representing the gradient in the direction of `p`.
+Now here comes the cool part. *We can choose* `p`. If we choose :math:`p=(1,0)` then we get the partial with respect to :math:`x`.
+If we choose :math:`p=(0,1)` then we get the partial with respect to :math:`y`. This is really powerful! For arbitrary choices of :math:`p`, we
+get a linear combination of the partial derivatives representing the gradient in the direction of :math:`p`.
 
 
 Simple Demo
@@ -354,18 +355,18 @@ Simple Demo
 To see this in action, let's consider the function :math:`f(x,y) = xy`. The figure below shows the graph and the trace table
 evaluating the function at the point :math:`(a,b)`. The difference between the previous versions of the table is the
 introduction of an arbitrary seed vector :math:`p = (p_{1},p_{2}`. Notice that the result is :math:`ap_{2} + bp_{1}` and make
-sure you verify this. If we choose :math:`p=(1,0)` we simply get `b`, which is just :math:`\dfrac{\partial f}{\partial x}`.
-Depending on how we choose the vector `p` we can evaluate the the gradient in any direction.
+sure you verify this. If we choose :math:`p=(1,0)` we simply get :math:`b`, which is just :math:`\dfrac{\partial f}{\partial x}`.
+Depending on how we choose the vector :math:`p`, we can evaluate the the gradient in any direction.
 
 .. image::
          fxy_seed.PNG
 
-Now, you have likely noticed that choosing `p=(0,1)` will give `a`, which is :math:`\dfrac{\partial f}{\partial y}`. So even
+Now, you have likely noticed that choosing :math:`p=(0,1)` will give :math:`a`, which is :math:`\dfrac{\partial f}{\partial y}`. So even
 though it's really cool that we can get the directional derivative, we might just want the regular gradient. This can be
-accomplished by first selecting the seed `p=(1,0)` and then selecting `p=(0,1)`, but of course this is too much work. We
+accomplished by first selecting the seed :math:`p=(1,0)` and then selecting :math:`p=(0,1)`, but of course this is too much work. We
 don't want to rebuild the graph for every new seed if we don't have to. Another option is to just define as many seeds as we
 want and carry them along at each step. The next figure shows what this could look like for two seeds. Observe that using
-`p=(1,0)` and `q=(0,1)` gives the actual gradient.
+:math:`p=(1,0)` and :math:`q=(0,1)` gives the actual gradient.
 
 .. image::
          fxy_all_seeds.PNG
@@ -383,13 +384,13 @@ We can calcuate the Jacobian by hand just to have it in our back pocket for comp
 .. math::
         J = \begin{bmatrix} 2x & 2y \\ e^{x+y} & e^{x+y} \end{bmatrix}.
 
-The Jacobian-vector product with a vector `p` (our seed) is,
+The Jacobian-vector product with a vector :math:`p` (our seed) is,
 
 .. math::
         Jp = \begin{bmatrix} 2x & 2y \\ e^{x+y} & e^{x+y} \end{bmatrix} \begin{bmatrix} p_{1} \\ p_{2} \end{bmatrix} =
              \begin{bmatrix} 2x p_{1} + 2y p_{2} \\ e^{x+y} p_{1} + e^{x+y} p_{2} \end{bmatrix}.
 
-Before we launch into our manual automatic differentiation, let's say we want to evaluate all of this at the point `(1,1)`.
+Before we launch into our manual automatic differentiation, let's say we want to evaluate all of this at the point :math:`(1,1)`.
 Then,
 
 .. math::
@@ -439,18 +440,19 @@ is a vector representing output weights, :math:`b_i` are bias terms and :math:`z
 
 The above graph helps us visualize the computation in different layers.  This visualization hides many of the underlying operations which occur in the computation of :math:`f` (e.g. it does not explicitly express the elementary operations).
 
-Your tasks:
+**Your Tasks**
+
 In this part, you will completely neglect the biases.  The mathematical form is therefore
 
 .. math::
-        f(x,y) = w_{out}^Tz\left(W\begin{bmatrix}x \\ y \end{bmatrix}\right)
+        f(x,y) = w_{out}^Tz\left(W\begin{bmatrix}x \\ y \end{bmatrix}\right).
 
 Note that in practical applications the biases play a key role.  However, we have elected to neglect them in this problem so that your results are more readable.  You will complete the two steps below while neglecting the bias terms.
 
 1. Draw the complete forward computational graph.  You may treat :math:`z` as a single elementary operation.  You should explicitly show the multiplications and additions that are masked in the schematic of the network above.
-2. Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial x derivative, and partial y derivative.
+2. Use your graph to write out the full forward mode table, including columns for the trace, elementary function, current function value, elementary function, derivative, partial :math:`x` derivative, and partial :math:`y` derivative.
 
 Exercise 2: Operation Count Problem
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Count the number of operations required to compute the derivatives in the Simple Demo and the Two-Dimensional Demo above. For
+Count the number of operations required to compute the derivatives in the `Simple Demo <#simple-demo>`_ and the `Two-Dimensional Demo <#two-dimensional-demo>`_ above. For
 each demo, only keep track of the additions and multiplications.
