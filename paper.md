@@ -117,14 +117,14 @@ series of possible extensions and a discussion of how automatic differentiation 
 module has been used to help students focus their final software development project. Each module is accompanied by a series
 of exercises, where manual exercises are complemented with the `Auto-eD` web application.
 
-## Experience of Use
+# Experience of Use
 A similar structure of course modules has been used to teach these concepts in the CS107/CS207/AC207 class at the Institute
 for Applied Computational Science at Harvard since Fall 2018. In Fall 2019, the course introduced a GUI based on portions of
 this software to help students with the graph visualization, which received positive feedback from students taking the
 course. This GUI has since been refactored for the web interface, making it more accessible across different operating
 systems. Students in the Fall 2020 class used web application and responses were positive.
 
-## Learning Objectives
+# Learning Objectives
 Upon completion of this unit, students should be able to:
 - Explain why automatic differentiation is a valuable computational tool
 - Decompose a function into a series of elementary operations and write out the associated graph structure
