@@ -59,6 +59,14 @@ of performing automatic differentiation for a function and visualizing this calc
 the `Auto-eD` package content contains a learning unit for teaching automatic differentiation through an easily-accessible
 web application based on this software.
 
+This module provides content for students at three different levels of experience.  Advanced students, familiar with both coding
+and automatic differentiation, may use the `Auto-eD` package as described in Auto-eD Visualization Softward.  Students who have
+learned the principles behind automatic differentiation but are less comfortable with coding can test and enhance their understanding 
+by using the [web application](https://autoed.herokuapp.com) as described in Web Application.  Students who are new to automatic 
+differentiation and want to learn this concept should work through the automatic differentiation unit (available on 
+[Read the Docs](https://auto-ed.readthedocs.io/en/latest), which includes excerises and tutorials using the web application, as 
+described in Accompanying Automatic Differentiation Unit.
+
 ## Auto-eD Visualization Software
 The `Auto-eD` package can be accessed using two different methods. For students more familiar with Python and coding, the
 code available in the modules `ADnum.py`, `ADmath.py`, and `ADgraph.py` allows a user to perform automatic differentiation
@@ -66,7 +74,10 @@ while visualizing the underlying graphs and computations. These modules provide 
 underlying forward and reverse mode. An experienced user can write a Python script that imports these modules and provides
 the capability to dynamically visualize the traceback of reverse mode through the graph. The resulting graphs and tables can
 be resized for enhanced interactivity. The process is outlined in `DeveloperDocumentation.ipynb`, which can be found at the
-top level of the Auto-eD package.
+top level of the Auto-eD package.  This package underlies the web-based visualization tool for students less familiar with 
+Python and coding.
+
+## Auto-eD Web Application
 
 This software and associated web application are valuable pedagogical tools because they allow students to view the
 computational graph in both forward and reverse mode alongside the computational table. This makes it easy for students to
