@@ -1,4 +1,6 @@
 # Auto-eD
+[![GitHub version](https://badge.fury.io/gh/conventional-changelog%2Fstandard-version.svg)](https://badge.fury.io/gh/conventional-changelog%2Fstandard-version)
+
 [![Documentation Status](https://readthedocs.org/projects/auto-ed/badge/?version=latest)](https://auto-ed.readthedocs.io/en/latest/?badge=latest)
 
 ![Example](AutoEdCover.png)
